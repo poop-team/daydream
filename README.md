@@ -1,1 +1,1 @@
-# Big Project  —  **`Monorepo`**
+# Big 💩 Project  —  **`Monorepo`**
