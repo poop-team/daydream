@@ -4,8 +4,6 @@
 This is a monorepo using [Turborepo](https://turborepo.org) and yarn workspaces.
 
 ## Getting Started
-This whole monorepo thing might seem daunting at first, but hopefully it'll get clearer once you've read everything below.
-
 ### Structure
 The general hierarchy of the project is as follows:
 ```
