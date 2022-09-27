@@ -10,7 +10,7 @@ export default function Index() {
       <motion.a
         href="https://www.youtube.com/watch?v=S5o9g22BdXw"
         whileHover={{ scale: 2 }}
-        transition={{ type: "spring", stiffness: 300 }}
+        transition={{ type: "spring", stiffness: 250 }}
         className={
           "absolute z-10 text-center text-3xl font-bold text-primary-light"
         }
