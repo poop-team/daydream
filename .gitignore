@@ -67,8 +67,10 @@ typings/
 
 # Yarn
 .yarn-integrity
-.yarn/cache
-.yarn/install-state.gz
+mobile/.yarn/cache
+web/.yarn/cache
+mobile/.yarn/install-state.gz
+web/.yarn/install-state.gz
 
 # dotenv environment variables file
 .env
@@ -110,3 +112,16 @@ dist
 .idea/usage.statistics.xml
 .idea/shelf
 .turbo
+
+# Expo and React Native
+.expo/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
