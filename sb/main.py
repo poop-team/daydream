@@ -20,7 +20,7 @@ def create_app() -> FastAPI:
 app = create_app()
 celery = app.celery_app
 
-origins = ["http://localhost:3000"]
+origins = ["http://localhost:3000","https://monorepo-poop-team.vercel.app/"]
 
 app.add_middleware(
     CORSMiddleware,
