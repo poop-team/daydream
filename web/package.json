@@ -9,19 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "latest",
     "@next-auth/prisma-adapter": "1.0.4",
     "@prisma/client": "4.3.1",
-    "@headlessui/react": "latest",
     "bcrypt": "5.0.1",
     "cssnano": "5.1.13",
-    "framer-motion": "7.4.0",
+    "framer-motion": "^7.5.2",
     "jsonwebtoken": "8.5.1",
     "next": "12.3.1",
-    "next-auth": "4.12.0",
+    "next-auth": "^4.12.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
-    "sharp": "0.31.0"
+    "sharp": "^0.31.1"
   },
   "devDependencies": {
     "@testing-library/dom": "8.18.1",
@@ -32,22 +32,22 @@
     "@types/node": "18.7.23",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
-    "autoprefixer": "10.4.12",
-    "eslint": "8.24.0",
-    "postcss": "8.4.16",
-    "prettier": "2.7.1",
-    "prisma": "4.3.1",
-    "tailwindcss": "3.1.8",
-    "typescript": "4.8.3",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
+    "autoprefixer": "10.4.12",
+    "eslint": "8.24.0",
     "eslint-config-next": "latest",
     "eslint-config-prettier": "latest",
     "eslint-plugin-import": "latest",
     "eslint-plugin-prettier": "latest",
     "eslint-plugin-react": "latest",
     "eslint-plugin-simple-import-sort": "latest",
-    "eslint-plugin-tailwindcss": "latest"
+    "eslint-plugin-tailwindcss": "latest",
+    "postcss": "^8.4.17",
+    "prettier": "2.7.1",
+    "prisma": "^4.4.0",
+    "tailwindcss": "3.1.8",
+    "typescript": "^4.8.4"
   },
   "packageManager": "yarn@3.2.3"
 }
