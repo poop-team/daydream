@@ -4,7 +4,7 @@ export default function Index() {
   return (
     <div
       className={
-        "flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-background-darker"
+        "flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-fuchsia-900"
       }
     >
       <motion.a
@@ -12,7 +12,7 @@ export default function Index() {
         whileHover={{ scale: 2 }}
         transition={{ type: "spring", stiffness: 250 }}
         className={
-          "absolute z-10 text-center text-3xl font-bold text-primary-light"
+          "absolute z-10 text-center text-3xl font-bold text-fuchsia-300"
         }
       >
         💩
@@ -21,7 +21,7 @@ export default function Index() {
         drag
         whileDrag={{ cursor: "grabbing" }}
         className={
-          "absolute z-10 cursor-grab rounded-3xl px-4 text-center text-3xl font-bold text-primary-light backdrop-blur-md"
+          "absolute z-10 cursor-grab rounded-3xl px-4 text-center text-3xl font-bold text-fuchsia-300 backdrop-blur-md"
         }
       >
         Nothing to see here.
@@ -37,7 +37,7 @@ export default function Index() {
             duration: 1,
           },
         }}
-        className={"rounded-full border-primary-light"}
+        className={"rounded-full border-fuchsia-300"}
       />
     </div>
   );
