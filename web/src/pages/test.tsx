@@ -54,16 +54,17 @@ const test: NextPage = () => {
     }
 
     const {data} = useSession();
-    if(!data)
-        return (
-        <>
-        <div className="mx-auto text-center justify-center items-center min-h-screen">
-        <h1>Protected Page</h1>
-        <p>You need to sign in to use this app.</p>
-        <button className="bg-black p-2 text-white" onClick={()=>signIn()}>Sign in</button>
-        </div>
-        </>
-        )
+    //check session...
+    //if(!data)
+    //    return (
+    //    <>
+    //    <div className="mx-auto text-center justify-center items-center min-h-screen">
+    //    <h1>Protected Page</h1>
+    //    <p>You need to sign in to use this app.</p>
+    //    <button className="bg-black p-2 text-white" onClick={()=>signIn()}>Sign in</button>
+    //    </div>
+    //   </>
+    //    )
     return (
         <main className="flex bg-black mx-auto items-center justify-center min-h-screen p-4">
         <Head>
