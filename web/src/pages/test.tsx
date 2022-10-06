@@ -23,7 +23,6 @@ export default function Test() {
     fetch(QueueTaskUrl, {
       method: "POST",
       headers: {
-        'Access-Control-Allow-Origin': 'https://sb.bap.pw',
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ prompt: prompt }),
@@ -38,7 +37,6 @@ export default function Test() {
     fetch(GetTaskStatusUrl + task_id, {
       method: "GET",
       headers: {
-        'Access-Control-Allow-Origin': 'https://sb.bap.pw',
         "Content-Type": "application/json",
       },
     })
