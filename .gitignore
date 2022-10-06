@@ -71,6 +71,7 @@ mobile/.yarn/cache
 web/.yarn/cache
 mobile/.yarn/install-state.gz
 web/.yarn/install-state.gz
+.yarn
 
 # dotenv environment variables file
 .env
