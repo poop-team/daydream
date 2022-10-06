@@ -10,8 +10,8 @@ export default function Test() {
   const [disabled, setDisabled] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [url, setURL] = useState("");
-  const QueueTaskUrl = "http://sb.bap.pw/sb/async";
-  const GetTaskStatusUrl = "http://sb.bap.pw/sb/task/";
+  const QueueTaskUrl = "https://sb.bap.pw/sb/async";
+  const GetTaskStatusUrl = "https://sb.bap.pw/sb/task/";
 
   //#endregion
 
@@ -23,6 +23,7 @@ export default function Test() {
     fetch(QueueTaskUrl, {
       method: "POST",
       headers: {
+        'Access-Control-Allow-Origin': 'https://sb.bap.pw',
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ prompt: prompt }),
@@ -37,6 +38,7 @@ export default function Test() {
     fetch(GetTaskStatusUrl + task_id, {
       method: "GET",
       headers: {
+        'Access-Control-Allow-Origin': 'https://sb.bap.pw',
         "Content-Type": "application/json",
       },
     })
