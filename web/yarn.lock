@@ -74,9 +74,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^1.3.2":
-  version: 1.3.2
-  resolution: "@eslint/eslintrc@npm:1.3.2"
+"@eslint/eslintrc@npm:^1.3.3":
+  version: 1.3.3
+  resolution: "@eslint/eslintrc@npm:1.3.3"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.3.2
@@ -87,7 +87,7 @@ __metadata:
     js-yaml: ^4.1.0
     minimatch: ^3.1.2
     strip-json-comments: ^3.1.1
-  checksum: 2074dca47d7e1c5c6323ff353f690f4b25d3ab53fe7d27337e2592d37a894cf60ca0e85ca66b50ff2db0bc7e630cc1e9c7347d65bb185b61416565584c38999c
+  checksum: f03e9d6727efd3e0719da2051ea80c0c73d20e28c171121527dbb868cd34232ca9c1d0525a66e517a404afea26624b1e47895b6a92474678418c2f50c9566694
   languageName: node
   linkType: hard
 
@@ -116,13 +116,6 @@ __metadata:
     debug: ^4.1.1
     minimatch: ^3.0.4
   checksum: 009d64be8d5bd098ff04e10af79e34f5633245250581fca032fac12a8667b2df8e7d169e69c05bff4d83ea3dd3c7d2d0e05ea9b94d89a7d092e26530caf6f8a3
-  languageName: node
-  linkType: hard
-
-"@humanwhocodes/gitignore-to-minimatch@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@humanwhocodes/gitignore-to-minimatch@npm:1.0.2"
-  checksum: aba5c40c9e3770ed73a558b0bfb53323842abfc2ce58c91d7e8b1073995598e6374456d38767be24ab6176915f0a8d8b23eaae5c85e2b488c0dccca6d795e2ad
   languageName: node
   linkType: hard
 
@@ -172,7 +165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/node-pre-gyp@npm:^1.0.0":
+"@mapbox/node-pre-gyp@npm:^1.0.10":
   version: 1.0.10
   resolution: "@mapbox/node-pre-gyp@npm:1.0.10"
   dependencies:
@@ -1102,13 +1095,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bcrypt@npm:5.0.1":
-  version: 5.0.1
-  resolution: "bcrypt@npm:5.0.1"
+"bcrypt@npm:5.1.0":
+  version: 5.1.0
+  resolution: "bcrypt@npm:5.1.0"
   dependencies:
-    "@mapbox/node-pre-gyp": ^1.0.0
-    node-addon-api: ^3.1.0
-  checksum: b59625519f2b2891010b8094208588462b1c759ccacebfd74f0b9a4c1885743434ede246c26b615b94a5cf203dfcb9eb25a1e8dec315afd3098da2b848c0fa12
+    "@mapbox/node-pre-gyp": ^1.0.10
+    node-addon-api: ^5.0.0
+  checksum: a590b65d276d75d861dc85acc3128508b8f78c87431719658ea3be7996368b34b397b6efefe6bca0a3d555bf41a9267307fd4ce04e956598fca3ba81199c6706
   languageName: node
   linkType: hard
 
@@ -1130,9 +1123,9 @@ __metadata:
     "@typescript-eslint/eslint-plugin": latest
     "@typescript-eslint/parser": latest
     autoprefixer: 10.4.12
-    bcrypt: 5.0.1
+    bcrypt: 5.1.0
     cssnano: 5.1.13
-    eslint: 8.24.0
+    eslint: 8.25.0
     eslint-config-next: latest
     eslint-config-prettier: latest
     eslint-plugin-import: latest
@@ -1140,19 +1133,19 @@ __metadata:
     eslint-plugin-react: latest
     eslint-plugin-simple-import-sort: latest
     eslint-plugin-tailwindcss: latest
-    framer-motion: ^7.5.2
+    framer-motion: 7.5.3
     jsonwebtoken: 8.5.1
     next: 12.3.1
-    next-auth: ^4.12.3
-    postcss: ^8.4.17
+    next-auth: 4.12.3
+    postcss: 8.4.17
     prettier: 2.7.1
-    prisma: ^4.4.0
+    prisma: 4.4.0
     react: 18.2.0
     react-dom: 18.2.0
-    react-icons: ^4.4.0
-    sharp: ^0.31.1
+    react-icons: 4.4.0
+    sharp: 0.31.1
     tailwindcss: 3.1.8
-    typescript: ^4.8.4
+    typescript: 4.8.4
   languageName: unknown
   linkType: soft
 
@@ -2217,13 +2210,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.24.0":
-  version: 8.24.0
-  resolution: "eslint@npm:8.24.0"
+"eslint@npm:8.25.0":
+  version: 8.25.0
+  resolution: "eslint@npm:8.25.0"
   dependencies:
-    "@eslint/eslintrc": ^1.3.2
+    "@eslint/eslintrc": ^1.3.3
     "@humanwhocodes/config-array": ^0.10.5
-    "@humanwhocodes/gitignore-to-minimatch": ^1.0.2
     "@humanwhocodes/module-importer": ^1.0.1
     ajv: ^6.10.0
     chalk: ^4.0.0
@@ -2262,7 +2254,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: ca293ce7116599b742d7ab4d43db469beec22f40dd272092d809498be3cff3a7c567769f9763bdf6799aac13dd53447b93a99629b7b54092783046eb57eaced6
+  checksum: 7acf2693b522b573657b53d2245b5522d3a131e4224b1cbf01e2c3579632fdbf62599284f68bc483e6e4eba23ae3643c9544744e0214a86e727cc361cedcd0fa
   languageName: node
   linkType: hard
 
@@ -2438,9 +2430,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^7.5.2":
-  version: 7.5.2
-  resolution: "framer-motion@npm:7.5.2"
+"framer-motion@npm:7.5.3":
+  version: 7.5.3
+  resolution: "framer-motion@npm:7.5.3"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     "@motionone/dom": 10.13.1
@@ -2455,7 +2447,7 @@ __metadata:
   dependenciesMeta:
     "@emotion/is-prop-valid":
       optional: true
-  checksum: 8c7f664e758ee351270dcce373a7d5a55230d6cd45abf57df95ee6641f6130b1a38c106949443053ba7724d0216b654a708da6feb88f5486aca8ed0fbf826f7e
+  checksum: 5b038ecb44e355916cef2310a1f0df7937f7e38e36b91e35a1dc0425b7717f8e5dd76b5cbf0acd38b81027ba0d8fc33d9148d901ecee7017adc76e2ae466bfea
   languageName: node
   linkType: hard
 
@@ -3617,7 +3609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-auth@npm:^4.12.3":
+"next-auth@npm:4.12.3":
   version: 4.12.3
   resolution: "next-auth@npm:4.12.3"
   dependencies:
@@ -3717,15 +3709,6 @@ __metadata:
   dependencies:
     semver: ^7.3.5
   checksum: 01271cf7b7e5b62a1d3d556efa4756a625b63b085dfd20558107abff3458082bfb0aed82a2985b1f82ccacd400bf3959ead5c0d1249aaf167fc88b82280f1764
-  languageName: node
-  linkType: hard
-
-"node-addon-api@npm:^3.1.0":
-  version: 3.2.1
-  resolution: "node-addon-api@npm:3.2.1"
-  dependencies:
-    node-gyp: latest
-  checksum: 2369986bb0881ccd9ef6bacdf39550e07e089a9c8ede1cbc5fc7712d8e2faa4d50da0e487e333d4125f8c7a616c730131d1091676c9d499af1d74560756b4a18
   languageName: node
   linkType: hard
 
@@ -4484,7 +4467,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.14, postcss@npm:^8.4.17, postcss@npm:^8.4.4":
+"postcss@npm:8.4.17, postcss@npm:^8.4.14, postcss@npm:^8.4.4":
   version: 8.4.17
   resolution: "postcss@npm:8.4.17"
   dependencies:
@@ -4589,7 +4572,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:^4.4.0":
+"prisma@npm:4.4.0":
   version: 4.4.0
   resolution: "prisma@npm:4.4.0"
   dependencies:
@@ -4686,7 +4669,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-icons@npm:^4.4.0":
+"react-icons@npm:4.4.0":
   version: 4.4.0
   resolution: "react-icons@npm:4.4.0"
   peerDependencies:
@@ -4952,7 +4935,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sharp@npm:^0.31.1":
+"sharp@npm:0.31.1":
   version: 0.31.1
   resolution: "sharp@npm:0.31.1"
   dependencies:
@@ -5438,7 +5421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.8.4":
+"typescript@npm:4.8.4":
   version: 4.8.4
   resolution: "typescript@npm:4.8.4"
   bin:
@@ -5448,7 +5431,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.8.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.8.4#~builtin<compat/typescript>":
   version: 4.8.4
   resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=701156"
   bin:
