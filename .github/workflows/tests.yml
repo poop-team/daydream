@@ -16,7 +16,7 @@ jobs:
           node-version: 18.x
       - name: Install dependencies with yarn
         working-directory: ./web
-        run: yarn install --immutable --immutable-cache --check-cache
+        run: yarn install --immutable
       - name: Run Tests
         working-directory: ./web
         run: yarn test
