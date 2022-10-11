@@ -14,5 +14,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
-      - run: yarn install --immutable --immutable-cache --check-cache
-      - run: yarn test
+      - name: Install dependencies with yarn
+        working-directory: ./web
+        run: yarn install --immutable --immutable-cache --check-cache
+      - name: Run Tests
+        working-directory: ./web
+        run: yarn test
