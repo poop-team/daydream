@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "bash ./run_tests.sh"
   },
   "dependencies": {
     "@headlessui/react": "latest",
