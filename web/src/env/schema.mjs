@@ -13,6 +13,8 @@ export const serverSchema = z.object({
   GOOGLE_SECRET: z.string(),
   GITHUB_ID: z.string(),
   GITHUB_SECRET: z.string(),
+  X_API_KEY: z.string(),
+  DIFFUSION_URL: z.string()
 });
 
 /**
