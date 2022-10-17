@@ -1,17 +1,13 @@
 import Head from "next/head";
-import { useSession } from "next-auth/react";
+import { signIn,useSession } from "next-auth/react";
 import { SyntheticEvent, useState } from "react";
 
 export default function Test() {
   //#region Hooks
 
-  const { data: sessionData } = useSession();
-
   const [disabled, setDisabled] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [url, setURL] = useState("");
-  const QueueTaskUrl = "https://sb.bap.pw/sb/async";
-  const GetTaskStatusUrl = "https://sb.bap.pw/sb/task/";
 
   //#endregion
 
@@ -20,61 +16,30 @@ export default function Test() {
   const get_image = (e: SyntheticEvent) => {
     e.preventDefault(); // prevents page reload
     setDisabled(!disabled);
-    fetch(QueueTaskUrl, {
-      method: "POST",
-      headers: {
-        'Access-Control-Allow-Origin': 'https://large-project.vercel.app',
-        'Access-Control-Allow-Credentials': 'true',
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prompt: prompt }),
+    fetch('/api/createPost?prompt='+prompt, {
     })
       .then((res) => res.json())
       .then((data) => {
-        pollTask(data.task_id);
-      });
-  };
-
-  const pollTask = (task_id: string) => {
-    fetch(GetTaskStatusUrl + task_id, {
-      method: "GET",
-      headers: {
-        'Access-Control-Allow-Origin': 'https://large-project.vercel.app',
-        'Access-Control-Allow-Credentials': 'true',
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const taskStatus = data.task_status;
-        //console.log(data)
-
-        if (taskStatus === "SUCCESS") {
-          setURL(data.task_result);
-          setDisabled(false);
-          return true;
-        }
-        if (taskStatus === "failed") return false;
-        //console.log(data.task_id)
-        setTimeout(function () {
-          pollTask(data.task_id);
-        }, 5000);
+        setURL(data.image);
+        setDisabled(false);
       });
   };
 
   //#endregion
 
   //check session...
-  //if(!data)
-  //    return (
-  //    <>
-  //    <div className="mx-auto text-center justify-center items-center min-h-screen">
-  //    <h1>Protected Page</h1>
-  //    <p>You need to sign in to use this app.</p>
-  //    <button className="bg-black p-2 text-white" onClick={()=>signIn()}>Sign in</button>
-  //    </div>
-  //   </>
-  //    )
+  const {data} = useSession();
+
+  if(!data)
+     return (
+     <>
+     <div className="mx-auto text-center justify-center items-center min-h-screen">
+     <h1>Protected Page</h1>
+     <p>You need to sign in to use this app.</p>
+     <button className="bg-black p-2 text-white" onClick={()=>signIn()}>Sign in</button>
+     </div>
+    </>
+     );
 
   return (
     <main className="mx-auto flex min-h-screen items-center justify-center bg-black p-4">
