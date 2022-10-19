@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import Replicate from 'Replicate';
 
+//import Replicate from 'Replicate';
 import { env } from "../../env/server.mjs";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
 export default async function createPost(req: NextApiRequest, res: NextApiResponse) {
@@ -28,28 +28,29 @@ export default async function createPost(req: NextApiRequest, res: NextApiRespon
     //         'use_ldm': false,
     //     },
     // ];
-    // const url = env.DIFFUSION_URL + '/txt2img?prompt='+query.prompt+'&format=json';
+    const url = env.DIFFUSION_URL + '/txt2img?prompt='+query.prompt+'&format=json';
 
-	// const data = await fetch(url,{
-    // headers: {
-    //     'X-API-Key': env.X_API_KEY,
-    //     'Accept': 'application/json',
-    //     },
-    // });
+	const data = await fetch(url,{
+    headers: {
+        'X-API-Key': env.X_API_KEY,
+        'Accept': 'application/json',
+        },
+    });
 
-    const replicate = new Replicate({pollingInterval: 1000, token: env.X_API_KEY});
-    const DiffusionModel = await replicate.models.get("stability-ai/stable-diffusion");
-    const DiffusionModelPrediction = await DiffusionModel.predict({ prompt: query.prompt});
+    // Use replicate for production...
+    // const replicate = new Replicate({pollingInterval: 1000, token: env.X_API_KEY});
+    // const DiffusionModel = await replicate.models.get("stability-ai/stable-diffusion");
+    // const DiffusionModelPrediction = await DiffusionModel.predict({ prompt: query.prompt});
 
-    console.log(DiffusionModelPrediction[0]);
-    return(res.json({'image': DiffusionModelPrediction[0]}));
+    // console.log(DiffusionModelPrediction[0]);
+    // return(res.json({'image': DiffusionModelPrediction[0]}));
 
-    // if(data.status == 406){
-    //     res.statusCode = 403;
-    //     return(res.json({'Error': 'NSFW CONTENT REJECTED.'}));
-    // }
+    if(data.status == 406){
+        res.statusCode = 403;
+        return(res.json({'Error': 'NSFW CONTENT REJECTED.'}));
+    }
 
-    // const resData = await data.json();
+    const resData = await data.json();
 
-    // return(res.json({'image': resData.image}));
+    return(res.json({'image': resData.image}));
 }
