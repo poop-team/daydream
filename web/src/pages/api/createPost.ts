@@ -37,7 +37,7 @@ export default async function createPost(req: NextApiRequest, res: NextApiRespon
     //     },
     // });
 
-    const replicate = new Replicate({token: env.X_API_KEY});
+    const replicate = new Replicate({pollingInterval: 1000, token: env.X_API_KEY});
     const DiffusionModel = await replicate.models.get("stability-ai/stable-diffusion");
     const DiffusionModelPrediction = await DiffusionModel.predict({ prompt: query.prompt});
 
