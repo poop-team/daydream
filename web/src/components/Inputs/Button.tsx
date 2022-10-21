@@ -1,7 +1,7 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
-import { variants } from "../../styles/motion-definitions";
+import CircularProgress from "../Feedback/CircularProgress";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
@@ -43,35 +43,7 @@ export default function Button({
       disabled={isDisabled}
       {...rest}
     >
-      <AnimatePresence>
-        {loading && (
-          <motion.svg
-            initial={variants.fadeOut}
-            animate={variants.fadeIn}
-            exit={variants.fadeOut}
-            className="h-5 w-5"
-          >
-            <motion.circle
-              cx={10}
-              cy={10}
-              r="8"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="transparent"
-              strokeDasharray={40}
-              animate={{
-                rotate: [0, 360, 0],
-                strokeDashoffset: [80, 30, 80],
-                transition: {
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  duration: 1.6,
-                },
-              }}
-            />
-          </motion.svg>
-        )}
-      </AnimatePresence>
+      <AnimatePresence>{loading && <CircularProgress />}</AnimatePresence>
       {children}
     </button>
   );
