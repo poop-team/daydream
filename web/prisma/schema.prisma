@@ -42,8 +42,8 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   image         String?
   accounts      Account[]
   sessions      Session[]
