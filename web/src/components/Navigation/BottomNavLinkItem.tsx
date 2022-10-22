@@ -18,7 +18,7 @@ interface Props {
  * @param className - Additional classes to apply to the item.
  * @param children - The content of the item.
  */
-export default function BottomNavItem({
+export default function BottomNavLinkItem({
   href,
   className = "",
   children,
