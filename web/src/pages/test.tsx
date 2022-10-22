@@ -35,7 +35,10 @@ export default function Test() {
         <div className="mx-auto min-h-screen items-center justify-center text-center">
           <h1>Protected Page</h1>
           <p>You need to sign in to use this app.</p>
-          <button className="bg-black p-2 text-white" onClick={() => signIn()}>
+          <button
+            className="bg-black p-2 text-white"
+            onClick={() => void signIn()}
+          >
             Sign in
           </button>
         </div>
@@ -57,7 +60,7 @@ export default function Test() {
               <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                 <button
                   type="submit"
-                  className="focus:shadow-outline p-1 focus:outline-none"
+                  className="p-1 focus:outline-none"
                   disabled={disabled}
                 >
                   <svg

@@ -1,8 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 //import Replicate from 'Replicate';
-import { env } from "../../env/server.mjs";
+import { env } from "../../env/server";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
+
+interface ResponseData {
+  image: string;
+}
+
 export default async function createPost(
   req: NextApiRequest,
   res: NextApiResponse
@@ -32,7 +37,10 @@ export default async function createPost(
   //     },
   // ];
   const url =
-    env.DIFFUSION_URL + "/txt2img?prompt=" + query.prompt + "&format=json";
+    env.DIFFUSION_URL +
+    "/txt2img?prompt=" +
+    (query.prompt as string) +
+    "&format=json";
 
   const data = await fetch(url, {
     headers: {
@@ -54,7 +62,7 @@ export default async function createPost(
     return res.json({ Error: "NSFW CONTENT REJECTED." });
   }
 
-  const resData = await data.json();
+  const resData = (await data.json()) as ResponseData;
 
   return res.json({ image: resData.image });
 }

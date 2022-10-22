@@ -3,7 +3,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-import { env } from "../../../env/server.mjs";
+import { env } from "../../../env/server";
 import { prisma } from "../../../server/db/client";
 
 /*

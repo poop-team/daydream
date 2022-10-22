@@ -1,10 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const message: string = req.body.message;
+interface Request extends NextApiRequest {
+  body: {
+    message: string;
+  };
+}
+
+export default function handler(req: Request, res: NextApiResponse) {
+  const message = req.body.message;
 
   res.json(message.split("").reverse().join(""));
 }
