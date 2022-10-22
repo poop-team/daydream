@@ -59,8 +59,8 @@ export default async function createPost(req: NextApiRequest, res: NextApiRespon
     const post = await prisma.post.create({
         data: {
             prompt: query.prompt.toString(),
-            imageURL: resData.image,
-            authorId: session.user?.id
+            imageURL: resData.image as string,
+            authorId: session.user?.id as string
         },
     });
 
