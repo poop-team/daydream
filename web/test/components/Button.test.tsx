@@ -9,6 +9,15 @@ describe("Button", () => {
     expect(screen.getByText(/hello/i)).toBeTruthy();
   });
 
+  it("should be clickable", () => {
+    const handleClick = vi.fn();
+
+    render(<Button onClick={handleClick}>Clickable</Button>);
+    fireEvent.click(screen.getByText(/clickable/i));
+
+    expect(handleClick).toBeCalled();
+  });
+
   it("should not call onClick when disabled", () => {
     const handleClick = vi.fn();
 
