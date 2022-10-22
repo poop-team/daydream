@@ -1,8 +1,10 @@
+import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 //import Replicate from 'Replicate';
 import { env } from "../../env/server.mjs";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
+
 export default async function createPost(req: NextApiRequest, res: NextApiResponse) {
     const session = await getServerAuthSession({ req, res });
 
@@ -16,6 +18,8 @@ export default async function createPost(req: NextApiRequest, res: NextApiRespon
         res.statusCode = 402;
         return(res.json("No prompt provided"));
     }
+
+    const prisma = new PrismaClient();
     // const settings = [
     //     {
     //         'prompt': query.prompt,
@@ -49,8 +53,17 @@ export default async function createPost(req: NextApiRequest, res: NextApiRespon
         res.statusCode = 403;
         return(res.json({'Error': 'NSFW CONTENT REJECTED.'}));
     }
+    //response data into json
 
     const resData = await data.json();
 
-    return(res.json({'image': resData.image}));
+    const post = await prisma.post.create({
+        data: {
+            prompt: query.prompt.toString(),
+            imageURL: resData.image,
+            authorId: session.user?.id as string
+        },
+    });
+
+    return(res.json({'postId': post.id, 'prompt': query.prompt,'image': resData.image}));
 }
