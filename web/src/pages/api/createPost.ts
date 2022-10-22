@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 //import Replicate from 'Replicate';
 import { env } from "../../env/server.mjs";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
+
 export default async function createPost(req: NextApiRequest, res: NextApiResponse) {
     const session = await getServerAuthSession({ req, res });
 
@@ -58,7 +59,7 @@ export default async function createPost(req: NextApiRequest, res: NextApiRespon
 
     const post = await prisma.post.create({
         data: {
-            prompt: query.prompt.toString(),
+            prompt: query.prompt as string,
             imageURL: resData.image as string,
             authorId: session.user?.id as string
         },
