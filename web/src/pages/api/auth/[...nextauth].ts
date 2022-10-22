@@ -1,7 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { NextAuthOptions } from "next-auth";
-import GithubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
+import Auth0Provider from "next-auth/providers/auth0";
 
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db/client";
@@ -25,14 +24,11 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   // Configure one or more authentication providers
   providers: [
-    GithubProvider({
-      clientId: env.GITHUB_ID,
-      clientSecret: env.GITHUB_SECRET,
-    }),
-    GoogleProvider({
-      clientId: env.GOOGLE_ID,
-      clientSecret: env.GOOGLE_SECRET,
-    }),
+    Auth0Provider({
+      clientId:env.AUTH0_CLIENT_ID,
+      clientSecret: env.AUTH0_CLIENT_SECRET,
+      issuer: env.AUTH0_ISSUER
+    })
   ],
 
   secret: env.NEXTAUTH_SECRET,
