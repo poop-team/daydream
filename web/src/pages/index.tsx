@@ -1,44 +1,73 @@
-import { motion } from "framer-motion";
+import Button from "../components/Inputs/Button";
+import TextField from "../components/Inputs/TextField";
+import Card from "../components/Surfaces/Card";
 
 export default function Index() {
   return (
-    <div
+    <section
       className={
-        "flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-fuchsia-900"
+        "flex min-h-screen flex-col items-center justify-center gap-16 overflow-hidden bg-slate-50"
       }
     >
-      <motion.a
-        href="https://www.youtube.com/watch?v=S5o9g22BdXw"
-        whileHover={{ scale: 2 }}
-        transition={{ type: "spring", stiffness: 250 }}
-        className={
-          "absolute z-10 text-center text-3xl font-bold text-fuchsia-300"
-        }
-      >
-        💩
-      </motion.a>
-      <motion.h1
-        drag
-        whileDrag={{ cursor: "grabbing" }}
-        className={
-          "absolute z-10 cursor-grab rounded-3xl px-4 text-center text-3xl font-bold text-fuchsia-300 backdrop-blur-md"
-        }
-      >
-        Nothing to see here.
-      </motion.h1>
-      <motion.div
-        whileHover={{ scale: 1.1 }}
-        animate={{
-          opacity: [0, 1, 0, 1, 0],
-          borderWidth: [0, 8, 0, 8, 0],
-          height: ["3rem", "6rem", "3rem", "6rem", "3rem"],
-          width: ["20rem", "24rem", "20rem", "24rem", "20rem"],
-          transition: {
-            duration: 1,
-          },
-        }}
-        className={"rounded-full border-fuchsia-300"}
-      />
-    </div>
+      <h1 className={"mb-8 text-3xl font-bold sm:text-4xl"}>
+        Components Playground
+      </h1>
+      <section className={"flex gap-4"}>
+        <h3 className={"mt-auto text-2xl font-bold"}>Button</h3>
+        <div className={"flex flex-col items-center gap-2"}>
+          <h3 className={"text-xl font-bold"}>Primary</h3>
+          <Button>Click Here</Button>
+        </div>
+        <div className={"flex flex-col items-center gap-2"}>
+          <h3 className={"text-xl font-bold"}>Disabled</h3>
+          <Button disabled>Disabled</Button>
+        </div>
+        <div className={"flex flex-col items-center gap-2"}>
+          <h3 className={"text-xl font-bold"}>Loading</h3>
+          <Button loading>Loading</Button>
+        </div>
+      </section>
+      <section className={"flex gap-4"}>
+        <h3 className={"mt-8 self-center text-2xl font-bold"}>Text Field</h3>
+        <div className={"flex flex-col items-center gap-2"}>
+          <h3 className={"text-xl font-bold"}>Default</h3>
+          <TextField label={"Label"} placeholder={"Enter something"} />
+        </div>
+        <div className={"flex flex-col items-center gap-2"}>
+          <h3 className={"text-xl font-bold"}>Invalid</h3>
+          <TextField
+            label={"Label"}
+            placeholder={"Enter something"}
+            error
+            helperText={"Incorrect data entered"}
+          />
+        </div>
+        <div className={"flex flex-col items-center gap-2"}>
+          <h3 className={"text-xl font-bold"}>Disabled</h3>
+          <TextField
+            label={"Label"}
+            value={"Disabled"}
+            placeholder={"Enter something"}
+            disabled
+          />
+        </div>
+        <div className={"flex flex-col items-center gap-8"}>
+          <h3 className={"text-xl font-bold"}>No Label</h3>
+          <TextField placeholder={"Enter something"} />
+        </div>
+        <div className={"flex flex-col items-center gap-2"}>
+          <h3 className={"text-xl font-bold"}>Controlled Value</h3>
+          <TextField
+            label={"Label"}
+            value={"Something something"}
+            placeholder={"Enter something"}
+          />
+        </div>
+      </section>
+      <section className={"flex gap-4"}>
+        <h3 className={"text-2xl font-bold"}>Card</h3>
+        <Card className={"h-72 w-96 bg-slate-200"} />
+      </section>
+    </section>
   );
 }
