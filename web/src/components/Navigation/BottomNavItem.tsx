@@ -44,7 +44,10 @@ export default function BottomNavItem({
       } transition duration-200`}
     >
       <Link href={href}>
-        <a>
+        <button
+          className={"flex h-full w-full select-none flex-col items-center"}
+          aria-label={`Navigate to ${href.replace("/", "")}`}
+        >
           {children}
           <motion.div
             animate={{
@@ -54,7 +57,7 @@ export default function BottomNavItem({
             transition={transitions.spring}
             className={`absolute -bottom-0.5 -z-10 h-9 w-full rounded-full bg-indigo-800/90`}
           />
-        </a>
+        </button>
       </Link>
     </li>
   );
