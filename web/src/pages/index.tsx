@@ -6,7 +6,7 @@ export default function Index() {
   return (
     <section
       className={
-        "flex h-screen w-screen flex-col items-center justify-center gap-16 overflow-hidden bg-slate-50"
+        "flex min-h-screen flex-col items-center justify-center gap-16 overflow-hidden bg-slate-50"
       }
     >
       <h1 className={"mb-8 text-3xl font-bold sm:text-4xl"}>

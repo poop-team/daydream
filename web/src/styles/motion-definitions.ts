@@ -6,7 +6,7 @@ export const transitions = {
   spring: {
     type: "spring",
     damping: 20,
-    stiffness: 100,
+    stiffness: 300,
   },
 };
 
