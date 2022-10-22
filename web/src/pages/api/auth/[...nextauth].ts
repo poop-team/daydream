@@ -23,10 +23,10 @@ export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
     Auth0Provider({
-      clientId:env.AUTH0_CLIENT_ID,
+      clientId: env.AUTH0_CLIENT_ID,
       clientSecret: env.AUTH0_CLIENT_SECRET,
-      issuer: env.AUTH0_ISSUER
-    })
+      issuer: env.AUTH0_ISSUER,
+    }),
   ],
 
   secret: env.NEXTAUTH_SECRET,
