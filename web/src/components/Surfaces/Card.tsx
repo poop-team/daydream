@@ -5,11 +5,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
-export default function Card({
-  className = "",
-  children = null,
-  ...rest
-}: Props) {
+export default function Card({ className = "", children, ...rest }: Props) {
   return (
     <div className={`rounded-xl shadow-lg ${className}`} {...rest}>
       {children}

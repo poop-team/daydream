@@ -40,13 +40,15 @@ export default function TopNav() {
 
   //#endregion
 
-  //#region Derived state
+  //#region Derived State
 
   const isFeed = router.pathname === "/feed";
   const isCreate = router.pathname === "/create";
   const isProfile = router.pathname === "/profile";
 
   const isSearchActive = search.length > 0;
+
+  //#endregion
 
   return (
     <nav className={"sticky top-0 -mb-12 h-12 rounded-b-xl px-4"}>

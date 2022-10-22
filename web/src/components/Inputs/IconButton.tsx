@@ -8,7 +8,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function IconButton({
   disabled,
-  className,
+  className = "",
   children,
   ...rest
 }: Props) {

@@ -6,7 +6,6 @@ import GoogleProvider from "next-auth/providers/google";
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db/client";
 
-
 /*
  *  NextAuth configuration
  *  All requests to /api/auth/* (signIn, callback, signOut, etc.) will automatically be handled by NextAuth using this config
@@ -20,7 +19,6 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-
 
   adapter: PrismaAdapter(prisma),
   // Configure one or more authentication providers

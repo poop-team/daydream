@@ -44,19 +44,21 @@ export default function TextField({
   const baseStyle =
     "rounded-md bg-transparent px-4 py-2 text-lg outline outline-2 hover:outline-3 focus:outline-3 transition duration-200 ease w-full backdrop-blur-lg";
   const defaultStyle =
-    !disabled &&
-    !error &&
-    "outline-slate-900 hover:outline-indigo-600 focus:outline-indigo-600";
-  const errorStyle =
-    error && "outline-red-500 hover:outline-red-800 focus:outline-red-800";
-  const disabledStyle =
-    disabled && "cursor-not-allowed bg-slate-100 outline-slate-300";
+    !disabled && !error
+      ? "outline-slate-900 hover:outline-indigo-600 focus:outline-indigo-600"
+      : "";
+  const errorStyle = error
+    ? "outline-red-500 hover:outline-red-800 focus:outline-red-800"
+    : "";
+  const disabledStyle = disabled
+    ? "cursor-not-allowed bg-slate-100 outline-slate-300"
+    : "";
 
   //#endregion
 
   return (
     <div className={`flex flex-col ${className}`}>
-      <label className={`ml-1 ${error && "text-red-500"}`}>{label}</label>
+      <label className={`ml-1 ${error ? "text-red-500" : ""}`}>{label}</label>
       <div className={"relative flex"}>
         {startIcon && (
           <div
@@ -66,9 +68,10 @@ export default function TextField({
           </div>
         )}
         <input
-          className={`${baseStyle} ${defaultStyle} ${errorStyle} ${disabledStyle} ${
-            startIcon && "pl-10"
-          } ${(error || endIcon) && "pr-10"} ${inputClassName}`}
+          className={`${baseStyle} ${defaultStyle} ${errorStyle} 
+          ${disabledStyle} ${startIcon ? "pl-10" : ""} ${
+            error || endIcon ? "pr-10" : ""
+          } ${inputClassName}`}
           disabled={disabled}
           value={value}
           {...rest}
@@ -86,7 +89,9 @@ export default function TextField({
         )}
       </div>
       {helperText && (
-        <p className={`ml-1 mt-1 ${error && "text-red-500"}`}>{helperText}</p>
+        <p className={`ml-1 mt-1 ${error ? "text-red-500" : ""}`}>
+          {helperText}
+        </p>
       )}
     </div>
   );

@@ -29,7 +29,7 @@ export default function BottomNavLinkItem({
 
   //#endregion
 
-  //#region Derived state
+  //#region Derived State
 
   const selected =
     (router.pathname === "/" && href === "/") ||
@@ -40,7 +40,7 @@ export default function BottomNavLinkItem({
   return (
     <li
       className={`${className} relative w-1/4 ${
-        selected && "text-slate-50"
+        selected ? "text-slate-50" : ""
       } transition duration-200`}
     >
       <Link href={href}>
