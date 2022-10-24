@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 import {
@@ -9,6 +10,7 @@ import {
   MdSettings,
 } from "react-icons/md";
 
+import { navVariants, transitions } from "../../styles/motion-definitions";
 import IconButton from "../Inputs/IconButton";
 import TextField from "../Inputs/TextField";
 import TopNavLinkButton from "./TopNavLinkButton";
@@ -53,54 +55,91 @@ export default function TopNav() {
   return (
     <nav className={"sticky top-0 -mb-12 h-12 rounded-b-xl px-4"}>
       <ul className={"z-10 flex h-full list-none items-center justify-between"}>
-        {!isFeed && (
-          <li className={"hidden sm:block"}>
-            <TopNavLinkButton href={"/feed"}>
-              <MdHome className={"h-full w-8"} />
-            </TopNavLinkButton>
-          </li>
-        )}
-
-        {isFeed && (
-          <li className={"flex grow items-center justify-center gap-2"}>
-            <TextField
-              startIcon={<MdSearch className={"h-full w-full"} />}
-              endIcon={
-                isSearchActive ? (
-                  <IconButton
-                    className={"h-full w-full"}
-                    onClick={handleClearSearch}
-                  >
-                    <MdClose className={"h-full w-full"} />
-                  </IconButton>
-                ) : null
-              }
-              placeholder={"Search..."}
-              className={"w-11/12 max-w-xl sm:w-2/3"}
-              inputClassName={"py-0 px-4 rounded-3xl"}
-              value={search}
-              onChange={handleSearchChange}
-            />
-            <TopNavLinkButton
-              href={"/create"}
-              className={"hidden text-base sm:block"}
+        <AnimatePresence mode={"popLayout"} initial={false}>
+          {!isFeed && (
+            <motion.li
+              key={"home"}
+              variants={navVariants}
+              initial={"initialLeft"}
+              animate={"animate"}
+              exit={"initialLeft"}
+              transition={transitions.springStiff}
+              className={"hidden sm:block"}
             >
-              <MdAddCircle className={"h-8 w-full"} />
-            </TopNavLinkButton>
-          </li>
-        )}
+              <TopNavLinkButton href={"/feed"}>
+                <MdHome className={"h-full w-8"} />
+              </TopNavLinkButton>
+            </motion.li>
+          )}
 
-        {isProfile ? (
-          <IconButton>
-            <MdSettings className={"h-8 w-full"} />
-          </IconButton>
-        ) : (
-          <li className={"hidden sm:block"}>
-            <TopNavLinkButton href={"/profile"}>
-              <MdAccountCircle className={"h-8 w-full"} />
-            </TopNavLinkButton>
-          </li>
-        )}
+          {isFeed && (
+            <motion.li
+              key={"search"}
+              variants={navVariants}
+              initial={"initialTop"}
+              animate={"animate"}
+              exit={"initialTop"}
+              transition={transitions.springStiff}
+              className={"flex grow items-center justify-center gap-2"}
+            >
+              <TextField
+                startIcon={<MdSearch className={"h-full w-full"} />}
+                endIcon={
+                  isSearchActive ? (
+                    <IconButton
+                      className={"h-full w-full"}
+                      onClick={handleClearSearch}
+                    >
+                      <MdClose className={"h-full w-full"} />
+                    </IconButton>
+                  ) : null
+                }
+                placeholder={"Search..."}
+                className={"w-11/12 max-w-xl sm:w-2/3"}
+                inputClassName={"py-0 px-4 rounded-3xl"}
+                value={search}
+                onChange={handleSearchChange}
+              />
+              <TopNavLinkButton
+                href={"/create"}
+                className={"hidden text-base sm:block"}
+              >
+                <MdAddCircle className={"h-8 w-full"} />
+              </TopNavLinkButton>
+            </motion.li>
+          )}
+
+          {isProfile ? (
+            <motion.li
+              key={"settings"}
+              variants={navVariants}
+              initial={"initialRight"}
+              animate={"animate"}
+              exit={"initialRight"}
+              whileHover={{ rotate: 20 }}
+              transition={transitions.springStiff}
+              className={"ml-auto"}
+            >
+              <IconButton>
+                <MdSettings className={"h-8 w-full"} />
+              </IconButton>
+            </motion.li>
+          ) : (
+            <motion.li
+              key={"profile"}
+              variants={navVariants}
+              initial={"initialRight"}
+              animate={"animate"}
+              exit={"initialRight"}
+              transition={transitions.springStiff}
+              className={"hidden sm:block"}
+            >
+              <TopNavLinkButton href={"/profile"}>
+                <MdAccountCircle className={"h-8 w-full"} />
+              </TopNavLinkButton>
+            </motion.li>
+          )}
+        </AnimatePresence>
       </ul>
     </nav>
   );
