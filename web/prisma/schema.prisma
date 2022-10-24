@@ -11,18 +11,18 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -38,15 +38,20 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id               String       @id @default(cuid())
+  name             String?
+  email            String?      @unique
+  emailVerified    DateTime?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  image            String?
+  accounts         Account[]
+  sessions         Session[]
+  posts            Post[]       @relation("allPosts")
+  savedPosts       Post[]       @relation("savedPosts")
+  collections      Collection[]
+  savedCollections Collection[] @relation("savedCollections")
+  likes            Like[]
 }
 
 model VerificationToken {
@@ -55,4 +60,38 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Post {
+  id          String       @id @default(cuid())
+  dateCreated DateTime     @default(now())
+  prompt      String
+  imageURL    String
+  authorId    String
+  author      User         @relation("allPosts", references: [id], fields: [authorId])
+  savedByID   String?
+  savedBy     User?        @relation("savedPosts", references: [id], fields: [savedByID])
+  //all of our posts can have multiple collections 
+  collection  Collection[]
+  likes       Like[]
+}
+
+model Collection {
+  id        String  @id @default(cuid())
+  name      String
+  //all of our collections can have multiple posts
+  posts     Post[]
+  userId    String
+  user      User    @relation(references: [id], fields: [userId])
+  savedByID String?
+  savedBy   User?   @relation("savedCollections", references: [id], fields: [savedByID])
+}
+
+model Like {
+  user   User   @relation(references: [id], fields: [userId], onDelete: Cascade)
+  post   Post   @relation(references: [id], fields: [postID], onDelete: Cascade)
+  userId String
+  postID String
+
+  @@id([userId, postID]) //makes sure users can't leave more than one like
 }

@@ -19,7 +19,7 @@ const POST = (url: string, obj?: NonNullable<unknown>) =>
 describe("reverse a POSTed string", () => {
   it("should echo 2", async () => {
     const rsp = await POST("/api/reverse", { message: "hello, world" }).then(
-      (b) => b.json()
+      (b) => b.json() as Promise<{ message: string }>
     );
 
     expect(rsp).toEqual("dlrow ,olleh");
