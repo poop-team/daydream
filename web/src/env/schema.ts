@@ -13,7 +13,7 @@ export const serverSchema = z.object({
   AUTH0_CLIENT_SECRET: z.string(),
   AUTH0_ISSUER: z.string().url(),
   X_API_KEY: z.string(),
-  DIFFUSION_URL: z.string()
+  DIFFUSION_URL: z.string(),
 });
 
 /**

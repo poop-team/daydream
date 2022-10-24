@@ -14,7 +14,7 @@ The general hierarchy of the project is as follows:
 
 ### Prerequisites
 1. Download and install **Node Version Manager** > ([Windows](https://github.com/coreybutler/nvm-windows) | [macOS/Linux](https://github.com/nvm-sh/nvm))
-2. Install and run the latest node version by running `nvm install latest && nvm use latest` in the terminal
+2. Install and run the latest node version by running `nvm install 18 && nvm use 18` in the terminal
 3. Install **Yarn** by running `npm install -g yarn`
 4. Go to the directory of the project you'll be working in and run `yarn` to install all dependencies
 

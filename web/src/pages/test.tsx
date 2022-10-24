@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { signIn,useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { SyntheticEvent, useState } from "react";
 
 export default function Test() {
@@ -16,10 +16,9 @@ export default function Test() {
   const get_image = (e: SyntheticEvent) => {
     e.preventDefault(); // prevents page reload
     setDisabled(!disabled);
-    fetch('/api/createPost?prompt='+prompt, {
-    })
+    void fetch("/api/createPost?prompt=" + prompt, {})
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: { image: string }) => {
         setURL(data.image);
         setDisabled(false);
       });
@@ -28,18 +27,23 @@ export default function Test() {
   //#endregion
 
   //check session...
-  const {data} = useSession();
+  const { data } = useSession();
 
-  if(!data)
-     return (
-     <>
-     <div className="mx-auto text-center justify-center items-center min-h-screen">
-     <h1>Protected Page</h1>
-     <p>You need to sign in to use this app.</p>
-     <button className="bg-black p-2 text-white" onClick={()=>signIn()}>Sign in</button>
-     </div>
-    </>
-     );
+  if (!data)
+    return (
+      <>
+        <div className="mx-auto min-h-screen items-center justify-center text-center">
+          <h1>Protected Page</h1>
+          <p>You need to sign in to use this app.</p>
+          <button
+            className="bg-black p-2 text-white"
+            onClick={() => void signIn()}
+          >
+            Sign in
+          </button>
+        </div>
+      </>
+    );
 
   return (
     <main className="mx-auto flex min-h-screen items-center justify-center bg-black p-4">
@@ -56,7 +60,7 @@ export default function Test() {
               <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                 <button
                   type="submit"
-                  className="focus:shadow-outline p-1 focus:outline-none"
+                  className="p-1 focus:outline-none"
                   disabled={disabled}
                 >
                   <svg

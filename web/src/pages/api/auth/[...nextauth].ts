@@ -2,9 +2,8 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0";
 
-import { env } from "../../../env/server.mjs";
+import { env } from "../../../env/server";
 import { prisma } from "../../../server/db/client";
-
 
 /*
  *  NextAuth configuration
@@ -20,15 +19,14 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
-
   adapter: PrismaAdapter(prisma),
   // Configure one or more authentication providers
   providers: [
     Auth0Provider({
-      clientId:env.AUTH0_CLIENT_ID,
+      clientId: env.AUTH0_CLIENT_ID,
       clientSecret: env.AUTH0_CLIENT_SECRET,
-      issuer: env.AUTH0_ISSUER
-    })
+      issuer: env.AUTH0_ISSUER,
+    }),
   ],
 
   secret: env.NEXTAUTH_SECRET,

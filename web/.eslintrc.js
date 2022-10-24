@@ -1,15 +1,19 @@
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
+  parserOptions: {
+    "project": "tsconfig.json",
+  },
   extends: [
     "next",
     "next/core-web-vitals",
-    "prettier",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:tailwindcss/recommended",
-    "plugin:import/errors",
+    "plugin:import/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:prettier/recommended",
   ],
   plugins: [
     "prettier",
@@ -20,35 +24,12 @@ module.exports = {
     "@typescript-eslint",
   ],
   rules: {
-    "no-unused-vars": "warn",
-    "prefer-const": "error",
-    "no-irregular-whitespace": "error",
-    "no-trailing-spaces": "error",
     semi: "error",
-    "no-empty-function": "error",
-    "no-duplicate-imports": "error",
-    "newline-after-var": "error",
-    camelcase: "warn",
+    "prefer-const": "error",
     "react/react-in-jsx-scope": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["warn"],
-    "@typescript-eslint/no-unused-vars": "off", // Already handled by eslint:recommended
-    "@typescript-eslint/no-empty-function": "off", // Already handled by eslint:recommended
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
   },
-  overrides: [
-    {
-      files: ["*.ts", "*.tsx"],
-      rules: {
-        "no-undef": "off",
-      },
-    },
-    {
-      files: ["*.js", "*.jsx"],
-      rules: {
-        "@typescript-eslint/no-var-requires": "off",
-      },
-    },
-  ],
 };
