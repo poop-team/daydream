@@ -15,8 +15,12 @@ export default function Index() {
       <section className={"flex gap-4"}>
         <h3 className={"mt-auto text-2xl font-bold"}>Button</h3>
         <div className={"flex flex-col items-center gap-2"}>
-          <h3 className={"text-xl font-bold"}>Primary</h3>
+          <h3 className={"text-xl font-bold"}>Contained</h3>
           <Button>Click Here</Button>
+        </div>
+        <div className={"flex flex-col items-center gap-2"}>
+          <h3 className={"text-xl font-bold"}>Text</h3>
+          <Button variant={"text"}>Click Here</Button>
         </div>
         <div className={"flex flex-col items-center gap-2"}>
           <h3 className={"text-xl font-bold"}>Disabled</h3>
