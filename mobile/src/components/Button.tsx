@@ -17,7 +17,7 @@ export default function Buttons({
   let textStyle = 'text-white margin mx-5 font-semibold';
 
   if (disabled) {
-    baseStyle += ' text-slate-50 bg-indigo-900/80 hover:bg-indigo-900/80';
+    baseStyle += ' text-slate-50 bg-indigo-900/40 hover:bg-indigo-900/80';
   }
   //default style
   else{
