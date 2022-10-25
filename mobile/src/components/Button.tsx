@@ -10,8 +10,8 @@ export default function Buttons({
   addButtonStyle, 
   addTextStyle, 
   disabled = false, 
-  pilled = false}
-  ){
+  pilled = false
+}){
 
   let baseStyle = 'h-7 items-center justify-center';
   let textStyle = 'text-white margin mx-5 font-semibold';
