@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+html, body {
+    @apply overflow-x-hidden scroll-smooth;
+}
+
+body {
     font-family: 'Roboto', sans-serif;
+    @apply relative;
 }
