@@ -1,19 +1,34 @@
 import { Pressable, Text, View } from 'react-native';
+/*
+@param name - name of the button
+@param addButtonStyle - add custom style to the button
+@param addTextStyle - add custom style to the text
+@param pilled - make the button pilled
+*/
+export default function Buttons({
+  name, 
+  addButtonStyle, 
+  addTextStyle, 
+  disabled = false, 
+  pilled = false}
+  ){
 
-function ButtonPill(props) {
+  let baseStyle = 'h-7 items-center justify-center';
+  let textStyle = 'text-white margin mx-5 font-semibold';
+
+  if (disabled) {
+    baseStyle += ' text-slate-50 bg-indigo-900/80 hover:bg-indigo-900/80';
+  }
+  //default style
+  else{
+    baseStyle += ' text-slate-50 bg-indigo-900 hover:bg-indigo-800 active:opacity-70';
+  }
+  pilled ? baseStyle += ' rounded-full' : baseStyle += ' rounded-md';
+
   return (
-    <Pressable className= "rounded-full bg-[#2D1C70] opacity-95 h-7 items-center justify-center" >
-        <Text className='text-white margin mx-5'>{props.name}</Text>
+    <Pressable className={`${baseStyle} ${addButtonStyle}`} >
+        <Text className = {`${textStyle} ${addTextStyle}`}>{name}</Text>
     </Pressable>
   );
 }
 
-function ButtonRounded(props) {
-  return (
-    <Pressable className= "rounded-md bg-[#2D1C70] opacity-95 h-7 items-center justify-center" >
-        <Text className='text-white margin mx-5'>{props.name}</Text>
-    </Pressable>
-  );
-}
-
-export { ButtonPill, ButtonRounded };
