@@ -1,18 +1,18 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
+import { getServerAuthSession } from "../../server/common/get-server-auth-session";
 
-export default async function addPost(
+export default async function addPostToCollection(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getServerAuthSession({ req, res });
+  //   const session = await getServerAuthSession({ req, res });
 
-  if (!session) {
-    res.statusCode = 401;
-    return res.json({ Error: "User not logged in." });
-  }
+  //   if (!session) {
+  //     res.statusCode = 401;
+  //     return res.json({ Error: "User not logged in." });
+  //   }
 
   const prisma = new PrismaClient();
   const { postId, collectionId } = req.query;
@@ -34,11 +34,16 @@ export default async function addPost(
     return res.json("Invalid PostID");
   }
   // get existing posts
-  const posts = await prisma.collection.findMany({
+
+  const resStatus = await prisma.collection.update({
     where: {
       id: String(collectionId),
     },
-    select: { posts: true },
+    data: {
+      posts: {
+        connect: { id: postToAdd.id },
+      },
+    },
   });
 
   return res.json({ sucess: true });
