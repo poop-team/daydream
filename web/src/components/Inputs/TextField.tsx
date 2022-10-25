@@ -47,7 +47,7 @@ export default function TextField({
   if (!disabled && !error) {
     // Default Style
     inputStyle +=
-      " outline-slate-500 hover:outline-indigo-600 focus:outline-indigo-600";
+      " outline-slate-500 group-hover:outline-indigo-600 focus:outline-indigo-600";
   } else {
     if (disabled) {
       // Disabled Style
@@ -56,14 +56,14 @@ export default function TextField({
     if (error) {
       // Error Style
       inputStyle +=
-        " outline-red-500 hover:outline-red-800 focus:outline-red-800";
+        " outline-red-500 group-hover:outline-red-800 focus:outline-red-800";
     }
   }
 
   //#endregion
 
   return (
-    <div className={`flex flex-col ${className}`}>
+    <div className={`group flex flex-col ${className}`}>
       <label className={`ml-1 ${error ? "text-red-500" : ""}`}>{label}</label>
       <div className={"relative flex"}>
         {startIcon && (

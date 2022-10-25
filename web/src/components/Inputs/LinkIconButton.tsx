@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 
-import IconButton from "../Inputs/IconButton";
+import IconButton from "./IconButton";
 
 interface Props {
   href: string;
@@ -9,7 +9,7 @@ interface Props {
   children?: ReactNode;
 }
 
-export default function NavLinkButton({ href, className, children }: Props) {
+export default function LinkIconButton({ href, className, children }: Props) {
   return (
     <Link href={href}>
       <IconButton
