@@ -37,7 +37,7 @@ export default async function addPostToCollection(
 
   const resStatus = await prisma.collection.update({
     where: {
-      id: String(collectionId),
+      id: collectionId?.toString(),
     },
     data: {
       posts: {
@@ -46,5 +46,5 @@ export default async function addPostToCollection(
     },
   });
 
-  return res.json({ sucess: true });
+  res.json({ success: true });
 }

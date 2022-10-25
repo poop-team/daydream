@@ -26,11 +26,9 @@ export default async function createCollection(
     data: {
       // userId: String(session.user?.id),
       userId: "cl9oql88i0009yb3z8wr3gzgy",
-      name: String(query.name),
+      name: query.name.toString(),
     },
   });
 
-  return res.json({
-    collectionId: collection.id,
-  });
+  res.json({ collectionId: collection.id });
 }
