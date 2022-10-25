@@ -6,7 +6,7 @@ export default function BottomNavbar() {
   
   const value: string = "hello, world";
   return (
-    <View style={styles.container}>
+    <View className= 'w-full bg-slate-200 flex-row items-center justify-around absolute bottom-0 rounded-tl-lg rounded-tr-lg h-12'>
       <Pressable className= 'active:rounded-full active:bg-indigo-800/70 active:opacity-95 h-10 w-20 items-center justify-center' onPress={() => {}}>
         <Ionicons name= "home" size={27} color="black" />
       </Pressable>
@@ -21,26 +21,3 @@ export default function BottomNavbar() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-
-    width: '100%',
-    backgroundColor: '#d7daded9',
-    marginTop: 'auto',
-    bottom: 0,
-    height: 5e1,
-    position: 'absolute',
-
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-
-    //align items side by side
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  }, 
-
-
-});
