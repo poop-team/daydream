@@ -41,18 +41,24 @@ export default function TextField({
 }: Props) {
   //#region Styles
 
-  const baseStyle =
+  let inputStyle =
     "rounded-md bg-transparent px-4 py-2 text-lg outline outline-2 hover:outline-3 focus:outline-3 transition duration-200 ease w-full backdrop-blur-lg";
-  const defaultStyle =
-    !disabled && !error
-      ? "outline-slate-900 hover:outline-indigo-600 focus:outline-indigo-600"
-      : "";
-  const errorStyle = error
-    ? "outline-red-500 hover:outline-red-800 focus:outline-red-800"
-    : "";
-  const disabledStyle = disabled
-    ? "cursor-not-allowed bg-slate-100 outline-slate-300"
-    : "";
+
+  if (!disabled && !error) {
+    // Default Style
+    inputStyle +=
+      " outline-slate-500 hover:outline-indigo-600 focus:outline-indigo-600";
+  } else {
+    if (disabled) {
+      // Disabled Style
+      inputStyle += " cursor-not-allowed bg-slate-100 outline-slate-300";
+    }
+    if (error) {
+      // Error Style
+      inputStyle +=
+        " outline-red-500 hover:outline-red-800 focus:outline-red-800";
+    }
+  }
 
   //#endregion
 
@@ -68,8 +74,7 @@ export default function TextField({
           </div>
         )}
         <input
-          className={`${baseStyle} ${defaultStyle} ${errorStyle} 
-          ${disabledStyle} ${startIcon ? "pl-10" : ""} ${
+          className={`${inputStyle} ${startIcon ? "pl-10" : ""} ${
             error || endIcon ? "pr-10" : ""
           } ${inputClassName}`}
           disabled={disabled}
