@@ -6,7 +6,7 @@ import TextField from "./TextField";
 
 interface Props {
   value: string;
-  setValue: (value: string) => void;
+  onValueChange: (value: string) => void;
   placeholder?: string;
   className?: string;
 }
@@ -21,18 +21,18 @@ interface Props {
  */
 export default function SearchBar({
   value,
-  setValue,
+  onValueChange,
   className = "",
   placeholder = "Search...",
 }: Props) {
   //#region Handlers
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    onValueChange(e.target.value);
   };
 
   const handleClearSearch = () => {
-    setValue("");
+    onValueChange("");
   };
 
   //#region Derived State

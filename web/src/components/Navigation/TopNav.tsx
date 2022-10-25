@@ -72,7 +72,7 @@ export default function TopNav() {
             >
               <SearchBar
                 value={searchTerm}
-                setValue={setSearchTerm}
+                onValueChange={setSearchTerm}
                 className={"w-11/12 max-w-xl sm:w-2/3"}
               />
               <LinkIconButton

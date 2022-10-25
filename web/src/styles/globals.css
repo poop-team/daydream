@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html, body {
-    @apply overflow-x-hidden scroll-smooth;
+    @apply scroll-smooth;
 }
 
 body {
