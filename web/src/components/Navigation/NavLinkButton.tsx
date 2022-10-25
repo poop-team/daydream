@@ -9,7 +9,7 @@ interface Props {
   children?: ReactNode;
 }
 
-export default function TopNavLinkButton({ href, className, children }: Props) {
+export default function NavLinkButton({ href, className, children }: Props) {
   return (
     <Link href={href}>
       <IconButton

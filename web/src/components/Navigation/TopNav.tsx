@@ -13,7 +13,7 @@ import {
 import { navVariants, transitions } from "../../styles/motion-definitions";
 import IconButton from "../Inputs/IconButton";
 import TextField from "../Inputs/TextField";
-import TopNavLinkButton from "./TopNavLinkButton";
+import NavLinkButton from "./NavLinkButton";
 
 export default function TopNav() {
   //#region Hooks
@@ -66,9 +66,9 @@ export default function TopNav() {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <TopNavLinkButton href={"/feed"}>
+              <NavLinkButton href={"/feed"}>
                 <MdHome className={"h-full w-8"} />
-              </TopNavLinkButton>
+              </NavLinkButton>
             </motion.li>
           )}
 
@@ -100,12 +100,12 @@ export default function TopNav() {
                 value={search}
                 onChange={handleSearchChange}
               />
-              <TopNavLinkButton
+              <NavLinkButton
                 href={"/create"}
                 className={"hidden text-base sm:block"}
               >
                 <MdAddCircle className={"h-8 w-full"} />
-              </TopNavLinkButton>
+              </NavLinkButton>
             </motion.li>
           )}
 
@@ -134,9 +134,9 @@ export default function TopNav() {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <TopNavLinkButton href={"/profile"}>
+              <NavLinkButton href={"/profile"}>
                 <MdAccountCircle className={"h-8 w-full"} />
-              </TopNavLinkButton>
+              </NavLinkButton>
             </motion.li>
           )}
         </AnimatePresence>
