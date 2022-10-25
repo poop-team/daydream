@@ -7,13 +7,13 @@ export default function BottomNavbar() {
   const value: string = "hello, world";
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => {}}>
+      <Pressable className= 'active:rounded-full active:bg-indigo-800/70 active:opacity-95 h-10 w-20 items-center justify-center' onPress={() => {}}>
         <Ionicons name= "home" size={27} color="black" />
       </Pressable>
-      <Pressable onPress={() => {}}>
+      <Pressable className= 'active:rounded-full active:bg-indigo-800/70 active:opacity-95 h-10 w-20 items-center justify-center' onPress={() => {}}>
         <Ionicons name= "add-circle" size={27} color="black" />
       </Pressable>
-      <Pressable onPress={() => {}}>
+      <Pressable className= 'active:rounded-full active:bg-indigo-800/70 active:opacity-95 h-10 w-20 items-center justify-center' onPress={() => {}}>
         <Ionicons name= "md-person-circle" size={27} color="black" />
       </Pressable>
 
