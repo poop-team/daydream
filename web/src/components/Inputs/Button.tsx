@@ -6,7 +6,7 @@ import CircularProgress from "../Feedback/CircularProgress";
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   loading?: boolean;
-  variant?: "contained" | "text";
+  variant?: "filled" | "text";
   className?: string;
   children: ReactNode;
 }
@@ -24,7 +24,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 export default function Button({
   disabled = false,
   loading = false,
-  variant = "contained",
+  variant = "filled",
   className = "",
   children,
   ...rest
