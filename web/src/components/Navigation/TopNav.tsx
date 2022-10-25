@@ -1,44 +1,34 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MdAccountCircle,
   MdAddCircle,
-  MdClose,
   MdHome,
-  MdSearch,
   MdSettings,
 } from "react-icons/md";
 
 import { navVariants, transitions } from "../../styles/motion-definitions";
 import IconButton from "../Inputs/IconButton";
-import TextField from "../Inputs/TextField";
-import TopNavLinkButton from "./TopNavLinkButton";
+import LinkIconButton from "../Inputs/LinkIconButton";
+import SearchBar from "../Inputs/SearchBar";
 
 export default function TopNav() {
   //#region Hooks
 
   const router = useRouter();
 
-  const [search, setSearch] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     // Set the term to query if a query parameter is present in the URL.
     if (!router.query.q) return;
-    setSearch(router.query.q as string);
+    setSearchTerm(router.query.q as string);
   }, [router.query.q]);
 
   //#endregion
 
   //#region Handlers
-
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
-
-  const handleClearSearch = () => {
-    setSearch("");
-  };
 
   //#endregion
 
@@ -47,8 +37,6 @@ export default function TopNav() {
   const isFeed = router.pathname === "/feed";
   const isCreate = router.pathname === "/create";
   const isProfile = router.pathname === "/profile";
-
-  const isSearchActive = search.length > 0;
 
   //#endregion
 
@@ -66,9 +54,9 @@ export default function TopNav() {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <TopNavLinkButton href={"/feed"}>
+              <LinkIconButton href={"/feed"}>
                 <MdHome className={"h-full w-8"} />
-              </TopNavLinkButton>
+              </LinkIconButton>
             </motion.li>
           )}
 
@@ -82,30 +70,17 @@ export default function TopNav() {
               transition={transitions.springStiff}
               className={"flex grow items-center justify-center gap-2"}
             >
-              <TextField
-                startIcon={<MdSearch className={"h-full w-full"} />}
-                endIcon={
-                  isSearchActive ? (
-                    <IconButton
-                      className={"h-full w-full"}
-                      onClick={handleClearSearch}
-                    >
-                      <MdClose className={"h-full w-full"} />
-                    </IconButton>
-                  ) : null
-                }
-                placeholder={"Search..."}
+              <SearchBar
+                value={searchTerm}
+                onValueChange={setSearchTerm}
                 className={"w-11/12 max-w-xl sm:w-2/3"}
-                inputClassName={"py-0 px-4 rounded-3xl"}
-                value={search}
-                onChange={handleSearchChange}
               />
-              <TopNavLinkButton
+              <LinkIconButton
                 href={"/create"}
                 className={"hidden text-base sm:block"}
               >
                 <MdAddCircle className={"h-8 w-full"} />
-              </TopNavLinkButton>
+              </LinkIconButton>
             </motion.li>
           )}
 
@@ -134,9 +109,9 @@ export default function TopNav() {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <TopNavLinkButton href={"/profile"}>
+              <LinkIconButton href={"/profile"}>
                 <MdAccountCircle className={"h-8 w-full"} />
-              </TopNavLinkButton>
+              </LinkIconButton>
             </motion.li>
           )}
         </AnimatePresence>

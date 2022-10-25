@@ -20,6 +20,7 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
     <>
       <Head>
         <title>Big 💩 Project™️</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <SessionProvider session={session}>
         <TopNav />
