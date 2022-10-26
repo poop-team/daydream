@@ -1,7 +1,7 @@
-import { HTMLAttributes } from "react";
+import { InputHTMLAttributes } from "react";
 import { BiError } from "react-icons/bi";
 
-interface Props extends HTMLAttributes<HTMLInputElement> {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   startIcon?: JSX.Element | null;
   endIcon?: JSX.Element | null;
   disabled?: boolean;
