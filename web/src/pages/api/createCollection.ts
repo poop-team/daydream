@@ -11,7 +11,8 @@ export default async function createCollection(
 
   if (!session) {
     res.statusCode = 401;
-    return res.json({ Error: "User not logged in." });
+    res.json({ Error: "User not logged in." });
+    return;
   }
 
   const prisma = new PrismaClient();
@@ -19,7 +20,8 @@ export default async function createCollection(
 
   if (!query.name) {
     res.statusCode = 400;
-    return res.json("Give me a name for the collection");
+    res.json("Give me a name for the collection");
+    return;
   }
 
   const collection = await prisma.collection.create({

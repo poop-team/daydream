@@ -11,7 +11,8 @@ export default async function addPostToCollection(
 
   if (!session) {
     res.statusCode = 401;
-    return res.json({ Error: "User not logged in." });
+    res.json({ Error: "User not logged in." });
+    return;
   }
 
   const prisma = new PrismaClient();
@@ -19,7 +20,8 @@ export default async function addPostToCollection(
 
   if (!postId) {
     res.statusCode = 400;
-    return res.json("Give me a post for the collection");
+    res.json("Give me a post for the collection");
+    return;
   }
 
   const postToAdd = await prisma.post.findFirst({
@@ -30,7 +32,8 @@ export default async function addPostToCollection(
 
   if (!postToAdd) {
     res.statusCode = 400;
-    return res.json("Invalid PostID");
+    res.json("Invalid PostID");
+    return;
   }
   // get existing posts
 
