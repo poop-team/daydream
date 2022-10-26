@@ -8,6 +8,7 @@ import { SessionProvider } from "next-auth/react";
 
 import BottomNav from "../components/Navigation/BottomNav";
 import TopNav from "../components/Navigation/TopNav";
+import { useRouter } from 'next/router';
 
 interface Props extends AppProps {
   pageProps: {
@@ -15,7 +16,14 @@ interface Props extends AppProps {
   };
 }
 
+
+
+
 function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
+
+  const router = useRouter();
+  const isLogin = router.pathname == "/login"
+
   return (
     <>
       <Head>
@@ -23,7 +31,12 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <SessionProvider session={session}>
-        <TopNav />
+        {isLogin ? (
+          <></>
+        ) : (
+          <TopNav />
+        )}
+        
         <Component {...pageProps} />
         <BottomNav />
       </SessionProvider>
