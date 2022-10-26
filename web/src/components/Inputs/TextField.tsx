@@ -42,7 +42,7 @@ export default function TextField({
   //#region Styles
 
   let inputStyle =
-    "rounded-md bg-transparent px-4 py-2 text-lg outline outline-2 hover:outline-3 focus:outline-3 transition duration-200 ease w-full backdrop-blur-lg";
+    "rounded-md bg-transparent px-4 py-2 text-lg outline outline-2 hover:outline-3 focus:outline-3 transition duration-200 ease w-full";
 
   if (!disabled && !error) {
     // Default Style

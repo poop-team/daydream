@@ -6,7 +6,7 @@ export default function BottomNav() {
   return (
     <nav
       className={
-        "sticky bottom-0 -mt-12 h-12 w-screen rounded-t-xl bg-slate-300/90 sm:hidden"
+        "sticky bottom-0 -mt-12 h-12 w-screen rounded-t-xl bg-slate-50/50 backdrop-blur-md sm:hidden"
       }
     >
       <ul className={"z-10 flex h-full list-none items-center justify-evenly"}>

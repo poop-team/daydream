@@ -41,8 +41,12 @@ export default function TopNav() {
   //#endregion
 
   return (
-    <nav className={"sticky top-0 -mb-12 h-12 rounded-b-xl px-4"}>
-      <ul className={"z-10 flex h-full list-none items-center justify-between"}>
+    <nav
+      className={
+        "sticky top-0 z-50 -mb-12 h-12 rounded-b-xl bg-slate-50/50 px-4 backdrop-blur-md"
+      }
+    >
+      <ul className={"flex h-full list-none items-center justify-between"}>
         <AnimatePresence mode={"popLayout"} initial={false}>
           {!isFeed && (
             <motion.li
