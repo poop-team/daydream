@@ -1,11 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Dummypage from './pages/Dummypage';
+
 export default function BottomNavbar() {
-  
-  const value: string = "hello, world";
-  return (
+    return (
     <View className= 'w-full bg-slate-200 flex-row items-center justify-around absolute bottom-0 rounded-tl-lg rounded-tr-lg h-12'>
       <Pressable className= 'active:rounded-full active:bg-indigo-800/70 active:opacity-95 h-10 w-20 items-center justify-center' onPress={() => {}}>
         <Ionicons name= "home" size={27} color="black" />
@@ -16,7 +13,6 @@ export default function BottomNavbar() {
       <Pressable className= 'active:rounded-full active:bg-indigo-800/70 active:opacity-95 h-10 w-20 items-center justify-center' onPress={() => {}}>
         <Ionicons name= "md-person-circle" size={27} color="black" />
       </Pressable>
-
     </View>
   );
 }
