@@ -9,7 +9,7 @@ interface Props extends TextInputProps {
   unfocusedColor?: string;
 } 
 
-export default ({ value, onChangeText, focusedColor = "bg-[#C6B8F2]", unfocusedColor = "bg-[#BCC0C6]", ...props }: Props) => {
+export default ({ value, onChangeText, focusedColor = "bg-indigo-200", unfocusedColor = "bg-slate-300", ...props }: Props) => {
   const inputRef: Ref<TextInput> = useRef();
 
   const [isFocused, setFocused] = useState(false);
@@ -18,7 +18,7 @@ export default ({ value, onChangeText, focusedColor = "bg-[#C6B8F2]", unfocusedC
 
   return (
     <View className="m-4">
-      <View className={`w-full flex-row items-center ${bgColor} rounded-lg`}>
+      <View className={`${bgColor} w-full flex-row items-center rounded-lg`}>
         <Pressable onPress={() => inputRef.current.focus()}>
           <View className={`${bgColor} mx-2`}>
             <Icon size={20} name="search-outline" />
