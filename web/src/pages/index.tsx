@@ -1,7 +1,6 @@
 import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
 import Card from "../components/Surfaces/Card";
-import ImageCard from "../components/Surfaces/ImageCard";
 
 export default function Index() {
   return (
@@ -72,10 +71,6 @@ export default function Index() {
       <section className={"flex items-center gap-4"}>
         <h3 className={"text-2xl font-bold"}>Card</h3>
         <Card className={"h-72 w-96 bg-slate-200"} />
-      </section>
-      <section className={"flex items-center gap-4"}>
-        <h3 className={"text-2xl font-bold"}>Image Card</h3>
-        <ImageCard className={"h-72 w-96 bg-slate-200"} />
       </section>
     </section>
   );
