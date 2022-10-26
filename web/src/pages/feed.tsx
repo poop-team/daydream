@@ -16,7 +16,7 @@ const mockData = [
       100
     ),
     saveCount: 420,
-    authorName: "John Doe",
+    authorName: "Elon Musk",
     authorAvatar: "",
   },
   {

@@ -13,6 +13,11 @@ export const transitions = {
     damping: 30,
     stiffness: 500,
   },
+  easeOut: {
+    type: "tween",
+    ease: "easeOut",
+    duration: 0.2,
+  },
 };
 
 export const variants = {
