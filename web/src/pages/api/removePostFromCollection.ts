@@ -7,12 +7,12 @@ export default async function addPostToCollection(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //   const session = await getServerAuthSession({ req, res });
+  const session = await getServerAuthSession({ req, res });
 
-  //   if (!session) {
-  //     res.statusCode = 401;
-  //     return res.json({ Error: "User not logged in." });
-  //   }
+  if (!session) {
+    res.statusCode = 401;
+    return res.json({ Error: "User not logged in." });
+  }
 
   const prisma = new PrismaClient();
   const { postId, collectionId } = req.query;
@@ -22,7 +22,6 @@ export default async function addPostToCollection(
     return res.json("Give me a post for the collection");
   }
 
-  // find the post
   const postToAdd = await prisma.post.findFirst({
     where: {
       id: String(postId),
