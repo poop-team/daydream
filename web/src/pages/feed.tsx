@@ -5,7 +5,7 @@ const mockData = [
     id: 1,
     src: "/test.png",
     prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    saveCount: 69,
+    likes: 69,
     authorName: "John Doe",
     authorAvatar: "/test.png",
   },
@@ -15,7 +15,7 @@ const mockData = [
     prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.".repeat(
       100
     ),
-    saveCount: 420,
+    likes: 420,
     authorName: "Elon Musk",
     authorAvatar: "",
   },
@@ -23,7 +23,7 @@ const mockData = [
     id: 3,
     src: "/test.png",
     prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    saveCount: 3697,
+    likes: 3697,
     authorName: "Very Long Naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaame",
     authorAvatar: "/test.png",
   },

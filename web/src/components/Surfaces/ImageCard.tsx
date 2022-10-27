@@ -1,14 +1,15 @@
 import Image from "next/future/image";
 import { useState } from "react";
-import { MdAccountCircle, MdSave } from "react-icons/md";
+import { MdFavorite } from "react-icons/md";
 
 import ImageDialog from "../Dialogs/ImageDialog";
+import Author from "../Widgets/Author";
 import Card from "./Card";
 
 interface Props {
   src: string;
   prompt: string;
-  saveCount: number;
+  likes: number;
   authorName: string;
   authorAvatar: string;
   showDialog?: boolean;
@@ -18,7 +19,7 @@ interface Props {
 export default function ImageCard({
   src,
   prompt,
-  saveCount,
+  likes,
   authorName,
   authorAvatar,
   showDialog = true,
@@ -69,35 +70,21 @@ export default function ImageCard({
           }
         >
           <div className={"flex items-center justify-end gap-1"}>
-            <p>{saveCount.toLocaleString()}</p>
-            <MdSave className={"h-5 w-5"} />
+            <p>{likes.toLocaleString()}</p>
+            <MdFavorite className={"h-5 w-5"} />
           </div>
           <p className={"line-clamp-10"}>{prompt}</p>
-          <div className={"mt-auto flex items-center justify-center gap-2"}>
-            <div className={"relative h-8 w-8"}>
-              {authorAvatar ? (
-                <Image
-                  src={authorAvatar}
-                  alt={authorName}
-                  fill
-                  priority
-                  sizes={"2rem"}
-                  className={"rounded-full"}
-                />
-              ) : (
-                <MdAccountCircle className={"h-full w-full"} />
-              )}
-            </div>
-            <p className={"overflow-hidden text-ellipsis whitespace-nowrap"}>
-              By <b>{authorName}</b>
-            </p>
-          </div>
+          <Author
+            authorName={authorName}
+            authorAvatar={authorAvatar}
+            className={"mt-auto justify-center"}
+          />
         </div>
       </Card>
       <ImageDialog
         src={src}
         prompt={prompt}
-        saveCount={saveCount}
+        likes={likes}
         authorName={authorName}
         authorAvatar={authorAvatar}
         isOpen={isDialogOpen}
