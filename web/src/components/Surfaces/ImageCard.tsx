@@ -48,8 +48,8 @@ export default function ImageCard({
   return (
     <>
       <Card
-        className={`group relative h-96 w-96 cursor-pointer select-none overflow-hidden bg-slate-500 p-6 transition-all 
-      duration-200 ease-out hover:scale-[103%] hover:shadow-2xl ${className}`}
+        className={`group relative aspect-square cursor-pointer select-none overflow-hidden bg-slate-500 p-6 
+      transition-all duration-200 ease-out hover:scale-[103%] hover:shadow-2xl ${className}`}
         onClick={handleDialogOpen}
       >
         <Image
@@ -57,9 +57,7 @@ export default function ImageCard({
           alt={prompt}
           fill
           priority
-          sizes={
-            "(max-width: 600px) 80vw, (max-width: 768px) 50vw, (max-width: 1200px) 30vw, 20vw"
-          }
+          sizes={"(max-width: 600px) 50vw, (max-width: 1700px) 33vw, 25vw"}
           className={
             "scale-[103%] transition-all duration-200 ease-out group-hover:scale-100 group-hover:blur-sm group-hover:brightness-[30%]"
           }

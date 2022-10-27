@@ -31,11 +31,19 @@ const mockData = [
 
 export default function Feed() {
   return (
-    <main className={"flex min-h-screen items-center justify-center"}>
-      <div className={"flex flex-wrap justify-evenly gap-4 px-8 pt-24 pb-8"}>
+    <main>
+      <div
+        className={
+          "grid grid-cols-fill-10 justify-items-center gap-2 py-4 px-2 sm:grid-cols-fill-20 sm:px-4 md:grid-cols-fill-30 md:gap-4 lg:px-8 xl:grid-cols-fill-40"
+        }
+      >
         {mockData.map((data) =>
           [1, 2, 3, 4, 5, 6].map((i) => (
-            <ImageCard key={data.id + i} {...data} />
+            <ImageCard
+              key={data.id + i}
+              {...data}
+              className={"h-full w-full"}
+            />
           ))
         )}
       </div>

@@ -14,6 +14,12 @@ module.exports = {
         "2xl": "1536px",
       },
       colors: {},
+      gridTemplateColumns: {
+        'fill-10': 'repeat(auto-fill, minmax(9rem, 1fr))',
+        'fill-20': 'repeat(auto-fill, minmax(12rem, 1fr))',
+        'fill-30': 'repeat(auto-fill, minmax(16rem, 1fr))',
+        'fill-40': 'repeat(auto-fill, minmax(24rem, 1fr))',
+      },
       lineClamp: {
         10: '10',
         12: '12',

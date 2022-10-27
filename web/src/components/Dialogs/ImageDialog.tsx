@@ -68,7 +68,7 @@ export default function ImageDialog({
           open={isOpen}
           onClose={onClose}
           className={
-            "fixed inset-0 z-10 flex items-center justify-center p-4 sm:p-8 md:p-12"
+            "fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 md:p-12"
           }
         >
           <Dialog.Backdrop
@@ -77,7 +77,7 @@ export default function ImageDialog({
             initial={"fadeOut"}
             animate={"fadeIn"}
             exit={"fadeOut"}
-            className={"absolute inset-0 z-0 bg-black/80 backdrop-blur-md"}
+            className={"fixed inset-0 z-40 bg-black/80 backdrop-blur-md"}
             aria-hidden={"true"}
           />
           <Dialog.Panel
