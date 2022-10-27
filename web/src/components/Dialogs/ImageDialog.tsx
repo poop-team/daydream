@@ -53,6 +53,8 @@ export default function ImageDialog({
     setLikesLocally(isLikedLocally ? likesLocally - 1 : likesLocally + 1);
   };
 
+  //#endregion
+
   return (
     <StyledDialog isOpen={isOpen} onClose={onClose}>
       <Card
