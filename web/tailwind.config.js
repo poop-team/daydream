@@ -21,6 +21,7 @@ module.exports = {
         'fill-40': 'repeat(auto-fill, minmax(24rem, 1fr))',
       },
       lineClamp: {
+        8: '8',
         10: '10',
         12: '12',
         14: '14',
