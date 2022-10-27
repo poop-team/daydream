@@ -69,6 +69,7 @@ export default function ImageCard({
         >
           <LikesCounter
             likes={likes}
+            // TODO: Connect isLiked once the API calls are set up
             isLiked={false}
             className={"justify-end"}
           />
