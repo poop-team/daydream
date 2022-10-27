@@ -8,6 +8,11 @@ export const transitions = {
     damping: 20,
     stiffness: 300,
   },
+  springStiff: {
+    type: "spring",
+    damping: 30,
+    stiffness: 500,
+  },
 };
 
 export const variants = {
@@ -24,5 +29,33 @@ export const variants = {
       duration: 0.3,
       ease: "easeOut",
     },
+  },
+  scaleIn: {
+    scale: 1,
+    opacity: 1,
+  },
+  scaleOut: {
+    scale: 0,
+    opacity: 0,
+  },
+};
+
+export const navVariants = {
+  initialLeft: {
+    x: -64,
+    opacity: 0,
+  },
+  initialRight: {
+    x: 64,
+    opacity: 0,
+  },
+  initialTop: {
+    y: -64,
+    opacity: 0,
+  },
+  animate: {
+    x: 0,
+    y: 0,
+    opacity: 1,
   },
 };
