@@ -57,14 +57,16 @@ export default function ImageCard({
           alt={prompt}
           fill
           priority
-          sizes={"(max-width: 600px) 50vw, (max-width: 1700px) 33vw, 25vw"}
+          sizes={
+            "(max-width: 600px) 40vw, (max-width: 1024px) 30vw, (max-width: 1536px) 20vw, 15vw"
+          }
           className={
             "scale-[103%] transition-all duration-200 ease-out sm:group-hover:scale-100 sm:group-hover:blur-sm sm:group-hover:brightness-[30%]"
           }
         />
         <div
           className={
-            "relative hidden h-full flex-col text-slate-50 opacity-0 transition-all duration-200 ease-out group-hover:opacity-100 sm:flex sm:gap-2 lg:gap-4"
+            "relative hidden h-full flex-col justify-between text-slate-50 opacity-0 transition-all duration-200 ease-out group-hover:opacity-100 sm:flex sm:gap-2 lg:gap-4"
           }
         >
           <LikesCounter
@@ -73,17 +75,13 @@ export default function ImageCard({
             isLiked={false}
             className={"justify-end"}
           />
-          <p
-            className={
-              "text-center sm:line-clamp-3 md:line-clamp-6 lg:line-clamp-8 xl:line-clamp-10"
-            }
-          >
+          <p className={"text-center sm:line-clamp-2 md:line-clamp-4"}>
             {prompt}
           </p>
           <Author
             authorName={authorName}
             authorAvatar={authorAvatar}
-            className={"mt-auto justify-center"}
+            className={"justify-center"}
           />
         </div>
       </Card>

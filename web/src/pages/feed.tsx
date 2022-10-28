@@ -34,7 +34,7 @@ export default function Feed() {
     <main>
       <div
         className={
-          "grid grid-cols-fill-10 justify-items-center gap-2 py-4 px-2 sm:grid-cols-fill-20 sm:px-4 md:grid-cols-fill-30 md:gap-4 lg:px-8 xl:grid-cols-fill-40"
+          "grid grid-cols-fill-10 justify-items-center gap-2 py-4 px-2 sm:grid-cols-fill-20 sm:px-4 md:gap-4 lg:grid-cols-fill-30 lg:px-8 2xl:grid-cols-fill-40"
         }
       >
         {mockData.map((data) =>
