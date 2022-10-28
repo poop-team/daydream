@@ -8,7 +8,7 @@ interface Props {
 
 export default function LikesCounter({
   likes,
-  isLiked = false,
+  isLiked,
   className = "",
 }: Props) {
   return (

@@ -29,10 +29,8 @@ export default function TopNav() {
     setSearchTerm(router.query.q as string);
   }, [router.query.q]);
 
-  // Update the onChange callback to call for `updateHiddenState()`
-  useEffect(() => {
-    return scrollY.onChange(() => updateHiddenState());
-  });
+  // On any change to the scroll position, updateHiddenState will be called.
+  useEffect(() => scrollY.onChange(updateHiddenState), []);
 
   //#endregion
 

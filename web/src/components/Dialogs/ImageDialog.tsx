@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/future/image";
-import { useEffect, useState } from "react";
 import { MdFavorite, MdFavoriteBorder, MdLibraryAdd } from "react-icons/md";
 
 import Button from "../Inputs/Button";
@@ -14,7 +13,8 @@ interface Props {
   src: string;
   prompt: string;
   likes: number;
-  isLiked?: boolean;
+  isLiked: boolean;
+  onLikedChange: (isLiked: boolean) => void;
   authorName: string;
   authorAvatar: string;
   isOpen: boolean;
@@ -26,31 +26,16 @@ export default function ImageDialog({
   prompt,
   likes,
   isLiked = false,
+  onLikedChange,
   authorName,
   authorAvatar,
   isOpen,
   onClose,
 }: Props) {
-  //#region Hooks
-
-  const [isLikedLocally, setIsLikedLocally] = useState(isLiked);
-  const [likesLocally, setLikesLocally] = useState(likes);
-
-  useEffect(() => {
-    setIsLikedLocally(isLiked);
-  }, [isLiked]);
-
-  useEffect(() => {
-    setLikesLocally(likes);
-  }, [likes]);
-
-  //#endregion
-
   //#region Handlers
 
-  const handleLike = () => {
-    setIsLikedLocally(!isLikedLocally);
-    setLikesLocally(isLikedLocally ? likesLocally - 1 : likesLocally + 1);
+  const handleLikeClick = () => {
+    onLikedChange(!isLiked);
   };
 
   //#endregion
@@ -81,7 +66,7 @@ export default function ImageDialog({
               authorAvatar={authorAvatar}
               className={"w-2/3 md:w-44 lg:w-72 xl:w-96"}
             />
-            <LikesCounter likes={likesLocally} isLiked={isLikedLocally} />
+            <LikesCounter likes={likes} isLiked={isLiked} />
           </div>
           <p
             className={
@@ -95,9 +80,9 @@ export default function ImageDialog({
               Add to Collection
               <MdLibraryAdd className={"h-5 w-5"} />
             </Button>
-            <IconButton onClick={handleLike}>
+            <IconButton onClick={handleLikeClick}>
               <AnimatePresence initial={false}>
-                {isLikedLocally ? (
+                {isLiked ? (
                   <motion.div
                     animate={{
                       scale: [1, 1.1, 1, 1.1, 1],

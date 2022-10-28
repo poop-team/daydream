@@ -58,7 +58,7 @@ export default function ImageCard({
           fill
           priority
           sizes={
-            "(max-width: 600px) 40vw, (max-width: 1024px) 30vw, (max-width: 1536px) 20vw, 15vw"
+            "(max-width: 600px) 40vw, (max-width: 1024px) 30vw, (max-width: 1536px) 22vw, 18vw"
           }
           className={
             "scale-[103%] transition-all duration-200 ease-out sm:group-hover:scale-100 sm:group-hover:blur-sm sm:group-hover:brightness-[30%]"
@@ -89,6 +89,9 @@ export default function ImageCard({
         src={src}
         prompt={prompt}
         likes={likes}
+        isLiked={false}
+        // TODO: Connect onLikedChange once the API calls are set up
+        onLikedChange={() => {}}
         authorName={authorName}
         authorAvatar={authorAvatar}
         isOpen={isDialogOpen}

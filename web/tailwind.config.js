@@ -17,8 +17,8 @@ module.exports = {
       gridTemplateColumns: {
         'fill-10': 'repeat(auto-fill, minmax(40vw, 1fr))',
         'fill-20': 'repeat(auto-fill, minmax(30vw, 1fr))',
-        'fill-30': 'repeat(auto-fill, minmax(20vw, 1fr))',
-        'fill-40': 'repeat(auto-fill, minmax(15vw, 1fr))',
+        'fill-30': 'repeat(auto-fill, minmax(22vw, 1fr))',
+        'fill-40': 'repeat(auto-fill, minmax(18vw, 1fr))',
       },
       lineClamp: {
         8: '8',
