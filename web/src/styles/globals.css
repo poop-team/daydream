@@ -8,5 +8,5 @@ html, body {
 
 body {
     font-family: 'Roboto', sans-serif;
-    @apply relative;
+    @apply relative bg-slate-50 dark:bg-slate-900;
 }
