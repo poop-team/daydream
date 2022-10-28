@@ -3,7 +3,8 @@ import { Pressable, Text, View } from "react-native";
  * buttonName - name of the button.
  * addButtonStyle - add custom style to the button.
  * children - if you want to add your own text with styles.
- * pilled - make the button pilled.
+ * pilled - make the button pilled (optional).
+ * disabled - greys out button (optional).
  **/
 export default function Button({
   buttonName,
