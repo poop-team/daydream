@@ -32,7 +32,7 @@ export default function Button({
 
   return (
     <Pressable className={`${baseStyle} ${addButtonStyle}`}>
-      <Text className={textStyle}>{buttonName}</Text>
+      {buttonName && <Text className={textStyle}>{buttonName}</Text>}
       {children}
     </Pressable>
   );
