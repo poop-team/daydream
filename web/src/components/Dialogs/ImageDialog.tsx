@@ -25,7 +25,7 @@ export default function ImageDialog({
   src,
   prompt,
   likes,
-  isLiked = false,
+  isLiked,
   onLikedChange,
   authorName,
   authorAvatar,
