@@ -1,10 +1,11 @@
 import { ReactNode } from "react";
-import { Pressable, Text } from "react-native";
+import { GestureResponderEvent, Pressable, Text } from "react-native";
 
 interface Props {
   name: string;
   className: string;
   children: ReactNode[];
+  onPress: (event: GestureResponderEvent) => void;
   disabled?: boolean;
   pilled?: boolean;
 }
@@ -20,6 +21,7 @@ export default function Button({
   name,
   className,
   children,
+  onPress,
   disabled = false,
   pilled = false,
 }: Props) {
@@ -39,7 +41,7 @@ export default function Button({
   }
 
   return (
-    <Pressable className={`${baseStyle} ${className}`}>
+    <Pressable onPress={onPress} className={`${baseStyle} ${className}`}>
       {name && <Text className={textStyle}>{name}</Text>}
       {children}
     </Pressable>
