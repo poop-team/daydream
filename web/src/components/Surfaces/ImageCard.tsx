@@ -57,11 +57,13 @@ export default function ImageCard({
           alt={prompt}
           fill
           priority
+          placeholder={"blur"}
+          blurDataURL={"/images/placeholder.png"}
           sizes={
             "(max-width: 600px) 40vw, (max-width: 1024px) 30vw, (max-width: 1536px) 22vw, 18vw"
           }
           className={
-            "scale-[103%] transition-all duration-200 ease-out sm:group-hover:scale-100 sm:group-hover:blur-sm sm:group-hover:brightness-[30%]"
+            "scale-[103%] transition-all duration-200 ease-out sm:group-hover:scale-100 sm:group-hover:blur-sm sm:group-hover:brightness-[40%]"
           }
         />
         <div
