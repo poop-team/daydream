@@ -74,7 +74,7 @@ export default function Collections() {
         <div className="flex flex-wrap items-center justify-center gap-2">
           <div className="p-2">
             <section className={"flex gap-4"}>
-              <Link href={"/Profile/created"}>
+              <Link href={"/Profile/"}>
                 <div className={"flex flex-col items-center gap-2"}>
                   <Button>Created</Button>
                 </div>

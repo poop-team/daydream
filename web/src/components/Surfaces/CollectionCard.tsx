@@ -60,8 +60,8 @@ export default function CollectionCard({
             />
           </div>
         </Card>
-        <div className={"p-2"} />
-        <div className="text-xl">tmp</div>
+        {/*<div className={"p-2"} />
+        <div className="text-xl">tmp</div>*/}
       </div>
     </>
   );
