@@ -1,8 +1,4 @@
-import Image from "next/future/image";
-
-import Card from "../Surfaces/Card";
 import ImageCard from "../Surfaces/ImageCard";
-import Author from "../Widgets/Author";
 import StyledDialog from "./StyledDialog";
 
 interface Props {
