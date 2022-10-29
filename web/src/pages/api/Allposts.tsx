@@ -15,11 +15,38 @@ export default async function Allposts(
       where: {
         authorId: String(query.userID),
       },
+      select: {
+        id: true,
+        dateCreated: true,
+        prompt: true,
+        imageURL: true,
+        author: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+        likes: true,
+      },
     });
     //returns type AllPostsOfAllUsers: Post[]
     res.json({ AllPostsOfUsers });
   } else {
-    const AllPostsOfAllUsers = await prisma.post.findMany();
+    const AllPostsOfAllUsers = await prisma.post.findMany({
+      select: {
+        id: true,
+        dateCreated: true,
+        prompt: true,
+        imageURL: true,
+        author: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+        likes: true,
+      },
+    });
     //returns type AllPostsOfAllUsers: Post[]
     res.json({ AllPostsOfAllUsers });
   }

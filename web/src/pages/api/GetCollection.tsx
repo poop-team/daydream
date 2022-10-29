@@ -17,7 +17,23 @@ export default async function GetCollection(
     where: {
       id: String(query.collectionId),
     },
-    select: { posts: true },
+    select: {
+      posts: {
+        select: {
+          id: true,
+          dateCreated: true,
+          prompt: true,
+          imageURL: true,
+          author: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+          likes: true,
+        },
+      },
+    },
   });
   //returns type resData: Post[]
   res.json({ resData });
