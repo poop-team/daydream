@@ -21,5 +21,5 @@ export default async function GetCollection(
     select: {posts: true}
   });
   //returns type resData: Post[]
-  return res.json({resData});
+  res.json({resData});
 }
