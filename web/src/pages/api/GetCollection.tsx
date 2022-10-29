@@ -19,6 +19,9 @@ export default async function GetCollection(
     },
     select: {
       posts: {
+        orderBy: {
+          dateCreated: "desc",
+        },
         select: {
           id: true,
           dateCreated: true,
