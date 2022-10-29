@@ -57,7 +57,7 @@ export default function ImageDialog({
             placeholder={"blur"}
             blurDataURL={"/images/placeholder.png"}
             sizes={"(max-width: 768px) 100vw, 50vw"}
-            className={"h-full w-full object-cover"}
+            className={"object-cover"}
           />
         </div>
         {/* Right Content Panel */}
@@ -76,7 +76,7 @@ export default function ImageDialog({
           </div>
           <p
             className={
-              "basis-28 overflow-scroll px-2 text-center text-lg sm:text-xl md:max-h-fit md:basis-full lg:text-2xl"
+              "basis-28 overflow-y-auto px-1 text-center text-lg sm:text-xl md:max-h-fit md:basis-full lg:text-2xl"
             }
           >
             {prompt}
