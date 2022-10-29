@@ -44,7 +44,7 @@ export default function ImageDialog({
     <StyledDialog isOpen={isOpen} onClose={onClose}>
       <Card
         className={
-          "relative flex h-full w-full flex-col overflow-hidden bg-slate-100 md:aspect-video md:flex-row"
+          "relative flex max-h-[90vh] w-full flex-col overflow-hidden bg-slate-100 md:aspect-video md:flex-row"
         }
       >
         {/* Big Image */}
@@ -54,12 +54,18 @@ export default function ImageDialog({
             alt={prompt}
             fill
             priority
+            placeholder={"blur"}
+            blurDataURL={"/images/placeholder.png"}
             sizes={"(max-width: 768px) 100vw, 50vw"}
-            className={"h-full w-full object-fill"}
+            className={"h-full w-full object-cover"}
           />
         </div>
         {/* Right Content Panel */}
-        <div className={"flex flex-col items-center gap-2 p-4 md:p-6 lg:gap-4"}>
+        <div
+          className={
+            "flex basis-full flex-col items-center gap-2 p-4 md:p-6 lg:gap-4"
+          }
+        >
           <div className={"flex w-full justify-between"}>
             <Author
               authorName={authorName}
@@ -70,13 +76,13 @@ export default function ImageDialog({
           </div>
           <p
             className={
-              "h-5/6 overflow-scroll px-2 text-center text-lg sm:text-xl lg:text-2xl"
+              "basis-28 overflow-scroll px-2 text-center text-lg sm:text-xl md:max-h-fit md:basis-full lg:text-2xl"
             }
           >
             {prompt}
           </p>
-          <div className={"flex gap-2"}>
-            <Button className={"mt-auto"}>
+          <div className={"mt-auto flex gap-2"}>
+            <Button>
               Add to Collection
               <MdLibraryAdd className={"h-5 w-5"} />
             </Button>
