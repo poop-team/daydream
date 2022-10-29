@@ -36,11 +36,11 @@ export default function ImageDialog({
         >
           {posts.map((data) =>
             [1, 2, 3, 4, 5, 6].map((i) => (
-              <div className={"p-4"}>
+              <div className="p-4">
                 <ImageCard
                   key={data.id + i}
                   {...data}
-                  className={"h-full w-full"}
+                  className="h-full w-full"
                 />
               </div>
             ))
