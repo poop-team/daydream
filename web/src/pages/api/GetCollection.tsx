@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function createPost(
+export default async function GetCollection(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -14,12 +14,12 @@ export default async function createPost(
     return res.json("No CollectionID provided");
   }
 
-  const PostsInACollection = await prisma.collection.findMany({
+  const resData = await prisma.collection.findMany({
     where: {
         id: String(query.collectionId)
     },
     select: {posts: true}
-  })
-  //returns type AllPostsOfAllUsers: Post[]
-  return res.json({PostsInACollection});
+  });
+  //returns type resData: Post[]
+  return res.json({resData});
 }
