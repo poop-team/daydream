@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SetStateAction, useState } from "react";
 import { MdAccountCircle, MdAddCircle } from "react-icons/md";
 
@@ -76,9 +77,14 @@ export default function Index() {
                 {/*<Button disabled>Created</Button>*/}
                 <Button variant={"text"}>Created</Button>
               </div>
-              <div className={"flex flex-col items-center gap-2"}>
+              {/*<div className={"flex flex-col items-center gap-2"}>
                 <Button>Collections</Button>
-              </div>
+              </div>*/}
+              <Link href={"/Profile/collections"}>
+                <div className={"flex flex-col items-center gap-2"}>
+                  <Button>Collections</Button>
+                </div>
+              </Link>
             </section>
           </div>
         </div>

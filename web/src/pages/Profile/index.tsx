@@ -1,10 +1,11 @@
+import Link from "next/link";
 import { SetStateAction, useState } from "react";
 import { MdAccountCircle, MdAddCircle } from "react-icons/md";
 
 import Button from "../../components/Inputs/Button";
 import LinkIconButton from "../../components/Inputs/LinkIconButton";
 import SearchBar from "../../components/Inputs/SearchBar";
-import Card from "../../components/Surfaces/Card";
+import ImageCard from "../../components/Surfaces/ImageCard";
 
 /*
  *
@@ -24,11 +25,6 @@ export default function Index() {
   const user_saves = mockData.length;
   const user_name = "username";
   const user_icon = "https://avatars.githubusercontent.com/u/79925808?v=4";
-
-  const saves = [];
-  for (let i = 0; i < user_saves; i++) {
-    saves.push(mockData[i]);
-  }
 
   return (
     <>
@@ -78,11 +74,17 @@ export default function Index() {
           <div className="p-2">
             <section className={"flex gap-4"}>
               <div className={"flex flex-col items-center gap-2"}>
-                <Button disabled>Created</Button>
+                {/*<Button disabled>Created</Button>*/}
+                <Button variant={"text"}>Created</Button>
               </div>
-              <div className={"flex flex-col items-center gap-2"}>
+              {/*<div className={"flex flex-col items-center gap-2"}>
                 <Button>Collections</Button>
-              </div>
+              </div>*/}
+              <Link href={"/Profile/collections"}>
+                <div className={"flex flex-col items-center gap-2"}>
+                  <Button>Collections</Button>
+                </div>
+              </Link>
             </section>
           </div>
         </div>
@@ -111,20 +113,21 @@ export default function Index() {
       {/* CARDS
         may want to remove container... idk yet
       */}
-      <div className="container mx-auto">
-        <div className="px-4">
-          <div className="flex flex-wrap items-center justify-center gap-8">
-            {saves.map((images, index) => {
-              return (
-                <div key={index}>
-                  <section className={"flex gap-4"}>
-                    <Card className={"h-80 w-80 bg-slate-600"} />
-                  </section>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+      <div
+        className={
+          "grid grid-cols-fill-10 justify-items-center gap-2 py-4 px-2 sm:grid-cols-fill-20 sm:px-4 md:gap-4 " +
+          "lg:grid-cols-fill-30 lg:px-8 2xl:grid-cols-fill-40"
+        }
+      >
+        {mockData.map((data) =>
+          [1, 2, 3, 4, 5, 6].map((i) => (
+            <ImageCard
+              key={data.id + i}
+              {...data}
+              className={"h-full w-full"}
+            />
+          ))
+        )}
       </div>
     </>
   );
@@ -148,7 +151,7 @@ const mockData = [
     ),
     likes: 420,
     authorName: "Elon Musk",
-    authorAvatar: "",
+    authorAvatar: "/test.png",
   },
   {
     id: 3,
@@ -231,3 +234,15 @@ const mockData = [
     authorAvatar: "/test.png",
   },
 ];
+
+/*
+{saves.map((images, index) => {
+  return (
+      <div key={index}>
+        <section className={"flex gap-4"}>
+          <Card className={"h-80 w-80 bg-slate-600"} />
+        </section>
+      </div>
+  );
+})}
+*/
