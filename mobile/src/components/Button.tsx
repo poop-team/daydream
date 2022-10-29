@@ -1,26 +1,38 @@
-import { Pressable, Text, View } from "react-native";
+import { ReactNode } from "react";
+import { GestureResponderEvent, Pressable, Text } from "react-native";
+
+interface Props {
+  name: string;
+  className: string;
+  children: ReactNode[];
+  onPress: (event: GestureResponderEvent) => void;
+  disabled?: boolean;
+  pilled?: boolean;
+}
+
 /**
- * name - name of the button.
+ * buttonName - name of the button.
  * addButtonStyle - add custom style to the button.
- * addTextStyle - add custom style to the text.
- * pilled - make the button pilled.
- **/
-export default function Buttons({
+ * children - if you want to add your own text with styles.
+ * pilled - make the button pilled (optional).
+ * disabled - greys out button (optional).
+ */
+export default function Button({
   name,
-  addButtonStyle,
-  addTextStyle,
+  className,
+  children,
+  onPress,
   disabled = false,
   pilled = false,
-}) {
+}: Props) {
   let baseStyle = "h-7 items-center justify-center";
   let textStyle = "text-white margin mx-5 font-semibold";
 
   if (disabled) {
     baseStyle += "text-slate-50 bg-indigo-900/40 hover:bg-indigo-900/80";
-  }
-  //default style
-  else {
-    baseStyle += "text-slate-50 bg-indigo-900 hover:bg-indigo-800 active:opacity-70";
+  } else {
+    baseStyle +=
+      "text-slate-50 bg-indigo-900 hover:bg-indigo-800 active:opacity-70";
   }
   if (pilled) {
     baseStyle += "rounded-full";
@@ -29,8 +41,9 @@ export default function Buttons({
   }
 
   return (
-    <Pressable className={`${baseStyle} ${addButtonStyle}`}>
-      <Text className={`${textStyle} ${addTextStyle}`}>{name}</Text>
+    <Pressable onPress={onPress} className={`${baseStyle} ${className}`}>
+      {name && <Text className={textStyle}>{name}</Text>}
+      {children}
     </Pressable>
   );
 }

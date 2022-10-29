@@ -3,7 +3,6 @@ import { Button, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
-  const value: string = "hello, world";
   return (
     <View className="flex-1 flex justify-center items-center bg-slate-400">
       <View className="flex-1 w-full bg-red-400">
