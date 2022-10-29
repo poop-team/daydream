@@ -15,9 +15,9 @@ export default async function GetCollection(
 
   const resData = await prisma.collection.findMany({
     where: {
-    id: String(query.collectionId),
+      id: String(query.collectionId),
     },
-    select: { posts: true }
+    select: { posts: true },
   });
   //returns type resData: Post[]
   res.json({ resData });
