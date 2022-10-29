@@ -1,6 +1,7 @@
 import "tailwindcss/tailwind.css";
 import "../styles/globals.css";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Session } from "next-auth";
@@ -15,6 +16,8 @@ interface Props extends AppProps {
   };
 }
 
+const queryClient = new QueryClient();
+
 function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
   return (
     <>
@@ -23,9 +26,11 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <SessionProvider session={session}>
-        <TopNav />
-        <Component {...pageProps} />
-        <BottomNav />
+        <QueryClientProvider client={queryClient}>
+          <TopNav />
+          <Component {...pageProps} />
+          <BottomNav />
+        </QueryClientProvider>
       </SessionProvider>
     </>
   );
