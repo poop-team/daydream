@@ -20,10 +20,10 @@ interface Props {
 }
 
 export default function ImageDialog({
-  src,
-  name,
-  authorName,
-  authorAvatar,
+  // src,
+  // name,
+  // authorName,
+  // authorAvatar,
   posts,
   isOpen,
   onClose,
@@ -37,12 +37,12 @@ export default function ImageDialog({
       >
         <div
           className={
-            "grid grid-flow-row-dense grid-cols-2 auto-rows-min hover:auto-rows-min overflow-auto p-4"
+            "grid grid-flow-row-dense auto-rows-min grid-cols-4 overflow-auto p-4 hover:auto-rows-min"
           }
         >
           {posts.map((data) =>
             [1, 2, 3, 4, 5, 6].map((i) => (
-              <div className={"p-2"}>
+              <div className={"p-4"}>
                 <ImageCard
                   key={data.id + i}
                   {...data}

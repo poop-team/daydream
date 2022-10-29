@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { SetStateAction, useState } from "react";
-import { MdAccountCircle, MdAddCircle } from "react-icons/md";
+import { useState } from "react";
+import { MdAddCircle } from "react-icons/md";
 
 import Button from "../../components/Inputs/Button";
 import LinkIconButton from "../../components/Inputs/LinkIconButton";

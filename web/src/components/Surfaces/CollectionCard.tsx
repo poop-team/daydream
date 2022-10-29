@@ -27,7 +27,7 @@ interface Props {
 export default function CollectionCard({
   src,
   name,
-  savedBy,
+  // savedBy,
   author,
   authorAvatar,
   posts,
