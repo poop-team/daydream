@@ -15,6 +15,9 @@ export default async function Allposts(
       where: {
         authorId: String(query.userID),
       },
+      orderBy: {
+        dateCreated: "desc",
+      },
       select: {
         id: true,
         dateCreated: true,
