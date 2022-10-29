@@ -33,6 +33,9 @@ export default async function Allposts(
     res.json({ AllPostsOfUsers });
   } else {
     const AllPostsOfAllUsers = await prisma.post.findMany({
+      orderBy: {
+        dateCreated: "desc",
+      },
       select: {
         id: true,
         dateCreated: true,
