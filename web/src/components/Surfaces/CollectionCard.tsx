@@ -1,6 +1,7 @@
 import Image from "next/future/image";
 import { useState } from "react";
 
+import Posts from "../../types/posts";
 import CollectionDialog from "../Dialogs/CollectionDialog";
 import Author from "../Widgets/Author";
 import Card from "./Card";
@@ -12,14 +13,7 @@ interface Props {
   savedBy: string;
   author: string;
   authorAvatar: string;
-  posts: {
-    id: number;
-    src: string;
-    prompt: string;
-    likes: number;
-    authorName: string;
-    authorAvatar: string;
-  }[];
+  posts: typeof Posts[];
   showDialog?: boolean;
   className?: string;
 }

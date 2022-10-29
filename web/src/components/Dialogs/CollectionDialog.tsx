@@ -1,3 +1,4 @@
+import Posts from "../../types/posts";
 import Card from "../Surfaces/Card";
 import ImageCard from "../Surfaces/ImageCard";
 import StyledDialog from "./StyledDialog";
@@ -7,14 +8,7 @@ interface Props {
   name: string;
   authorName: string;
   authorAvatar: string;
-  posts: {
-    id: number;
-    src: string;
-    prompt: string;
-    likes: number;
-    authorName: string;
-    authorAvatar: string;
-  }[];
+  posts: typeof Posts[];
   isOpen: boolean;
   onClose: () => void;
 }
