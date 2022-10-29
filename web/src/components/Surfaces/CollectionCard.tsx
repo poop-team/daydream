@@ -1,5 +1,7 @@
 import Image from "next/future/image";
+import { useState } from "react";
 
+import CollectionDialog from "../Dialogs/CollectionDialog";
 import Author from "../Widgets/Author";
 import Card from "./Card";
 
@@ -10,7 +12,14 @@ interface Props {
   savedBy: string;
   author: string;
   authorAvatar: string;
-  posts: [];
+  posts: {
+    id: number;
+    src: string;
+    prompt: string;
+    likes: number;
+    authorName: string;
+    authorAvatar: string;
+  }[];
   showDialog?: boolean;
   className?: string;
 }
@@ -22,14 +31,28 @@ export default function CollectionCard({
   author,
   authorAvatar,
   posts,
+  showDialog = true,
   className = "",
 }: Props) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleDialogOpen = () => {
+    if (showDialog) {
+      setIsDialogOpen(true);
+    }
+  };
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+  };
+
   return (
     <>
       <div className={"container mx-auto"}>
         <Card
           className={`group relative aspect-square cursor-pointer select-none overflow-hidden bg-slate-500 p-6 
       transition-all duration-200 ease-out hover:shadow-2xl sm:hover:scale-[103%] ${className}`}
+          onClick={handleDialogOpen}
         >
           <Image
             src={src}
@@ -60,8 +83,17 @@ export default function CollectionCard({
             />
           </div>
         </Card>
-        {/*<div className={"p-2"} />
-        <div className="text-xl">tmp</div>*/}
+        <CollectionDialog
+          src={src}
+          name={name}
+          authorName={author}
+          authorAvatar={authorAvatar}
+          posts={posts}
+          isOpen={isDialogOpen}
+          onClose={handleDialogClose}
+        />
+        <div className="p-2 text-xl">{name}</div>
+        <div className="p-2 text-xl">{posts.length} saves</div>
       </div>
     </>
   );

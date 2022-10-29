@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { SetStateAction, useState } from "react";
-import { MdAccountCircle, MdAddCircle } from "react-icons/md";
+import { useState } from "react";
+import { MdAddCircle } from "react-icons/md";
 
 import Button from "../../components/Inputs/Button";
-import IconButton from "../../components/Inputs/IconButton";
 import LinkIconButton from "../../components/Inputs/LinkIconButton";
 import SearchBar from "../../components/Inputs/SearchBar";
 import CollectionCard from "../../components/Surfaces/CollectionCard";
@@ -23,7 +22,7 @@ export default function Collections() {
   }
 
   const user_views = 1;
-  const user_saves = mockData.length;
+  const user_saves = mockCollection.length;
   const user_name = "username";
   const user_icon = "https://avatars.githubusercontent.com/u/79925808?v=4";
 
@@ -165,6 +164,15 @@ const mockCollection = [
     name: "Test Collection",
     savedBy: "poser",
     author: "creator",
+    authorAvatar: "/test.png",
+    posts: mockData,
+  },
+  {
+    id: 2,
+    src: "/test.png",
+    name: "Test Collection",
+    savedBy: "poser",
+    author: "creator 2",
     authorAvatar: "/test.png",
     posts: mockData,
   },
