@@ -15,6 +15,9 @@ export default async function Allposts(
       where: {
         authorId: String(query.userID),
       },
+      orderBy: {
+        dateCreated: "desc",
+      },
       select: {
         id: true,
         dateCreated: true,
@@ -33,6 +36,9 @@ export default async function Allposts(
     res.json({ AllPostsOfUsers });
   } else {
     const AllPostsOfAllUsers = await prisma.post.findMany({
+      orderBy: {
+        dateCreated: "desc",
+      },
       select: {
         id: true,
         dateCreated: true,
