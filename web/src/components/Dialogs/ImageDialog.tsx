@@ -1,10 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/future/image";
 import { MdFavorite, MdFavoriteBorder, MdLibraryAdd } from "react-icons/md";
 
 import Button from "../Inputs/Button";
 import IconButton from "../Inputs/IconButton";
 import Card from "../Surfaces/Card";
+import CustomImage from "../Surfaces/CustomImage";
 import Author from "../Widgets/Author";
 import LikesCounter from "../Widgets/LikesCounter";
 import StyledDialog from "./StyledDialog";
@@ -16,7 +16,7 @@ interface Props {
   isLiked: boolean;
   onLikedChange: (isLiked: boolean) => void;
   authorName: string;
-  authorAvatar: string;
+  authorAvatar?: string;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -48,18 +48,15 @@ export default function ImageDialog({
         }
       >
         {/* Big Image */}
-        <div className={"relative aspect-square"}>
-          <Image
-            src={src}
-            alt={prompt}
-            fill
-            priority
-            placeholder={"blur"}
-            blurDataURL={"/images/placeholder.png"}
-            sizes={"(max-width: 768px) 100vw, 50vw"}
-            className={"object-cover"}
-          />
-        </div>
+        <CustomImage
+          src={src}
+          alt={prompt}
+          fill
+          priority
+          sizes={"(max-width: 768px) 100vw, 50vw"}
+          containerClassName={"relative aspect-square"}
+          className={"object-cover"}
+        />
         {/* Right Content Panel */}
         <div
           className={
