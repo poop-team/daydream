@@ -118,6 +118,8 @@ dist
 .idea/usage.statistics.xml
 .idea/shelf
 .turbo
+package-lock.json
+package.json
 
 # Expo and React Native
 .expo/
