@@ -66,7 +66,7 @@ export default function TopNav() {
       animate={navHidden ? "initialTop" : "animate"}
       transition={transitions.easeOut}
       className={
-        "sticky top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md"
+        "fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md"
       }
     >
       <ul className={"flex h-full list-none items-center justify-between"}>
