@@ -1,10 +1,10 @@
 import { useState } from "react";
 
+import CustomImage from "../CustomImage";
 import ImageDialog from "../Dialogs/ImageDialog";
 import Author from "../Widgets/Author";
 import LikesCounter from "../Widgets/LikesCounter";
 import Card from "./Card";
-import CustomImage from "./CustomImage";
 
 interface Props {
   src: string;
@@ -64,7 +64,7 @@ export default function ImageCard({
           fill
           priority
           sizes={
-            "(max-width: 600px) 40vw, (max-width: 1024px) 30vw, (max-width: 1536px) 22vw, 18vw"
+            "(max-width: 600px) 40vw, (max-width: 1024px) 30vw, (max-width: 1650px) 22vw, 36rem"
           }
           containerClassName={"absolute"}
           className={

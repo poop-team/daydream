@@ -1,10 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { MdFavorite, MdFavoriteBorder, MdLibraryAdd } from "react-icons/md";
 
+import CustomImage from "../CustomImage";
 import Button from "../Inputs/Button";
 import IconButton from "../Inputs/IconButton";
 import Card from "../Surfaces/Card";
-import CustomImage from "../Surfaces/CustomImage";
 import Author from "../Widgets/Author";
 import LikesCounter from "../Widgets/LikesCounter";
 import StyledDialog from "./StyledDialog";
@@ -53,6 +53,7 @@ export default function ImageDialog({
           alt={prompt}
           fill
           priority
+          quality={90}
           sizes={"(max-width: 768px) 100vw, 50vw"}
           containerClassName={"relative aspect-square"}
           className={"object-cover"}
