@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 
 import { transitions } from "../../styles/motion-definitions";
-import { Post } from "../../types/post";
+import type { Post } from "../../types/post.type";
 import CircularProgress from "../Feedback/CircularProgress";
 import ImageCard from "../Surfaces/ImageCard";
 
