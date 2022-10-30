@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 
+import CircularProgress from "../components/Feedback/CircularProgress";
 import ImageCard from "../components/Surfaces/ImageCard";
 import { transitions } from "../styles/motion-definitions";
 import type { Post } from "../types/post";
@@ -44,7 +45,7 @@ export default function Feed() {
   //#endregion
 
   return (
-    <main>
+    <main className={"h-screen"}>
       {posts ? (
         <motion.ol
           variants={container}
@@ -52,7 +53,7 @@ export default function Feed() {
           animate="show"
           transition={transitions.springStiff}
           className={
-            "grid list-none grid-cols-fill-10 justify-items-center gap-2 py-4 px-2 sm:grid-cols-fill-20 sm:px-4 md:gap-4 lg:grid-cols-fill-30 lg:px-8 2xl:grid-cols-fill-40"
+            "grid list-none grid-cols-fill-10 justify-items-center gap-2 px-2 pb-4 pt-16 sm:grid-cols-fill-20 sm:px-4 md:gap-4 lg:grid-cols-fill-30 lg:px-8 2xl:grid-cols-fill-40"
           }
         >
           <AnimatePresence mode={"popLayout"}>
@@ -76,8 +77,12 @@ export default function Feed() {
           </AnimatePresence>
         </motion.ol>
       ) : (
-        <div className={"flex h-full w-full items-center justify-center"}>
-          {arePostsLoading ? <p>Loading...</p> : <p>Nothing to display</p>}
+        <div className={"flex items-center justify-center pt-[35%] text-2xl"}>
+          {arePostsLoading ? (
+            <CircularProgress className={"scale-[200%]"} />
+          ) : (
+            <p>Nothing to display &#128542;</p>
+          )}
         </div>
       )}
     </main>
