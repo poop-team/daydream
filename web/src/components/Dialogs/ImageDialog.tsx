@@ -16,7 +16,7 @@ interface Props {
   isLiked: boolean;
   onLikedChange: (isLiked: boolean) => void;
   authorName: string;
-  authorAvatar?: string;
+  authorAvatar?: string | null;
   isOpen: boolean;
   onClose: () => void;
 }

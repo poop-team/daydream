@@ -4,7 +4,7 @@ import { MdAccountCircle } from "react-icons/md";
 
 interface Props {
   authorName: string;
-  authorAvatar?: string;
+  authorAvatar?: string | null;
   className?: string;
 }
 

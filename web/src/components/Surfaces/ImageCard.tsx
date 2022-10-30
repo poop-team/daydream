@@ -11,7 +11,7 @@ interface Props {
   prompt: string;
   likes: number;
   authorName: string;
-  authorAvatar?: string;
+  authorAvatar?: string | null;
   showDialog?: boolean;
   className?: string;
 }

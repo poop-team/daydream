@@ -56,20 +56,20 @@ export default function Feed() {
           }
         >
           <AnimatePresence mode={"popLayout"}>
-            {posts.map((data) => (
+            {posts.map((post) => (
               <motion.li
-                key={data.id}
+                key={post.id}
                 variants={item}
                 exit={{ opacity: 0 }}
                 transition={transitions.spring}
                 className={"h-full w-full"}
               >
                 <ImageCard
-                  src={data.imageURL}
-                  prompt={data.prompt}
-                  authorName={data.author.name}
-                  authorAvatar={data.author.avatar}
-                  likes={data.likes.length}
+                  src={post.imageURL}
+                  prompt={post.prompt}
+                  authorName={post.author.name}
+                  authorAvatar={undefined}
+                  likes={post.likes.length}
                 />
               </motion.li>
             ))}
