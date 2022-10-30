@@ -28,7 +28,7 @@ export default function Button({
 }: Props) {
   //warning: do not touch the extra spaces at the end or it will break the styling
   let baseStyle = "h-7 items-center justify-center ";
-  let textStyle = "text-white margin mx-5 font-semibold ";
+  let textStyle = "text-white margin mx-5 font-semibold";
 
   if (disabled) {
     baseStyle += "text-slate-50 bg-indigo-900/40 hover:bg-indigo-900/80";
@@ -38,7 +38,7 @@ export default function Button({
   }
   if (pilled) {
     baseStyle += "rounded-full";
-    console.log(baseStyle);  
+    console.log(baseStyle);
   } else {
     baseStyle += "rounded-md";
   }
