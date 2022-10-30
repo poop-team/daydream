@@ -22,7 +22,7 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
   return (
     <>
       <Head>
-        <title>Big 💩 Project™️</title>
+        <title>Daydream</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <SessionProvider session={session}>

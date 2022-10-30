@@ -50,7 +50,7 @@ export default function ImageCard({
       <Card
         tabIndex={1}
         className={`group relative aspect-square cursor-pointer select-none overflow-hidden transition-all duration-200 ease-out 
-        hover:shadow-2xl focus-visible:ring-4 focus-visible:ring-indigo-800 focus-visible:ring-offset-2 sm:hover:scale-[103%] ${className}`}
+        hover:shadow-2xl focus-visible:scale-90 focus-visible:ring-4 focus-visible:ring-indigo-800 focus-visible:ring-offset-4 sm:hover:scale-[103%] ${className}`}
         onClick={handleDialogOpen}
         onKeyUp={(e) => {
           if (e.key === "Enter") {
