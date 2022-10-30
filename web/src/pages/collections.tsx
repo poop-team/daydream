@@ -2,10 +2,10 @@ import Link from "next/link";
 import { useState } from "react";
 import { MdAddCircle } from "react-icons/md";
 
-import Button from "../../components/Inputs/Button";
-import LinkIconButton from "../../components/Inputs/LinkIconButton";
-import SearchBar from "../../components/Inputs/SearchBar";
-import CollectionCard from "../../components/Surfaces/CollectionCard";
+import Button from "../components/Inputs/Button";
+import LinkIconButton from "../components/Inputs/LinkIconButton";
+import SearchBar from "../components/Inputs/SearchBar";
+import CollectionCard from "../components/Surfaces/CollectionCard";
 
 export default function Collections() {
   const [text, setText] = useState("");
@@ -53,7 +53,7 @@ export default function Collections() {
         <div className="flex flex-wrap items-center justify-center gap-2">
           <div className="p-2">
             <section className="flex gap-4">
-              <Link href="/Profile/">
+              <Link href="/profile">
                 <div className="flex flex-col items-center gap-2">
                   <Button>Created</Button>
                 </div>
