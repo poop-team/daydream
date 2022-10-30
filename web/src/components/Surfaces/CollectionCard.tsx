@@ -13,7 +13,7 @@ interface Props {
   savedBy: string;
   author: string;
   authorAvatar: string;
-  posts: typeof Posts[];
+  posts: Posts[];
   showDialog?: boolean;
   className?: string;
 }

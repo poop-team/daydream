@@ -8,7 +8,7 @@ interface Props {
   name: string;
   authorName: string;
   authorAvatar: string;
-  posts: typeof Posts[];
+  posts: Posts[];
   isOpen: boolean;
   onClose: () => void;
 }
