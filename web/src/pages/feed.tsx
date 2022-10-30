@@ -3,35 +3,17 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import ImageCard from "../components/Surfaces/ImageCard";
 import { transitions } from "../styles/motion-definitions";
+import type { Post } from "../types/post";
 
-const fetchMockData = () => [
-  {
-    id: 1,
-    src: "/images/placeholder.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/images/placeholder.png",
-  },
-  {
-    id: 2,
-    src: "/images/placeholder.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.".repeat(
-      100
-    ),
-    likes: 420,
-    authorName: "Elon Musk",
-    authorAvatar: "",
-  },
-  {
-    id: 3,
-    src: "/images/placeholder.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 3697,
-    authorName: "Very Long Naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaame",
-    authorAvatar: "/images/placeholder.png",
-  },
-];
+//#region Fetch Functions
+
+const fetchPosts = async () => {
+  const res = await fetch("/api/Allposts");
+  const data = (await res.json()) as { AllPostsOfAllUsers: Post[] };
+  return data.AllPostsOfAllUsers;
+};
+
+//#endregion
 
 //#region Variants
 
@@ -44,7 +26,7 @@ const container = {
 };
 
 const item = {
-  hidden: { scale: 0.9, y: -24, opacity: 0 },
+  hidden: { scale: 0.9, y: -16, opacity: 0 },
   show: { scale: 1, y: 0, opacity: 1 },
 };
 
@@ -52,11 +34,12 @@ const item = {
 
 export default function Feed() {
   //#region Hooks
-
   const { data: posts, isLoading: arePostsLoading } = useQuery(
     ["feed_posts"],
-    fetchMockData
+    fetchPosts
   );
+
+  console.log(posts);
 
   //#endregion
 
@@ -73,19 +56,23 @@ export default function Feed() {
           }
         >
           <AnimatePresence mode={"popLayout"}>
-            {posts.map((data) =>
-              [1, 2, 3, 4, 5, 6].map((i) => (
-                <motion.li
-                  key={data.id + i}
-                  variants={item}
-                  exit={{ opacity: 0 }}
-                  transition={transitions.spring}
-                  className={"h-full w-full"}
-                >
-                  <ImageCard {...data} />
-                </motion.li>
-              ))
-            )}
+            {posts.map((data) => (
+              <motion.li
+                key={data.id}
+                variants={item}
+                exit={{ opacity: 0 }}
+                transition={transitions.spring}
+                className={"h-full w-full"}
+              >
+                <ImageCard
+                  src={data.imageURL}
+                  prompt={data.prompt}
+                  authorName={data.author.name}
+                  authorAvatar={data.author.avatar}
+                  likes={data.likes.length}
+                />
+              </motion.li>
+            ))}
           </AnimatePresence>
         </motion.ol>
       ) : (
