@@ -48,6 +48,7 @@ model User {
   posts            Post[]       @relation("allPosts")
   savedPosts       Post[]       @relation("savedPosts")
   sessions         Session[]
+  passwordHash     String
 }
 
 model VerificationToken {
