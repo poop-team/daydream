@@ -61,7 +61,7 @@ export default function RegisterPage() {
                     
                 </div> 
                 <div className="flex items-center justify-center">
-                    <a className="hover:underline hover:text-blue-700" href={"/register"}>Already have an account? Log in!</a>
+                    <a className="hover:underline hover:text-blue-700" href={"/login"}>Already have an account? Log in!</a>
                 </div>
             </main>
         </div>
