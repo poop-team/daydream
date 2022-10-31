@@ -30,9 +30,7 @@ export default function LoginPage() {
                                 <TextField label="Enter password:" type="password" placeholder="Password" onChange={(e => setPassword(e.target.value))}></TextField> 
                         </label><br/><br/>
                         <div className="flex justify-center"> 
-                            <Link href="/feed">
-                                <Button onClick={handleContinue}>Continue</Button>
-                            </Link>
+                            <Button onClick={handleContinue}>Continue</Button>
                         </div> 
                     </form>
                 </div> 
