@@ -4,18 +4,18 @@ import { TextInput, Text, Pressable, View } from 'react-native';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function Login({navigation}) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+export default function Login({ navigation }) {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     return (
         <View className='flex-1 w-full'>
             <View className='w-full flex-row place-content-start mt-16 ml-2'>
                 <Pressable>
                     <Icon 
-                    size={45}
-                    name='arrow-back-outline'
-                    onPress={() => navigation.navigate("Home")}/>
+                        size={45}
+                        name='arrow-back-outline'
+                        onPress={() => navigation.navigate('Home')} />
                 </Pressable>
             </View>
             <View className='flex-1 flex'>
@@ -45,11 +45,11 @@ export default function Login({navigation}) {
                 </Pressable>
             </View>
             <View className='flex-1 w-full items-center justify-center'>
-                <Button name='Login' className='mb-10'/>
+                <Button name='Login' className='mb-10' />
                 <Pressable>
                     <Text 
-                    className='ml-0 text-xl text-indigo-900 font-bold'
-                    onPress={() => navigation.navigate("Register")}>Create Account</Text>
+                        className='ml-0 text-xl text-indigo-900 font-bold'
+                        onPress={() => navigation.navigate('Register')}>Create Account</Text>
                 </Pressable>
             </View>
             <StatusBar style='auto'/>

@@ -4,11 +4,11 @@ import { TextInput, Text, Pressable, View } from 'react-native';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function Register({navigation}) {
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+export default function Register({ navigation }) {
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     return (
         <View className='flex-1 w-full'>
@@ -17,7 +17,7 @@ export default function Register({navigation}) {
                     <Icon
                     size={45}
                     name='arrow-back-outline'
-                    onPress={() => navigation.navigate("Home")}/>
+                    onPress={() => navigation.navigate('Home')}/>
                 </Pressable>
             </View>
             <View className='flex-1 flex ml-8 mt-8'>
@@ -44,12 +44,12 @@ export default function Register({navigation}) {
 
                 <Text className='font-bold mb-3 text-xl'>Enter a password:</Text>
 
-                <View className={"rounded-lg bg-slate-300 w-80 mb-5 h-12 items-start justify-center"}>
+                <View className='rounded-lg bg-slate-300 w-80 mb-5 h-12 items-start justify-center'>
                     <TextInput
-                        className={"ml-3"}
+                        className='ml-3'
                         secureTextEntry={true}
-                        placeholder="*Password"
-                        placeholderTextColor="#000000"
+                        placeholder='*Password'
+                        placeholderTextColor='#000000'
                         onChangeText={setPassword} />
                 </View>
 
@@ -68,9 +68,9 @@ export default function Register({navigation}) {
             <View className='flex-1 w-full items-center justify-center'>
                 <Pressable>
                     <Button 
-                    name="Save"
+                    name='Save'
                     className='ml-0 text-xl text-indigo-900 font-bold'
-                    onPress={() => navigation.navigate("Home")}/>
+                    onPress={() => navigation.navigate('Home')}/>
                 </Pressable>
             </View>
             <StatusBar style='auto' />
