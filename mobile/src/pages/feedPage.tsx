@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, ScrollView, ScrollViewComponent } from 'react-native';
-import BottomNavbar from '../components/navbar';
+import BottomNavBar from '../components/BottomNavBar';
 import Card from '../components/Card';
 import TopNavBar from '../components/TopNavBar';
 
@@ -23,7 +23,7 @@ export default function FeedPage() {
             <Card />
           </ScrollView>
         </View >
-        <BottomNavbar />
+        <BottomNavBar />
       </View>
     );
   }
