@@ -24,18 +24,17 @@ export default async function getUser(
     return;
   }
 
-  if (Array.isArray(query.userId))
-  {
+  if (Array.isArray(query.userId)) {
     res.statusCode = 400;
-    res.json({ Error: "userId cannot be a string array"});
+    res.json({ Error: "userId cannot be a string array" });
     return;
   }
 
   const user = await prisma.user.findUnique({
     where: {
       id: query.userId,
-    }
+    },
   });
 
-  res.json({user});
+  res.json({ user });
 }
