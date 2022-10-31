@@ -1,4 +1,5 @@
 /*
- * Functions to mutate data on the API
+ * Functions to mutate/change data on the API
  */
-export default function likePost(postId: string) {}
+export async function likePost(postId: string) {}
+export async function unlikePost(postId: string) {}
