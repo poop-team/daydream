@@ -17,7 +17,6 @@ interface Props extends AppProps {
   };
 }
 
-
 const queryClient = new QueryClient();
 
 function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
@@ -50,7 +49,7 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
           </>
           
         )}
-        
+
         
       </SessionProvider>
     </>

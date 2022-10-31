@@ -144,7 +144,6 @@ export default function TopNav() {
               </LinkIconButton>
             </motion.li>
           )}
-
           
         </AnimatePresence>
       </ul>
