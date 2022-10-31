@@ -68,7 +68,7 @@ export default function Index() {
           />
         </div>
       </section>
-      <section className={"flex gap-4"}>
+      <section className={"flex items-center gap-4"}>
         <h3 className={"text-2xl font-bold"}>Card</h3>
         <Card className={"h-72 w-96 bg-slate-200"} />
       </section>

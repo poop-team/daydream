@@ -37,16 +37,12 @@ export default function RegisterPage() {
                 <div className={"m-10 flex-col items-center justify-center"}>
                     
                     <form> 
-                        {/*@ts-expect-error NAME BUG */}
                         <TextField label="Enter your email address:" name="email" placeholder="Email" onChange={handleChange}></TextField> 
-                        <br/>
-                        {/*@ts-expect-error FIXME typing bug*/} 
+                        <br/> 
                         <TextField label="Enter your username:" name="username" placeholder="Username" onChange={handleChange}></TextField> 
-                        <br/>
-                        {/*@ts-expect-error FIXME typing bug*/} 
+                        <br/> 
                         <TextField label="Enter your password:" name="password" type="password" placeholder="Password" onChange={handleChange}></TextField> 
                         <br/>
-                        {/*@ts-expect-error FIXME typing bug*/} 
                         <TextField label="Confirm password:" name="retype" type="password" placeholder="Password" onChange={handleChange}></TextField> 
                         <br/><br/>
                         <div className="flex justify-center"> 
