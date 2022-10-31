@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, View } from 'react-native';
+import Button from '../components/Button';
+import { View } from 'react-native';
 
 export default function Authentication({navigation}) {
   return (
@@ -8,15 +9,17 @@ export default function Authentication({navigation}) {
         <View className="rounded-full flex-1 m-16 bg-slate-400">
         </View>
       </View>
-      <View className="flex-1 w-full">
+      <View className="flex-1 w-full justify-center items-center">
         <Button 
-        title="Login" 
+        name="Login" 
         onPress={() => navigation.navigate("Login")}
-        color="#211D3A"/>
+        className=''
+        />
         <Button
-        title="Sign Up"
+        name="Sign Up"
         onPress={() => navigation.navigate("Register")}
-        color="#211D3A"/>
+        className='mt-10'
+        />
       </View>
       <StatusBar style="auto"/>
     </View>

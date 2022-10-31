@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { TextInput, Text, Pressable, View } from 'react-native';
+import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Register({navigation}) {
@@ -66,9 +67,10 @@ export default function Register({navigation}) {
             </View>
             <View className='flex-1 w-full items-center justify-center'>
                 <Pressable>
-                    <Text 
+                    <Button 
+                    name="Save"
                     className='ml-0 text-xl text-indigo-900 font-bold'
-                    onPress={() => navigation.navigate("Home")}>Save</Text>
+                    onPress={() => navigation.navigate("Home")}/>
                 </Pressable>
             </View>
             <StatusBar style='auto' />

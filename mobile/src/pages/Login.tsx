@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Button, TextInput, Text, Pressable, View } from 'react-native';
+import { TextInput, Text, Pressable, View } from 'react-native';
+import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Login({navigation}) {
@@ -44,7 +45,7 @@ export default function Login({navigation}) {
                 </Pressable>
             </View>
             <View className='flex-1 w-full items-center justify-center'>
-                <Button title='Login'/>
+                <Button name='Login' className='mb-10'/>
                 <Pressable>
                     <Text 
                     className='ml-0 text-xl text-indigo-900 font-bold'
