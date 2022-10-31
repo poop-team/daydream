@@ -1,10 +1,33 @@
-import { Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import Authentication from "./src/pages/Authentication";
+import Login from "./src/pages/Login";
+import Register from "./src/pages/Register";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  const value: string = "hello, world";
   return (
-    <View className="flex-1 justify-center items-center">
-      <Text>{value}</Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Authentication}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen 
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen 
+          name="Register"
+          component={Register}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

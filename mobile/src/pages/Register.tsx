@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { TextInput, Text, Pressable, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function Register() {
+export default function Register({navigation}) {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -13,7 +13,10 @@ export default function Register() {
         <View className='flex-1 w-full'>
             <View className='w-full flex-row place-content-start mt-16 ml-2'>
                 <Pressable>
-                    <Icon size={45} name='arrow-back-outline' />
+                    <Icon
+                    size={45}
+                    name='arrow-back-outline'
+                    onPress={() => navigation.navigate("Home")}/>
                 </Pressable>
             </View>
             <View className='flex-1 flex ml-8 mt-8'>
@@ -63,7 +66,9 @@ export default function Register() {
             </View>
             <View className='flex-1 w-full items-center justify-center'>
                 <Pressable>
-                    <Text className='ml-0 text-xl text-indigo-900 font-bold'>Save</Text>
+                    <Text 
+                    className='ml-0 text-xl text-indigo-900 font-bold'
+                    onPress={() => navigation.navigate("Home")}>Save</Text>
                 </Pressable>
             </View>
             <StatusBar style='auto' />
