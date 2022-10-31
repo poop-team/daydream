@@ -66,7 +66,7 @@ export default function TopNav() {
       animate={navHidden ? "initialTop" : "animate"}
       transition={transitions.easeOut}
       className={
-        "sticky top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md"
+        "fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md"
       }
     >
       <ul className={"flex h-full list-none items-center justify-between"}>
@@ -82,7 +82,7 @@ export default function TopNav() {
               className={"hidden sm:block"}
             >
               <LinkIconButton href={"/feed"}>
-                <MdHome className={"h-full w-8"} />
+                <MdHome className={"h-full w-9"} />
               </LinkIconButton>
             </motion.li>
           )}
@@ -106,7 +106,7 @@ export default function TopNav() {
                 href={"/create"}
                 className={"hidden text-base sm:block"}
               >
-                <MdAddCircle className={"h-8 w-full"} />
+                <MdAddCircle className={"h-full w-9"} />
               </LinkIconButton>
             </motion.li>
           )}
@@ -123,7 +123,7 @@ export default function TopNav() {
               className={"ml-auto"}
             >
               <IconButton>
-                <MdSettings className={"h-8 w-full"} />
+                <MdSettings className={"h-full w-9"} />
               </IconButton>
             </motion.li>
           ) : (
@@ -137,7 +137,7 @@ export default function TopNav() {
               className={"hidden sm:block"}
             >
               <LinkIconButton href={"/profile"}>
-                <MdAccountCircle className={"h-8 w-full"} />
+                <MdAccountCircle className={"h-full w-9"} />
               </LinkIconButton>
             </motion.li>
           )}

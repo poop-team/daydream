@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/future/image";
 import { MdFavorite, MdFavoriteBorder, MdLibraryAdd } from "react-icons/md";
 
+import CustomImage from "../CustomImage";
 import Button from "../Inputs/Button";
 import IconButton from "../Inputs/IconButton";
 import Card from "../Surfaces/Card";
@@ -16,7 +16,7 @@ interface Props {
   isLiked: boolean;
   onLikedChange: (isLiked: boolean) => void;
   authorName: string;
-  authorAvatar: string;
+  authorAvatar?: string | null;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -44,22 +44,26 @@ export default function ImageDialog({
     <StyledDialog isOpen={isOpen} onClose={onClose}>
       <Card
         className={
-          "relative flex h-full w-full flex-col overflow-hidden bg-slate-100 md:aspect-video md:flex-row"
+          "relative flex max-h-[90vh] w-full flex-col overflow-hidden bg-slate-100 md:aspect-video md:flex-row"
         }
       >
         {/* Big Image */}
-        <div className={"relative aspect-square"}>
-          <Image
-            src={src}
-            alt={prompt}
-            fill
-            priority
-            sizes={"(max-width: 768px) 100vw, 50vw"}
-            className={"h-full w-full object-fill"}
-          />
-        </div>
+        <CustomImage
+          src={src}
+          alt={prompt}
+          fill
+          priority
+          quality={90}
+          sizes={"(max-width: 768px) 100vw, 50vw"}
+          containerClassName={"relative aspect-square"}
+          className={"object-cover"}
+        />
         {/* Right Content Panel */}
-        <div className={"flex flex-col items-center gap-2 p-4 md:p-6 lg:gap-4"}>
+        <div
+          className={
+            "flex basis-full flex-col items-center gap-2 p-4 md:p-6 lg:gap-4"
+          }
+        >
           <div className={"flex w-full justify-between"}>
             <Author
               authorName={authorName}
@@ -70,13 +74,13 @@ export default function ImageDialog({
           </div>
           <p
             className={
-              "h-5/6 overflow-scroll px-2 text-center text-lg sm:text-xl lg:text-2xl"
+              "basis-28 overflow-y-auto px-1 text-center text-lg sm:text-xl md:max-h-fit md:basis-full lg:text-2xl"
             }
           >
             {prompt}
           </p>
-          <div className={"flex gap-2"}>
-            <Button className={"mt-auto"}>
+          <div className={"mt-auto flex gap-2"}>
+            <Button>
               Add to Collection
               <MdLibraryAdd className={"h-5 w-5"} />
             </Button>

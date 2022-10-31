@@ -1,9 +1,10 @@
 import Image from "next/future/image";
+import Link from "next/link";
 import { MdAccountCircle } from "react-icons/md";
 
 interface Props {
   authorName: string;
-  authorAvatar: string;
+  authorAvatar?: string | null;
   className?: string;
 }
 
@@ -29,7 +30,17 @@ export default function Author({
         )}
       </div>
       <p className={"overflow-hidden text-ellipsis whitespace-nowrap"}>
-        By <b>{authorName}</b>
+        By{" "}
+        {/* TODO: Update this link when we know what the slug will look like */}
+        <Link href={`/profile/${authorName}`}>
+          <a
+            className={
+              "inline text-inherit transition duration-200 ease-out hover:text-indigo-700 focus-visible:outline-none"
+            }
+          >
+            <b>{authorName}</b>
+          </a>
+        </Link>
       </p>
     </div>
   );
