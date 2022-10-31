@@ -1,31 +1,24 @@
 import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
-import { useState, ChangeEvent, useEffect } from 'react';
+import { useState } from 'react';
 
-import { MdArrowBackIosNew } from "react-icons/md";
-
-import IconButton from "../components/Inputs/IconButton";
-import LinkIconButton from "../components/Inputs/LinkIconButton";
 import Link from "next/link";
-
+import { useRouter } from 'next/router';
 
 export default function LoginPage() {
 
+    //# region Hooks
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const router = useRouter();
+    //# endregion
+
+    const handleContinue = () => {
+        router.replace('/feed')
+    };
 
     return (
-        <div className="h-screen">
-            <div className="mb-12">
-                <nav className="sticky top-0 mb-16 h-12 rounded-b-xl px-4">
-                    <ul className="z-10 flex h-full list-none justify-self-start">
-                        <LinkIconButton href="/index">
-                            <MdArrowBackIosNew className="h-full w-8"/>
-                        </LinkIconButton>
-                    </ul>
-                </nav>
-            </div>
-            
+        <div className="h-screen mt-24">
             <main className="container mx-auto w-5/12"> 
                 <p className="text-4xl text-center">Log in</p><br/>
                 <div className="m-10 flex-col items-center justify-center">
@@ -38,16 +31,17 @@ export default function LoginPage() {
                         </label><br/><br/>
                         <div className="flex justify-center"> 
                             <Link href="/feed">
-                                <Button onClick={() => { console.log("Logged in as: " + {username} + " with password: " + {password})}}>Continue</Button>
+                                <Button onClick={handleContinue}>Continue</Button>
                             </Link>
                         </div> 
                     </form>
                 </div> 
                 <div className="flex items-center justify-center">
-                    <a className="hover:underline hover:text-blue-700" href={"/register"}>Don't have an account? Sign up!</a>
+                    <Link href="/register">
+                        <a className="hover:underline hover:text-blue-700">Don't have an account? Sign up!</a>
+                    </Link>
                 </div>
             </main>
         </div>
-        
     )
 }

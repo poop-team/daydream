@@ -1,30 +1,25 @@
 import Link from 'next/link';
-import { useState, ChangeEvent } from 'react';
-import { MdArrowBackIosNew } from 'react-icons/md';
+import { useState } from 'react';
 import Button from '../components/Inputs/Button';
-import LinkIconButton from '../components/Inputs/LinkIconButton';
 import TextField from '../components/Inputs/TextField';
-
+import { useRouter } from 'next/router';
 
 export default function RegisterPage() {
 
+    //# region Hooks
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [retype, setRetype] = useState("");
+    const router = useRouter();
+    //# endregion
+
+    const handleContinue = () => {
+        router.replace('/feed')
+    };
 
     return (
-        <div className="h-screen">
-            <div className="mb-12">
-                <nav className="sticky top-0 mb-16 h-12 rounded-b-xl px-4">
-                    <ul className="z-10 flex h-full list-none justify-self-start">
-                        <LinkIconButton href="/index">
-                            <MdArrowBackIosNew className="h-full w-8"/>
-                        </LinkIconButton>
-                    </ul>
-                </nav>
-            </div>
-            
+        <div className="h-screen mt-24">
             <main className="container mx-auto w-5/12"> 
                 <p className="text-4xl text-center">Register</p><br/>
                 <div className="m-10 flex-col items-center justify-center">
@@ -38,14 +33,15 @@ export default function RegisterPage() {
                         <TextField label="Confirm password:" name="retype" type="password" placeholder="Password" onChange={(e) => setRetype(e.target.value)}></TextField> 
                         <br/><br/>
                         <div className="flex justify-center"> 
-                            <Link href="/index">
-                                <Button onClick={() => { console.log("Registered as email: " + {email} + " username: " + {username} + " with password: " + {password} + " with retype " + {retype})}}>Register</Button>
-                            </Link>
+                            <Button onClick={handleContinue}>Register</Button>
                         </div> 
                     </form> 
                 </div> 
                 <div className="flex items-center justify-center">
-                    <a className="hover:underline hover:text-blue-700" href="/login">Already have an account? Log in!</a>
+                    <Link href="/login">
+                        <a className="hover:underline hover:text-blue-700">Already have an account? Log in!</a>
+                    </Link>
+                    
                 </div>
             </main>
         </div>

@@ -32,13 +32,11 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <SessionProvider session={session}>
-        
         {isLogin || isRegister ? (
           <>
             <QueryClientProvider client={queryClient}>
               <Component {...pageProps} />
             </QueryClientProvider>
-
           </>
         ) : (
           <>
@@ -48,9 +46,7 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
               <BottomNav />
             </QueryClientProvider>
           </>
-          
         )}
-        
       </SessionProvider>
     </>
   );
