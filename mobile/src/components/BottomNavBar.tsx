@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function BottomNavBar() {
