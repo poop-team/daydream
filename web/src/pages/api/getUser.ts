@@ -11,7 +11,8 @@ export default async function getUser(
 
   if (!session) {
     res.statusCode = 401;
-    return res.json({ Error: "User not logged in." });
+    res.json({ Error: "User not logged in." });
+    return;
   }
 
   const prisma = new PrismaClient();
@@ -19,13 +20,15 @@ export default async function getUser(
 
   if (!query.userId) {
     res.statusCode = 400;
-    return res.json("You are missing the userId parameter");
+    res.json({ Error: "You are missing the userId parameter" });
+    return;
   }
 
   if (Array.isArray(query.userId))
   {
     res.statusCode = 400;
-    return res.json("userId cannot be a string array");
+    res.json({ Error: "userId cannot be a string array"});
+    return;
   }
 
   const user = await prisma.user.findUnique({
