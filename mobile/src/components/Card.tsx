@@ -1,5 +1,6 @@
 import React from "react";
 import { Image } from "react-native";
+
 interface Props {
   url?: string;
 }
