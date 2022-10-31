@@ -26,21 +26,20 @@ export default function Button({
   pilled = false,
   ...props
 }: Props) {
-  //warning: do not touch the extra spaces at the end or it will break the styling
-  let baseStyle = "h-7 items-center justify-center ";
+  //warning: do not touch the extra spaces at the beginning or it will break the styling
+  let baseStyle = "h-7 items-center justify-center";
   let textStyle = "text-white margin mx-5 font-semibold";
 
   if (disabled) {
-    baseStyle += "text-slate-50 bg-indigo-900/40 hover:bg-indigo-900/80";
+    baseStyle += " text-slate-50 bg-indigo-900/40 hover:bg-indigo-900/80";
   } else {
     baseStyle +=
-      "text-slate-50 bg-indigo-900 hover:bg-indigo-800 active:opacity-70";
+      " text-slate-50 bg-indigo-900 hover:bg-indigo-800 active:opacity-70";
   }
   if (pilled) {
-    baseStyle += "rounded-full";
-    console.log(baseStyle);
+    baseStyle += " rounded-full";
   } else {
-    baseStyle += "rounded-md";
+    baseStyle += " rounded-md";
   }
 
   return (
