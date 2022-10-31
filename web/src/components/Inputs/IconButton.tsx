@@ -22,7 +22,8 @@ export default function IconButton({
     buttonStyle +=
       " cursor-not-allowed text-slate-900/80 hover:text-slate-900/80";
   } else {
-    buttonStyle += " text-slate-900 hover:text-indigo-700 active:scale-90";
+    buttonStyle +=
+      " text-slate-900 hover:text-indigo-700 active:scale-90 focus-visible:text-indigo-700 focus-visible:ring-4 focus-visible:ring-indigo-700/90";
   }
 
   //#endregion

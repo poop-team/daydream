@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
@@ -18,6 +18,9 @@ export default function TopNav() {
 
   const router = useRouter();
 
+  const { scrollY } = useScroll();
+
+  const [navHidden, setNavHidden] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -26,9 +29,26 @@ export default function TopNav() {
     setSearchTerm(router.query.q as string);
   }, [router.query.q]);
 
+  // On any change to the scroll position, updateHiddenState will be called.
+  useEffect(() => scrollY.onChange(updateHiddenState), []);
+
   //#endregion
 
-  //#region Handlers
+  //#region Helper Functions
+
+  // Sets the hidden state of the nav bar based on the scroll direction.
+  function updateHiddenState() {
+    const startOffset = 42;
+    const isScrollingUp = scrollY.get() < scrollY.getPrevious();
+    const isScrollingDown =
+      scrollY.get() > startOffset && scrollY.get() > scrollY.getPrevious();
+
+    if (isScrollingUp) {
+      setNavHidden(false);
+    } else if (isScrollingDown) {
+      setNavHidden(true);
+    }
+  }
 
   //#endregion
 
@@ -41,8 +61,15 @@ export default function TopNav() {
   //#endregion
 
   return (
-    <nav className={"sticky top-0 -mb-12 h-12 rounded-b-xl px-4"}>
-      <ul className={"z-10 flex h-full list-none items-center justify-between"}>
+    <motion.nav
+      variants={navVariants}
+      animate={navHidden ? "initialTop" : "animate"}
+      transition={transitions.easeOut}
+      className={
+        "fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md"
+      }
+    >
+      <ul className={"flex h-full list-none items-center justify-between"}>
         <AnimatePresence mode={"popLayout"} initial={false}>
           {!isFeed && (
             <motion.li
@@ -55,7 +82,7 @@ export default function TopNav() {
               className={"hidden sm:block"}
             >
               <LinkIconButton href={"/feed"}>
-                <MdHome className={"h-full w-8"} />
+                <MdHome className={"h-full w-9"} />
               </LinkIconButton>
             </motion.li>
           )}
@@ -79,7 +106,7 @@ export default function TopNav() {
                 href={"/create"}
                 className={"hidden text-base sm:block"}
               >
-                <MdAddCircle className={"h-8 w-full"} />
+                <MdAddCircle className={"h-full w-9"} />
               </LinkIconButton>
             </motion.li>
           )}
@@ -96,7 +123,7 @@ export default function TopNav() {
               className={"ml-auto"}
             >
               <IconButton>
-                <MdSettings className={"h-8 w-full"} />
+                <MdSettings className={"h-full w-9"} />
               </IconButton>
             </motion.li>
           ) : (
@@ -110,12 +137,12 @@ export default function TopNav() {
               className={"hidden sm:block"}
             >
               <LinkIconButton href={"/profile"}>
-                <MdAccountCircle className={"h-8 w-full"} />
+                <MdAccountCircle className={"h-full w-9"} />
               </LinkIconButton>
             </motion.li>
           )}
         </AnimatePresence>
       </ul>
-    </nav>
+    </motion.nav>
   );
 }
