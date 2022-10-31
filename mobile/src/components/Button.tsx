@@ -4,7 +4,7 @@ import { Pressable, Text, PressableProps } from "react-native";
 
 interface Props extends PressableProps {
   name: string;
-  children?: ReactNode;
+  children?: ReactNode[];
   disabled?: boolean;
   pilled?: boolean;
 }
