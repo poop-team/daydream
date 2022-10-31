@@ -46,22 +46,7 @@ export default function TopNav() {
     <nav className={"sticky top-0 -mb-12 h-12 rounded-b-xl px-4"}>
       <ul className={"z-10 flex h-full list-none items-center justify-between"}>
         <AnimatePresence mode={"popLayout"} initial={false}>
-          {isLogin && (
-            <motion.li
-              key={"login"}
-              variants={navVariants}
-              initial={"initialLeft"}
-              animate={"animate"}
-              exit={"initialLeft"}
-              transition={transitions.springStiff}
-              className={"hidden sm:block"}
-            >
-              <LinkIconButton href={"/index"}>
-                <MdArrowBackIosNew className={"h-8 w-full"} />
-              </LinkIconButton>
-            </motion.li>
-          )}
-
+          
           {!isFeed && (
             <motion.li
               key={"home"}

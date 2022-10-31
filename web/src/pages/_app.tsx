@@ -32,13 +32,17 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
       </Head>
       <SessionProvider session={session}>
         {isLogin ? (
-          <></>
+          <><Component {...pageProps} /></>
         ) : (
-          <TopNav />
+          <>
+            <TopNav />
+            <BottomNav />
+          </>
+          
         )}
         
         <Component {...pageProps} />
-        <BottomNav />
+        
       </SessionProvider>
     </>
   );
