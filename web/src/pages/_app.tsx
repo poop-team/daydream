@@ -23,6 +23,7 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
 
   const router = useRouter();
   const isLogin = router.pathname == "/login"
+  const isRegister = router.pathname == "/register"
 
   return (
     <>
@@ -31,17 +32,18 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <SessionProvider session={session}>
-        {isLogin ? (
+        {isLogin || isRegister ? (
           <><Component {...pageProps} /></>
         ) : (
           <>
             <TopNav />
+            <Component {...pageProps} />
             <BottomNav />
           </>
           
         )}
         
-        <Component {...pageProps} />
+        
         
       </SessionProvider>
     </>

@@ -62,6 +62,9 @@ export default function LoginPage() {
 
                     
                 </div> 
+                <div className="flex items-center justify-center">
+                    <a className="hover:underline hover:text-blue-700" href={"/register"}>Don't have an account? Sign up!</a>
+                </div>
             </main>
         </div>
         
