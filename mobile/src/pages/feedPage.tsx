@@ -1,37 +1,30 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
-import  BottomNavbar  from './components/navbar';
-import Card from './components/pictureCardComponent';
-
+import { StyleSheet, Text, View, Image, ScrollView, ScrollViewComponent } from 'react-native';
+import BottomNavbar from '../components/navbar';
+import Card from '../components/Card';
+import TopNavBar from '../components/TopNavBar';
 
 export default function FeedPage() {
-    const value: string = "hello, world"; 
     return (
-      <View style={styles.container}>
-        <View style={styles.cardContainer}>     
-          <Card />
-          <Card />
+      <View className="flex-1 items-center justify-center scroll">
+        <TopNavBar value = "" onChangeText={()=>{}}/>
+        <View className='position-relative w-screen h-screen items-center justify-center top-10'>
+          <ScrollView className="w-screen h-screen position-relative scroll ">
+            <Card url ="https://project.up.railway.app/_next/image?url=https%3A%2F%2Fsbleaping.s3.us-east-1.amazonaws.com%2Fsb%2F7b57ff9681d844198ddca4cbe9b92554.png&w=1080&q=90"/>
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+          </ScrollView>
         </View >
         <BottomNavbar />
       </View>
     );
   }
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }, 
-    
-    cardContainer: {
-      position: 'relative',
-      bottom: 0,
-      width: '100%',
-      height: '100%',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  
-  });
   
