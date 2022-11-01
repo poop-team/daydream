@@ -39,7 +39,10 @@ export const validateRequest = async (
   const matches = authHeader?.match(/Bearer: (.*)/);
   const jwt = matches?.[1];
   return new Promise((resolve) => {
-    if (!jwt || !process.env.JWT_PRIVATE_KEY) {
+    if (!jwt) {
+      throw Error("jwt should not be falsy!");
+    }
+    if (!process.env.JWT_PRIVATE_KEY) {
       throw Error("Missing environment variable process.env.JWT_PRIVATE_KEY");
     }
     verify(jwt, process.env.JWT_PRIVATE_KEY, (err, data) => {
