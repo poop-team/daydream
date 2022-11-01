@@ -38,6 +38,13 @@ export const validateRequest = async (
   const authHeader = req.headers.authorization;
   const matches = authHeader?.match(/Bearer: (.*)/);
   const jwt = matches?.[1];
+  return validateJWT(userId, jwt);
+};
+
+export const validateJWT = async (
+  userId: string,
+  jwt: string | undefined
+): Promise<boolean> => {
   return new Promise((resolve) => {
     if (!jwt) {
       throw Error("jwt should not be falsy!");
