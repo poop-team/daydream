@@ -27,8 +27,8 @@ export default function Button({
   ...props
 }: Props) {
   //warning: do not touch the extra spaces at the beginning or it will break the styling
-  let baseStyle = "h-7 items-center justify-center";
-  let textStyle = "text-white margin mx-5 font-semibold";
+  let baseStyle = "h-10 items-center justify-center";
+  let textStyle = "text-white margin mx-5 text-xl font-semibold";
 
   if (disabled) {
     baseStyle += " text-slate-50 bg-indigo-900/40 hover:bg-indigo-900/80";

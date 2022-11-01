@@ -13,7 +13,7 @@ export default function Login({ navigation }) {
             <View className='w-full flex-row place-content-start mt-16 ml-2'>
                 <Pressable>
                     <Icon 
-                        size={45}
+                        size={40}
                         name='arrow-back-outline'
                         onPress={() => navigation.navigate('Home')} />
                 </Pressable>
