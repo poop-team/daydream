@@ -61,7 +61,7 @@ export default function ImageList({ posts, arePostsLoading }: Props) {
   ) : (
     <div
       className={
-        "absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center text-2xl text-gray-500"
+        "absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center sm:text-2xl"
       }
     >
       {arePostsLoading ? (

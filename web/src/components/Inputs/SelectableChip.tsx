@@ -29,8 +29,8 @@ export default function SelectableChip({
   let styles =
     "flex gap-2 px-4 py-1 rounded-full transition duration-200 ease-in-out";
   styles += selected
-    ? " bg-indigo-700 text-slate-50"
-    : " bg-slate-200 text-slate-900";
+    ? " bg-indigo-700 text-slate-50 hover:bg-indigo-600"
+    : " bg-slate-200 text-slate-900 hover:bg-slate-300";
 
   //#endregion
 
