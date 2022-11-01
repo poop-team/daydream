@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { validateMethod, validateString } from "../../../utils/utils";
+import { validateMethod, validateString } from "../../utils/utils";
 
 interface Request extends NextApiRequest {
   body: {
