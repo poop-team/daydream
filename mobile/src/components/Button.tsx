@@ -27,7 +27,7 @@ export default function Button({
   ...props
 }: Props) {
   //warning: do not touch the extra spaces at the beginning or it will break the styling
-  let baseStyle = "h-10 items-center justify-center";
+  let baseStyle = "px-4 py-2 items-center justify-center";
   let textStyle = "text-white margin mx-5 text-xl font-semibold";
 
   if (disabled) {
