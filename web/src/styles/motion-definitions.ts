@@ -51,6 +51,14 @@ export const variants = {
       ease: "easeIn",
     },
   },
+  scaleIn: {
+    scale: 1,
+    opacity: 1,
+  },
+  scaleOut: {
+    scale: 0,
+    opacity: 0,
+  },
 };
 
 export const navVariants = {

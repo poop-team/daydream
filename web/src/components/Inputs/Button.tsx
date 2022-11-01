@@ -38,8 +38,8 @@ export default function Button({
   //#region Styles
 
   let baseStyle =
-    "flex select-none items-center rounded-full gap-2 px-4 py-2 transition duration-200 ease-out " +
-    "active:duration-300 focus-visible:ring-4 focus-visible:ring-indigo-300/90 ring-inset outline-none";
+    "flex select-none items-center justify-center rounded-full gap-2 px-4 py-2 transition duration-200 ease-out " +
+    "active:duration-300 focus-visible:ring-4 focus-visible:ring-indigo-300/90 ring-inset outline-none group";
 
   if (isDisabled) {
     // Disabled Style

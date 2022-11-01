@@ -28,7 +28,7 @@ const item = {
 //#endregion
 
 export default function ImageList({ posts, arePostsLoading }: Props) {
-  return posts ? (
+  return posts?.length ? (
     <motion.ol
       variants={container}
       initial="hidden"
@@ -61,7 +61,7 @@ export default function ImageList({ posts, arePostsLoading }: Props) {
   ) : (
     <div
       className={
-        "absolute top-1/2 left-1/2 flex items-center justify-center text-2xl"
+        "absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center text-2xl text-gray-500"
       }
     >
       {arePostsLoading ? (
