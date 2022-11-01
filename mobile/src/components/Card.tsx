@@ -8,8 +8,8 @@ interface Props {
 }
 /**
  * @url url of the image string (optional) 
- * @height height of the image (defualt h-96)
- * @width width of the image (defualt w-11/12) 
+ * @height height of the image (default h-96)
+ * @width width of the image (default w-11/12) 
  */
 export default function Card({
   url = "https://project.up.railway.app/_next/image?url=https%3A%2F%2Fsbleaping.s3.us-east-1.amazonaws.com%2Fsb%2F9d532691aa47444996dba0e889b6a728.png&w=1080&q=90",
