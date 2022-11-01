@@ -43,8 +43,7 @@ export default function Button({
 
   if (isDisabled) {
     // Disabled Style
-    baseStyle +=
-      " cursor-not-allowed text-slate-50 bg-indigo-900/80 hover:bg-indigo-900/80";
+    baseStyle += " cursor-not-allowed text-slate-50 bg-indigo-900/80";
   } else if (variant === "text") {
     // Text Style
     baseStyle +=
