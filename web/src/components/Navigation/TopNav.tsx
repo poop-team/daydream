@@ -65,9 +65,9 @@ export default function TopNav() {
       variants={navVariants}
       animate={navHidden ? "initialTop" : "animate"}
       transition={transitions.easeOut}
-      className={
-        "fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md"
-      }
+      className={`fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md ${
+        (isCreate && "hidden sm:block") || ""
+      }`}
     >
       <ul className={"flex h-full list-none items-center justify-between"}>
         <AnimatePresence mode={"popLayout"} initial={false}>
