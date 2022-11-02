@@ -1,15 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { getServerAuthSession } from "../../server/common/get-server-auth-session";
+import { validateRequest } from "../../utils/jwt";
 
 export default async function addPostToCollection(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getServerAuthSession({ req, res });
-
-  if (!session) {
+  if (!(await validateRequest(req))) {
     res.statusCode = 401;
     res.json({ Error: "User not logged in." });
     return;
