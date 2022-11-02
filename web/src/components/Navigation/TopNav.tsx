@@ -6,9 +6,9 @@ import {
   MdAddCircle,
   MdHome,
   MdSettings,
-  MdArrowBackIosNew,
 } from "react-icons/md";
 
+import paths from "../../data/path";
 import { navVariants, transitions } from "../../styles/motion-definitions";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
@@ -39,7 +39,7 @@ export default function TopNav() {
 
   // Sets the hidden state of the nav bar based on the scroll direction.
   function updateHiddenState() {
-    const startOffset = 42;
+    const startOffset = 48;
     const isScrollingUp = scrollY.get() < scrollY.getPrevious();
     const isScrollingDown =
       scrollY.get() > startOffset && scrollY.get() > scrollY.getPrevious();
@@ -55,10 +55,11 @@ export default function TopNav() {
 
   //#region Derived State
 
-  const isFeed = router.pathname === "/feed";
-  const isCreate = router.pathname === "/create";
-  const isProfile = router.pathname === "/profile";
-  const isLogin = router.pathname == "/login"
+  const isFeed = router.pathname === paths.feed;
+  const isCreate = router.pathname === paths.create;
+  const isProfile = router.pathname === paths.profile;
+  const isAuth =
+    router.pathname == paths.login || router.pathname == paths.register;
 
   //#endregion
 
@@ -67,13 +68,12 @@ export default function TopNav() {
       variants={navVariants}
       animate={navHidden ? "initialTop" : "animate"}
       transition={transitions.easeOut}
-      className={
-        "fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md"
-      }
+      className={`fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md ${
+        isAuth ? "hidden" : ""
+      }`}
     >
       <ul className={"flex h-full list-none items-center justify-between"}>
         <AnimatePresence mode={"popLayout"} initial={false}>
-          
           {!isFeed && (
             <motion.li
               key={"home"}
@@ -144,7 +144,6 @@ export default function TopNav() {
               </LinkIconButton>
             </motion.li>
           )}
-          
         </AnimatePresence>
       </ul>
     </motion.nav>

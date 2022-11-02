@@ -9,7 +9,6 @@ import { SessionProvider } from "next-auth/react";
 
 import BottomNav from "../components/Navigation/BottomNav";
 import TopNav from "../components/Navigation/TopNav";
-import { useRouter } from 'next/router';
 
 interface Props extends AppProps {
   pageProps: {
@@ -20,11 +19,6 @@ interface Props extends AppProps {
 const queryClient = new QueryClient();
 
 function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
-
-  const router = useRouter();
-  const isLogin = router.pathname == "/login"
-  const isRegister = router.pathname == "/register"
-
   return (
     <>
       <Head>
@@ -32,17 +26,11 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <SessionProvider session={session}>
-        {isLogin || isRegister ? (
-          <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
-          </QueryClientProvider>
-        ) : (
-          <QueryClientProvider client={queryClient}>
-            <TopNav />
-            <Component {...pageProps} />
-            <BottomNav />
-          </QueryClientProvider>
-        )}
+        <QueryClientProvider client={queryClient}>
+          <TopNav />
+          <Component {...pageProps} />
+          <BottomNav />
+        </QueryClientProvider>
       </SessionProvider>
     </>
   );
