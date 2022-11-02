@@ -8,7 +8,7 @@ export const generateJWT = async (username: string): Promise<string> => {
       throw Error("Missing environment variable process.env.JWT_PRIVATE_KEY");
     }
     sign(
-      username,
+      { username },
       process.env.JWT_PRIVATE_KEY,
       { expiresIn: "1 day" },
       (err, data) => {
@@ -38,12 +38,23 @@ export const validateRequest = async (
   const authHeader = req.headers.authorization;
   const matches = authHeader?.match(/Bearer: (.*)/);
   const jwt = matches?.[1];
+  return validateJWT(userId, jwt);
+};
+
+export const validateJWT = async (
+  userId: string,
+  jwt: string | undefined
+): Promise<boolean> => {
   return new Promise((resolve) => {
-    if (!jwt || !process.env.JWT_PRIVATE_KEY) {
+    if (!jwt) {
+      throw Error("jwt should not be falsy!");
+    }
+    if (!process.env.JWT_PRIVATE_KEY) {
       throw Error("Missing environment variable process.env.JWT_PRIVATE_KEY");
     }
     verify(jwt, process.env.JWT_PRIVATE_KEY, (err, data) => {
-      resolve(!err && data === userId);
+      const username = (data as { username: string }).username;
+      resolve(!err && username === userId);
     });
   });
 };

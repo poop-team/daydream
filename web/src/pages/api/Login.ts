@@ -2,8 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import { compare } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { generateJWT } from "../../../utils/jwt";
-import { validateMethod, validateString } from "../../../utils/utils";
+import { generateJWT } from "../../utils/jwt";
+import { validateMethod, validateString } from "../../utils/utils";
 
 interface Request extends NextApiRequest {
   body: {
