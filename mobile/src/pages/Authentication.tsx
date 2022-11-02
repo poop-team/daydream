@@ -13,7 +13,6 @@ export default function Authentication({ navigation }) {
         <Button 
           name='Login' 
           onPress={() => navigation.navigate('Login')}
-          className=''
         />
         <Button
           name='Sign Up'
