@@ -33,19 +33,15 @@ function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
       </Head>
       <SessionProvider session={session}>
         {isLogin || isRegister ? (
-          <>
-            <QueryClientProvider client={queryClient}>
-              <Component {...pageProps} />
-            </QueryClientProvider>
-          </>
+          <QueryClientProvider client={queryClient}>
+            <Component {...pageProps} />
+          </QueryClientProvider>
         ) : (
-          <>
-            <QueryClientProvider client={queryClient}>
-              <TopNav />
-              <Component {...pageProps} />
-              <BottomNav />
-            </QueryClientProvider>
-          </>
+          <QueryClientProvider client={queryClient}>
+            <TopNav />
+            <Component {...pageProps} />
+            <BottomNav />
+          </QueryClientProvider>
         )}
       </SessionProvider>
     </>

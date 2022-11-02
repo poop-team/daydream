@@ -21,14 +21,14 @@ export default function LoginPage() {
         <div className="h-screen mt-24">
             <main className="container mx-auto w-5/12"> 
                 <p className="text-4xl text-center">Log in</p><br/>
-                <div className="m-10 flex-col items-center justify-center">
+                <div className="m-9 flex-col items-center justify-center">
                     <form> 
-                        <label>
+                        <label className="block mb-8">
                             <TextField label="Enter username or email:" placeholder="Username or Email" onChange={(e) => setUsername(e.target.value)}></TextField> 
-                        </label><br/>
-                        <label>  
+                        </label>
+                        <label className="block mb-10">  
                                 <TextField label="Enter password:" type="password" placeholder="Password" onChange={(e => setPassword(e.target.value))}></TextField> 
-                        </label><br/><br/>
+                        </label>
                         <div className="flex justify-center"> 
                             <Button onClick={handleContinue}>Continue</Button>
                         </div> 
@@ -36,7 +36,7 @@ export default function LoginPage() {
                 </div> 
                 <div className="flex items-center justify-center">
                     <Link href="/register">
-                        <a className="hover:underline hover:text-blue-700">Don't have an account? Sign up!</a>
+                        <a className="hover:underline hover:text-blue-700">Don&apos;t have an account? Sign up!</a>
                     </Link>
                 </div>
             </main>
