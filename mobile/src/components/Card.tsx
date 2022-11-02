@@ -1,13 +1,14 @@
 import React from "react";
 import { Image } from "react-native";
 
+//fixme: I will probably have to break card up unto a sub-component like the web version and then url will be required
 interface Props {
   url?: string;
   height?: string;
   width?: string;
 }
 /**
- * @url url of the image string (optional) 
+ * @url url of the image string (default: muppet)
  * @height height of the image (default h-96)
  * @width width of the image (default w-11/12) 
  */
