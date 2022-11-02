@@ -31,5 +31,11 @@ module.exports = {
     "simple-import-sort/exports": "error",
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-empty-function": "warn",
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
-};
+}
