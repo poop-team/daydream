@@ -15,7 +15,11 @@ export default function Feed() {
 
   return (
     <main className={"h-screen"}>
-      <ImageList arePostsLoading={arePostsLoading} posts={posts} />
+      <ImageList
+        arePostsLoading={arePostsLoading}
+        posts={posts}
+        className={"px-2 pb-4 pt-16 sm:px-4 lg:px-8"}
+      />
     </main>
   );
 }

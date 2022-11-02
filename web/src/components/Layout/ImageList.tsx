@@ -1,6 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 
-import { transitions } from "../../styles/motion-definitions";
+import {
+  staggerContainerVariants,
+  staggerItemVariants,
+  transitions,
+} from "../../styles/motion-definitions";
 import type { Post } from "../../types/post.type";
 import CircularProgress from "../Feedback/CircularProgress";
 import ImageCard from "../Surfaces/ImageCard";
@@ -8,41 +12,28 @@ import ImageCard from "../Surfaces/ImageCard";
 interface Props {
   posts?: Post[];
   arePostsLoading: boolean;
+  className?: string;
 }
 
-//#region Variants
-
-const container = {
-  show: {
-    transition: {
-      staggerChildren: 0.03,
-    },
-  },
-};
-
-const item = {
-  hidden: { scale: 0.9, y: -16, opacity: 0 },
-  show: { scale: 1, y: 0, opacity: 1 },
-};
-
-//#endregion
-
-export default function ImageList({ posts, arePostsLoading }: Props) {
+export default function ImageList({
+  posts,
+  arePostsLoading,
+  className = "",
+}: Props) {
   return posts?.length ? (
     <motion.ol
-      variants={container}
+      variants={staggerContainerVariants}
       initial="hidden"
       animate="show"
       transition={transitions.springStiff}
-      className={
-        "grid list-none grid-cols-fill-10 justify-items-center gap-2 px-2 pb-4 pt-16 sm:grid-cols-fill-20 sm:px-4 md:gap-4 lg:grid-cols-fill-30 lg:px-8 2xl:grid-cols-fill-40"
-      }
+      className={`grid list-none grid-cols-fill-10 justify-items-center gap-2 sm:grid-cols-fill-20 md:gap-4 lg:grid-cols-fill-30 2xl:grid-cols-fill-40 ${className}`}
     >
       <AnimatePresence mode={"popLayout"}>
         {posts.map((post) => (
           <motion.li
             key={post.id}
-            variants={item}
+            layout
+            variants={staggerItemVariants}
             exit={{ opacity: 0 }}
             transition={transitions.spring}
             className={"h-full w-full"}
