@@ -13,6 +13,7 @@ const queryClient = new QueryClient();
 
 function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
   useAuth();
+
   return (
     <>
       <Head>
