@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 //import Replicate from 'Replicate';
 import { env } from "../../env/server";
-import { getServerAuthSession } from "../../server/common/get-server-auth-session";
+import { validateRequest } from "../../utils/jwt";
 
 interface ResponseData {
   image: string;
@@ -13,12 +13,19 @@ export default async function createPost(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getServerAuthSession({ req, res });
-
-  if (!session) {
-    res.statusCode = 401;
-    return res.json({ Error: "User not logged in." });
-  }
+  // Validate if the user has a valid JWT token
+  await validateRequest(req)
+    .then((isValid) => {
+      if (!isValid) {
+        res.status(401).json({ error: "Invalid session" });
+        return;
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: "Internal Authorization Error" });
+      return;
+    });
 
   const prisma = new PrismaClient();
   const query = req.query;
