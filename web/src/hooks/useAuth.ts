@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import path from "../data/path";
 import { AuthSession } from "../types/auth.type";
@@ -9,7 +9,7 @@ export default function useAuth() {
   const router = useRouter();
   const [session, setSession] = useState<AuthSession | null>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const session = getAuthSession();
 
     // This is probably not the best way to handle authentication, especially since we are using localStorage
@@ -20,7 +20,9 @@ export default function useAuth() {
       }
     } else {
       setSession(null);
-      void router.push("/auth");
+      if (router.pathname !== path.auth) {
+        void router.push("/auth");
+      }
     }
 
     setSession(session);
