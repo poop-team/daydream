@@ -13,8 +13,7 @@ export default function BottomNav() {
 
   //#region Derived State
 
-  const isAuth =
-    router.pathname == paths.login || router.pathname == paths.register;
+  const isAuth = router.pathname == paths.auth;
 
   //#endregion
 

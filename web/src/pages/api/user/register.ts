@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { validateMethod, validateString } from "../../utils/utils";
+import { prisma } from "../../../server/db/client";
+import { validateMethod, validateString } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {
@@ -21,8 +21,6 @@ export default async function Register(req: Request, res: NextApiResponse) {
 
   const passwordHash = await hash(password, 10);
 
-  const prisma = new PrismaClient();
-
   try {
     await prisma.user.create({
       data: {
@@ -31,14 +29,11 @@ export default async function Register(req: Request, res: NextApiResponse) {
       },
     });
   } catch (e) {
-    res.json({
-      success: false,
+    res.status(500).json({
       error: "Registration failed!",
     });
     return;
   }
 
-  res.json({
-    success: true,
-  });
+  res.status(201);
 }
