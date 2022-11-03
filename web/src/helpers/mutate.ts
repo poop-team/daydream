@@ -19,7 +19,6 @@ export async function login(email: string, password: string) {
 }
 
 export async function register(email: string, password: string) {
-  console.log(email, password);
   const res = await fetch("/api/user/register", {
     method: "POST",
     headers: {

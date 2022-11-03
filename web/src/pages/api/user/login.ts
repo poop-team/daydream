@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { compare } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { prisma } from "../../../server/db/client";
 import { generateJWT } from "../../../utils/jwt";
 import { validateMethod, validateString } from "../../../utils/validation";
 
@@ -20,7 +20,6 @@ export default async function Login(req: Request, res: NextApiResponse) {
   if (!validateString(email, "email is required", res)) return;
   if (!validateString(password, "password is required", res)) return;
 
-  const prisma = new PrismaClient();
   const user = await prisma.user.findUnique({
     where: {
       email,

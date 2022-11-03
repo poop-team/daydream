@@ -1,14 +1,12 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function Allposts(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+import { prisma } from "../../../server/db/client";
+
+// TODO: Remove this endpoint once /post/search is implemented
+export default async function All(req: NextApiRequest, res: NextApiResponse) {
   //returns every single posts can be used for testing on explore page
   //If userId provided will return all posts from that user.
 
-  const prisma = new PrismaClient();
   const query = req.query;
   if (query.userID) {
     const AllPostsOfUsers = await prisma.post.findMany({
