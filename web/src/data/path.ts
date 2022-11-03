@@ -3,8 +3,7 @@ const paths = {
   feed: "/feed",
   profile: "/profile",
   create: "/create",
-  login: "/login",
-  register: "/register",
+  auth: "/auth",
 };
 
 export default paths;
