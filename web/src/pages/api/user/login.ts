@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
 import { compare } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { generateJWT } from "../../utils/jwt";
-import { validateMethod, validateString } from "../../utils/utils";
+import { prisma } from "../../../server/db/client";
+import { generateJWT } from "../../../utils/jwt";
+import { validateMethod, validateString } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {
@@ -20,7 +20,6 @@ export default async function Login(req: Request, res: NextApiResponse) {
   if (!validateString(email, "email is required", res)) return;
   if (!validateString(password, "password is required", res)) return;
 
-  const prisma = new PrismaClient();
   const user = await prisma.user.findUnique({
     where: {
       email,
@@ -28,9 +27,7 @@ export default async function Login(req: Request, res: NextApiResponse) {
   });
 
   if (!user) {
-    res.statusCode = 400;
-    res.json({
-      success: false,
+    res.status(401).json({
       error: "Invalid login credentials.",
     });
     return;
@@ -38,9 +35,7 @@ export default async function Login(req: Request, res: NextApiResponse) {
 
   const success = await compare(password, user.passwordHash);
   if (!success) {
-    res.statusCode = 400;
-    res.json({
-      success: false,
+    res.status(401).json({
       error: "Invalid login credentials.",
     });
     return;
@@ -49,12 +44,12 @@ export default async function Login(req: Request, res: NextApiResponse) {
   try {
     const jwt = await generateJWT(email);
     res.json({
-      success: true,
       jwt,
+      userName: user.name,
+      userAvatar: user.image,
     });
   } catch (e) {
-    res.json({
-      success: false,
+    res.status(500).json({
       error: String(e),
     });
   }

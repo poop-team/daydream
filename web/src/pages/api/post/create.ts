@@ -1,31 +1,31 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 //import Replicate from 'Replicate';
-import { env } from "../../env/server";
-import { getServerAuthSession } from "../../server/common/get-server-auth-session";
+import { env } from "../../../env/server";
+import { prisma } from "../../../server/db/client";
+import { validateRequest } from "../../../utils/jwt";
+
+interface Request extends NextApiRequest {
+  body: {
+    userId: string;
+    prompt: string;
+  };
+}
 
 interface ResponseData {
   image: string;
 }
 
-export default async function createPost(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const session = await getServerAuthSession({ req, res });
-
-  if (!session) {
-    res.statusCode = 401;
-    return res.json({ Error: "User not logged in." });
+export default async function create(req: Request, res: NextApiResponse) {
+  // Validate if the user has a valid JWT token
+  if (!(await validateRequest(req))) {
+    return res.status(401).json({ Error: "User not logged in." });
   }
 
-  const prisma = new PrismaClient();
-  const query = req.query;
+  const { userId, prompt } = req.body;
 
-  if (!query.prompt) {
-    res.statusCode = 402;
-    return res.json("No prompt provided");
+  if (!prompt.trim()) {
+    return res.status(402).json("No prompt provided");
   }
 
   // const settings = [
@@ -40,11 +40,7 @@ export default async function createPost(
   //         'use_ldm': false,
   //     },
   // ];
-  const url =
-    env.DIFFUSION_URL +
-    "/txt2img?prompt=" +
-    (query.prompt as string) +
-    "&format=json";
+  const url = `${env.DIFFUSION_URL}/txt2img?prompt=${prompt}&format=json`;
 
   const data = await fetch(url, {
     headers: {
@@ -62,8 +58,7 @@ export default async function createPost(
   // return(res.json({'image': DiffusionModelPrediction[0]}));
 
   if (data.status == 406) {
-    res.statusCode = 403;
-    return res.json({ Error: "NSFW CONTENT REJECTED." });
+    return res.status(403).json({ Error: "NSFW CONTENT REJECTED." });
   }
   //response data into json
 
@@ -71,15 +66,15 @@ export default async function createPost(
 
   const post = await prisma.post.create({
     data: {
-      prompt: query.prompt.toString(),
+      prompt: prompt,
       imageURL: resData.image,
-      authorId: session.user?.id as string,
+      authorId: userId,
     },
   });
 
   return res.json({
     postId: post.id,
-    prompt: query.prompt,
-    image: resData.image,
+    prompt: post.prompt,
+    image: post.imageURL,
   });
 }

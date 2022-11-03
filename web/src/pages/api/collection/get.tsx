@@ -1,21 +1,23 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function GetCollection(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const prisma = new PrismaClient();
-  const query = req.query;
+import { prisma } from "../../../server/db/client";
 
-  if (!query.CollectionID) {
-    res.statusCode = 402;
-    return res.json("No CollectionID provided");
+interface Request extends NextApiRequest {
+  body: {
+    collectionId: string;
+  };
+}
+
+export default async function Get(req: Request, res: NextApiResponse) {
+  const { collectionId } = req.body;
+
+  if (!collectionId) {
+    return res.status(402).json("No collectionId provided");
   }
 
   const resData = await prisma.collection.findMany({
     where: {
-      id: String(query.collectionId),
+      id: collectionId,
     },
     select: {
       posts: {
@@ -39,5 +41,5 @@ export default async function GetCollection(
     },
   });
   //returns type resData: Post[]
-  res.json({ resData });
+  res.status(200).json({ resData });
 }

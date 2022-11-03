@@ -58,8 +58,7 @@ export default function TopNav() {
   const isFeed = router.pathname === paths.feed;
   const isCreate = router.pathname === paths.create;
   const isProfile = router.pathname === paths.profile;
-  const isAuth =
-    router.pathname == paths.login || router.pathname == paths.register;
+  const isAuth = router.pathname == paths.auth;
 
   //#endregion
 

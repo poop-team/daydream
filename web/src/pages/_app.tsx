@@ -4,34 +4,27 @@ import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 
 import BottomNav from "../components/Navigation/BottomNav";
 import TopNav from "../components/Navigation/TopNav";
-
-interface Props extends AppProps {
-  pageProps: {
-    session: Session;
-  };
-}
+import useAuth from "../hooks/useAuth";
 
 const queryClient = new QueryClient();
 
-function Account({ Component, pageProps: { session, ...pageProps } }: Props) {
+function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
+  useAuth();
+
   return (
     <>
       <Head>
         <title>Daydream</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <SessionProvider session={session}>
-        <QueryClientProvider client={queryClient}>
-          <TopNav />
-          <Component {...pageProps} />
-          <BottomNav />
-        </QueryClientProvider>
-      </SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <TopNav />
+        <Component {...pageProps} />
+        <BottomNav />
+      </QueryClientProvider>
     </>
   );
 }
