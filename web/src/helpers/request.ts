@@ -1,6 +1,5 @@
 /**
- * Calls the fetch API with the passed parameters. If the response is not ok, it will throw an error. If the error is
- * a 401 (Unauthorized), it will clear the auth session and throw an error.
+ * Calls the fetch API with authorization and the passed parameters. If the response is not ok, it will throw an error.
  *
  * @param url - The URL to call (e.g. /api/user/login)
  * @param body - The body of the request
