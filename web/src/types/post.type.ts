@@ -12,6 +12,7 @@ export interface Post {
 }
 
 export interface CreatedPost {
+  error?: string;
   prompt: string;
   imageURL: string;
 }
