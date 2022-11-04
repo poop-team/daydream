@@ -60,8 +60,8 @@ export default function LoginPage() {
 
   //#region Derived State
 
-  const isLogin = action == "login";
-  const isRegister = action == "register";
+  const isLogin = action === "login";
+  const isRegister = action === "register";
 
   const emailInvalid =
     (email.trim() == "" || !email.includes("@")) && isRegister;

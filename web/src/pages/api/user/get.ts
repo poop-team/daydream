@@ -12,7 +12,7 @@ interface Request extends NextApiRequest {
 export default async function get(req: Request, res: NextApiResponse) {
   // Validate if the user has a valid JWT token
   if (!(await validateRequest(req))) {
-    return res.status(401).json({ Error: "User not logged in." });
+    return res.status(401).json({ error: "User not logged in." });
   }
 
   const { userId } = req.body;
@@ -20,11 +20,11 @@ export default async function get(req: Request, res: NextApiResponse) {
   if (!userId) {
     return res
       .status(400)
-      .json({ Error: "You are missing the userId parameter" });
+      .json({ error: "You are missing the userId parameter" });
   }
 
   if (Array.isArray(userId)) {
-    return res.status(400).json({ Error: "userId cannot be a string array" });
+    return res.status(400).json({ error: "userId cannot be a string array" });
   }
 
   const user = await prisma.user.findUnique({
