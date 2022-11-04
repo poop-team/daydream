@@ -19,7 +19,7 @@ interface ResponseData {
 export default async function create(req: Request, res: NextApiResponse) {
   // Validate if the user has a valid JWT token
   if (!(await validateRequest(req))) {
-    return res.status(401).json({ Error: "User not logged in." });
+    return res.status(401).json({ error: "User not logged in." });
   }
 
   const { userId, prompt } = req.body;
@@ -58,7 +58,7 @@ export default async function create(req: Request, res: NextApiResponse) {
   // return(res.json({'image': DiffusionModelPrediction[0]}));
 
   if (data.status == 406) {
-    return res.status(403).json({ Error: "NSFW CONTENT REJECTED." });
+    return res.status(403).json({ error: "NSFW CONTENT REJECTED." });
   }
   //response data into json
 
