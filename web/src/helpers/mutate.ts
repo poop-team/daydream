@@ -14,9 +14,10 @@ export async function login(email: string, password: string) {
   });
 }
 
-export async function register(email: string, password: string) {
+export async function register(name: string, email: string, password: string) {
   await doRequest("/api/user/register", {
     userId: getAuthSession().userId,
+    name,
     email,
     password,
   });
