@@ -32,7 +32,7 @@ export default function useAuth() {
     // This is probably not the best way to determine if the user is authenticated and it might be a better idea to check
     // with an endpoint that can verify the jwt but for now this will do.
     isLoggedIn: !!session?.jwt,
-    name: session?.userName, // Nothing yet
+    name: session?.userName,
     avatar: session?.userAvatar,
   };
 }
