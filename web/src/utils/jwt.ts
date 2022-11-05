@@ -52,9 +52,10 @@ export const validateJWT = async (
     if (!process.env.JWT_PRIVATE_KEY) {
       throw Error("Missing environment variable process.env.JWT_PRIVATE_KEY");
     }
+
     verify(jwt, process.env.JWT_PRIVATE_KEY, (err, data) => {
-      const userId = (data as { userId: string }).userId;
-      resolve(!err && userId === userId);
+      const jwtUserId = (data as { userId: string }).userId;
+      resolve(!err && jwtUserId === userId);
     });
   });
 };
