@@ -7,9 +7,10 @@
  *
  * @returns The response from the API
  */
+import { ErrorResponse } from "../types/error.type";
 import { getAuthSession } from "../utils/storage";
 
-export default async function doRequest<R extends { error?: string | null }>(
+export default async function doRequest<R>(
   url: string,
   body: any,
   method: "GET" | "POST" | "PUT" | "DELETE" = "GET"
@@ -22,7 +23,7 @@ export default async function doRequest<R extends { error?: string | null }>(
     },
     body: JSON.stringify(body),
   });
-  const data = (await res.json().catch(() => null)) as R;
+  const data = (await res.json().catch(() => null)) as R & ErrorResponse;
 
   if (!res.ok) {
     throw new Error(data?.error || "Unknown server error");
