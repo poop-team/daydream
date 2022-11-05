@@ -22,7 +22,6 @@ export default async function doRequest<R extends { error?: string | null }>(
     },
     body: JSON.stringify(body),
   });
-
   const data = (await res.json().catch(() => null)) as R;
 
   if (!res.ok) {
