@@ -23,12 +23,10 @@ export default async function doRequest<R extends { error?: string | null }>(
     body: JSON.stringify(body),
   });
 
-  const data = (await res.json().catch(() => {
-    throw new Error("Invalid JSON response");
-  })) as R;
+  const data = (await res.json().catch(() => null)) as R;
 
   if (!res.ok) {
-    throw new Error(data?.error || "Error response received");
+    throw new Error(data?.error || "Unknown server error");
   }
 
   return data;
