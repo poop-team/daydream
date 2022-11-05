@@ -1,18 +1,19 @@
-import { Pressable, Text } from "react-native";
+import { Pressable, StyleProp, Text, ViewStyle } from 'react-native';
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { styled } from "nativewind";
 
 interface Props {
     label: string;
     selected: boolean;
     onSelect: (style: string, selected: boolean) => void;
-    className?: string;
+    style?: StyleProp<ViewStyle>;
 }
 
-export default function SelectableChip({
+function SelectableChip({
     label,
     selected,
     onSelect,
-    className = "",
+    style,
 }: Props) {
     //# region handlers
 
@@ -33,18 +34,11 @@ export default function SelectableChip({
     //# endregion
 
     return (
-        <Pressable className={`${styles} ${className}`} onPress={handlePress}>
-            {selected ? (
-                <>
-                    <Text className=" text-white margin mx-2 text-xl font-semibold">{label}</Text>
-                    <Ionicons className="inline-block h-full w-5" name="checkmark" size={27} color="white" />
-                </>
-            ) : (
-                <>
-                    <Text className=" text-black margin mx-2 text-xl font-semibold">{label}</Text>
-                    <Ionicons className="inline-block h-full w-5" name="add" size={27} color="black" />
-                </>
-            )}
+        <Pressable className={`${styles}`} style={style} onPress={handlePress}>
+            <Text className={`${selected ? "text-white" : "text-black"} margin mx-2 text-xl font-semibold`}>{label}</Text>
+            <Ionicons className="inline-block h-full w-5" name={selected ? "checkmark" : "add"} size={27} color={selected ? "white" : "black"} />
         </Pressable>
     )
 }
+
+export default styled(SelectableChip);
