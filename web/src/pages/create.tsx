@@ -14,9 +14,9 @@ import { createPost } from "../helpers/mutate";
 export default function Create() {
   //#region Hooks
 
-  const [prompt, setPrompt] = useState<string>("");
+  const [prompt, setPrompt] = useState("");
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
-  const [loadingText, setLoadingText] = useState<string>(loadingTexts.start);
+  const [loadingText, setLoadingText] = useState(loadingTexts.start);
 
   const {
     data: recentPosts,
