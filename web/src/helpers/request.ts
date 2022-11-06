@@ -14,7 +14,7 @@ export default async function doRequest<R>(
   url: string,
   body: any,
   method: "GET" | "POST" | "PUT" | "DELETE" = "GET"
-) {
+): Promise<R> {
   const res = await fetch(url, {
     method: method,
     headers: {
@@ -23,11 +23,12 @@ export default async function doRequest<R>(
     },
     body: JSON.stringify(body),
   });
-  const data = (await res.json().catch(() => null)) as R & ErrorResponse;
 
   if (!res.ok) {
-    throw new Error(data?.error || "Unknown server error");
+    // try to parse for an error
+    const data = (await res.json().catch(() => null)) as ErrorResponse | null;
+    throw new Error(data?.error ?? "Unknown server error");
   }
 
-  return data;
+  return (await res.json()) as R;
 }
