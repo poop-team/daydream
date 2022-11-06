@@ -34,7 +34,7 @@ function SelectableChip({
     //# endregion
 
     return (
-        <Pressable className={`${styles}`} style={style} onPress={handlePress}>
+        <Pressable className={styles} style={style} onPress={handlePress}>
             <Text className={`${selected ? "text-white" : "text-black"} margin mx-2 text-xl font-semibold`}>{label}</Text>
             <Ionicons className="inline-block h-full w-5" name={selected ? "checkmark" : "add"} size={27} color={selected ? "white" : "black"} />
         </Pressable>
