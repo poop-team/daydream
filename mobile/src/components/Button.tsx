@@ -3,7 +3,6 @@ import { Pressable, Text, PressableProps } from "react-native";
 
 interface Props extends PressableProps {
   name: string;
-  className?: string;
   children?: ReactNode;
   disabled?: boolean;
   pilled?: boolean;
@@ -11,7 +10,6 @@ interface Props extends PressableProps {
 
 /**
  * name - (string) button text (required).
- * className - (string) additional button styling (required).
  * children - (jsx tags/component)(optional) ie. pass in an icon (optional).
  * onPress - (function) button click handler. (optional) (default: ()=>{})
  * disabled - (boolean) calling this in the prop will grey the button out(optional).
@@ -20,7 +18,6 @@ interface Props extends PressableProps {
 
 export default function Button({
   name,
-  className = "",
   children = null,
   disabled = false,
   pilled = false,
@@ -43,7 +40,7 @@ export default function Button({
   }
 
   return (
-    <Pressable className={`${baseStyle} ${className}`} {...props}>
+    <Pressable className={baseStyle} {...props}>
       {name && <Text className={textStyle}>{name}</Text>}
       {children}
     </Pressable>
