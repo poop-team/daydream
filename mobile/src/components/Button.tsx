@@ -1,3 +1,4 @@
+import { styled } from "nativewind";
 import { ReactNode } from "react";
 import { Pressable, Text, PressableProps } from "react-native";
 
@@ -16,7 +17,7 @@ interface Props extends PressableProps {
  * pilled - (boolean) calling this will round the button all the way(optional).
  */
 
-export default function Button({
+function Button({
   name,
   children = null,
   disabled = false,
@@ -46,3 +47,5 @@ export default function Button({
     </Pressable>
   );
 }
+
+export default styled(Button);
