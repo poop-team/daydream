@@ -56,22 +56,7 @@ export default function Create() {
   //#region Handlers
 
   const handlePromptChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setPrompt(value);
-
-    // TODO: Should we do this?
-    // Change the order of the styles based on if the style was already typed in the prompt.
-    // It should appear last if it was already typed.
-    // if (value.trim() !== prompt) {
-    //   const newStyles = [...styles];
-    //   const index = newStyles.findIndex((s) =>
-    //     value.trim().toLowerCase().includes(s.trim().toLowerCase())
-    //   );
-    //   if (index !== -1) {
-    //     newStyles.push(newStyles.splice(index, 1)[0]);
-    //     setStyles(newStyles);
-    //   }
-    // }
+    setPrompt(e.target.value);
   };
 
   const handleCreate = () => {
