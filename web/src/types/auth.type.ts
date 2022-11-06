@@ -1,6 +1,6 @@
 export interface AuthSession {
-  error?: string | null;
-  jwt?: string | null;
-  userName?: string | null;
-  userAvatar?: string | null;
+  jwt: string;
+  userId: string;
+  userName: string;
+  userAvatar: string | null;
 }

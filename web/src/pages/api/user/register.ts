@@ -6,6 +6,7 @@ import { validateMethod, validateString } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {
+    name: string;
     email: string;
     password: string;
   };
@@ -14,7 +15,7 @@ interface Request extends NextApiRequest {
 export default async function Register(req: Request, res: NextApiResponse) {
   if (!validateMethod("POST", req, res)) return;
 
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
   if (!validateString(email, "email is required", res)) return;
   if (!validateString(password, "password is required", res)) return;
@@ -24,16 +25,18 @@ export default async function Register(req: Request, res: NextApiResponse) {
   try {
     await prisma.user.create({
       data: {
+        name,
         email,
         passwordHash,
       },
     });
   } catch (e) {
-    res.status(500).json({
+    return res.status(500).json({
       error: "Registration failed!",
     });
-    return;
   }
 
-  res.status(201);
+  return res.status(201).json({
+    message: "Registration successful!",
+  });
 }

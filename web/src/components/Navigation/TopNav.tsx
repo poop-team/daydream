@@ -62,14 +62,21 @@ export default function TopNav() {
 
   //#endregion
 
+  //#region Styles
+
+  let navStyles =
+    "fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md";
+  navStyles += isAuth ? " hidden" : ""; // Hide on auth pages.
+  navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
+
+  //#endregion
+
   return (
     <motion.nav
       variants={navVariants}
       animate={navHidden ? "initialTop" : "animate"}
       transition={transitions.easeOut}
-      className={`fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md ${
-        isAuth ? "hidden" : ""
-      }`}
+      className={navStyles}
     >
       <ul className={"flex h-full list-none items-center justify-between"}>
         <AnimatePresence mode={"popLayout"} initial={false}>

@@ -2,34 +2,44 @@
  * Functions to mutate/change data on the API
  */
 import { AuthSession } from "../types/auth.type";
+import { CreatedPost } from "../types/post.type";
+import { getAuthSession } from "../utils/storage";
+import doRequest from "./request";
 
 export async function login(email: string, password: string) {
-  const res = await fetch("/api/user/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  return await doRequest<AuthSession>(
+    "/api/user/login",
+    {
+      userId: getAuthSession().userId,
+      email,
+      password,
     },
-    body: JSON.stringify({ email, password }),
-  });
-  const data = (await res.json()) as AuthSession;
-  if (!res.ok) {
-    throw new Error(data.error || "Registration failed!");
-  }
-  return data;
+    "POST"
+  );
 }
 
-export async function register(email: string, password: string) {
-  const res = await fetch("/api/user/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+export async function register(name: string, email: string, password: string) {
+  await doRequest(
+    "/api/user/register",
+    {
+      userId: getAuthSession().userId,
+      name,
+      email,
+      password,
     },
-    body: JSON.stringify({ email, password }),
-  });
-  const data = (await res.json()) as { error?: string };
-  if (!res.ok) {
-    throw new Error(data.error || "Registration failed!");
-  }
+    "POST"
+  );
+}
+
+export async function createPost(prompt: string) {
+  return await doRequest<CreatedPost>(
+    "/api/post/create",
+    {
+      userId: getAuthSession().userId,
+      prompt,
+    },
+    "POST"
+  );
 }
 
 export async function likePost(postId: string) {}

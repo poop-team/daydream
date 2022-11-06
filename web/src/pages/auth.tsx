@@ -13,6 +13,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   const [action, setAction] = useState<"login" | "register">("login");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -41,8 +42,13 @@ export default function LoginPage() {
       }
     } else {
       // Register
-      if (!emailInvalid && !passwordInvalid && !confirmPasswordInvalid) {
-        register(email, password)
+      if (
+        !nameInvalid &&
+        !emailInvalid &&
+        !passwordInvalid &&
+        !confirmPasswordInvalid
+      ) {
+        register(name, email, password)
           .then(() => {
             //TODO: Display some kind of notification telling the user to verify the email, maybe a toast with notistack?
             console.info("User registered successfully 😀");
@@ -64,8 +70,10 @@ export default function LoginPage() {
   const isRegister = action === "register";
 
   const emailInvalid =
-    (email.trim() == "" || !email.includes("@")) && isRegister;
+    (email.trim() === "" || !email.includes("@")) && isRegister;
   const emailHelperText = emailInvalid ? "Invalid email" : "";
+  const nameInvalid = name.trim() === "";
+  const nameHelperText = nameInvalid ? "Name cannot be empty" : "";
   const passwordInvalid = password.length < 8 && isRegister;
   const passwordHelperText = passwordInvalid
     ? "Password must be at least 8 characters"
@@ -97,8 +105,20 @@ export default function LoginPage() {
         className="flex w-full max-w-md flex-col items-center gap-2 sm:gap-4"
         onSubmit={handleSubmit}
       >
+        {isRegister && (
+          <TextField
+            label="Name:"
+            value={name}
+            placeholder="Enter your name here..."
+            error={nameInvalid}
+            helperText={nameHelperText}
+            onChange={(e) => setName(e.target.value)}
+            className={"w-full"}
+          />
+        )}
         <TextField
           label="Email:"
+          value={email}
           placeholder="Enter your email address..."
           error={emailInvalid}
           helperText={emailHelperText}
@@ -108,6 +128,7 @@ export default function LoginPage() {
         <TextField
           label="Password:"
           type="password"
+          value={password}
           placeholder="Enter your password..."
           error={passwordInvalid}
           helperText={passwordHelperText}
@@ -117,8 +138,8 @@ export default function LoginPage() {
         {isRegister && (
           <TextField
             label="Confirm Password:"
-            name="retype"
             type="password"
+            value={confirmPassword}
             placeholder="Confirm your password..."
             error={confirmPasswordInvalid}
             helperText={confirmPasswordHelperText}

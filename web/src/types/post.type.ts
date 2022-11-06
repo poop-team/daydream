@@ -10,3 +10,8 @@ export interface Post {
   };
   likes: [];
 }
+
+export interface CreatedPost {
+  prompt: string;
+  imageURL: string;
+}

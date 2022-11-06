@@ -42,9 +42,10 @@ export default async function Login(req: Request, res: NextApiResponse) {
   }
 
   try {
-    const jwt = await generateJWT(email);
+    const jwt = await generateJWT(user.id);
     res.json({
       jwt,
+      userId: user.id,
       userName: user.name,
       userAvatar: user.image,
     });
