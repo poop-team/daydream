@@ -6,7 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 
 export async function login(email: string, password: string) {
     return await doRequest<AuthSession>(
-      "/api/user/login",
+      "https://project.up.railway.app/api/user/login",
       {
         userId: getAuthSession().userId,
         email,
@@ -18,7 +18,7 @@ export async function login(email: string, password: string) {
   
   export async function register(name: string, email: string, password: string) {
     await doRequest(
-      "/api/user/register",
+      "https://project.up.railway.app/api/user/register",
       {
         userId: getAuthSession().userId,
         name,
