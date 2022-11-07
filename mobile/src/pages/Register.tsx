@@ -70,7 +70,9 @@ export default function Register({ navigation }) {
                     <Button 
                     name='Save'
                     className='ml-0 text-xl text-indigo-900 font-bold'
-                    onPress={() => navigation.navigate('Home')}/>
+                    onPress={() => {
+                        navigation.navigate('Home');
+                        }}/>
                 </Pressable>
             </View>
             <StatusBar style='auto' />
