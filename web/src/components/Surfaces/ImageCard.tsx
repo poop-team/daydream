@@ -7,6 +7,7 @@ import LikesCounter from "../Widgets/LikesCounter";
 import Card from "./Card";
 
 interface Props {
+  id: string;
   src: string;
   prompt: string;
   likes: number;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export default function ImageCard({
+  id,
   src,
   prompt,
   likes,
@@ -93,6 +95,7 @@ export default function ImageCard({
         </div>
       </Card>
       <ImageDialog
+        id={id}
         src={src}
         prompt={prompt}
         likes={likes}

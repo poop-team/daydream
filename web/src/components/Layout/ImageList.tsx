@@ -39,6 +39,7 @@ export default function ImageList({
             className={"h-full w-full"}
           >
             <ImageCard
+              id={post.id}
               src={post.imageURL}
               prompt={post.prompt}
               authorName={post.author.name}

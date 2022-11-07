@@ -1,6 +1,6 @@
 import { motion, SVGMotionProps } from "framer-motion";
 
-import { variants } from "../../styles/motion-definitions";
+import { transitionVariants } from "../../styles/motion-definitions";
 
 interface Props extends SVGMotionProps<SVGElement> {
   className?: string;
@@ -9,9 +9,10 @@ interface Props extends SVGMotionProps<SVGElement> {
 export default function CircularProgress({ className = "", ...rest }: Props) {
   return (
     <motion.svg
-      initial={variants.fadeOut}
-      animate={variants.fadeIn}
-      exit={variants.fadeOut}
+      initial={"fadeOut"}
+      animate={"fadeIn"}
+      exit={"fadeOut"}
+      variants={transitionVariants}
       className={`h-5 w-5 ${className}`}
       {...rest}
     >

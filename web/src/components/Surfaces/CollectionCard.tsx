@@ -1,88 +1,100 @@
-import Image from "next/future/image";
-import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { HTMLAttributes, useState } from "react";
 
-import Posts from "../../types/posts";
-import CollectionDialog from "../Dialogs/CollectionDialog";
-import Author from "../Widgets/Author";
+import { transitions } from "../../styles/motion-definitions";
+import CustomImage from "../CustomImage";
 import Card from "./Card";
 
-interface Props {
-  id: number;
-  src: string;
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  srcs: string[];
   name: string;
-  savedBy: string;
-  author: string;
-  authorAvatar: string;
-  posts: Posts[];
-  showDialog?: boolean;
+  postCount: number;
   className?: string;
 }
 
+const variants = {
+  initial: {
+    opacity: 0,
+  },
+  normal: (idx: number) => ({
+    opacity: 1,
+    translateY: idx === 0 ? "10%" : idx === 1 ? "4%" : "0%",
+  }),
+  hover: (idx: number) => ({
+    opacity: 1,
+    translateY: idx === 0 ? "20%" : idx === 1 ? "10%" : "2%",
+  }),
+};
+
 export default function CollectionCard({
-  src,
+  srcs,
   name,
-  // savedBy,
-  author,
-  authorAvatar,
-  posts,
-  showDialog = true,
+  postCount,
   className = "",
+  ...rest
 }: Props) {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  //#region Hooks
 
-  const handleDialogOpen = () => {
-    if (showDialog) {
-      setIsDialogOpen(true);
-    }
+  const [isHovered, setIsHovered] = useState(false);
+
+  //#endregion
+
+  //#region Handlers
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
   };
 
-  const handleDialogClose = () => {
-    setIsDialogOpen(false);
+  const handleMouseLeave = () => {
+    setIsHovered(false);
   };
+
+  //#endregion
 
   return (
-    <>
-      <div className="container mx-auto">
-        <Card
-          className={`group relative aspect-square cursor-pointer select-none overflow-hidden bg-slate-500 p-6 
-          transition-all duration-200 ease-out hover:shadow-2xl sm:hover:scale-[103%] ${className}`}
-          onClick={handleDialogOpen}
-        >
-          <Image
-            src={src}
-            alt={name}
-            fill
-            priority
-            sizes="(max-width: 600px) 40vw, (max-width: 1024px) 30vw, (max-width: 1536px) 22vw, 18vw"
-            className="scale-[103%] object-contain transition-all duration-200 ease-out sm:group-hover:scale-100 
-            sm:group-hover:blur-sm sm:group-hover:brightness-[30%]"
-          />
-          <div
-            className="relative hidden h-full flex-col justify-between text-slate-50 opacity-0 transition-all 
-            duration-200 ease-out group-hover:opacity-100 sm:flex sm:gap-2 lg:gap-4"
+    <Card
+      className={`group relative aspect-square h-fit cursor-pointer select-none overflow-hidden  p-6 shadow-none 
+      transition-all duration-200 ease-out ${className}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      {...rest}
+    >
+      <AnimatePresence mode={"popLayout"} initial={false}>
+        {srcs.slice(0, 3).map((src, idx) => (
+          <motion.div
+            key={src}
+            custom={idx}
+            initial={"initial"}
+            animate={isHovered ? "hover" : "normal"}
+            exit={"initial"}
+            variants={variants}
+            transition={transitions.springStiff}
+            style={{
+              zIndex: idx === 0 ? 3 : idx === 1 ? 2 : 1,
+              scale: idx === 0 ? 1 : idx === 1 ? 0.95 : 0.9,
+            }}
+            className={
+              "absolute top-0 left-0 h-full w-full overflow-hidden rounded-2xl"
+            }
           >
-            <p className="text-center sm:line-clamp-2 md:line-clamp-4">
-              {name}
-            </p>
-            <Author
-              authorName={author}
-              authorAvatar={authorAvatar}
-              className="justify-center"
+            <CustomImage
+              src={src}
+              alt={name}
+              fill
+              priority
+              sizes="(max-width: 600px) 40vw, (max-width: 1024px) 30vw, (max-width: 1536px) 22vw, 18vw"
+              containerClassName={"aspect-square"}
+              className={"object-cover"}
             />
-          </div>
-        </Card>
-        <CollectionDialog
-          src={src}
-          name={name}
-          authorName={author}
-          authorAvatar={authorAvatar}
-          posts={posts}
-          isOpen={isDialogOpen}
-          onClose={handleDialogClose}
-        />
-        <div className="p-2 text-xl">{name}</div>
-        <div className="p-2 text-xl">{posts.length} saves</div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+      <div className="absolute bottom-0 left-0 z-20 flex w-full justify-between bg-slate-800/70 p-2 text-slate-50 backdrop-blur-md">
+        <div className={"basis-full"}>
+          <p className="text-center text-xl">{name}</p>
+          <p className="text-center">{postCount} saved</p>
+        </div>
       </div>
-    </>
+    </Card>
   );
 }

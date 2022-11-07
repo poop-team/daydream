@@ -13,6 +13,11 @@ export const transitions = {
     damping: 30,
     stiffness: 500,
   },
+  springStiffer: {
+    type: "spring",
+    damping: 40,
+    stiffness: 700,
+  },
   easeOut: {
     type: "tween",
     ease: "easeOut",
@@ -20,7 +25,7 @@ export const transitions = {
   },
 };
 
-export const variants = {
+export const transitionVariants = {
   fadeIn: {
     opacity: 1,
     transition: {
@@ -61,7 +66,7 @@ export const variants = {
   },
 };
 
-export const navVariants = {
+export const positionVariants = {
   initialLeft: {
     x: -64,
     opacity: 0,

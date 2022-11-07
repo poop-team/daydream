@@ -1,15 +1,20 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import { MdFavorite, MdFavoriteBorder, MdLibraryAdd } from "react-icons/md";
 
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { transitions } from "../../styles/motion-definitions";
 import CustomImage from "../CustomImage";
 import Button from "../Inputs/Button";
 import IconButton from "../Inputs/IconButton";
 import Card from "../Surfaces/Card";
 import Author from "../Widgets/Author";
 import LikesCounter from "../Widgets/LikesCounter";
+import AddToCollectionPanel from "./Panels/AddToCollectionPanel";
 import StyledDialog from "./StyledDialog";
 
 interface Props {
+  id: string;
   src: string;
   prompt: string;
   likes: number;
@@ -22,6 +27,7 @@ interface Props {
 }
 
 export default function ImageDialog({
+  id,
   src,
   prompt,
   likes,
@@ -32,20 +38,35 @@ export default function ImageDialog({
   isOpen,
   onClose,
 }: Props) {
+  //#region Hooks
+
+  const md = useMediaQuery("(min-width: 768px)");
+
+  const [isAddToCollectionPanelOpen, setIsAddToCollectionPanelOpen] =
+    useState(false);
+
+  //#endregion
+
   //#region Handlers
 
   const handleLikeClick = () => {
     onLikedChange(!isLiked);
   };
 
+  const handleDialogClose = () => {
+    setIsAddToCollectionPanelOpen(false);
+    onClose();
+  };
+
   //#endregion
 
   return (
-    <StyledDialog isOpen={isOpen} onClose={onClose}>
+    <StyledDialog isOpen={isOpen} onClose={handleDialogClose}>
       <Card
         className={
           "relative flex max-h-[90vh] w-full flex-col overflow-hidden bg-slate-100 md:aspect-video md:flex-row"
         }
+        // onClick={() => setIsAddToCollectionPanelOpen(false)}
       >
         {/* Big Image */}
         <CustomImage
@@ -80,7 +101,7 @@ export default function ImageDialog({
             {prompt}
           </p>
           <div className={"mt-auto flex gap-2"}>
-            <Button>
+            <Button onClick={() => setIsAddToCollectionPanelOpen(true)}>
               Add to Collection
               <MdLibraryAdd className={"h-5 w-5"} />
             </Button>
@@ -104,6 +125,35 @@ export default function ImageDialog({
             </IconButton>
           </div>
         </div>
+        <AnimatePresence initial={false}>
+          {isAddToCollectionPanelOpen && (
+            <motion.div
+              initial={{
+                x: md ? "100%" : "0%",
+                y: md ? "0%" : "100%",
+              }}
+              animate={{
+                x: md ? "4%" : "0%",
+                y: md ? "0%" : "4%",
+              }}
+              exit={{
+                x: md ? "100%" : "0%",
+                y: md ? "0%" : "100%",
+              }}
+              transition={transitions.springStiffer}
+              className={
+                "absolute right-0 bottom-0 h-[95%] w-full shadow-2xl md:h-full md:w-[95%]"
+              }
+            >
+              <AddToCollectionPanel
+                postToAddId={id}
+                postToAddSrc={src}
+                onClose={() => setIsAddToCollectionPanelOpen(false)}
+                className={"pb-[4%] md:pr-[4%] md:pb-0"}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Card>
     </StyledDialog>
   );
