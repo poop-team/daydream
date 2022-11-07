@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { Toaster } from "react-hot-toast";
 
 import BottomNav from "../components/Navigation/BottomNav";
 import TopNav from "../components/Navigation/TopNav";
@@ -24,6 +25,23 @@ function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
         <TopNav />
         <Component {...pageProps} />
         <BottomNav />
+        <Toaster
+          position={"bottom-center"}
+          containerClassName={"!bottom-16 !select-none"}
+          gutter={16}
+          toastOptions={{
+            duration: 5000,
+            className: "!bg-slate-900/80 !text-slate-50 !backdrop-blur-md",
+            success: {
+              className:
+                "!bg-emerald-900/80 !text-emerald-50 !backdrop-blur-md",
+            },
+            error: {
+              className: "!bg-red-900/80 !text-red-50 !backdrop-blur-md",
+              icon: "🚨",
+            },
+          }}
+        />
       </QueryClientProvider>
     </>
   );

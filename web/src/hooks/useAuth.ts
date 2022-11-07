@@ -11,7 +11,6 @@ export default function useAuth() {
 
   useEffect(() => {
     const session = getAuthSession();
-
     // This is probably not the best way to handle authentication, especially since we are using localStorage
     if (session.jwt) {
       setSession(session);
