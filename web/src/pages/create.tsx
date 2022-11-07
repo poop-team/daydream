@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ChangeEvent, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { MdArrowForward, MdAutoFixHigh, MdHistory } from "react-icons/md";
 
 import Button from "../components/Inputs/Button";
@@ -30,6 +31,9 @@ export default function Create() {
   const { mutate: create, isLoading: isCreating } = useMutation(createPost, {
     onSuccess: async () => {
       await refetchRecentPosts();
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
     },
   });
 

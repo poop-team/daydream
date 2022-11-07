@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
+import { toast } from "react-hot-toast";
 import { MdArrowForward } from "react-icons/md";
 
 import Button from "../components/Inputs/Button";
@@ -7,7 +8,7 @@ import TextField from "../components/Inputs/TextField";
 import { login, register } from "../helpers/mutate";
 import { storeAuthSession } from "../utils/storage";
 
-export default function LoginPage() {
+export default function AuthPage() {
   //# region Hooks
 
   const router = useRouter();
@@ -35,9 +36,8 @@ export default function LoginPage() {
               await router.replace("/feed");
             }
           })
-          .catch((err) => {
-            //TODO: Display some kind of notification for the error, maybe a toast with notistack?
-            console.error(err);
+          .catch((err: Error) => {
+            toast.error(err.message);
           });
       }
     } else {
@@ -50,13 +50,11 @@ export default function LoginPage() {
       ) {
         register(name, email, password)
           .then(() => {
-            //TODO: Display some kind of notification telling the user to verify the email, maybe a toast with notistack?
-            console.info("User registered successfully 😀");
+            toast.success("Account created successfully!");
             setAction("login");
           })
-          .catch((err) => {
-            //TODO: Display some kind of notification for the error, maybe a toast with notistack?
-            console.error(err);
+          .catch((err: Error) => {
+            toast.error(err.message);
           });
       }
     }
