@@ -51,6 +51,14 @@ export const variants = {
       ease: "easeIn",
     },
   },
+  scaleIn: {
+    scale: 1,
+    opacity: 1,
+  },
+  scaleOut: {
+    scale: 0,
+    opacity: 0,
+  },
 };
 
 export const navVariants = {
@@ -71,4 +79,17 @@ export const navVariants = {
     y: 0,
     opacity: 1,
   },
+};
+
+export const staggerContainerVariants = {
+  show: {
+    transition: {
+      staggerChildren: 0.03,
+    },
+  },
+};
+
+export const staggerItemVariants = {
+  hidden: { scale: 0.9, y: -16, opacity: 0 },
+  show: { scale: 1, y: 0, opacity: 1 },
 };

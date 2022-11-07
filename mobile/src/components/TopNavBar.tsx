@@ -17,7 +17,7 @@ export default ({ value, onChangeText, focusedColor = "bg-indigo-200", unfocused
   const bgColor = isFocused ? focusedColor : unfocusedColor;
 
   return (
-    <View className="m-4">
+    <View className="mx-4 top-9">
       <View className={`${bgColor} w-full flex-row items-center rounded-lg`}>
         <Pressable onPress={() => inputRef.current.focus()}>
           <View className={`${bgColor} mx-2`}>

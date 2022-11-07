@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 
 import ImageList from "../components/Layout/ImageList";
 import { fetchPosts } from "../helpers/fetch";
@@ -8,14 +9,23 @@ export default function Feed() {
 
   const { data: posts, isLoading: arePostsLoading } = useQuery(
     ["feed_posts"],
-    fetchPosts
+    fetchPosts,
+    {
+      onError: (err: Error) => {
+        toast.error(err.message);
+      },
+    }
   );
 
   //#endregion
 
   return (
     <main className={"h-screen"}>
-      <ImageList arePostsLoading={arePostsLoading} posts={posts} />
+      <ImageList
+        arePostsLoading={arePostsLoading}
+        posts={posts}
+        className={"px-2 pb-4 pt-16 sm:px-4 lg:px-8"}
+      />
     </main>
   );
 }
