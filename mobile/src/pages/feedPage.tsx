@@ -6,7 +6,7 @@ import BottomNavBar from "../components/BottomNavBar";
 import Card from "../components/Card";
 import TopNavBar from "../components/TopNavBar";
 
-export default function FeedPage() {
+export default function FeedPage({ navigation }) {
   return (
     <View className="flex-1 items-center justify-center scroll">
       <TopNavBar value="" onChangeText={() => {}} />
@@ -26,7 +26,7 @@ export default function FeedPage() {
           <Card />
         </ScrollView>
       </View>
-      <BottomNavBar />
+      <BottomNavBar navigation = {navigation}/>
     </View>
   );
 }
