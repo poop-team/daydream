@@ -1,61 +1,45 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { validateRequest } from "../../../utils/jwt";
+
 export default async function search(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // If userId provided will return all posts from that user that match the search query
-  // else if collectionId provided will return all posts in that collection that match the search query
-  // otherwise will return all posts of all users that match the search criteria
+  // Validate if the user has a valid JWT token
+  if (!(await validateRequest(req))) {
+    return res.status(401).json({ error: "User not logged in." });
+  }
+
+  const {
+    search: unsanitizedSearch,
+    searchUserId: userId,
+    collectionId,
+    limit,
+    cursorId,
+  } = req.query;
+  const search = unsanitizedSearch?.toString().trim() ?? "";
 
   const prisma = new PrismaClient();
-  const query = req.query;
 
-  if (!query.search) {
-    res.statusCode = 400;
-    res.json({ Error: "You are missing the search parameter" });
-    return;
+  if (
+    Array.isArray(search) ||
+    Array.isArray(userId) ||
+    Array.isArray(collectionId) ||
+    Array.isArray(limit) ||
+    Array.isArray(cursorId)
+  ) {
+    return res
+      .status(400)
+      .json({ Error: "Passed params cannot be a string array" });
   }
 
-  if (Array.isArray(query.search)) {
-    res.statusCode = 400;
-    res.json({ Error: "search param cannot be a string array" });
-    return;
-  }
-
-  const search: string = query.search;
-
-  if (query.userID) {
-    const SearchedPostsOfUser = await prisma.post.findMany({
+  let posts;
+  if (collectionId) {
+    const searchedPosts = await prisma.collection.findUnique({
       where: {
-        authorId: String(query.userID),
-        prompt: {
-          search: String(search),
-        },
-      },
-      orderBy: {
-        dateCreated: "desc",
-      },
-      select: {
-        id: true,
-        dateCreated: true,
-        prompt: true,
-        imageURL: true,
-        author: {
-          select: {
-            name: true,
-            id: true,
-          },
-        },
-        likes: true,
-      },
-    });
-    res.json({ SearchedPostsOfUser });
-  } else if (query.CollectionId) {
-    const SearchedPostsOfCollection = await prisma.collection.findUnique({
-      where: {
-        id: String(query.collectionId),
+        id: collectionId,
       },
       select: {
         posts: {
@@ -79,23 +63,24 @@ export default async function search(
       },
     });
 
-    let matchedPosts;
-    if (SearchedPostsOfCollection) {
-      const posts = SearchedPostsOfCollection.posts;
-      if (posts) {
-        matchedPosts = posts.filter((post: { prompt: string }) =>
-          post.prompt.toLowerCase().includes(search.toLowerCase())
-        );
-      }
+    if (searchedPosts?.posts) {
+      posts = searchedPosts.posts.filter((post: { prompt: string }) =>
+        post.prompt.toLowerCase().includes(search.toLowerCase())
+      );
     }
-    res.json({ matchedPosts });
   } else {
-    const SearchedPostsOfAllUsers = await prisma.post.findMany({
+    posts = await prisma.post.findMany({
       where: {
+        authorId: userId || undefined, // Leave undefined if no userId is passed
         prompt: {
-          search: String(query.search),
+          // Performs a case-insensitive search for prompts that contain the search string
+          contains: search,
+          mode: "insensitive",
         },
       },
+      take: limit ? parseInt(limit.toString()) : undefined,
+      skip: cursorId ? 1 : 0,
+      cursor: cursorId ? { id: cursorId.toString() } : undefined,
       orderBy: {
         dateCreated: "desc",
       },
@@ -113,6 +98,11 @@ export default async function search(
         likes: true,
       },
     });
-    res.json({ SearchedPostsOfAllUsers });
   }
+
+  res.json({
+    posts: posts ?? [],
+    nextCursorId:
+      posts && posts?.length > 0 ? posts[posts.length - 1].id : null,
+  });
 }
