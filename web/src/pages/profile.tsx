@@ -1,21 +1,47 @@
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { MdAddCircle } from "react-icons/md";
 
 import Button from "../components/Inputs/Button";
 import LinkIconButton from "../components/Inputs/LinkIconButton";
 import SearchBar from "../components/Inputs/SearchBar";
-import ImageCard from "../components/Surfaces/ImageCard";
+import ImageList from "../components/Layout/ImageList";
+import { fetchPosts } from "../helpers/fetch";
+import Posts from "../types/posts";
+import {stringifyNumber} from "yaml/util";
 
-export default function Profile() {
-  //#region Hooks
+interface Props {
+  id: string;
+  name: string;
+  posts?: Posts[];
+  showDialog?: boolean;
+  className?: string;
+}
 
+export default function Profile({
+  id,
+  name,
+  // posts,
+  showDialog = true,
+  className = "",
+}: Props) {
   const [text, setText] = useState("");
 
-  //#endregion
+  const { data: posts, isLoading: arePostsLoading } = useQuery(
+    ["feed_posts"],
+    fetchPosts,
+    {
+      onError: (err: Error) => {
+        toast.error(err.message);
+      },
+    }
+  );
 
-  const userViews = 1;
-  const userSaves = mockData.length;
+  const tmp_userid = 1;
+  const userViews = 4331;
+  const userSaves = posts?.length;
   const userName = "username";
   const userIcon = "https://avatars.githubusercontent.com/u/79925808?v=4";
 
@@ -25,13 +51,15 @@ export default function Profile() {
       <div className="container mx-auto">
         <div className="p-4" />
         <div className="flex flex-wrap items-center justify-center">
-          <a href="#" className="relative block">
-            <img
-              className="custom-position h-24 w-24 rounded-full object-cover"
-              src={userIcon}
-              alt="name"
-            />
-          </a>
+          <Link href={"/profile/" + tmp_userid.toString()}>
+            <a href="#" className="relative block">
+              <img
+                className="custom-position h-24 w-24 rounded-full object-cover"
+                src={userIcon}
+                alt="name"
+              />
+            </a>
+          </Link>
         </div>
         <div className="p-4" />
       </div>
@@ -88,130 +116,11 @@ export default function Profile() {
         <div className="p-2" />
       </div>
 
-      <div
-        className="grid grid-cols-fill-10 justify-items-center gap-2 py-4 px-2 sm:grid-cols-fill-20 sm:px-4 md:gap-4
-        lg:grid-cols-fill-30 lg:px-8 2xl:grid-cols-fill-40"
-      >
-        {mockData.map((data) =>
-          [1, 2, 3, 4, 5, 6].map((i) => (
-            <ImageCard key={data.id + i} {...data} className="h-full w-full" />
-          ))
-        )}
-      </div>
+      <ImageList
+        arePostsLoading={arePostsLoading}
+        posts={posts}
+        className={"px-2 pb-4 pt-16 sm:px-4 lg:px-8"}
+      />
     </>
   );
 }
-
-// GROSS
-const mockData = [
-  {
-    id: 1,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 2,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.".repeat(
-      100
-    ),
-    likes: 420,
-    authorName: "Elon Musk",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 3,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 3697,
-    authorName: "Very Long Naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaame",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 4,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 5,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 6,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 7,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 8,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 9,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 10,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 11,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 12,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-];
-
-/*
-{saves.map((images, index) => {
-  return (
-      <div key={index}>
-        <section className="flex gap-4">
-          <Card className="h-80 w-80 bg-slate-600" />
-        </section>
-      </div>
-  );
-})}
-*/
