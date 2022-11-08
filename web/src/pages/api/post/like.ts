@@ -10,7 +10,7 @@ interface Request extends NextApiRequest {
   };
 }
 
-export default async function createCollection(
+export default async function like(
   req: Request,
   res: NextApiResponse
 ) {
