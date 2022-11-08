@@ -12,7 +12,7 @@ export default async function Get(req: Request, res: NextApiResponse) {
   const { userId } = req.body;
 
   if (!userId) {
-    return res.status(402).json("No userId provided");
+    return res.status(400).json("No userId provided");
   }
 
   const resData = await prisma.collection.findMany({
