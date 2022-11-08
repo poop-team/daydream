@@ -9,7 +9,7 @@ import ImageList from "../components/Layout/ImageList";
 import StyleList from "../components/Layout/StyleList";
 import { createImageLoadingTexts as loadingTexts } from "../data/loading-texts";
 import { imageStyles } from "../data/styles";
-import { fetchPosts } from "../helpers/fetch";
+import { searchPosts } from "../helpers/fetch";
 import { createPost } from "../helpers/mutate";
 
 export default function Create() {
@@ -20,14 +20,16 @@ export default function Create() {
   const [loadingText, setLoadingText] = useState(loadingTexts.start);
 
   const {
-    data: recentPosts,
+    data: recentPostsData,
     isLoading: areRecentPostsLoading,
     refetch: refetchRecentPosts,
-  } = useQuery(
-    ["recent_posts"],
-    // TODO: Pass in the correct function once the API is ready.
-    fetchPosts
-  );
+  } = useQuery({
+    queryKey: ["recent_posts"],
+    queryFn: () => searchPosts({ userId: "me", limit: 6 }),
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
   const { mutate: create, isLoading: isCreating } = useMutation(createPost, {
     onSuccess: async () => {
       await refetchRecentPosts();
@@ -43,10 +45,10 @@ export default function Create() {
       setLoadingText(loadingTexts.start);
       const timeout1 = setTimeout(() => {
         setLoadingText(loadingTexts.dream);
-      }, 2000);
+      }, 2500);
       const timeout2 = setTimeout(() => {
         setLoadingText(loadingTexts.final);
-      }, 5000);
+      }, 7000);
 
       return () => {
         clearTimeout(timeout1);
@@ -118,7 +120,7 @@ export default function Create() {
         </h2>
         <ImageList
           arePostsLoading={areRecentPostsLoading}
-          posts={recentPosts}
+          posts={recentPostsData?.posts}
           className={"py-8"}
         />
       </div>
