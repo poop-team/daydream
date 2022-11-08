@@ -9,6 +9,7 @@ import { storeAuthSession } from "../utils/storage";
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isPending, setIsPending] = useState(false);
 
   return (
     <View className="flex-1 w-full">
@@ -57,16 +58,20 @@ export default function Login({ navigation }) {
           <Button
             name="Login"
             className="mb-10"
+            disabled={isPending}
             onPress={() => {
+              setIsPending(true);
               login(username, password)
                 .then(async (data) => {
                   if (data) {
                     storeAuthSession(data);
                     await navigation.navigate("FeedPage");
+                    setIsPending(false);
                   }
                 })
                 .catch((err: Error) => {
                   //toast.error(err.message);
+                  setIsPending(false);
                 });
             }}
           />

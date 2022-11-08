@@ -10,6 +10,7 @@ export default function Register({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isPending, setIsPending] = useState(false);
 
   const inputClassName = "ml-3 w-80";
   return (
@@ -76,14 +77,18 @@ export default function Register({ navigation }) {
             <Button
               name="Save"
               className="ml-0 text-xl text-indigo-900 font-bold"
+              disabled={isPending}
               onPress={() => {
+                setIsPending(true);
                 register(username, email, password)
                   .then(() => {
                     //toast.success("Account created successfully!");
                     navigation.navigate("Login");
+                    setIsPending(false);
                   })
                   .catch((err: Error) => {
                     //toast.error(err.message);
+                    setIsPending(false);
                   });
               }}
             />
