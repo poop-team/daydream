@@ -36,11 +36,13 @@ export default async function addPostToCollection(
   if (!postToAdd) {
     return res.status(400).json("Invalid PostID");
   }
-  // get existing posts
 
   const resStatus = await prisma.collection.update({
     where: {
-      id: collectionId,
+      collectionAndUserId: {
+        userId: userId.toString(),
+        id: collectionId.toString(),
+      },
     },
     data: {
       posts: {

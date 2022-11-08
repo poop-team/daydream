@@ -11,7 +11,6 @@ interface Request extends NextApiRequest {
   };
 }
 
-// TODO: We should check somewhere that the collection belongs to the user. We don't want to allow users to add posts to other users' collections.
 export default async function addPost(req: Request, res: NextApiResponse) {
   // Validate if the user has a valid JWT token
   if (!(await validateRequest(req))) {
@@ -34,11 +33,13 @@ export default async function addPost(req: Request, res: NextApiResponse) {
   if (!postToAdd) {
     return res.status(400).json("Invalid postId");
   }
-  // get existing posts
 
   const resStatus = await prisma.collection.update({
     where: {
-      id: collectionId?.toString(),
+      collectionAndUserId: {
+        userId: userId.toString(),
+        id: collectionId.toString(),
+      },
     },
     data: {
       posts: {
