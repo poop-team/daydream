@@ -2,17 +2,27 @@ import { AuthSession } from "../types/auth.type";
 import * as SecureStore from "expo-secure-store";
 
 export async function storeAuthSession(session: AuthSession) {
-  await SecureStore.setItemAsync("jwt", session.jwt);
-  await SecureStore.setItemAsync("userId", session.userId);
-  await SecureStore.setItemAsync("userName", session.userName);
-  await SecureStore.setItemAsync("userAvatar", session.userAvatar ?? "");
+  Promise.all([
+    SecureStore.setItemAsync("jwt", session.jwt),
+    SecureStore.setItemAsync("userId", session.userId),
+    SecureStore.setItemAsync("userName", session.userName),
+    SecureStore.setItemAsync("userAvatar", session.userAvatar ?? ""),
+  ]);
 }
 
 export async function getAuthSession(): Promise<AuthSession> {
-  let JWT = await SecureStore.getItemAsync("jwt");
-  let userId = await SecureStore.getItemAsync("userId");
-  let userName = await SecureStore.getItemAsync("userName");
-  let userAvatar = await SecureStore.getItemAsync("userAvatar");
+  let JWT: string, userId: string, userName: string, userAvatar: string;
+  Promise.all([
+    SecureStore.getItemAsync("jwt"),
+    SecureStore.getItemAsync("userId"),
+    SecureStore.getItemAsync("userName"),
+    SecureStore.getItemAsync("userAvatar"),
+  ]).then((values) => {
+    JWT = values[0];
+    userId = values[1];
+    userName = values[2];
+    userAvatar = values[3];
+  });
 
   return {
     jwt: JWT ?? "",
@@ -23,8 +33,10 @@ export async function getAuthSession(): Promise<AuthSession> {
 }
 
 export async function clearAuthSession() {
-  await SecureStore.deleteItemAsync("jwt");
-  await SecureStore.deleteItemAsync("userId");
-  await SecureStore.deleteItemAsync("userName");
-  await SecureStore.deleteItemAsync("userAvatar");
+  Promise.all([
+    SecureStore.deleteItemAsync("jwt"),
+    SecureStore.deleteItemAsync("userId"),
+    SecureStore.deleteItemAsync("userName"),
+    SecureStore.deleteItemAsync("userAvatar"),
+  ]);
 }
