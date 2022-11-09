@@ -6,10 +6,13 @@ import { MdArrowForward } from "react-icons/md";
 import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
 import { login, register } from "../helpers/mutate";
+import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
 import { storeAuthSession } from "../utils/storage";
 
 export default function AuthPage() {
   //# region Hooks
+
+  useRedirectUnauthenticated();
 
   const router = useRouter();
 
@@ -19,17 +22,20 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   //# endregion
 
   //#region Handlers
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (action === "login") {
       // Login
       if (!emailInvalid && !passwordInvalid) {
-        login(email, password)
+        setIsLoading(true);
+        await login(email, password)
           .then(async (data) => {
             if (data) {
               storeAuthSession(data);
@@ -39,6 +45,7 @@ export default function AuthPage() {
           .catch((err: Error) => {
             toast.error(err.message);
           });
+        setIsLoading(false);
       }
     } else {
       // Register
@@ -48,7 +55,8 @@ export default function AuthPage() {
         !passwordInvalid &&
         !confirmPasswordInvalid
       ) {
-        register(name, email, password)
+        setIsLoading(true);
+        await register(name, email, password)
           .then(() => {
             toast.success("Account created successfully!");
             setAction("login");
@@ -56,6 +64,7 @@ export default function AuthPage() {
           .catch((err: Error) => {
             toast.error(err.message);
           });
+        setIsLoading(false);
       }
     }
   };
@@ -145,13 +154,15 @@ export default function AuthPage() {
             className={"w-full"}
           />
         )}
-        <Button className={"mt-4 w-fit"}>
+        <Button loading={isLoading} className={"mt-4 w-fit"}>
           {isLogin ? "Log in" : "Register"}
-          <MdArrowForward
-            className={
-              "h-full w-6 transition duration-200 ease-in-out group-hover:translate-x-0.5"
-            }
-          />
+          {!isLoading && (
+            <MdArrowForward
+              className={
+                "h-full w-6 transition duration-200 ease-in-out group-hover:translate-x-0.5"
+              }
+            />
+          )}
         </Button>
       </form>
     </main>
