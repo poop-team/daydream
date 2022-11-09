@@ -10,6 +10,7 @@ export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState("");
 
   return (
     <View className="flex-1 w-full">
@@ -25,13 +26,13 @@ export default function Login({ navigation }) {
       <ScrollView className="w-screen h-screen position-relative scroll">
         <View className="flex-1 flex mx-auto">
           <Text className=" mt-8 font-bold mb-3 text-xl">
-            Enter your username:
+            Enter your name:
           </Text>
 
           <View className="mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
             <TextInput
               className="ml-3 w-80"
-              placeholder="*Enter Username"
+              placeholder="*Enter name"
               placeholderTextColor="#000000"
               onChangeText={setUsername}
             />
@@ -48,6 +49,9 @@ export default function Login({ navigation }) {
               onChangeText={setPassword}
             />
           </View>
+          <Text className="text-red-500 mx-auto font-extrabold">
+            {error}
+          </Text>
           <Pressable className="items-center justify-center">
             <Text className="text-xl my-10 text-indigo-900 font-bold">
               Forgot your password?
@@ -70,7 +74,7 @@ export default function Login({ navigation }) {
                   }
                 })
                 .catch((err: Error) => {
-                  //toast.error(err.message);
+                  setError(err.message);
                   setIsPending(false);
                 });
             }}

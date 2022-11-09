@@ -11,6 +11,27 @@ export default function Register({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState("");
+
+  //ok but shouldn't this be a hook? anyways it works regardless
+  let isDisabled = false;
+  const checkMatch = () => {
+    if (password === confirmPassword) {
+      isDisabled = false;
+      return true;
+    } else {
+      isDisabled = true;
+      return false;
+    }
+  };
+  const emailRegex = () => {
+    if (email.includes("@")) {
+      isDisabled = false;
+      return true;
+    }
+    isDisabled = true;
+    return false;
+  }
 
   const inputClassName = "ml-3 w-80";
   return (
@@ -35,14 +56,18 @@ export default function Register({ navigation }) {
               placeholderTextColor="#000000"
               onChangeText={setEmail}
             />
-          </View>
 
-          <Text className="font-bold mb-3 text-xl">Enter a username:</Text>
+          </View>
+          <Text className="text-red-500 mx-auto font-extrabold">
+            {emailRegex() ? "" : "Please enter a valid email"}
+          </Text>
+
+          <Text className="font-bold mb-3 text-xl">Enter a name:</Text>
 
           <View className="rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
             <TextInput
               className={inputClassName}
-              placeholder="*Username"
+              placeholder="*name"
               placeholderTextColor="#000000"
               onChangeText={setUsername}
             />
@@ -71,13 +96,18 @@ export default function Register({ navigation }) {
               onChangeText={setConfirmPassword}
             />
           </View>
+          <Text className="text-red-500 mx-auto font-extrabold">
+            {error}
+            {" "}
+            {checkMatch() ? "" : "Passwords do not match"}{" "}
+          </Text>
         </View>
         <View className="flex-1 w-full items-center my-12 justify-center">
           <Pressable>
             <Button
               name="Save"
               className="ml-0 text-xl text-indigo-900 font-bold"
-              disabled={isPending}
+              disabled={isPending || isDisabled}
               onPress={() => {
                 setIsPending(true);
                 register(username, email, password)
@@ -87,7 +117,7 @@ export default function Register({ navigation }) {
                     setIsPending(false);
                   })
                   .catch((err: Error) => {
-                    //toast.error(err.message);
+                    setError(err.message);
                     setIsPending(false);
                   });
               }}
