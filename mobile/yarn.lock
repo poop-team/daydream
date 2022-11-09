@@ -6935,6 +6935,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-secure-store@npm:^11.3.0":
+  version: 11.3.0
+  resolution: "expo-secure-store@npm:11.3.0"
+  peerDependencies:
+    expo: "*"
+  checksum: ac3973ff3f9aa18e7c55a73ee50abe15c76aa8d1c7ca882058161c170b08e9d184ead1b73341f01af8a5fcdbf96becc9f237e0bc26c9b6c4452aab4be8ed078a
+  languageName: node
+  linkType: hard
+
 "expo-status-bar@npm:~1.4.0":
   version: 1.4.0
   resolution: "expo-status-bar@npm:1.4.0"
@@ -10147,6 +10156,7 @@ __metadata:
     "@types/react-native": ~0.69.1
     "@types/react-native-vector-icons": ^6.4.12
     expo: ~46.0.13
+    expo-secure-store: ^11.3.0
     expo-status-bar: ~1.4.0
     jest: ^26.6.3
     jest-expo: ^46.0.1
