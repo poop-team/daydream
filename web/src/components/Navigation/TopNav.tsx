@@ -1,7 +1,6 @@
 import { AnimatePresence, motion, useScroll } from "framer-motion";
-import debounce from "lodash/debounce";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MdAccountCircle,
   MdAddCircle,
@@ -10,16 +9,18 @@ import {
 } from "react-icons/md";
 
 import paths from "../../data/path";
+import search from "../../pages/api/post/search";
 import { navVariants, transitions } from "../../styles/motion-definitions";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
 import SearchBar from "../Inputs/SearchBar";
 
 interface Props {
+  searchValue: string;
   setSearchValue: (value: string) => void;
 }
 
-export default function TopNav({ setSearchValue }: Props) {
+export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Hooks
 
   const router = useRouter();
@@ -27,26 +28,12 @@ export default function TopNav({ setSearchValue }: Props) {
   const { scrollY } = useScroll();
 
   const [navHidden, setNavHidden] = useState(false);
-  const [localSearchValue, setLocalSearchValue] = useState("");
-
-  // Debounce the search value (don't immediately update it after every keystroke)
-  const debouncedSetSearchValue = useMemo(
-    () => debounce(setSearchValue, 300),
-    []
-  );
 
   useEffect(() => {
     // Set the term to query if a query parameter is present in the URL.
     if (!router.query.q) return;
     setSearchValue(router.query.q as string);
   }, [router.query.q]);
-
-  // Cancel any pending debounced function calls when the component unmounts.
-  useEffect(() => {
-    return () => {
-      debouncedSetSearchValue.cancel();
-    };
-  }, []);
 
   // On any change to the scroll position, updateHiddenState will be called.
   useEffect(() => scrollY.onChange(updateHiddenState), []);
@@ -70,13 +57,6 @@ export default function TopNav({ setSearchValue }: Props) {
   }
 
   //#endregion
-
-  //#region Handlers
-
-  const handleSearchChange = (value: string) => {
-    setLocalSearchValue(value);
-    debouncedSetSearchValue(value);
-  };
 
   //#region Derived State
 
@@ -132,8 +112,8 @@ export default function TopNav({ setSearchValue }: Props) {
               className={"flex grow items-center justify-center gap-2"}
             >
               <SearchBar
-                value={localSearchValue}
-                onValueChange={handleSearchChange}
+                value={searchValue}
+                onValueChange={setSearchValue}
                 className={"w-11/12 max-w-xl sm:w-2/3"}
               />
               <LinkIconButton
