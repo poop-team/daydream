@@ -11,6 +11,16 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState("");
+  const [invalidCount, setInvalidCount] = useState(0);
+
+  let disabled = false;
+
+  if (invalidCount >= 5) {
+    disabled = true;
+    setTimeout(() => { setIsPending(true) }, 5000);
+  } else {
+    disabled = false;
+  }
 
   return (
     <View className="flex-1 w-full">
@@ -25,9 +35,7 @@ export default function Login({ navigation }) {
       </View>
       <ScrollView className="w-screen h-screen position-relative scroll">
         <View className="flex-1 flex mx-auto">
-          <Text className=" mt-8 font-bold mb-3 text-xl">
-            Enter your name:
-          </Text>
+          <Text className=" mt-8 font-bold mb-3 text-xl">Enter your name:</Text>
 
           <View className="mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
             <TextInput
@@ -49,9 +57,7 @@ export default function Login({ navigation }) {
               onChangeText={setPassword}
             />
           </View>
-          <Text className="text-red-500 mx-auto font-extrabold">
-            {error}
-          </Text>
+          <Text className="text-red-500 mx-auto font-extrabold">{error}</Text>
           <Pressable className="items-center justify-center">
             <Text className="text-xl my-10 text-indigo-900 font-bold">
               Forgot your password?
@@ -59,10 +65,15 @@ export default function Login({ navigation }) {
           </Pressable>
         </View>
         <View className="flex-1 w-full items-center position-relative justify-center">
+          <Text className="text-red-500 mx-auto font-extrabold">
+            {invalidCount >= 5
+              ? "Too many failed attempts, try again later"
+              : ""}
+          </Text>
           <Button
             name="Login"
             className="mb-10"
-            disabled={isPending}
+            disabled={isPending || disabled}
             onPress={() => {
               setIsPending(true);
               login(username, password)
@@ -76,6 +87,7 @@ export default function Login({ navigation }) {
                 .catch((err: Error) => {
                   setError(err.message);
                   setIsPending(false);
+                  setInvalidCount(invalidCount + 1);
                 });
             }}
           />
