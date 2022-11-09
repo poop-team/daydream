@@ -42,7 +42,7 @@ export default async function create(req: Request, res: NextApiResponse) {
   // ];
   const url = `${env.DIFFUSION_URL}/txt2img?prompt=${prompt}&format=json`;
 
-  const data = await fetch(url, {
+  const sdRes = await fetch(url, {
     headers: {
       "X-API-Key": env.X_API_KEY,
       Accept: "application/json",
@@ -57,24 +57,32 @@ export default async function create(req: Request, res: NextApiResponse) {
   // console.log(DiffusionModelPrediction[0]);
   // return(res.json({'image': DiffusionModelPrediction[0]}));
 
-  if (data.status == 406) {
-    return res.status(403).json({ error: "NSFW CONTENT REJECTED." });
+  if (sdRes.status == 406) {
+    return res.status(403).json({ error: "NSFW prompt rejected" });
+  } else if (!sdRes.ok) {
+    return res.status(500).json({ error: "Error while creating image" });
   }
   //response data into json
 
-  const resData = (await data.json()) as ResponseData;
+  const resData = (await sdRes.json()) as ResponseData;
 
-  const post = await prisma.post.create({
-    data: {
-      prompt: prompt,
-      imageURL: resData.image,
-      authorId: userId,
-    },
-  });
-
-  return res.json({
-    postId: post.id,
-    prompt: post.prompt,
-    image: post.imageURL,
-  });
+  prisma.post
+    .create({
+      data: {
+        prompt: prompt,
+        imageURL: resData.image,
+        authorId: userId,
+      },
+    })
+    .then((post) => {
+      return res.json({
+        postId: post.id,
+        prompt: post.prompt,
+        image: post.imageURL,
+      });
+    })
+    .catch((e: Error) => {
+      console.error(e.message);
+      return res.status(500).json({ error: "Internal database error" });
+    });
 }
