@@ -85,14 +85,17 @@ export default function CollectionCard({
               sizes="(max-width: 600px) 40vw, (max-width: 1024px) 30vw, (max-width: 1536px) 22vw, 18vw"
               containerClassName={"aspect-square"}
               className={"object-cover"}
+              draggable={false}
             />
           </motion.div>
         ))}
       </AnimatePresence>
-      <div className="absolute bottom-0 left-0 z-20 flex w-full justify-between bg-slate-800/70 p-2 text-slate-50 backdrop-blur-md">
-        <div className={"basis-full"}>
-          <p className="text-center text-xl">{name}</p>
-          <p className="text-center">{postCount} saved</p>
+      <div
+        className={`absolute bottom-0 left-0 z-20 flex w-full justify-between bg-slate-800/70 p-1 text-slate-50 backdrop-blur-md`}
+      >
+        <div className={"basis-full text-center"}>
+          <p className={"text-2xl"}>{name}</p>
+          <p>{postCount} saved</p>
         </div>
       </div>
     </Card>
