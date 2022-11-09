@@ -10,10 +10,7 @@ interface Request extends NextApiRequest {
   };
 }
 
-export default async function createCollection(
-  req: Request,
-  res: NextApiResponse
-) {
+export default async function unlike(req: Request, res: NextApiResponse) {
   // Validate if the user has a valid JWT token
   if (!(await validateRequest(req))) {
     return res.status(401).json({ error: "User not logged in." });
@@ -35,10 +32,10 @@ export default async function createCollection(
     return res.status(400).json("give me a valid postId");
   }
 
-  const like = await prisma.like.delete({
-    data: {
-      userId: userId,
+  await prisma.like.deleteMany({
+    where: {
       postID: postId,
+      userId: userId,
     },
   });
 
