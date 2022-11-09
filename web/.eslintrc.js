@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    "project": "tsconfig.json",
+    project: "tsconfig.json",
   },
   extends: [
     "next",
@@ -31,5 +31,11 @@ module.exports = {
     "simple-import-sort/exports": "error",
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-empty-function": "warn",
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "lf",
+      },
+    ],
   },
 };
