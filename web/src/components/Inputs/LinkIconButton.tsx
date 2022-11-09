@@ -12,12 +12,14 @@ interface Props {
 export default function LinkIconButton({ href, className, children }: Props) {
   return (
     <Link href={href}>
-      <IconButton
-        aria-label={`Navigate to ${href.replace("/", "")}`}
-        className={className}
-      >
-        {children}
-      </IconButton>
+      <a>
+        <IconButton
+          aria-label={`Navigate to ${href.replace("/", "")}`}
+          className={className}
+        >
+          {children}
+        </IconButton>
+      </a>
     </Link>
   );
 }

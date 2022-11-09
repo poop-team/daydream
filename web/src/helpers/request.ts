@@ -21,7 +21,7 @@ export default async function doRequest<R>(
       "Content-Type": "application/json",
       authorization: `Bearer ${getAuthSession().jwt || "NONE"}`,
     },
-    body: JSON.stringify(body),
+    body: body ? JSON.stringify(body) : null,
   });
 
   if (!res.ok) {

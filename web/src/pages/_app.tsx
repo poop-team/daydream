@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 
 import BottomNav from "../components/Navigation/BottomNav";
@@ -13,7 +14,13 @@ import useAuth from "../hooks/useAuth";
 const queryClient = new QueryClient();
 
 function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
+  //#region Hooks
+
   useAuth();
+
+  const [searchValue, setSearchValue] = useState("");
+
+  //#endregion
 
   return (
     <>
@@ -22,8 +29,8 @@ function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <TopNav />
-        <Component {...pageProps} />
+        <TopNav searchValue={searchValue} setSearchValue={setSearchValue} />
+        <Component searchValue={searchValue} {...pageProps} />
         <BottomNav />
         <Toaster
           position={"bottom-center"}
