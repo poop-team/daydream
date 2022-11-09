@@ -16,7 +16,7 @@ export default function Feed({ searchValue }: Props) {
 
   const { scrollYProgress } = useScroll();
 
-  const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState(searchValue);
 
   const {
     data: infinitePostsData,
