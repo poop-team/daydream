@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -22,49 +23,46 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: mutateLogin, isLoading: isLoggingIn } = useMutation({
+    mutationFn: () => login(email, password),
+    onSuccess: (data) => {
+      storeAuthSession(data);
+      void router.push("/feed");
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
+  const { mutate: mutateRegister, isLoading: isRegistering } = useMutation({
+    mutationFn: () => register(name, email, password),
+    onSuccess: () => {
+      toast.success("Account created successfully!");
+      setAction("login");
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
 
   //# endregion
 
   //#region Handlers
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (action === "login") {
-      // Login
       if (!emailInvalid && !passwordInvalid) {
-        setIsLoading(true);
-        await login(email, password)
-          .then(async (data) => {
-            if (data) {
-              storeAuthSession(data);
-              await router.replace("/feed");
-            }
-          })
-          .catch((err: Error) => {
-            toast.error(err.message);
-          });
-        setIsLoading(false);
+        mutateLogin();
       }
     } else {
-      // Register
       if (
         !nameInvalid &&
         !emailInvalid &&
         !passwordInvalid &&
         !confirmPasswordInvalid
       ) {
-        setIsLoading(true);
-        await register(name, email, password)
-          .then(() => {
-            toast.success("Account created successfully!");
-            setAction("login");
-          })
-          .catch((err: Error) => {
-            toast.error(err.message);
-          });
-        setIsLoading(false);
+        mutateRegister();
       }
     }
   };
@@ -89,6 +87,10 @@ export default function AuthPage() {
   const confirmPasswordHelperText = confirmPasswordInvalid
     ? "Passwords do not match"
     : "";
+
+  const isLoading = isLoggingIn || isRegistering;
+  const isDisabled =
+    (emailInvalid || passwordInvalid || confirmPasswordInvalid) && isRegister;
 
   //#endregion
 
@@ -154,7 +156,11 @@ export default function AuthPage() {
             className={"w-full"}
           />
         )}
-        <Button loading={isLoading} className={"mt-4 w-fit"}>
+        <Button
+          loading={isLoading}
+          disabled={isDisabled}
+          className={"mt-4 w-fit"}
+        >
           {isLogin ? "Log in" : "Register"}
           {!isLoading && (
             <MdArrowForward
