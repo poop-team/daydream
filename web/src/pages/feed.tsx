@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useScroll } from "framer-motion";
 import debounce from "lodash/debounce";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import ImageList from "../components/Layout/ImageList";
@@ -16,6 +16,8 @@ export default function Feed({ searchValue }: Props) {
 
   const { scrollYProgress } = useScroll();
 
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
+
   const {
     data: infinitePostsData,
     refetch,
@@ -24,7 +26,7 @@ export default function Feed({ searchValue }: Props) {
     isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["feed_posts"],
+    queryKey: ["feed_posts", { search: debouncedSearchValue }],
     queryFn: ({ pageParam = "" }) =>
       searchPosts({
         search: searchValue,
@@ -43,20 +45,12 @@ export default function Feed({ searchValue }: Props) {
 
   // Debounce the search value (don't immediately update it after every keystroke)
   const debouncedSetSearchValue = useMemo(
-    () =>
-      debounce(() => {
-        return void refetch();
-      }, 250),
+    () => debounce(setDebouncedSearchValue, 250),
     []
   );
 
-  // Debounce the search value (don't immediately update it after every keystroke)
   useEffect(() => {
-    debouncedSetSearchValue();
-    // Cancel any pending debounced function calls when the component unmounts.
-    return () => {
-      debouncedSetSearchValue.cancel();
-    };
+    debouncedSetSearchValue(searchValue);
   }, [searchValue]);
 
   useEffect(() => {
@@ -66,6 +60,13 @@ export default function Feed({ searchValue }: Props) {
       }
     });
   }, [hasNextPage, isFetchingNextPage]);
+
+  // Cleanup and cancel subscriptions
+  useEffect(() => {
+    return () => {
+      debouncedSetSearchValue.cancel();
+    };
+  }, []);
 
   //#endregion
 
