@@ -35,12 +35,12 @@ export default function Login({ navigation }) {
       </View>
       <ScrollView className="w-screen h-screen position-relative scroll">
         <View className="flex-1 flex mx-auto">
-          <Text className=" mt-8 font-bold mb-3 text-xl">Enter your name:</Text>
+          <Text className=" mt-8 font-bold mb-3 text-xl">Enter your email:</Text>
 
           <View className="mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
             <TextInput
               className="ml-3 w-80"
-              placeholder="*Enter name"
+              placeholder="*Enter email"
               placeholderTextColor="#000000"
               onChangeText={setUsername}
             />
