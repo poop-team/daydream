@@ -27,7 +27,9 @@ export default async function doRequest<R>(
   if (!res.ok) {
     // try to parse for an error
     const data = (await res.json().catch(() => null)) as ErrorResponse | null;
-    throw new Error(data?.error ?? "Unknown server error");
+    throw new Error(data?.error ?? "Unknown server error", {
+      cause: { code: res.status },
+    });
   }
 
   return (await res.json()) as R;

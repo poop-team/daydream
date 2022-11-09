@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import path from "../data/path";
 import { authenticateUser } from "../helpers/fetch";
+import { ErrorRequest } from "../types/error.type";
 import { clearAuthSession } from "../utils/storage";
 
 export default function useRedirectUnauthenticated() {
@@ -16,12 +17,13 @@ export default function useRedirectUnauthenticated() {
         void router.push("/feed");
       }
     },
-    onError: () => {
-      clearAuthSession();
-      if (router.pathname !== path.auth) {
-        void router.push(path.auth);
+    onError: (error: ErrorRequest) => {
+      if (error.cause?.code === 401) {
+        clearAuthSession();
+        if (router.pathname !== path.auth) {
+          void router.push(path.auth);
+        }
       }
     },
-    retry: false,
   });
 }
