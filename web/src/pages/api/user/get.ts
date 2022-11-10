@@ -15,23 +15,57 @@ export default async function get(req: Request, res: NextApiResponse) {
     return res.status(401).json({ error: "User not logged in." });
   }
 
-  const { userId } = req.body;
+  const { searchUserId } = req.query;
 
-  if (!userId) {
-    return res
-      .status(400)
-      .json({ error: "You are missing the userId parameter" });
+  if (!searchUserId) {
+    return res.status(400).json("No searchUserId provided");
   }
 
-  if (Array.isArray(userId)) {
-    return res.status(400).json({ error: "userId cannot be a string array" });
-  }
-
-  const user = await prisma.user.findUnique({
+  const getUser: object | null = await prisma.user.findUnique({
     where: {
-      id: userId,
+      id: searchUserId as string,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      emailVerified: true,
+      createdAt: true,
+      updatedAt: true,
+      image: true,
     },
   });
 
-  res.json({ user });
+  const collectionsAndPosts = await prisma.collection.findMany({
+    where: {
+      userId: searchUserId as string,
+    },
+    select: {
+      name: true,
+      posts: {
+        orderBy: {
+          dateCreated: "desc",
+        },
+        select: {
+          id: true,
+          dateCreated: true,
+          prompt: true,
+          imageURL: true,
+          author: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+          likes: true,
+        },
+      },
+    },
+  });
+
+  const result = {
+    collections: collectionsAndPosts,
+    userInfo: getUser,
+  };
+  res.status(200).json(result);
 }

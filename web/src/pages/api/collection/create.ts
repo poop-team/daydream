@@ -30,5 +30,5 @@ export default async function create(req: Request, res: NextApiResponse) {
   });
 
   // TODO: Ideally we would return the entire collection object here and not just the ID
-  res.json({ collectionId: collection.id });
+  res.json(collection);
 }
