@@ -1,10 +1,6 @@
-export interface ErrorResponse {
+export interface ErrorResponse extends Error {
   error: string;
-}
-
-export interface ErrorRequest {
-  error: string;
-  cause: {
+  cause?: {
     code?: number;
   };
 }

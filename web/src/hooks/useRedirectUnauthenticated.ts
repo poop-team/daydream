@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import path from "../data/path";
 import { authenticateUser } from "../helpers/fetch";
-import { ErrorRequest } from "../types/error.type";
+import { ErrorResponse } from "../types/error.type";
 import { clearAuthSession } from "../utils/storage";
 
 export default function useRedirectUnauthenticated() {
@@ -17,7 +17,7 @@ export default function useRedirectUnauthenticated() {
         void router.push("/feed");
       }
     },
-    onError: (error: ErrorRequest) => {
+    onError: (error: ErrorResponse) => {
       if (error.cause?.code === 401) {
         clearAuthSession();
         if (router.pathname !== path.auth) {
