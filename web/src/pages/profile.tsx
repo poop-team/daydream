@@ -6,9 +6,12 @@ import Button from "../components/Inputs/Button";
 import LinkIconButton from "../components/Inputs/LinkIconButton";
 import SearchBar from "../components/Inputs/SearchBar";
 import ImageCard from "../components/Surfaces/ImageCard";
+import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
 
 export default function Profile() {
   //#region Hooks
+
+  useRedirectUnauthenticated();
 
   const [text, setText] = useState("");
 
