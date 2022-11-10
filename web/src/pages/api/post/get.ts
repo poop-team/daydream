@@ -15,21 +15,21 @@ export default async function get(req: Request, res: NextApiResponse) {
     return res.status(401).json({ error: "User not logged in." });
   }
 
-  const { postId } = req.body;
+  const query = req.query;
 
-  if (!postId) {
+  if (!query.postId) {
     return res
       .status(400)
       .json({ error: "You are missing the postId parameter" });
   }
 
-  if (Array.isArray(postId)) {
+  if (Array.isArray(query.postId)) {
     return res.status(400).json({ error: "postId cannot be a string array" });
   }
 
   const post = await prisma.post.findUnique({
     where: {
-      id: postId,
+      id: query.postId,
     },
     select: {
       id: true,
@@ -46,5 +46,7 @@ export default async function get(req: Request, res: NextApiResponse) {
     },
   });
 
-  res.json({ post });
+  if (!post) {
+    return res.status(400).json({ error: "postId did not match any posts" });
+  } else return res.json({ post });
 }
