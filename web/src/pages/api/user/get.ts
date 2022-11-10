@@ -21,9 +21,13 @@ export default async function get(req: Request, res: NextApiResponse) {
     return res.status(400).json("No searchUserId provided");
   }
 
-  const getUser: object | null = await prisma.user.findUnique({
+  if (Array.isArray(searchUserId)) {
+    return res.status(400).json({ error: "searchUserId cannot be an array" });
+  }
+
+  const getUser = await prisma.user.findUnique({
     where: {
-      id: searchUserId as string,
+      id: searchUserId,
     },
     select: {
       id: true,
@@ -38,7 +42,7 @@ export default async function get(req: Request, res: NextApiResponse) {
 
   const collectionsAndPosts = await prisma.collection.findMany({
     where: {
-      userId: searchUserId as string,
+      userId: searchUserId,
     },
     select: {
       name: true,
