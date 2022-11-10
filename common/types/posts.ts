@@ -1,4 +1,4 @@
-export interface Post {
+export interface Posts {
   id: number;
   src: string;
   prompt: string;
@@ -7,4 +7,4 @@ export interface Post {
   authorAvatar: string;
 }
 
-export default Post;
+export default Posts;

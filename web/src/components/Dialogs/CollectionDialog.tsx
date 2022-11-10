@@ -1,4 +1,5 @@
-import Posts from "../../types/posts";
+import { Posts } from "@daydream/common";
+
 import Card from "../Surfaces/Card";
 import ImageCard from "../Surfaces/ImageCard";
 import StyledDialog from "./StyledDialog";

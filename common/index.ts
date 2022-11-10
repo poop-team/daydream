@@ -3,6 +3,7 @@ export * from "./utils/storage";
 export * from "./utils/validation";
 export * from "./types/auth.type";
 export * from "./types/post.type";
+export * from "./types/posts";
 export * from "./types/error.type";
 export * from "./helpers/fetch";
 export * from "./helpers/mutate";
