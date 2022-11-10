@@ -8,7 +8,7 @@
     "mobile"
   ],
   "scripts": {
-    "dev:mobile": "yarn workspace @daydream/mobile start",
-    "dev:web": "yarn workspace @daydream/web dev"
+    "start": "yarn workspace @daydream/mobile start",
+    "dev": "yarn workspace @daydream/web dev"
   }
 }
