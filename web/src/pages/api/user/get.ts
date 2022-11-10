@@ -9,7 +9,7 @@ export default async function get(req: NextApiRequest, res: NextApiResponse) {
     return res.status(401).json({ error: "User not logged in." });
   }
 
-  const { searchUserId } = req.query;
+  const { userId, searchUserId } = req.query;
 
   if (!searchUserId) {
     return res.status(400).json("No searchUserId provided");
@@ -26,8 +26,8 @@ export default async function get(req: NextApiRequest, res: NextApiResponse) {
     select: {
       id: true,
       name: true,
-      email: true,
-      emailVerified: true,
+      email: searchUserId === userId, // Only select this if the user is getting their own data
+      emailVerified: searchUserId === userId, // Only select this if the user is getting their own data
       createdAt: true,
       updatedAt: true,
       image: true,
