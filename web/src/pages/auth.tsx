@@ -1,3 +1,4 @@
+import { login, register, storeAuthSession } from "@daydream/common";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -5,8 +6,6 @@ import { MdArrowForward } from "react-icons/md";
 
 import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
-import { login, register } from "../helpers/mutate";
-import { storeAuthSession } from "../utils/storage";
 
 export default function AuthPage() {
   //# region Hooks

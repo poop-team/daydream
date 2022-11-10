@@ -1,8 +1,8 @@
+import { validateMethod, validateString } from "@daydream/common";
 import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
-import { validateMethod, validateString } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {

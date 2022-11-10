@@ -1,10 +1,10 @@
+import { searchPosts } from "@daydream/common";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useScroll } from "framer-motion";
 import { useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
 
 import ImageList from "../components/Layout/ImageList";
-import { searchPosts } from "../helpers/fetch";
 import useDebounce from "../hooks/useDebounce";
 
 interface Props {

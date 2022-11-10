@@ -1,3 +1,4 @@
+import type { Post } from "@daydream/common";
 import { AnimatePresence, motion } from "framer-motion";
 
 import {
@@ -6,7 +7,6 @@ import {
   transitions,
   variants,
 } from "../../styles/motion-definitions";
-import type { Post } from "../../types/post.type";
 import CircularProgress from "../Feedback/CircularProgress";
 import ImageCard from "../Surfaces/ImageCard";
 

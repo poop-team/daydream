@@ -1,9 +1,8 @@
+import { AuthSession, getAuthSession } from "@daydream/common";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import path from "../data/path";
-import { AuthSession } from "../types/auth.type";
-import { getAuthSession } from "../utils/storage";
 
 export default function useAuth() {
   const router = useRouter();
