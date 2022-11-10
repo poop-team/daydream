@@ -3,13 +3,19 @@ import { TextInput, View, Pressable, TextInputProps } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 interface Props extends TextInputProps {
-  value: string,
+  value: string;
   onChangeText: (value: string) => void;
   focusedColor?: string;
   unfocusedColor?: string;
-} 
+}
 
-export default ({ value, onChangeText, focusedColor = "bg-indigo-200", unfocusedColor = "bg-slate-300", ...props }: Props) => {
+export default ({
+  value,
+  onChangeText,
+  focusedColor = "bg-indigo-200",
+  unfocusedColor = "bg-slate-300",
+  ...props
+}: Props) => {
   const inputRef: Ref<TextInput> = useRef();
 
   const [isFocused, setFocused] = useState(false);
@@ -34,7 +40,7 @@ export default ({ value, onChangeText, focusedColor = "bg-indigo-200", unfocused
           {...props}
         />
         {isFocused && (
-          <Pressable onPress={() => onChangeText('')}>
+          <Pressable onPress={() => onChangeText("")}>
             <View className={`${bgColor} mx-2`}>
               <Icon size={28} name="close-outline" />
             </View>

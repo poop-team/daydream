@@ -20,6 +20,7 @@ export default async function Get(req: Request, res: NextApiResponse) {
       id: collectionId,
     },
     select: {
+      name: true,
       posts: {
         orderBy: {
           dateCreated: "desc",

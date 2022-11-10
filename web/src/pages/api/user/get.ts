@@ -12,34 +12,58 @@ export default async function get(req: NextApiRequest, res: NextApiResponse) {
   const { searchUserId } = req.query;
 
   if (!searchUserId) {
-    return res
-      .status(400)
-      .json({ error: "You are missing the userId parameter" });
+    return res.status(400).json("No searchUserId provided");
   }
 
   if (Array.isArray(searchUserId)) {
-    return res.status(400).json({ error: "userId cannot be a string array" });
+    return res.status(400).json({ error: "searchUserId cannot be an array" });
   }
 
-  prisma.user
-    .findUnique({
-      where: {
-        id: searchUserId,
+  const getUser = await prisma.user.findUnique({
+    where: {
+      id: searchUserId,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      emailVerified: true,
+      createdAt: true,
+      updatedAt: true,
+      image: true,
+    },
+  });
+
+  const collectionsAndPosts = await prisma.collection.findMany({
+    where: {
+      userId: searchUserId,
+    },
+    select: {
+      name: true,
+      posts: {
+        orderBy: {
+          dateCreated: "desc",
+        },
+        select: {
+          id: true,
+          dateCreated: true,
+          prompt: true,
+          imageURL: true,
+          author: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+          likes: true,
+        },
       },
-      select: {
-        id: true,
-        name: true,
-        image: true,
-      },
-    })
-    .then((user) => {
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-      res.json(user);
-    })
-    .catch((e: Error) => {
-      console.error(e.message);
-      res.status(500).json({ error: "Internal database error" });
-    });
+    },
+  });
+
+  const result = {
+    collections: collectionsAndPosts,
+    userInfo: getUser,
+  };
+  res.status(200).json(result);
 }
