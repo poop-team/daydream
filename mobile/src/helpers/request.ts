@@ -6,7 +6,7 @@
  * @returns The response from the API
  */
 import { getAuthSession } from "../utils/storage";
-import { ErrorResponse } from "../types/error.type";
+import { ErrorResponse } from "@daydream/common";
 
 export default async function doRequest<R>(
   url: string,

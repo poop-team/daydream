@@ -4,7 +4,7 @@
  */
 import doRequest from "./request";
 import { getAuthSession } from "../utils/storage";
-import { AuthSession } from "../types/auth.type";
+import { AuthSession } from "@daydream/common";
 
 export async function login(email: string, password: string) {
   return await doRequest<AuthSession>(
