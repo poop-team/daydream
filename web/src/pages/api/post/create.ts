@@ -19,7 +19,7 @@ interface ResponseData {
 export default async function create(req: Request, res: NextApiResponse) {
   // Validate if the user has a valid JWT token
   if (!(await validateRequest(req))) {
-    return res.status(401).json({ error: "User not logged in." });
+    return res.status(401).json({ error: "You are not logged in" });
   }
 
   const { userId, prompt } = req.body;
@@ -66,7 +66,7 @@ export default async function create(req: Request, res: NextApiResponse) {
 
   const resData = (await sdRes.json()) as ResponseData;
 
-  const post = await prisma.post
+  prisma.post
     .create({
       data: {
         prompt: prompt,
@@ -74,14 +74,15 @@ export default async function create(req: Request, res: NextApiResponse) {
         authorId: userId,
       },
     })
+    .then((post) => {
+      return res.json({
+        postId: post.id,
+        prompt: post.prompt,
+        image: post.imageURL,
+      });
+    })
     .catch((e: Error) => {
       console.error(e.message);
       return res.status(500).json({ error: "Internal database error" });
     });
-
-  return res.json({
-    postId: post?.id,
-    prompt: post?.prompt,
-    image: post?.imageURL,
-  });
 }

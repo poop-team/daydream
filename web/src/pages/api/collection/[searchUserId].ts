@@ -1,26 +1,24 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
+import { validateRequest } from "../../../utils/jwt";
 
-interface Request extends NextApiRequest {
-  body: {
-    collectionId: string;
-  };
-}
+export default async function Get(req: NextApiRequest, res: NextApiResponse) {
+  if (!(await validateRequest(req))) {
+    return res.status(401).json({ error: "You are not logged in" });
+  }
 
-export default async function Get(req: Request, res: NextApiResponse) {
-  const { collectionId } = req.body;
+  const { searchUserId } = req.query;
 
-  if (!collectionId) {
-    return res.status(402).json("No collectionId provided");
+  if (!searchUserId) {
+    return res.status(400).json("No searchUserId provided");
   }
 
   const resData = await prisma.collection.findMany({
     where: {
-      id: collectionId,
+      userId: searchUserId as string,
     },
     select: {
-      name: true,
       posts: {
         orderBy: {
           dateCreated: "desc",

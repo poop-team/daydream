@@ -1,7 +1,9 @@
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import Authentication from "./src/pages/Authentication";
 import Login from "./src/pages/Login";
 import Register from "./src/pages/Register";
+import FeedPage from "./src/pages/feedPage";
+import Dummypage from "./src/components/pages/Dummypage";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -15,17 +17,22 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={Authentication}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name="Login"
           component={Login}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name="Register"
           component={Register}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="FeedPage"
+          component={FeedPage}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

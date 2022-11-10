@@ -5,6 +5,8 @@ import { toast } from "react-hot-toast";
 
 import ImageList from "../components/Layout/ImageList";
 import { searchPosts } from "../helpers/fetch";
+import useDebounce from "../hooks/useDebounce";
+import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
 
 interface Props {
   searchValue: string;
@@ -13,7 +15,11 @@ interface Props {
 export default function Feed({ searchValue }: Props) {
   //#region Hooks
 
+  useRedirectUnauthenticated();
+
   const { scrollYProgress } = useScroll();
+
+  const debouncedSearchValue = useDebounce(searchValue, 250);
 
   const {
     data: infinitePostsData,
@@ -22,7 +28,7 @@ export default function Feed({ searchValue }: Props) {
     isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["feed_posts", { search: searchValue }],
+    queryKey: ["feed_posts", { search: debouncedSearchValue }],
     queryFn: ({ pageParam = "" }) =>
       searchPosts({
         search: searchValue,

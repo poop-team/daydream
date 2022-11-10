@@ -41,7 +41,7 @@ function Button({
   }
 
   return (
-    <Pressable className={baseStyle} {...props}>
+    <Pressable disabled={disabled} className={baseStyle} {...props}>
       {name && <Text className={textStyle}>{name}</Text>}
       {children}
     </Pressable>

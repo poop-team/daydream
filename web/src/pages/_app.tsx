@@ -9,14 +9,11 @@ import { Toaster } from "react-hot-toast";
 
 import BottomNav from "../components/Navigation/BottomNav";
 import TopNav from "../components/Navigation/TopNav";
-import useAuth from "../hooks/useAuth";
 
 const queryClient = new QueryClient();
 
 function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
   //#region Hooks
-
-  useAuth();
 
   const [searchValue, setSearchValue] = useState("");
 
@@ -29,7 +26,7 @@ function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <TopNav setSearchValue={setSearchValue} />
+        <TopNav searchValue={searchValue} setSearchValue={setSearchValue} />
         <Component searchValue={searchValue} {...pageProps} />
         <BottomNav />
         <Toaster
