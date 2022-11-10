@@ -5,7 +5,7 @@ import { validateRequest } from "../../../utils/jwt";
 
 export default async function Get(req: NextApiRequest, res: NextApiResponse) {
   if (!(await validateRequest(req))) {
-    return res.status(401).json({ error: "User not logged in." });
+    return res.status(401).json({ error: "You are not logged in" });
   }
 
   const { searchUserId } = req.query;

@@ -6,7 +6,7 @@ import { validateRequest } from "../../../utils/jwt";
 export default async function get(req: NextApiRequest, res: NextApiResponse) {
   // Validate if the user has a valid JWT token
   if (!(await validateRequest(req))) {
-    return res.status(401).json({ error: "User not logged in." });
+    return res.status(401).json({ error: "You are not logged in" });
   }
 
   res.json({ message: "Authenticated" });
