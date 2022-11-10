@@ -1,0 +1,8 @@
+{
+	"name": "@daydream/common",
+	"version": "1.0.0",
+	"main": "dist/index",
+	"dependencies": {
+		"typescript": "^4.8.4"
+	}
+}

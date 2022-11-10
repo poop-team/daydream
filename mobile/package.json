@@ -1,7 +1,7 @@
 {
-  "name": "large-project-app",
+  "name": "@daydream/mobile",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -15,6 +15,7 @@
     ]
   },
   "dependencies": {
+    "@daydream/common": "1.0.0",
     "@expo/webpack-config": "^0.17.0",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/stack": "^6.3.3",

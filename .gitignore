@@ -119,7 +119,6 @@ dist
 .idea/shelf
 .turbo
 package-lock.json
-package.json
 
 # Expo and React Native
 .expo/
@@ -241,3 +240,5 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+.yarn/
