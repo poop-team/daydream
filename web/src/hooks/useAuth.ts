@@ -9,7 +9,7 @@ export default function useAuth() {
   const [session, setSession] = useState<AuthSession | null>(null);
 
   useEffect(() => {
-    const session = getAuthSession();
+    const session = getAuthSession<"web">();
     // This is probably not the best way to handle authentication, especially since we are using localStorage
     if (session.jwt) {
       setSession(session);

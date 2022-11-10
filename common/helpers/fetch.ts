@@ -21,7 +21,7 @@ export async function searchPosts({
   limit = "",
   cursorId = "", // cursorId
 }: Params) {
-  const myUserId = getAuthSession().userId;
+  const myUserId = (await getAuthSession()).userId;
   return await doRequest<{ posts: Post[]; nextCursorId: string }>(
     `/api/post/search?userId=${myUserId}&search=${search}&searchUserId=${
       userId === "me" ? myUserId : userId

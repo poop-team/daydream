@@ -19,7 +19,7 @@ export default async function doRequest<R>(
     method: method,
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${getAuthSession().jwt || "NONE"}`,
+      authorization: `Bearer ${(await getAuthSession()).jwt || "NONE"}`,
     },
     body: body ? JSON.stringify(body) : null,
   });
