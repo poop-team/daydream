@@ -14,21 +14,30 @@ export async function searchPosts({
   limit = 16,
   cursorId = "", // cursorId
 }) {
+  const params = new URLSearchParams({
+    userId: getAuthSession().userId,
+    search,
+    searchUserId: userId,
+    collectionId,
+    limit: limit.toString(),
+    cursorId,
+  });
+
   return await doRequest<{ posts: Post[]; nextCursorId: string }>(
-    `/api/post/search?userId=${
-      getAuthSession().userId
-    }&search=${search}&searchUserId=${userId}&collectionId=${collectionId}&limit=${limit}&cursorId=${cursorId}`,
+    `/api/post/search?${params.toString()}`,
     null,
     "GET"
   );
 }
 
 export async function getUser(userId = "") {
-  const currentUserId = getAuthSession().userId;
+  const params = new URLSearchParams({
+    userId: getAuthSession().userId,
+    searchUserId: userId || getAuthSession().userId,
+  });
+
   return await doRequest<User>(
-    `/api/user/get?userId=${currentUserId}&searchUserId=${
-      userId || currentUserId
-    }`,
+    `/api/user/get?${params.toString()}`,
     null,
     "GET"
   );
