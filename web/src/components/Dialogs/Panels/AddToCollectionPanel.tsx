@@ -1,8 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdDoubleArrow } from "react-icons/md";
 
+import { getCollection } from "../../../helpers/fetch";
+import {
+  staggerContainerVariants,
+  staggerItemVariants,
+  transitions,
+} from "../../../styles/motion-definitions";
+import { getAuthSession } from "../../../utils/storage";
 import IconButton from "../../Inputs/IconButton";
 import SearchBar from "../../Inputs/SearchBar";
 import Card from "../../Surfaces/Card";
@@ -15,31 +23,6 @@ interface Props {
   className?: string;
 }
 
-const collectionsMockData = [
-  {
-    id: "1",
-    name: "Some stuff",
-    postCount: 69,
-    srcs: [
-      "/images/placeholder.png",
-      "/images/placeholder2.png",
-      "/images/placeholder3.png",
-    ],
-  },
-  {
-    id: "2",
-    name: "Random",
-    postCount: 2,
-    srcs: ["/images/placeholder.png", "/images/placeholder2.png"],
-  },
-  {
-    id: "3",
-    name: "Cats",
-    postCount: 1,
-    srcs: ["/images/placeholder.png"],
-  },
-];
-
 export default function AddToCollectionPanel({
   postToAddId,
   postToAddSrc,
@@ -48,17 +31,23 @@ export default function AddToCollectionPanel({
 }: Props) {
   //#region Hooks
 
-  const [collectionToSearch, setCollectionToSearch] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [addedToCollections, setAddedToCollections] = useState<string[]>([]);
 
-  const { data: collections, isLoading: areCollectionsLoading } = useQuery(
-    ["user_collections"],
-    () => Promise.resolve("TODO"),
-    {
-      onError: (err: Error) => {
-        toast.error(err.message);
-      },
-    }
+  const { data: collectionData, isLoading: areCollectionsLoading } = useQuery({
+    queryKey: ["user_collections"],
+    queryFn: () => getCollection({ userId: getAuthSession().userId }),
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
+
+  const collections = useMemo(
+    () =>
+      collectionData?.collections.filter((collection) =>
+        collection.name.toLowerCase().includes(searchValue.toLowerCase())
+      ),
+    [collectionData, searchValue]
   );
 
   //#endregion
@@ -66,7 +55,7 @@ export default function AddToCollectionPanel({
   //#region Handlers
 
   const handleCollectionSearch = (value: string) => {
-    setCollectionToSearch(value);
+    setSearchValue(value);
   };
 
   const handleCollectionClick = (collectionId: string) => {
@@ -93,28 +82,42 @@ export default function AddToCollectionPanel({
           className={"rotate-90 text-3xl md:rotate-0 md:text-4xl"}
         />
       </IconButton>
-      <div className={"w-full px-2 pb-2 md:p-4"}>
+      <div className={"w-full overflow-y-auto p-2 md:p-4"}>
         <SearchBar
-          value={collectionToSearch}
+          value={searchValue}
           onValueChange={handleCollectionSearch}
           className={"mx-auto w-full max-w-lg"}
         />
-        <div className={"mt-4 flex h-full w-full flex-wrap gap-4"}>
-          {collectionsMockData.map((collection) => (
-            <CollectionCard
+        <motion.ol
+          variants={staggerContainerVariants}
+          initial="hidden"
+          animate="show"
+          exit="hidden"
+          transition={transitions.springStiff}
+          className={
+            "my-4 flex w-full list-none flex-wrap justify-center gap-4 md:justify-start"
+          }
+        >
+          {collections?.map((collection) => (
+            <motion.li
               key={collection.id}
-              srcs={
-                addedToCollections.includes(collection.id)
-                  ? [postToAddSrc].concat(collection.srcs)
-                  : collection.srcs
-              }
-              name={collection.name}
-              postCount={collection.postCount}
-              className={"w-72"}
-              onClick={() => handleCollectionClick(collection.id)}
-            />
+              layout
+              variants={staggerItemVariants}
+              exit={{ opacity: 0 }}
+              transition={transitions.spring}
+              className={"h-full w-full"}
+            >
+              <CollectionCard
+                recentPosts={collection.recentPosts}
+                isAdded={addedToCollections.includes(collection.id)}
+                name={collection.name}
+                postCount={collection.postCount}
+                className={"w-4/5 sm:w-2/5 lg:w-1/4 xl:w-1/5"}
+                onClick={() => handleCollectionClick(collection.id)}
+              />
+            </motion.li>
           ))}
-        </div>
+        </motion.ol>
       </div>
     </Card>
   );

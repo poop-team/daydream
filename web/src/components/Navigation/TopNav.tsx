@@ -10,7 +10,6 @@ import {
 
 import paths from "../../data/path";
 import { positionVariants, transitions } from "../../styles/motion-definitions";
-import search from "../../pages/api/post/search";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
 import SearchBar from "../Inputs/SearchBar";

@@ -2,15 +2,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { HTMLAttributes, useState } from "react";
 
 import { transitions } from "../../styles/motion-definitions";
+import { Post } from "../../types/post.type";
 import CustomImage from "../CustomImage";
 import Card from "./Card";
-
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  srcs: string[];
-  name: string;
-  postCount: number;
-  className?: string;
-}
 
 const variants = {
   initial: {
@@ -26,8 +20,17 @@ const variants = {
   }),
 };
 
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  recentPosts: Post[];
+  isAdded?: boolean;
+  name: string;
+  postCount: number;
+  className?: string;
+}
+
 export default function CollectionCard({
-  srcs,
+  recentPosts,
+  isAdded = false,
   name,
   postCount,
   className = "",
@@ -60,9 +63,9 @@ export default function CollectionCard({
       {...rest}
     >
       <AnimatePresence mode={"popLayout"} initial={false}>
-        {srcs.slice(0, 3).map((src, idx) => (
+        {recentPosts.slice(0, 3).map((post, idx) => (
           <motion.div
-            key={src}
+            key={post.imageURL}
             custom={idx}
             initial={"initial"}
             animate={isHovered ? "hover" : "normal"}
@@ -77,8 +80,17 @@ export default function CollectionCard({
               "absolute top-0 left-0 h-full w-full overflow-hidden rounded-2xl"
             }
           >
+            {idx === 0 && isAdded && (
+              <div
+                className={
+                  "absolute top-0 right-1/2 z-10 flex translate-x-1/2 items-center rounded-b-xl bg-indigo-900/90 px-4 py-1 text-slate-50 backdrop-blur-md"
+                }
+              >
+                Added
+              </div>
+            )}
             <CustomImage
-              src={src}
+              src={post.imageURL}
               alt={name}
               fill
               priority
@@ -89,13 +101,24 @@ export default function CollectionCard({
             />
           </motion.div>
         ))}
+        {recentPosts.length === 0 && (
+          <div
+            className={
+              "absolute top-0 left-0 flex h-full w-full items-center justify-center rounded-2xl bg-slate-100/80 backdrop-blur-md"
+            }
+          >
+            <div className={"text-2xl font-semibold text-slate-500"}>
+              No posts
+            </div>
+          </div>
+        )}
       </AnimatePresence>
       <div
         className={`absolute bottom-0 left-0 z-20 flex w-full justify-between bg-slate-800/70 p-1 text-slate-50 backdrop-blur-md`}
       >
         <div className={"basis-full text-center"}>
-          <p className={"text-2xl"}>{name}</p>
-          <p>{postCount} saved</p>
+          <p className={"text-xl sm:text-2xl"}>{name}</p>
+          <p className={"text-sm sm:text-base"}>{postCount} saved</p>
         </div>
       </div>
     </Card>
