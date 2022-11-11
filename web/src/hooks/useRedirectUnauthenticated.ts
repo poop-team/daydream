@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
 import path from "../data/path";
-import { authenticateUser } from "../helpers/fetch";
+import { authenticateUser } from "../requests/fetch";
 import { ErrorResponse } from "../types/error.type";
 import { clearAuthSession } from "../utils/storage";
 

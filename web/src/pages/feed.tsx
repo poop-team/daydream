@@ -4,9 +4,9 @@ import { useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
 
 import ImageList from "../components/Layout/ImageList";
-import { searchPosts } from "../helpers/fetch";
 import useDebounce from "../hooks/useDebounce";
 import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
+import { searchPosts } from "../requests/fetch";
 
 interface Props {
   searchValue: string;

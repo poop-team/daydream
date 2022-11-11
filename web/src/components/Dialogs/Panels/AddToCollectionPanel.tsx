@@ -4,11 +4,11 @@ import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdDoubleArrow } from "react-icons/md";
 
-import { getCollection } from "../../../helpers/fetch";
+import { getCollection } from "../../../requests/fetch";
 import {
   addPostToCollection,
   removePostFromCollection,
-} from "../../../helpers/mutate";
+} from "../../../requests/mutate";
 import {
   staggerContainerVariants,
   staggerItemVariants,
