@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useScroll } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdAddCircle } from "react-icons/md";
 
@@ -8,40 +9,59 @@ import Button from "../components/Inputs/Button";
 import LinkIconButton from "../components/Inputs/LinkIconButton";
 import SearchBar from "../components/Inputs/SearchBar";
 import ImageList from "../components/Layout/ImageList";
-import { fetchPosts } from "../helpers/fetch";
-import Posts from "../types/posts";
-import {stringifyNumber} from "yaml/util";
+import { searchPosts } from "../helpers/fetch";
+import useDebounce from "../hooks/useDebounce";
+import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
 
 interface Props {
-  id: string;
-  name: string;
-  posts?: Posts[];
-  showDialog?: boolean;
-  className?: string;
+  searchValue: string;
 }
 
-export default function Profile({
-  id,
-  name,
-  // posts,
-  showDialog = true,
-  className = "",
-}: Props) {
+export default function Profile({ searchValue }: Props) {
+  //#region Hooks
+
+  useRedirectUnauthenticated();
+
+  const { scrollYProgress } = useScroll();
   const [text, setText] = useState("");
+  const debouncedSearchValue = useDebounce(searchValue, 250);
 
-  const { data: posts, isLoading: arePostsLoading } = useQuery(
-    ["feed_posts"],
-    fetchPosts,
-    {
-      onError: (err: Error) => {
-        toast.error(err.message);
-      },
-    }
-  );
+  const {
+    data: infinitePostsData,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["feed_posts", { search: debouncedSearchValue }],
+    queryFn: ({ pageParam = "" }) =>
+      searchPosts({
+        search: searchValue,
+        limit: 32,
+        cursorId: pageParam as string,
+      }),
+    getNextPageParam: (lastPage) => lastPage.nextCursorId,
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
 
-  const tmp_userid = 1;
-  const userViews = 4331;
-  const userSaves = posts?.length;
+  const posts = useMemo(() => {
+    return infinitePostsData?.pages.map((page) => page.posts).flat() ?? [];
+  }, [infinitePostsData]);
+
+  useEffect(() => {
+    return scrollYProgress.onChange((progress) => {
+      if (progress > 0.6 && !isFetchingNextPage && hasNextPage) {
+        void fetchNextPage();
+      }
+    });
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage, scrollYProgress]);
+
+  //#endregion
+
+  const userViews = 1;
+  const userSaves = 1;
   const userName = "username";
   const userIcon = "https://avatars.githubusercontent.com/u/79925808?v=4";
 
@@ -51,15 +71,13 @@ export default function Profile({
       <div className="container mx-auto">
         <div className="p-4" />
         <div className="flex flex-wrap items-center justify-center">
-          <Link href={"/profile/" + tmp_userid.toString()}>
-            <a href="#" className="relative block">
-              <img
-                className="custom-position h-24 w-24 rounded-full object-cover"
-                src={userIcon}
-                alt="name"
-              />
-            </a>
-          </Link>
+          <a href="#" className="relative block">
+            <img
+              className="custom-position h-24 w-24 rounded-full object-cover"
+              src={userIcon}
+              alt="name"
+            />
+          </a>
         </div>
         <div className="p-4" />
       </div>
@@ -117,124 +135,11 @@ export default function Profile({
       </div>
 
       <ImageList
-        arePostsLoading={arePostsLoading}
+        arePostsLoading={isFetching && !isFetchingNextPage}
+        areMorePostsLoading={isFetchingNextPage}
         posts={posts}
-        className={"px-2 pb-4 pt-16 sm:px-4 lg:px-8"}
+        className={"px-2 py-16 sm:px-4 md:pb-8 lg:px-8"}
       />
     </>
   );
 }
-
-// GROSS
-const mockData = [
-  {
-    id: 1,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 2,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.".repeat(
-      100
-    ),
-    likes: 420,
-    authorName: "Elon Musk",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 3,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 3697,
-    authorName: "Very Long Naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaame",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 4,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 5,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 6,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 7,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 8,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 9,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 10,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 11,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 12,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-];
-
-/*
-{saves.map((images, index) => {
-  return (
-      <div key={index}>
-        <section className="flex gap-4">
-          <Card className="h-80 w-80 bg-slate-600" />
-        </section>
-      </div>
-  );
-})}
-*/
