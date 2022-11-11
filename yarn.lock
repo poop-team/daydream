@@ -1576,7 +1576,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@daydream/common@1.0.0, @daydream/common@workspace:common":
+"@daydream/common@workspace:^, @daydream/common@workspace:common":
   version: 0.0.0-use.local
   resolution: "@daydream/common@workspace:common"
   dependencies:
@@ -1590,7 +1590,7 @@ __metadata:
   resolution: "@daydream/mobile@workspace:mobile"
   dependencies:
     "@babel/core": ^7.12.9
-    "@daydream/common": 1.0.0
+    "@daydream/common": "workspace:^"
     "@expo/webpack-config": ^0.17.0
     "@react-navigation/native": ^6.0.13
     "@react-navigation/stack": ^6.3.3
@@ -1621,6 +1621,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@daydream/web@workspace:web"
   dependencies:
+    "@daydream/common": "workspace:^"
     "@headlessui/react": 1.7.3
     "@prisma/client": 4.6.0
     "@tailwindcss/line-clamp": 0.4.2
