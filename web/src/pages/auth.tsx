@@ -1,4 +1,5 @@
 import { login, register, storeAuthSession } from "@daydream/common";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -6,9 +7,12 @@ import { MdArrowForward } from "react-icons/md";
 
 import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
+import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
 
 export default function AuthPage() {
   //# region Hooks
+
+  useRedirectUnauthenticated();
 
   const router = useRouter();
 
@@ -18,6 +22,27 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const { mutate: mutateLogin, isLoading: isLoggingIn } = useMutation({
+    mutationFn: () => login(email, password),
+    onSuccess: (data) => {
+      void storeAuthSession(data);
+      void router.push("/feed");
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
+  const { mutate: mutateRegister, isLoading: isRegistering } = useMutation({
+    mutationFn: () => register(name, email, password),
+    onSuccess: () => {
+      toast.success("Account created successfully!");
+      setAction("login");
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
+
   //# endregion
 
   //#region Handlers
@@ -26,35 +51,17 @@ export default function AuthPage() {
     e.preventDefault();
 
     if (action === "login") {
-      // Login
       if (!emailInvalid && !passwordInvalid) {
-        login(email, password)
-          .then(async (data) => {
-            if (data) {
-              storeAuthSession(data);
-              await router.replace("/feed");
-            }
-          })
-          .catch((err: Error) => {
-            toast.error(err.message);
-          });
+        mutateLogin();
       }
     } else {
-      // Register
       if (
         !nameInvalid &&
         !emailInvalid &&
         !passwordInvalid &&
         !confirmPasswordInvalid
       ) {
-        register(name, email, password)
-          .then(() => {
-            toast.success("Account created successfully!");
-            setAction("login");
-          })
-          .catch((err: Error) => {
-            toast.error(err.message);
-          });
+        mutateRegister();
       }
     }
   };
@@ -79,6 +86,10 @@ export default function AuthPage() {
   const confirmPasswordHelperText = confirmPasswordInvalid
     ? "Passwords do not match"
     : "";
+
+  const isLoading = isLoggingIn || isRegistering;
+  const isDisabled =
+    (emailInvalid || passwordInvalid || confirmPasswordInvalid) && isRegister;
 
   //#endregion
 
@@ -144,13 +155,19 @@ export default function AuthPage() {
             className={"w-full"}
           />
         )}
-        <Button className={"mt-4 w-fit"}>
+        <Button
+          loading={isLoading}
+          disabled={isDisabled}
+          className={"mt-4 w-fit"}
+        >
           {isLogin ? "Log in" : "Register"}
-          <MdArrowForward
-            className={
-              "h-full w-6 transition duration-200 ease-in-out group-hover:translate-x-0.5"
-            }
-          />
+          {!isLoading && (
+            <MdArrowForward
+              className={
+                "h-full w-6 transition duration-200 ease-in-out group-hover:translate-x-0.5"
+              }
+            />
+          )}
         </Button>
       </form>
     </main>

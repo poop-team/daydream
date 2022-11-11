@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 
 import ImageList from "../components/Layout/ImageList";
 import useDebounce from "../hooks/useDebounce";
+import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
 
 interface Props {
   searchValue: string;
@@ -13,6 +14,8 @@ interface Props {
 
 export default function Feed({ searchValue }: Props) {
   //#region Hooks
+
+  useRedirectUnauthenticated();
 
   const { scrollYProgress } = useScroll();
 

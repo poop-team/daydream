@@ -1,4 +1,4 @@
-import { createPost, searchPosts } from "@daydream/common";
+import { createPost, getAuthSession, searchPosts } from "@daydream/common";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -10,9 +10,12 @@ import ImageList from "../components/Layout/ImageList";
 import StyleList from "../components/Layout/StyleList";
 import { createImageLoadingTexts as loadingTexts } from "../data/loading-texts";
 import { imageStyles } from "../data/styles";
+import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
 
 export default function Create() {
   //#region Hooks
+
+  useRedirectUnauthenticated();
 
   const [prompt, setPrompt] = useState("");
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
@@ -24,7 +27,8 @@ export default function Create() {
     refetch: refetchRecentPosts,
   } = useQuery({
     queryKey: ["recent_posts"],
-    queryFn: () => searchPosts({ userId: "me", limit: 6 }),
+    queryFn: () =>
+      searchPosts({ userId: getAuthSession<"web">().userId, limit: 6 }),
     onError: (err: Error) => {
       toast.error(err.message);
     },

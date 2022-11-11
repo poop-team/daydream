@@ -7,7 +7,6 @@
  *
  * @returns The response from the API
  */
-import { ErrorResponse } from "../types/error.type";
 import { getAuthSession } from "../utils/storage";
 
 export default async function doRequest<R>(
@@ -26,8 +25,12 @@ export default async function doRequest<R>(
 
   if (!res.ok) {
     // try to parse for an error
-    const data = (await res.json().catch(() => null)) as ErrorResponse | null;
-    throw new Error(data?.error ?? "Unknown server error");
+    const data = (await res.json().catch(() => null)) as {
+      error: string;
+    } | null;
+    throw new Error(data?.error ?? "Unknown server error", {
+      cause: { code: res.status },
+    });
   }
 
   return (await res.json()) as R;

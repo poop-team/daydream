@@ -5,6 +5,7 @@ export * from "./types/auth.type";
 export * from "./types/post.type";
 export * from "./types/posts";
 export * from "./types/error.type";
+export * from "./types/user.type";
 export * from "./helpers/fetch";
 export * from "./helpers/mutate";
 export * from "./helpers/request";
