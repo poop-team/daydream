@@ -3,8 +3,8 @@
  * same as web/src/helpers/mutate.ts
  */
 import doRequest from "./request";
-import { getAuthSession } from "../utils/storage";
-import { AuthSession } from "@daydream/common";
+import {getAuthSession} from "../utils/storage";
+import {AuthSession} from "@daydream/common/types";
 
 export async function login(email: string, password: string) {
   return await doRequest<AuthSession>(

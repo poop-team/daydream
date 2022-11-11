@@ -2,9 +2,8 @@
  * Functions to Fetch data from the API
  */
 
-import { Post } from "../types/post.type";
-import { User } from "../types/user.type";
-import { getAuthSession } from "../utils/storage";
+import { Post, User } from "../types";
+import { getAuthSession } from "../utils";
 import doRequest from "./request";
 
 export async function searchPosts({

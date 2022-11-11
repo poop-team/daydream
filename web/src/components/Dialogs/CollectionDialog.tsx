@@ -1,4 +1,4 @@
-import { Posts } from "@daydream/common";
+import {Posts} from "@daydream/common/types";
 
 import Card from "../Surfaces/Card";
 import ImageCard from "../Surfaces/ImageCard";

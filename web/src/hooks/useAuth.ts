@@ -1,4 +1,5 @@
-import { AuthSession, getAuthSession } from "@daydream/common";
+import { AuthSession } from "@daydream/common/types";
+import { getAuthSession } from "@daydream/common/utils";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 

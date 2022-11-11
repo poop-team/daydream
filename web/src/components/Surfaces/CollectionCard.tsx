@@ -1,6 +1,6 @@
-import { Posts } from "@daydream/common";
+import {Posts} from "@daydream/common/types";
 import Image from "next/future/image";
-import { useState } from "react";
+import {useState} from "react";
 
 import CollectionDialog from "../Dialogs/CollectionDialog";
 import Author from "../Widgets/Author";
@@ -54,11 +54,11 @@ export default function CollectionCard({
             fill
             priority
             sizes="(max-width: 600px) 40vw, (max-width: 1024px) 30vw, (max-width: 1536px) 22vw, 18vw"
-            className="scale-[103%] object-contain transition-all duration-200 ease-out sm:group-hover:scale-100 
+            className="scale-[103%] object-contain transition-all duration-200 ease-out sm:group-hover:scale-100
             sm:group-hover:blur-sm sm:group-hover:brightness-[30%]"
           />
           <div
-            className="relative hidden h-full flex-col justify-between text-slate-50 opacity-0 transition-all 
+            className="relative hidden h-full flex-col justify-between text-slate-50 opacity-0 transition-all
             duration-200 ease-out group-hover:opacity-100 sm:flex sm:gap-2 lg:gap-4"
           >
             <p className="text-center sm:line-clamp-2 md:line-clamp-4">

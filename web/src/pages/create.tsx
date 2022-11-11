@@ -1,4 +1,5 @@
-import { createPost, getAuthSession, searchPosts } from "@daydream/common";
+import { createPost, searchPosts } from "@daydream/common/requests";
+import { getAuthSession } from "@daydream/common/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";

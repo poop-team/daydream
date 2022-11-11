@@ -1,5 +1,6 @@
-import { AuthSession } from "@daydream/common";
 import * as SecureStore from "expo-secure-store";
+
+import { AuthSession } from "../types";
 import { isReactNative } from "./isReactNative";
 
 export function storeAuthSession(session: AuthSession) {
@@ -17,7 +18,9 @@ export function storeAuthSession(session: AuthSession) {
   localStorage.setItem("userAvatar", session.userAvatar ?? "");
 }
 
-export function getAuthSession<T>(): T extends "web" ? AuthSession : Promise<AuthSession> {
+export function getAuthSession<T>(): T extends "web"
+  ? AuthSession
+  : Promise<AuthSession> {
   if (isReactNative()) {
     return (async () => {
       const [jwt = "", userId = "", userName = "", userAvatar = ""] =
@@ -34,7 +37,7 @@ export function getAuthSession<T>(): T extends "web" ? AuthSession : Promise<Aut
         userName,
         userAvatar,
       };
-    })() as T extends "web" ? AuthSession : Promise<AuthSession>
+    })() as T extends "web" ? AuthSession : Promise<AuthSession>;
   }
   // returning a promise just to make the types consistent
   // there's probably a better solution but it works

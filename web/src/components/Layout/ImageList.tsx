@@ -1,4 +1,4 @@
-import type { Post } from "@daydream/common";
+import type { Post } from "@daydream/common/types";
 import { AnimatePresence, motion } from "framer-motion";
 
 import {

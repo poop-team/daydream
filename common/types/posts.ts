@@ -1,3 +1,4 @@
+// FIXME: Remove this
 export interface Posts {
   id: number;
   src: string;

@@ -1,9 +1,8 @@
 /*
  * Functions to mutate/change data on the API
  */
-import { AuthSession } from "../types/auth.type";
-import { CreatedPost } from "../types/post.type";
-import { getAuthSession } from "../utils/storage";
+import { AuthSession, CreatedPost } from "../types";
+import { getAuthSession } from "../utils";
 import doRequest from "./request";
 
 export async function login(email: string, password: string) {

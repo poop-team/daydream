@@ -1,8 +1,6 @@
-import {
-  authenticateUser,
-  clearAuthSession,
-  ErrorResponse,
-} from "@daydream/common";
+import { authenticateUser } from "@daydream/common/requests";
+import { ErrorResponse } from "@daydream/common/types";
+import { clearAuthSession } from "@daydream/common/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 

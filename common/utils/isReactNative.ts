@@ -1,3 +1,3 @@
 export function isReactNative() {
-	return typeof document === 'undefined';
+  return typeof document === "undefined";
 }

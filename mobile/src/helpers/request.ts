@@ -5,8 +5,8 @@
  * @param method - The HTTP method to use (e.g. POST)
  * @returns The response from the API
  */
-import { getAuthSession } from "../utils/storage";
-import { ErrorResponse } from "@daydream/common";
+import {getAuthSession} from "../utils/storage";
+import {ErrorResponse} from "@daydream/common/types";
 
 export default async function doRequest<R>(
   url: string,

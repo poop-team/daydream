@@ -1,4 +1,4 @@
-import { searchPosts } from "@daydream/common";
+import { searchPosts } from "@daydream/common/requests";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useScroll } from "framer-motion";
 import { useEffect, useMemo } from "react";

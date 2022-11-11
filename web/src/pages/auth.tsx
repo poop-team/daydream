@@ -1,4 +1,5 @@
-import { login, register, storeAuthSession } from "@daydream/common";
+import { login, register } from "@daydream/common/requests";
+import { storeAuthSession } from "@daydream/common/utils";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";

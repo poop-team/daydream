@@ -1,4 +1,4 @@
-import { AuthSession } from "@daydream/common";
+import {AuthSession} from "@daydream/common/types";
 import * as SecureStore from "expo-secure-store";
 
 export async function storeAuthSession(session: AuthSession) {
