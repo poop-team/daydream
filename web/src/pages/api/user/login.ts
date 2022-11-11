@@ -1,8 +1,9 @@
-import { generateJWT, validateMethod, validateString } from "@daydream/common";
 import { compare } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
+import { generateJWT } from "../../../utils/jwt";
+import { validateMethod, validateString } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {

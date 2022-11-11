@@ -1,9 +1,9 @@
-import { validateRequest } from "@daydream/common";
 import { NextApiRequest, NextApiResponse } from "next";
 
 //import Replicate from 'Replicate';
 import { env } from "../../../env/server";
 import { prisma } from "../../../server/db/client";
+import { validateRequest } from "../../../utils/jwt";
 
 interface Request extends NextApiRequest {
   body: {

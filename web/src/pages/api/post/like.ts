@@ -1,7 +1,7 @@
-import { validateRequest } from "@daydream/common";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
+import { validateRequest } from "../../../utils/jwt";
 
 interface Request extends NextApiRequest {
   body: {

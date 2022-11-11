@@ -1,6 +1,7 @@
-import { validateRequest } from "@daydream/common";
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
+
+import { validateRequest } from "../../../utils/jwt";
 
 export default async function search(
   req: NextApiRequest,
