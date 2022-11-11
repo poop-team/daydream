@@ -43,7 +43,7 @@ model User {
   accounts         Account[]
   savedCollections Collection[] @relation("savedCollections")
   collections      Collection[]
-  likes            Like[]
+  likes            Like[]i
   posts            Post[]       @relation("allPosts")
   savedPosts       Post[]       @relation("savedPosts")
   sessions         Session[]
