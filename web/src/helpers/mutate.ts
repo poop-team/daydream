@@ -46,7 +46,7 @@ export async function addPostToCollection(
   postId: string,
   collectionId: string
 ) {
-  await doRequest(
+  return await doRequest<{ collectionId: string }>(
     "/api/collection/addPost",
     {
       userId: getAuthSession().userId,
@@ -61,7 +61,7 @@ export async function removePostFromCollection(
   postId: string,
   collectionId: string
 ) {
-  await doRequest(
+  return await doRequest<{ collectionId: string }>(
     "/api/collection/removePost",
     {
       userId: getAuthSession().userId,

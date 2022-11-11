@@ -13,6 +13,7 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
   transitions,
+  transitionVariants,
 } from "../../../styles/motion-definitions";
 import { Post } from "../../../types/post.type";
 import { getAuthSession } from "../../../utils/storage";
@@ -35,6 +36,9 @@ export default function AddToCollectionPanel({
   //#region Hooks
 
   const [searchValue, setSearchValue] = useState("");
+  const [loadingCollectionIds, setLoadingCollectionIds] = useState<string[]>(
+    []
+  );
 
   const {
     data: collectionData,
@@ -53,7 +57,10 @@ export default function AddToCollectionPanel({
       mutationKey: ["add_post_to_collection"],
       mutationFn: (collectionId: string) =>
         addPostToCollection(postId, collectionId),
-      onSuccess: () => {
+      onSuccess: ({ collectionId }) => {
+        setLoadingCollectionIds((prev) =>
+          prev.filter((id) => id !== collectionId)
+        );
         void refetchCollections();
       },
       onError: (err: Error) => {
@@ -66,7 +73,10 @@ export default function AddToCollectionPanel({
       mutationKey: ["add_post_to_collection"],
       mutationFn: (collectionId: string) =>
         removePostFromCollection(postId, collectionId),
-      onSuccess: () => {
+      onSuccess: ({ collectionId }) => {
+        setLoadingCollectionIds((prev) =>
+          prev.filter((id) => id !== collectionId)
+        );
         void refetchCollections();
       },
       onError: (err: Error) => {
@@ -97,8 +107,11 @@ export default function AddToCollectionPanel({
   };
 
   const handleCollectionClick = (collectionId: string) => {
-    if (isLoading) return;
+    if (loadingCollectionIds.includes(collectionId)) {
+      return;
+    }
 
+    setLoadingCollectionIds((prev) => [...prev, collectionId]);
     if (
       addedToCollections?.some((collection) => collection.id === collectionId)
     ) {
@@ -124,12 +137,6 @@ export default function AddToCollectionPanel({
     }
     return posts;
   };
-
-  //#endregion
-
-  //#region Derived State
-
-  const isLoading = isAdding || isRemoving || areCollectionsLoading;
 
   //#endregion
 
@@ -171,7 +178,7 @@ export default function AddToCollectionPanel({
                 variants={staggerItemVariants}
                 exit={{ opacity: 0 }}
                 transition={transitions.springStiff}
-                className={"w-4/5 sm:w-2/5 lg:w-1/4"}
+                className={"w-4/5 sm:w-[31%] lg:w-[23%]"}
               >
                 <CollectionCard
                   posts={getReorderedPosts(collection.posts)}
@@ -180,6 +187,7 @@ export default function AddToCollectionPanel({
                       (addedCollection) => addedCollection.id === collection.id
                     )
                   }
+                  isLoading={loadingCollectionIds.includes(collection.id)}
                   name={collection.name}
                   onClick={() => handleCollectionClick(collection.id)}
                 />
@@ -187,6 +195,16 @@ export default function AddToCollectionPanel({
             ))}
           </AnimatePresence>
         </motion.ol>
+        {collections?.length === 0 && (
+          <motion.div
+            initial={"fadeOut"}
+            animate={"fadeIn"}
+            variants={transitionVariants}
+            className={"flex flex-col items-center justify-center"}
+          >
+            <h1 className={"text-xl font-bold"}>No collections found</h1>
+          </motion.div>
+        )}
       </div>
     </Card>
   );

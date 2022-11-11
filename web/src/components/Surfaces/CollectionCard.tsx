@@ -4,6 +4,7 @@ import { HTMLAttributes, useState } from "react";
 import { transitions } from "../../styles/motion-definitions";
 import { Post } from "../../types/post.type";
 import CustomImage from "../CustomImage";
+import LinearProgress from "../Feedback/LinearProgress";
 import Card from "./Card";
 
 const variants = {
@@ -23,6 +24,7 @@ const variants = {
 interface Props extends HTMLAttributes<HTMLDivElement> {
   posts: Post[];
   isAdded?: boolean;
+  isLoading?: boolean;
   name: string;
   className?: string;
 }
@@ -30,6 +32,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 export default function CollectionCard({
   posts,
   isAdded = false,
+  isLoading = false,
   name,
   className = "",
   ...rest
@@ -66,7 +69,7 @@ export default function CollectionCard({
             key={post.imageURL}
             custom={idx}
             initial={"initial"}
-            animate={isHovered ? "hover" : "normal"}
+            animate={!isLoading && isHovered ? "hover" : "normal"}
             exit={"initial"}
             variants={variants}
             transition={transitions.springStiff}
@@ -100,18 +103,26 @@ export default function CollectionCard({
             />
           </motion.div>
         ))}
-        {posts.length === 0 && (
-          <div
-            className={
-              "absolute top-0 left-0 flex h-full w-full items-center justify-center bg-slate-50/80"
-            }
-          >
-            <div className={"text-xl font-semibold text-slate-600"}>
-              Nothing saved yet
-            </div>
-          </div>
+      </AnimatePresence>
+      <AnimatePresence>
+        {isLoading && (
+          <LinearProgress
+            className={"absolute bottom-0 left-0"}
+            loopDuration={0.7}
+          />
         )}
       </AnimatePresence>
+      {posts.length === 0 && (
+        <div
+          className={
+            "absolute top-0 left-0 flex h-full w-full items-center justify-center bg-slate-300/80"
+          }
+        >
+          <div className={"text-xl font-semibold text-slate-600"}>
+            Nothing saved yet
+          </div>
+        </div>
+      )}
       <div
         className={`absolute bottom-0 left-0 z-20 flex w-full justify-between bg-slate-800/70 p-1 text-slate-50 backdrop-blur-md`}
       >

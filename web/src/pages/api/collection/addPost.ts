@@ -48,8 +48,8 @@ export default async function addPost(req: Request, res: NextApiResponse) {
         },
       },
     })
-    .then(() => {
-      res.status(200).json({ message: "Post added to collection" });
+    .then((data) => {
+      res.status(200).json({ collectionId: data.id });
     })
     .catch((err: Error) => {
       console.error(err.message);
