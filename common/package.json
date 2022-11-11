@@ -3,7 +3,9 @@
 	"version": "1.0.0",
 	"main": "dist/index",
 	"dependencies": {
-		"next": "^13.0.2",
+		"next": "^13.0.2"
+	},
+	"devDependencies": {
 		"typescript": "^4.8.4"
 	}
 }
