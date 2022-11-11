@@ -1,6 +1,5 @@
+import { validateRequest } from "@daydream/common";
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { validateRequest } from "../../../utils/jwt";
 
 // Authenticates the user and returns their user ID
 export default async function get(req: NextApiRequest, res: NextApiResponse) {
