@@ -6,9 +6,5 @@
     "common",
     "web",
     "mobile"
-  ],
-  "scripts": {
-    "start": "yarn workspace @daydream/mobile start",
-    "dev": "yarn workspace @daydream/web dev"
-  }
+  ]
 }
