@@ -1576,11 +1576,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@daydream/common@workspace:^, @daydream/common@workspace:common":
+"@daydream/common@1.0.0, @daydream/common@workspace:common":
   version: 0.0.0-use.local
   resolution: "@daydream/common@workspace:common"
   dependencies:
-    typescript: ^4.8.4
+    typescript: 4.8.4
   languageName: unknown
   linkType: soft
 
@@ -1589,7 +1589,7 @@ __metadata:
   resolution: "@daydream/mobile@workspace:mobile"
   dependencies:
     "@babel/core": ^7.12.9
-    "@daydream/common": "workspace:^"
+    "@daydream/common": 1.0.0
     "@expo/webpack-config": ^0.17.0
     "@react-navigation/native": ^6.0.13
     "@react-navigation/stack": ^6.3.3
@@ -1620,7 +1620,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@daydream/web@workspace:web"
   dependencies:
-    "@daydream/common": "workspace:^"
+    "@daydream/common": 1.0.0
     "@headlessui/react": 1.7.3
     "@prisma/client": 4.6.0
     "@tailwindcss/line-clamp": 0.4.2
@@ -19170,7 +19170,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.8.4, typescript@npm:^4.6.3, typescript@npm:^4.8.4":
+"typescript@npm:4.8.4, typescript@npm:^4.6.3":
   version: 4.8.4
   resolution: "typescript@npm:4.8.4"
   bin:
@@ -19180,7 +19180,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.8.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.8.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.8.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>":
   version: 4.8.4
   resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=701156"
   bin:
