@@ -10,7 +10,7 @@ import doRequest from "./request";
 
 export async function searchPosts({
   search = "",
-  userId = getAuthSession().userId,
+  userId = "",
   collectionId = "",
   limit = 16,
   cursorId = "",

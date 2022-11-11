@@ -18,6 +18,11 @@ export const transitions = {
     damping: 40,
     stiffness: 700,
   },
+  springDamp: {
+    type: "spring",
+    damping: 30,
+    stiffness: 300,
+  },
   easeOut: {
     type: "tween",
     ease: "easeOut",
@@ -95,6 +100,6 @@ export const staggerContainerVariants = {
 };
 
 export const staggerItemVariants = {
-  hidden: { scale: 0.9, y: -16, opacity: 0 },
+  hidden: { scale: 0.9, y: -12, opacity: 0 },
   show: { scale: 1, y: 0, opacity: 1 },
 };

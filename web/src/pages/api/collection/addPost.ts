@@ -34,19 +34,25 @@ export default async function addPost(req: Request, res: NextApiResponse) {
     return res.status(400).json("Invalid postId");
   }
 
-  const resStatus = await prisma.collection.update({
-    where: {
-      collectionAndUserId: {
-        userId: userId.toString(),
-        id: collectionId.toString(),
+  prisma.collection
+    .update({
+      where: {
+        collectionAndUserId: {
+          userId: userId.toString(),
+          id: collectionId.toString(),
+        },
       },
-    },
-    data: {
-      posts: {
-        connect: { id: postToAdd.id },
+      data: {
+        posts: {
+          connect: { id: postToAdd.id },
+        },
       },
-    },
-  });
-
-  res.json({ success: true });
+    })
+    .then(() => {
+      res.status(200).json({ message: "Post added to collection" });
+    })
+    .catch((err: Error) => {
+      console.error(err.message);
+      res.status(400).json({ error: "Internal database error" });
+    });
 }

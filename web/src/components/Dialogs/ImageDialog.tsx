@@ -146,8 +146,7 @@ export default function ImageDialog({
               }
             >
               <AddToCollectionPanel
-                postToAddId={id}
-                postToAddSrc={src}
+                postId={id}
                 onClose={() => setIsAddToCollectionPanelOpen(false)}
                 className={"pb-[4%] md:pr-[4%] md:pb-0"}
               />

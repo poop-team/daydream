@@ -43,7 +43,7 @@ export default function ImageList({
                   layout
                   variants={staggerItemVariants}
                   exit={{ opacity: 0 }}
-                  transition={transitions.spring}
+                  transition={transitions.springDamp}
                   className={"h-full w-full"}
                 >
                   <ImageCard

@@ -42,5 +42,35 @@ export async function createPost(prompt: string) {
   );
 }
 
+export async function addPostToCollection(
+  postId: string,
+  collectionId: string
+) {
+  await doRequest(
+    "/api/collection/addPost",
+    {
+      userId: getAuthSession().userId,
+      postId,
+      collectionId,
+    },
+    "POST"
+  );
+}
+
+export async function removePostFromCollection(
+  postId: string,
+  collectionId: string
+) {
+  await doRequest(
+    "/api/collection/removePost",
+    {
+      userId: getAuthSession().userId,
+      postId,
+      collectionId,
+    },
+    "DELETE"
+  );
+}
+
 export async function likePost(postId: string) {}
 export async function unlikePost(postId: string) {}

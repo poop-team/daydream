@@ -21,18 +21,16 @@ const variants = {
 };
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  recentPosts: Post[];
+  posts: Post[];
   isAdded?: boolean;
   name: string;
-  postCount: number;
   className?: string;
 }
 
 export default function CollectionCard({
-  recentPosts,
+  posts,
   isAdded = false,
   name,
-  postCount,
   className = "",
   ...rest
 }: Props) {
@@ -63,7 +61,7 @@ export default function CollectionCard({
       {...rest}
     >
       <AnimatePresence mode={"popLayout"} initial={false}>
-        {recentPosts.slice(0, 3).map((post, idx) => (
+        {posts.slice(0, 3).map((post, idx) => (
           <motion.div
             key={post.imageURL}
             custom={idx}
@@ -81,9 +79,10 @@ export default function CollectionCard({
             }
           >
             {idx === 0 && isAdded && (
+              // Tag that indicates when a post is added to a collection
               <div
                 className={
-                  "absolute top-0 right-1/2 z-10 flex translate-x-1/2 items-center rounded-b-xl bg-indigo-900/90 px-4 py-1 text-slate-50 backdrop-blur-md"
+                  "absolute top-0 right-1/2 z-10 flex translate-x-1/2 items-center rounded-b-xl bg-indigo-900/90 px-4 text-xl text-slate-50 backdrop-blur-md"
                 }
               >
                 Added
@@ -101,14 +100,14 @@ export default function CollectionCard({
             />
           </motion.div>
         ))}
-        {recentPosts.length === 0 && (
+        {posts.length === 0 && (
           <div
             className={
-              "absolute top-0 left-0 flex h-full w-full items-center justify-center rounded-2xl bg-slate-100/80 backdrop-blur-md"
+              "absolute top-0 left-0 flex h-full w-full items-center justify-center bg-slate-50/80"
             }
           >
-            <div className={"text-2xl font-semibold text-slate-500"}>
-              No posts
+            <div className={"text-xl font-semibold text-slate-600"}>
+              Nothing saved yet
             </div>
           </div>
         )}
@@ -118,7 +117,7 @@ export default function CollectionCard({
       >
         <div className={"basis-full text-center"}>
           <p className={"text-xl sm:text-2xl"}>{name}</p>
-          <p className={"text-sm sm:text-base"}>{postCount} saved</p>
+          <p className={"text-sm sm:text-base"}>{posts.length} saved</p>
         </div>
       </div>
     </Card>

@@ -1,15 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdDoubleArrow } from "react-icons/md";
 
 import { getCollection } from "../../../helpers/fetch";
 import {
+  addPostToCollection,
+  removePostFromCollection,
+} from "../../../helpers/mutate";
+import {
   staggerContainerVariants,
   staggerItemVariants,
   transitions,
 } from "../../../styles/motion-definitions";
+import { Post } from "../../../types/post.type";
 import { getAuthSession } from "../../../utils/storage";
 import IconButton from "../../Inputs/IconButton";
 import SearchBar from "../../Inputs/SearchBar";
@@ -17,30 +22,57 @@ import Card from "../../Surfaces/Card";
 import CollectionCard from "../../Surfaces/CollectionCard";
 
 interface Props {
-  postToAddId: string;
-  postToAddSrc: string;
+  postId: string;
   onClose: () => void;
   className?: string;
 }
 
 export default function AddToCollectionPanel({
-  postToAddId,
-  postToAddSrc,
+  postId,
   onClose,
   className = "",
 }: Props) {
   //#region Hooks
 
   const [searchValue, setSearchValue] = useState("");
-  const [addedToCollections, setAddedToCollections] = useState<string[]>([]);
 
-  const { data: collectionData, isLoading: areCollectionsLoading } = useQuery({
+  const {
+    data: collectionData,
+    isLoading: areCollectionsLoading,
+    refetch: refetchCollections,
+  } = useQuery({
     queryKey: ["user_collections"],
     queryFn: () => getCollection({ userId: getAuthSession().userId }),
     onError: (err: Error) => {
       toast.error(err.message);
     },
   });
+
+  const { mutate: mutateAddPostToCollection, isLoading: isAdding } =
+    useMutation({
+      mutationKey: ["add_post_to_collection"],
+      mutationFn: (collectionId: string) =>
+        addPostToCollection(postId, collectionId),
+      onSuccess: () => {
+        void refetchCollections();
+      },
+      onError: (err: Error) => {
+        toast.error(err.message);
+      },
+    });
+
+  const { mutate: mutateRemovePostFromCollection, isLoading: isRemoving } =
+    useMutation({
+      mutationKey: ["add_post_to_collection"],
+      mutationFn: (collectionId: string) =>
+        removePostFromCollection(postId, collectionId),
+      onSuccess: () => {
+        void refetchCollections();
+      },
+      onError: (err: Error) => {
+        toast.error(err.message);
+      },
+    });
 
   const collections = useMemo(
     () =>
@@ -49,6 +81,12 @@ export default function AddToCollectionPanel({
       ),
     [collectionData, searchValue]
   );
+
+  const addedToCollections = useMemo(() => {
+    return collections?.filter((collection) =>
+      collection.posts.some((post) => post.id === postId)
+    );
+  }, [collections, postId]);
 
   //#endregion
 
@@ -59,12 +97,39 @@ export default function AddToCollectionPanel({
   };
 
   const handleCollectionClick = (collectionId: string) => {
-    if (addedToCollections.includes(collectionId)) {
-      setAddedToCollections((prev) => prev.filter((id) => id !== collectionId));
+    if (isLoading) return;
+
+    if (
+      addedToCollections?.some((collection) => collection.id === collectionId)
+    ) {
+      // Already added to collection, remove from collection
+      mutateRemovePostFromCollection(collectionId);
     } else {
-      setAddedToCollections((prev) => [...prev, collectionId]);
+      // Else add to collection
+      mutateAddPostToCollection(collectionId);
     }
   };
+
+  //#endregion
+
+  //#region Helpers
+
+  // Returns all posts for a collection putting postId as the first post
+  const getReorderedPosts = (posts: Post[]) => {
+    const foundPost = posts.find((post) => post.id === postId);
+    if (foundPost) {
+      const reorderedPosts = posts.filter((post) => post.id !== postId);
+      reorderedPosts.unshift(foundPost);
+      return reorderedPosts;
+    }
+    return posts;
+  };
+
+  //#endregion
+
+  //#region Derived State
+
+  const isLoading = isAdding || isRemoving || areCollectionsLoading;
 
   //#endregion
 
@@ -98,25 +163,29 @@ export default function AddToCollectionPanel({
             "my-4 flex w-full list-none flex-wrap justify-center gap-4 md:justify-start"
           }
         >
-          {collections?.map((collection) => (
-            <motion.li
-              key={collection.id}
-              layout
-              variants={staggerItemVariants}
-              exit={{ opacity: 0 }}
-              transition={transitions.spring}
-              className={"h-full w-full"}
-            >
-              <CollectionCard
-                recentPosts={collection.recentPosts}
-                isAdded={addedToCollections.includes(collection.id)}
-                name={collection.name}
-                postCount={collection.postCount}
-                className={"w-4/5 sm:w-2/5 lg:w-1/4 xl:w-1/5"}
-                onClick={() => handleCollectionClick(collection.id)}
-              />
-            </motion.li>
-          ))}
+          <AnimatePresence mode={"popLayout"}>
+            {collections?.map((collection) => (
+              <motion.li
+                key={collection.id}
+                layout
+                variants={staggerItemVariants}
+                exit={{ opacity: 0 }}
+                transition={transitions.springStiff}
+                className={"w-4/5 sm:w-2/5 lg:w-1/4"}
+              >
+                <CollectionCard
+                  posts={getReorderedPosts(collection.posts)}
+                  isAdded={
+                    !!addedToCollections?.find(
+                      (addedCollection) => addedCollection.id === collection.id
+                    )
+                  }
+                  name={collection.name}
+                  onClick={() => handleCollectionClick(collection.id)}
+                />
+              </motion.li>
+            ))}
+          </AnimatePresence>
         </motion.ol>
       </div>
     </Card>
