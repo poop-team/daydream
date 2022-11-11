@@ -7,10 +7,15 @@ import { MdAddCircle } from "react-icons/md";
 import Button from "../components/Inputs/Button";
 import LinkIconButton from "../components/Inputs/LinkIconButton";
 import SearchBar from "../components/Inputs/SearchBar";
+<<<<<<< HEAD
 import ImageList from "../components/Layout/ImageList";
 import { fetchPosts } from "../helpers/fetch";
 import Posts from "../types/posts";
 import {stringifyNumber} from "yaml/util";
+=======
+import ImageCard from "../components/Surfaces/ImageCard";
+import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
+>>>>>>> origin/main
 
 interface Props {
   id: string;
@@ -20,6 +25,7 @@ interface Props {
   className?: string;
 }
 
+<<<<<<< HEAD
 export default function Profile({
   id,
   name,
@@ -27,6 +33,10 @@ export default function Profile({
   showDialog = true,
   className = "",
 }: Props) {
+=======
+  useRedirectUnauthenticated();
+
+>>>>>>> origin/main
   const [text, setText] = useState("");
 
   const { data: posts, isLoading: arePostsLoading } = useQuery(
@@ -124,117 +134,3 @@ export default function Profile({
     </>
   );
 }
-
-// GROSS
-const mockData = [
-  {
-    id: 1,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 2,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.".repeat(
-      100
-    ),
-    likes: 420,
-    authorName: "Elon Musk",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 3,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 3697,
-    authorName: "Very Long Naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaame",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 4,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 5,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 6,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 7,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 8,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 9,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 10,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 11,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-  {
-    id: 12,
-    src: "/test.png",
-    prompt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    likes: 69,
-    authorName: "John Doe",
-    authorAvatar: "/test.png",
-  },
-];
-
-/*
-{saves.map((images, index) => {
-  return (
-      <div key={index}>
-        <section className="flex gap-4">
-          <Card className="h-80 w-80 bg-slate-600" />
-        </section>
-      </div>
-  );
-})}
-*/
