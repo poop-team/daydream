@@ -13,7 +13,7 @@ interface Request extends NextApiRequest {
 export default async function create(req: Request, res: NextApiResponse) {
   // Validate if the user has a valid JWT token
   if (!(await validateRequest(req))) {
-    return res.status(401).json({ error: "User not logged in." });
+    return res.status(401).json({ error: "You are not logged in" });
   }
 
   const { userId, collectionName } = req.body;
@@ -30,5 +30,5 @@ export default async function create(req: Request, res: NextApiResponse) {
   });
 
   // TODO: Ideally we would return the entire collection object here and not just the ID
-  res.json({ collectionId: collection.id });
+  res.json(collection);
 }
