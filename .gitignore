@@ -73,9 +73,11 @@ typings/
 
 # Yarn
 .yarn-integrity
+.yarn/install-state.gz
+.yarn/cache
 mobile/.yarn/cache
-web/.yarn/cache
 mobile/.yarn/install-state.gz
+web/.yarn/cache
 web/.yarn/install-state.gz
 
 # dotenv environment variables file
@@ -240,5 +242,3 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-.yarn/
