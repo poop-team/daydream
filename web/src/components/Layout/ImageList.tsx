@@ -4,7 +4,7 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
   transitions,
-  variants,
+  transitionVariants,
 } from "../../styles/motion-definitions";
 import type { Post } from "../../types/post.type";
 import CircularProgress from "../Feedback/CircularProgress";
@@ -43,10 +43,11 @@ export default function ImageList({
                   layout
                   variants={staggerItemVariants}
                   exit={{ opacity: 0 }}
-                  transition={transitions.spring}
+                  transition={transitions.springDamp}
                   className={"h-full w-full"}
                 >
                   <ImageCard
+                    id={post.id}
                     src={post.imageURL}
                     prompt={post.prompt}
                     authorName={post.author.name}
@@ -59,7 +60,7 @@ export default function ImageList({
           </motion.ol>
           {areMorePostsLoading && (
             <motion.div
-              variants={variants}
+              variants={transitionVariants}
               initial={"fadeOut"}
               animate={"fadeIn"}
               className={"flex justify-center p-16"}
@@ -71,7 +72,7 @@ export default function ImageList({
       ) : (
         <motion.div
           key={"noPosts"}
-          variants={variants}
+          variants={transitionVariants}
           initial="fadeOut"
           animate="fadeIn"
           exit="fadeOut"
@@ -81,7 +82,7 @@ export default function ImageList({
         >
           {arePostsLoading ? (
             <motion.div
-              variants={variants}
+              variants={transitionVariants}
               initial={"fadeOut"}
               animate={"fadeIn"}
             >
@@ -89,7 +90,7 @@ export default function ImageList({
             </motion.div>
           ) : (
             <motion.p
-              variants={variants}
+              variants={transitionVariants}
               initial={"fadeOut"}
               animate={"fadeIn"}
             >

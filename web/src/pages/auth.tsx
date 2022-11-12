@@ -6,8 +6,8 @@ import { MdArrowForward } from "react-icons/md";
 
 import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
-import { login, register } from "../helpers/mutate";
 import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
+import { login, register } from "../requests/mutate";
 import { storeAuthSession } from "../utils/storage";
 
 export default function AuthPage() {

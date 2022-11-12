@@ -2,7 +2,7 @@ import { Dialog } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode } from "react";
 
-import { variants } from "../../styles/motion-definitions";
+import { transitionVariants } from "../../styles/motion-definitions";
 
 interface Props {
   isOpen: boolean;
@@ -23,7 +23,7 @@ export default function StyledDialog({
         <Dialog
           static
           as={motion.div}
-          variants={variants}
+          variants={transitionVariants}
           initial={"fadeOut"}
           animate={"fadeIn"}
           exit={"fadeOut"}
@@ -35,7 +35,7 @@ export default function StyledDialog({
         >
           <Dialog.Backdrop
             as={motion.div}
-            variants={variants}
+            variants={transitionVariants}
             initial={"fadeOut"}
             animate={"fadeIn"}
             exit={"fadeOut"}
@@ -44,7 +44,7 @@ export default function StyledDialog({
           />
           <Dialog.Panel
             as={motion.div}
-            variants={variants}
+            variants={transitionVariants}
             initial={"growOut"}
             animate={"growIn"}
             exit={"growOut"}
