@@ -6,14 +6,14 @@ import { MdArrowForward } from "react-icons/md";
 
 import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
-import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
+import useAuthRedirect from "../hooks/useAuthRedirect";
 import { login, register } from "../requests/mutate";
 import { storeAuthSession } from "../utils/storage";
 
 export default function AuthPage() {
   //# region Hooks
 
-  useRedirectUnauthenticated();
+  useAuthRedirect();
 
   const router = useRouter();
 
@@ -37,7 +37,7 @@ export default function AuthPage() {
     mutationFn: () => register(name, email, password),
     onSuccess: () => {
       toast.success("Account created successfully!");
-      setAction("login");
+      mutateLogin();
     },
     onError: (err: Error) => {
       toast.error(err.message);
@@ -89,8 +89,9 @@ export default function AuthPage() {
     : "";
 
   const isLoading = isLoggingIn || isRegistering;
-  const isDisabled =
-    (emailInvalid || passwordInvalid || confirmPasswordInvalid) && isRegister;
+  const isDisabled = isLogin
+    ? email.trim() === "" || password.trim() === "" // Login
+    : emailInvalid || passwordInvalid || confirmPasswordInvalid; // Register
 
   //#endregion
 
@@ -118,6 +119,7 @@ export default function AuthPage() {
           <TextField
             label="Name:"
             value={name}
+            autoComplete={"name"}
             placeholder="Enter your name here..."
             error={nameInvalid}
             helperText={nameHelperText}
@@ -128,6 +130,7 @@ export default function AuthPage() {
         <TextField
           label="Email:"
           value={email}
+          autoComplete={"email"}
           placeholder="Enter your email address..."
           error={emailInvalid}
           helperText={emailHelperText}
@@ -138,6 +141,7 @@ export default function AuthPage() {
           label="Password:"
           type="password"
           value={password}
+          autoComplete={isLogin ? "current-password" : "new-password"}
           placeholder="Enter your password..."
           error={passwordInvalid}
           helperText={passwordHelperText}
@@ -149,6 +153,7 @@ export default function AuthPage() {
             label="Confirm Password:"
             type="password"
             value={confirmPassword}
+            autoComplete={"off"}
             placeholder="Confirm your password..."
             error={confirmPasswordInvalid}
             helperText={confirmPasswordHelperText}
@@ -161,7 +166,13 @@ export default function AuthPage() {
           disabled={isDisabled}
           className={"mt-4 w-fit"}
         >
-          {isLogin ? "Log in" : "Register"}
+          {isLogin
+            ? isLoggingIn
+              ? "Logging in"
+              : "Log in"
+            : isRegistering
+            ? "Registering"
+            : "Register"}
           {!isLoading && (
             <MdArrowForward
               className={
