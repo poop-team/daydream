@@ -32,8 +32,20 @@ export default function App() {
         <Stack.Screen
           name="FeedPage"
           component={FeedPage}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="createPage"
+          options={{headerShown: false}}
+        >
+          {(props) => <Dummypage {...props} text= "create" />}
+        </Stack.Screen>
+        <Stack.Screen
+          name="profilePage"
+          options={{headerShown: false}}
+        >
+          {(props) => <Dummypage {...props} text= "profile" />}
+        </Stack.Screen>    
       </Stack.Navigator>
     </NavigationContainer>
   );
