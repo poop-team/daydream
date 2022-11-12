@@ -25,10 +25,13 @@ export default ({
   const [isFocused, setFocused] = useState(false);
 
   const bgColor = isFocused ? focusedColor : unfocusedColor;
-  //const platformStyle = "ios: "
+  const iosStyle = " mt-14 mx-4 top-9";
+  const androidStyle = " mx-4 top-9"; 
 
   return (
-    <View className="mx-4 top-9">
+    <StyledView className={`
+      ios:${iosStyle} 
+      android:${androidStyle}`}>
       <View className={`${bgColor} w-full flex-row items-center rounded-lg`}>
         <Pressable onPress={() => inputRef.current.focus()}>
           <View className={`${bgColor} mx-2`}>
@@ -52,6 +55,6 @@ export default ({
           </Pressable>
         )}
       </View>
-    </View>
+    </StyledView>
   );
 };
