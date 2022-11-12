@@ -8,7 +8,12 @@ export interface Post {
     id: string;
     name: string;
   };
-  likes: [];
+  likes: Like[];
+}
+
+interface Like {
+  userId: string;
+  postID: string;
 }
 
 export interface CreatedPost {
