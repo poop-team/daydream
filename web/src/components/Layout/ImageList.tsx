@@ -55,9 +55,11 @@ export default function ImageList({
                     authorName={post.author.name}
                     authorAvatar={undefined}
                     likes={post.likes.length}
-                    isLiked={post.likes.find(
-                      (like) => like.userId === getAuthSession().userId
-                    )}
+                    isLiked={
+                      !!post.likes.find(
+                        (like) => like.userId === getAuthSession().userId
+                      )
+                    }
                   />
                 </motion.li>
               ))}
