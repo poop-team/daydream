@@ -24,7 +24,6 @@ export default function ImageList({
   areMorePostsLoading,
   className = "",
 }: Props) {
-  console.log(posts);
   return (
     <AnimatePresence mode={"popLayout"}>
       {posts?.length ? (
