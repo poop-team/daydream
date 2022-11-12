@@ -5,12 +5,12 @@ import { MdAddCircle } from "react-icons/md";
 import Button from "../components/Inputs/Button";
 import LinkIconButton from "../components/Inputs/LinkIconButton";
 import SearchBar from "../components/Inputs/SearchBar";
-import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
+import useAuthRedirect from "../hooks/useAuthRedirect";
 
 export default function Profile() {
   //#region Hooks
 
-  useRedirectUnauthenticated();
+  useAuthRedirect();
 
   const [text, setText] = useState("");
 

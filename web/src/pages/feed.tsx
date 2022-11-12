@@ -4,8 +4,8 @@ import { useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
 
 import ImageList from "../components/Layout/ImageList";
+import useAuthRedirect from "../hooks/useAuthRedirect";
 import useDebounce from "../hooks/useDebounce";
-import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
 import { searchPosts } from "../requests/fetch";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 export default function Feed({ searchValue }: Props) {
   //#region Hooks
 
-  useRedirectUnauthenticated();
+  useAuthRedirect();
 
   const { scrollYProgress } = useScroll();
 
