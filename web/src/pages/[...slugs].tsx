@@ -9,6 +9,6 @@ export default function AnySlug() {
   const router = useRouter();
 
   useEffect(() => {
-    void router.replace("/");
+    void router.replace("/feed");
   }, [router]);
 }

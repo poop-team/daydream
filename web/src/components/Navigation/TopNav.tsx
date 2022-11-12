@@ -9,8 +9,7 @@ import {
 } from "react-icons/md";
 
 import paths from "../../data/path";
-import search from "../../pages/api/post/search";
-import { navVariants, transitions } from "../../styles/motion-definitions";
+import { positionVariants, transitions } from "../../styles/motion-definitions";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
 import SearchBar from "../Inputs/SearchBar";
@@ -78,7 +77,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   return (
     <motion.nav
-      variants={navVariants}
+      variants={positionVariants}
       animate={navHidden ? "initialTop" : "animate"}
       transition={transitions.easeOut}
       className={navStyles}
@@ -88,7 +87,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
           {!isFeed && (
             <motion.li
               key={"home"}
-              variants={navVariants}
+              variants={positionVariants}
               initial={"initialLeft"}
               animate={"animate"}
               exit={"initialLeft"}
@@ -104,7 +103,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
           {isFeed && (
             <motion.li
               key={"search"}
-              variants={navVariants}
+              variants={positionVariants}
               initial={"initialTop"}
               animate={"animate"}
               exit={"initialTop"}
@@ -128,7 +127,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
           {isProfile ? (
             <motion.li
               key={"settings"}
-              variants={navVariants}
+              variants={positionVariants}
               initial={"initialRight"}
               animate={"animate"}
               exit={"initialRight"}
@@ -143,7 +142,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
           ) : (
             <motion.li
               key={"profile"}
-              variants={navVariants}
+              variants={positionVariants}
               initial={"initialRight"}
               animate={"animate"}
               exit={"initialRight"}

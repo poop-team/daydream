@@ -1,7 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { MdAdd, MdCheck } from "react-icons/md";
 
-import { transitions, variants } from "../../styles/motion-definitions";
+import {
+  transitions,
+  transitionVariants,
+} from "../../styles/motion-definitions";
 
 interface Props {
   label: string;
@@ -40,7 +43,7 @@ export default function SelectableChip({
       <AnimatePresence mode={"popLayout"} initial={false}>
         <motion.div
           key={selected ? "selected" : "unselected"}
-          variants={variants}
+          variants={transitionVariants}
           initial={"scaleOut"}
           animate={"scaleIn"}
           transition={transitions.spring}

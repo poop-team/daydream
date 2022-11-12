@@ -5,13 +5,12 @@ import { MdAddCircle } from "react-icons/md";
 import Button from "../components/Inputs/Button";
 import LinkIconButton from "../components/Inputs/LinkIconButton";
 import SearchBar from "../components/Inputs/SearchBar";
-import ImageCard from "../components/Surfaces/ImageCard";
-import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
+import useAuthRedirect from "../hooks/useAuthRedirect";
 
 export default function Profile() {
   //#region Hooks
 
-  useRedirectUnauthenticated();
+  useAuthRedirect();
 
   const [text, setText] = useState("");
 
@@ -91,16 +90,16 @@ export default function Profile() {
         <div className="p-2" />
       </div>
 
-      <div
-        className="grid grid-cols-fill-10 justify-items-center gap-2 py-4 px-2 sm:grid-cols-fill-20 sm:px-4 md:gap-4
-        lg:grid-cols-fill-30 lg:px-8 2xl:grid-cols-fill-40"
-      >
-        {mockData.map((data) =>
-          [1, 2, 3, 4, 5, 6].map((i) => (
-            <ImageCard key={data.id + i} {...data} className="h-full w-full" />
-          ))
-        )}
-      </div>
+      {/*<div*/}
+      {/*  className="grid grid-cols-fill-10 justify-items-center gap-2 py-4 px-2 sm:grid-cols-fill-20 sm:px-4 md:gap-4*/}
+      {/*  lg:grid-cols-fill-30 lg:px-8 2xl:grid-cols-fill-40"*/}
+      {/*>*/}
+      {/*  {mockData.map((data) =>*/}
+      {/*    [1, 2, 3, 4, 5, 6].map((i) => (*/}
+      {/*      <ImageCard key={data.id + i} {...data} className="h-full w-full" />*/}
+      {/*    ))*/}
+      {/*  )}*/}
+      {/*</div>*/}
     </>
   );
 }

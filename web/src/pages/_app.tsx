@@ -31,7 +31,7 @@ function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
         <BottomNav />
         <Toaster
           position={"bottom-center"}
-          containerClassName={"!bottom-16 !select-none"}
+          containerClassName={"!bottom-16 !select-none !text-center"}
           gutter={16}
           toastOptions={{
             duration: 5000,

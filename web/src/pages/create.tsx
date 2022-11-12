@@ -9,15 +9,15 @@ import ImageList from "../components/Layout/ImageList";
 import StyleList from "../components/Layout/StyleList";
 import { createImageLoadingTexts as loadingTexts } from "../data/loading-texts";
 import { imageStyles } from "../data/styles";
-import { searchPosts } from "../helpers/fetch";
-import { createPost } from "../helpers/mutate";
-import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
+import useAuthRedirect from "../hooks/useAuthRedirect";
+import { searchPosts } from "../requests/fetch";
+import { createPost } from "../requests/mutate";
 import { getAuthSession } from "../utils/storage";
 
 export default function Create() {
   //#region Hooks
 
-  useRedirectUnauthenticated();
+  useAuthRedirect();
 
   const [prompt, setPrompt] = useState("");
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);

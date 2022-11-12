@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "composite": false,
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
@@ -11,7 +10,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "noEmit": true,
     "noUnusedLocals": false,

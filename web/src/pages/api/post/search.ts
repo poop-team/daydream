@@ -44,7 +44,9 @@ export default async function search(
       select: {
         posts: {
           orderBy: {
-            dateCreated: "desc",
+            likes: {
+              _count: "desc",
+            },
           },
           select: {
             id: true,
@@ -82,7 +84,9 @@ export default async function search(
       skip: cursorId ? 1 : 0,
       cursor: cursorId ? { id: cursorId.toString() } : undefined,
       orderBy: {
-        dateCreated: "desc",
+        likes: {
+          _count: "desc",
+        },
       },
       select: {
         id: true,

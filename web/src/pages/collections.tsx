@@ -5,7 +5,6 @@ import { MdAddCircle } from "react-icons/md";
 import Button from "../components/Inputs/Button";
 import LinkIconButton from "../components/Inputs/LinkIconButton";
 import SearchBar from "../components/Inputs/SearchBar";
-import CollectionCard from "../components/Surfaces/CollectionCard";
 
 export default function Collections() {
   const [text, setText] = useState("");
@@ -85,15 +84,15 @@ export default function Collections() {
         className="grid grid-cols-fill-10 justify-items-center gap-2 py-4 px-2 sm:grid-cols-fill-20 sm:px-4 md:gap-4
         lg:grid-cols-fill-30 lg:px-8 2xl:grid-cols-fill-40"
       >
-        {mockCollection.map((data) =>
-          [1].map((i) => (
-            <CollectionCard
-              key={data.id + i}
-              {...data}
-              className="h-full w-full"
-            />
-          ))
-        )}
+        {/*{mockCollection.map((data) =>*/}
+        {/*  [1].map((i) => (*/}
+        {/*    <CollectionCard*/}
+        {/*      key={data.id + i}*/}
+        {/*      {...data}*/}
+        {/*      className="h-full w-full"*/}
+        {/*    />*/}
+        {/*  ))*/}
+        {/*)}*/}
       </div>
     </>
   );
