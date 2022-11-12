@@ -2,7 +2,7 @@ import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
 import Card from "../components/Surfaces/Card";
 
-export default function Index() {
+export default function Playground() {
   return (
     <section
       className={

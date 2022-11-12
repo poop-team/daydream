@@ -3,5 +3,14 @@ module.exports = {
   swcMinify: true,
   images: {
     domains: ["sbleaping.s3.us-east-1.amazonaws.com", "d1o142gmp3aap9.cloudfront.net"],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/feed',
+        permanent: true
+      }
+    ]
   }
-};
+}
