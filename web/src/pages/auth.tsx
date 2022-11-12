@@ -27,7 +27,8 @@ export default function AuthPage() {
     mutationFn: () => login(email, password),
     onSuccess: (data) => {
       storeAuthSession(data);
-      void router.push("/feed");
+      // Redirect to the previous page. If there is no previous page, it will redirect to the feed.
+      void router.back();
     },
     onError: (err: Error) => {
       toast.error(err.message);
