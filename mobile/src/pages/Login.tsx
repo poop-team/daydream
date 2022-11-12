@@ -11,6 +11,14 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
 
+  //# region Styles
+
+  const textInputViewStyle = "mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
+  const textStyle = "font-bold text-xl";
+  const textInputStyle = "ml-3 w-80";
+
+  //# endregion
+
   return (
     <View className="flex-1 w-full">
       <View className="w-full flex-row place-content-start mt-16 ml-2">
@@ -24,24 +32,24 @@ export default function Login({ navigation }) {
       </View>
       <ScrollView className="w-screen h-screen position-relative scroll">
         <View className="flex-1 flex mx-auto">
-          <Text className=" mt-8 font-bold mb-3 text-xl">
+          <Text className={`mt-8 mb-3 ${textStyle}`}>
             Enter your username:
           </Text>
 
-          <View className="mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
+          <View className={textInputViewStyle}>
             <TextInput
-              className="ml-3 w-80"
+              className={textInputStyle}
               placeholder="*Enter Username"
               placeholderTextColor="#000000"
               onChangeText={setUsername}
             />
           </View>
 
-          <Text className="font-bold mb-3 text-xl">Enter a password:</Text>
+          <Text className={`mb-3 ${textStyle}`}>Enter a password:</Text>
 
-          <View className="mx-auto rounded-lg bg-slate-300 w-80 mb-5 h-12 items-start justify-center">
+          <View className={textInputViewStyle}>
             <TextInput
-              className="ml-3 w-80"
+              className={textInputStyle}
               secureTextEntry={true}
               placeholder="*Enter Password"
               placeholderTextColor="#000000"
@@ -49,7 +57,7 @@ export default function Login({ navigation }) {
             />
           </View>
           <Pressable className="items-center justify-center">
-            <Text className="text-xl my-10 text-indigo-900 font-bold">
+            <Text className={`my-10 text-indigo-900 ${textStyle}`}>
               Forgot your password?
             </Text>
           </Pressable>
@@ -77,7 +85,7 @@ export default function Login({ navigation }) {
           />
           <Pressable>
             <Text
-              className="ml-0 text-xl text-indigo-900 font-bold"
+              className={`ml-0 text-indigo-900 ${textStyle}`}
               onPress={() => navigation.navigate("Register")}
             >
               Create Account

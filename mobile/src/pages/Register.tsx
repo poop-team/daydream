@@ -12,7 +12,14 @@ export default function Register({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
 
+  //# region Styles
+
   const inputClassName = "ml-3 w-80";
+  const textStyle = "font-bold text-xl";
+  const textInputViewStyle = "rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
+
+  //# endregion
+
   return (
     <View className="flex-1 w-full">
       <View className="w-full flex-row place-content-start mt-16 ml-2">
@@ -26,9 +33,9 @@ export default function Register({ navigation }) {
       </View>
       <ScrollView className="w-screen h-screen position-relative scroll ">
         <View className="flex-1 flex mx-auto mt-8">
-          <Text className="font-bold mb-3 text-xl">Enter your email:</Text>
+          <Text className={`${textStyle} mb-3`}>Enter your email:</Text>
 
-          <View className="rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
+          <View className={textInputViewStyle}>
             <TextInput
               className={inputClassName}
               placeholder="*Email"
@@ -37,9 +44,9 @@ export default function Register({ navigation }) {
             />
           </View>
 
-          <Text className="font-bold mb-3 text-xl">Enter a username:</Text>
+          <Text className={`${textStyle} mb-3`}>Enter a username:</Text>
 
-          <View className="rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
+          <View className={textInputViewStyle}>
             <TextInput
               className={inputClassName}
               placeholder="*Username"
@@ -48,9 +55,9 @@ export default function Register({ navigation }) {
             />
           </View>
 
-          <Text className="font-bold mb-3 text-xl">Enter a password:</Text>
+          <Text className={`${textStyle} mb-3`}>Enter a password:</Text>
 
-          <View className="rounded-lg bg-slate-300 w-80 mb-5 h-12 items-start justify-center">
+          <View className={textInputViewStyle}>
             <TextInput
               className={inputClassName}
               secureTextEntry={true}
@@ -60,9 +67,9 @@ export default function Register({ navigation }) {
             />
           </View>
 
-          <Text className="font-bold mb-3 text-xl">Retype Password:</Text>
+          <Text className={`${textStyle} mb-3`}>Retype Password:</Text>
 
-          <View className="rounded-lg bg-slate-300 w-80 h-12 items-start justify-center">
+          <View className={textInputViewStyle}>
             <TextInput
               className={inputClassName}
               secureTextEntry={true}
@@ -76,7 +83,7 @@ export default function Register({ navigation }) {
           <Pressable>
             <Button
               name="Save"
-              className="ml-0 text-xl text-indigo-900 font-bold"
+              className={`ml-0 text-indigo-900 ${textStyle}`}
               disabled={isPending}
               onPress={() => {
                 setIsPending(true);

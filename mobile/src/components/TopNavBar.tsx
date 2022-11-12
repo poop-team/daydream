@@ -1,6 +1,7 @@
 import { Ref, useRef, useState } from "react";
 import { TextInput, View, Pressable, TextInputProps } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { styled } from 'nativewind';
 
 interface Props extends TextInputProps {
   value: string;
@@ -8,6 +9,9 @@ interface Props extends TextInputProps {
   focusedColor?: string;
   unfocusedColor?: string;
 }
+
+const StyledView = styled(View);
+const StyledInput = styled(TextInput);
 
 export default ({
   value,
@@ -21,6 +25,7 @@ export default ({
   const [isFocused, setFocused] = useState(false);
 
   const bgColor = isFocused ? focusedColor : unfocusedColor;
+  //const platformStyle = "ios: "
 
   return (
     <View className="mx-4 top-9">

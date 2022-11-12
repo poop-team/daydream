@@ -3,7 +3,6 @@ import Authentication from "./src/pages/Authentication";
 import Login from "./src/pages/Login";
 import Register from "./src/pages/Register";
 import FeedPage from "./src/pages/feedPage";
-import Dummypage from "./src/components/pages/Dummypage";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
