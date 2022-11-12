@@ -7,7 +7,7 @@
  *
  * @returns The response from the API
  */
-import {getAuthSession} from "../utils";
+import { getAuthSession } from "../utils";
 
 export default async function doRequest<R>(
   url: string,

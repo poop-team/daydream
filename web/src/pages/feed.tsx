@@ -29,9 +29,9 @@ export default function Feed({ searchValue }: Props) {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ["feed_posts", { search: debouncedSearchValue }],
-    queryFn: ({ pageParam = "" }) =>
+    queryFn: async ({ pageParam = "" }) =>
       searchPosts({
-        search: searchValue,
+        search: await Promise.resolve(""),
         limit: 32,
         cursorId: pageParam as string,
       }),

@@ -3,7 +3,6 @@
  */
 
 import { Post, User } from "../types";
-import { getAuthSession } from "../utils";
 import doRequest from "./request";
 
 export async function searchPosts({
@@ -14,7 +13,7 @@ export async function searchPosts({
   cursorId = "", // cursorId
 }) {
   const params = new URLSearchParams({
-    userId: (await getAuthSession()).userId,
+    userId,
     search,
     searchUserId: userId,
     collectionId,
@@ -29,10 +28,10 @@ export async function searchPosts({
   );
 }
 
-export async function getUser(userId = "") {
+export async function getUser(userId = "", searchUserId = "") {
   const params = new URLSearchParams({
-    userId: (await getAuthSession()).userId,
-    searchUserId: userId || (await getAuthSession()).userId,
+    userId,
+    searchUserId,
   });
 
   return await doRequest<User>(
@@ -42,9 +41,9 @@ export async function getUser(userId = "") {
   );
 }
 
-export async function authenticateUser() {
+export async function authenticateUser(userId: string) {
   return await doRequest<{ message: string }>(
-    `/api/user/auth?userId=${(await getAuthSession()).userId}`,
+    `/api/user/auth?userId=${userId}`,
     null,
     "GET"
   );
