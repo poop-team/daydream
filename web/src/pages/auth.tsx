@@ -33,6 +33,7 @@ export default function AuthPage() {
       toast.error(err.message);
     },
   });
+
   const { mutate: mutateRegister, isLoading: isRegistering } = useMutation({
     mutationFn: () => register(name, email, password),
     onSuccess: () => {
@@ -40,7 +41,9 @@ export default function AuthPage() {
       mutateLogin();
     },
     onError: (err: Error) => {
-      toast.error(err.message);
+      toast.error(
+        "Failed to create account. The email may already be in use by another account."
+      );
     },
   });
 
@@ -83,7 +86,8 @@ export default function AuthPage() {
   const passwordHelperText = passwordInvalid
     ? "Password must be at least 8 characters"
     : "";
-  const confirmPasswordInvalid = confirmPassword !== password && isRegister;
+  const confirmPasswordInvalid =
+    (!confirmPassword || confirmPassword !== password) && isRegister;
   const confirmPasswordHelperText = confirmPasswordInvalid
     ? "Passwords do not match"
     : "";
@@ -123,6 +127,7 @@ export default function AuthPage() {
             placeholder="Enter your name here..."
             error={nameInvalid}
             helperText={nameHelperText}
+            disabled={isLoading}
             onChange={(e) => setName(e.target.value)}
             className={"w-full"}
           />
@@ -134,6 +139,7 @@ export default function AuthPage() {
           placeholder="Enter your email address..."
           error={emailInvalid}
           helperText={emailHelperText}
+          disabled={isLoading}
           onChange={(e) => setEmail(e.target.value)}
           className={"w-full"}
         />
@@ -145,6 +151,7 @@ export default function AuthPage() {
           placeholder="Enter your password..."
           error={passwordInvalid}
           helperText={passwordHelperText}
+          disabled={isLoading}
           onChange={(e) => setPassword(e.target.value)}
           className={"w-full"}
         />
@@ -157,6 +164,7 @@ export default function AuthPage() {
             placeholder="Confirm your password..."
             error={confirmPasswordInvalid}
             helperText={confirmPasswordHelperText}
+            disabled={isLoading}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className={"w-full"}
           />
