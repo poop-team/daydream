@@ -13,15 +13,6 @@ export default function Login({ navigation }) {
   const [error, setError] = useState("");
   const [invalidCount, setInvalidCount] = useState(0);
 
-  let disabled = false;
-
-  if (invalidCount >= 5) {
-    disabled = true;
-    setTimeout(() => { setIsPending(true) }, 5000);
-  } else {
-    disabled = false;
-  }
-
   return (
     <View className="flex-1 w-full">
       <View className="w-full flex-row place-content-start mt-16 ml-2">
@@ -73,7 +64,7 @@ export default function Login({ navigation }) {
           <Button
             name="Login"
             className="mb-10"
-            disabled={isPending || disabled}
+            disabled={isPending || invalidCount >= 5}
             onPress={() => {
               setIsPending(true);
               login(username, password)
@@ -82,6 +73,7 @@ export default function Login({ navigation }) {
                     storeAuthSession(data);
                     await navigation.navigate("FeedPage");
                     setIsPending(false);
+                    setInvalidCount(0);
                   }
                 })
                 .catch((err: Error) => {

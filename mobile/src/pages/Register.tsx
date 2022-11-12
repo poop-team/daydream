@@ -12,27 +12,8 @@ export default function Register({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState("");
-
-  //ok but shouldn't this be a hook? anyways it works regardless
-  let isDisabled = false;
-  const checkMatch = () => {
-    if (password === confirmPassword) {
-      isDisabled = false;
-      return true;
-    } else {
-      isDisabled = true;
-      return false;
-    }
-  };
-  const emailRegex = () => {
-    if (email.includes("@")) {
-      isDisabled = false;
-      return true;
-    }
-    isDisabled = true;
-    return false;
-  }
-
+ 
+  const isDataValid = password === confirmPassword && email.includes("@") && username.length > 0 && password.length > 7;
   const inputClassName = "ml-3 w-80";
   return (
     <View className="flex-1 w-full">
@@ -59,7 +40,7 @@ export default function Register({ navigation }) {
 
           </View>
           <Text className="text-red-500 mx-auto font-extrabold">
-            {emailRegex() ? "" : "Please enter a valid email"}
+            {email.includes("@") ? "" : "Please enter a valid email."}
           </Text>
 
           <Text className="font-bold mb-3 text-xl">Enter a name:</Text>
@@ -72,6 +53,9 @@ export default function Register({ navigation }) {
               onChangeText={setUsername}
             />
           </View>
+          <Text className="text-red-500 mx-auto font-extrabold">
+            {username.length > 0 ? "" : "Please enter a name."}
+          </Text>
 
           <Text className="font-bold mb-3 text-xl">Enter a password:</Text>
 
@@ -85,7 +69,7 @@ export default function Register({ navigation }) {
             />
           </View>
 
-          <Text className="font-bold mb-3 text-xl">Retype Password:</Text>
+          <Text className="font-bold mb-3 text-xl">Confirm Password:</Text>
 
           <View className="rounded-lg bg-slate-300 w-80 h-12 items-start justify-center">
             <TextInput
@@ -99,7 +83,10 @@ export default function Register({ navigation }) {
           <Text className="text-red-500 mx-auto font-extrabold">
             {error}
             {" "}
-            {checkMatch() ? "" : "Passwords do not match"}{" "}
+            {password === confirmPassword ? "" : "Passwords do not match"}
+          </Text>
+          <Text className="text-red-500 mx-auto font-extrabold">
+            {password.length > 7 ? "" : "Password must be at least 8 characters"}
           </Text>
         </View>
         <View className="flex-1 w-full items-center my-12 justify-center">
@@ -107,7 +94,7 @@ export default function Register({ navigation }) {
             <Button
               name="Save"
               className="ml-0 text-xl text-indigo-900 font-bold"
-              disabled={isPending || isDisabled}
+              disabled={isPending || !isDataValid}
               onPress={() => {
                 setIsPending(true);
                 register(username, email, password)
