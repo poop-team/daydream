@@ -26,7 +26,7 @@ function SelectableChip({ label, selected, onSelect, style }: Props) {
     ? " text-slate-50 bg-indigo-900"
     : " bg-slate-200 text-slate-900";
 
-  //# endregion 
+  //# endregion
 
   return (
     <Pressable className={styles} style={style} onPress={handlePress}>
