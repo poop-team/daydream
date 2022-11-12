@@ -5,15 +5,15 @@ export default function BottomNavBar() {
   const pressStyle =
     "active:rounded-full active:bg-indigo-800/70 active:opacity-95 h-10 w-20 items-center justify-center";
   return (
-    <View className="w-full bg-slate-200 flex-row items-center justify-around absolute bottom-0 rounded-tl-lg rounded-tr-lg h-12">
+    <View className="ios:p-9 android:p-6 w-full bg-slate-200 flex-row items-center justify-between rounded-tl-lg rounded-tr-lg h-12">
       <Pressable className={pressStyle} onPress={() => {}}>
-        <Ionicons name="home" size={27} color="black" />
+        <Ionicons name="home" size={33} color="black" />
       </Pressable>
       <Pressable className={pressStyle} onPress={() => {}}>
-        <Ionicons name="add-circle" size={27} color="black" />
+        <Ionicons name="add-circle" size={33} color="black" />
       </Pressable>
       <Pressable className={pressStyle} onPress={() => {}}>
-        <Ionicons name="md-person-circle" size={27} color="black" />
+        <Ionicons name="md-person-circle" size={33} color="black" />
       </Pressable>
     </View>
   );
