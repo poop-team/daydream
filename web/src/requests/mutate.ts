@@ -72,5 +72,23 @@ export async function removePostFromCollection(
   );
 }
 
-export async function likePost(postId: string) {}
-export async function unlikePost(postId: string) {}
+export async function likePost(postId: string) {
+  return await doRequest<{ postId: string }>(
+    "/api/post/like",
+    {
+      userId: getAuthSession().userId,
+      postId,
+    },
+    "POST"
+  );
+}
+export async function unlikePost(postId: string) {
+  return await doRequest<{ postId: string }>(
+    "/api/post/unlike",
+    {
+      userId: getAuthSession().userId,
+      postId,
+    },
+    "DELETE"
+  );
+}

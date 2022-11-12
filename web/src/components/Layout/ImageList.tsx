@@ -7,6 +7,7 @@ import {
   transitionVariants,
 } from "../../styles/motion-definitions";
 import type { Post } from "../../types/post.type";
+import { getAuthSession } from "../../utils/storage";
 import CircularProgress from "../Feedback/CircularProgress";
 import ImageCard from "../Surfaces/ImageCard";
 
@@ -23,6 +24,7 @@ export default function ImageList({
   areMorePostsLoading,
   className = "",
 }: Props) {
+  console.log(posts);
   return (
     <AnimatePresence mode={"popLayout"}>
       {posts?.length ? (
@@ -53,6 +55,9 @@ export default function ImageList({
                     authorName={post.author.name}
                     authorAvatar={undefined}
                     likes={post.likes.length}
+                    isLiked={post.likes.find(
+                      (like) => like.userId === getAuthSession().userId
+                    )}
                   />
                 </motion.li>
               ))}

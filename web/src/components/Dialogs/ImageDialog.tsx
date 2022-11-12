@@ -49,10 +49,6 @@ export default function ImageDialog({
 
   //#region Handlers
 
-  const handleLikeClick = () => {
-    onLikedChange(!isLiked);
-  };
-
   const handleDialogClose = () => {
     setIsAddToCollectionPanelOpen(false);
     onClose();
@@ -85,7 +81,7 @@ export default function ImageDialog({
             "flex basis-full flex-col items-center gap-2 p-4 md:p-6 lg:gap-4"
           }
         >
-          <div className={"flex w-full justify-between"}>
+          <div className={"flex w-full select-none justify-between"}>
             <Author
               authorName={authorName}
               authorAvatar={authorAvatar}
@@ -100,26 +96,26 @@ export default function ImageDialog({
           >
             {prompt}
           </p>
-          <div className={"mt-auto flex gap-2"}>
+          <div className={"mt-auto flex gap-4"}>
             <Button onClick={() => setIsAddToCollectionPanelOpen(true)}>
               Add to Collection
               <MdLibraryAdd className={"h-5 w-5"} />
             </Button>
-            <IconButton onClick={handleLikeClick}>
+            <IconButton onClick={() => onLikedChange(!isLiked)}>
               <AnimatePresence initial={false}>
                 {isLiked ? (
                   <motion.div
                     animate={{
-                      scale: [1, 1.1, 1, 1.1, 1],
+                      scale: [1, 1.15, 1, 1.15, 1],
                     }}
                     transition={{
                       duration: 0.7,
                     }}
                   >
-                    <MdFavorite className={"h-10 w-10"} />
+                    <MdFavorite className={"h-full w-10"} />
                   </motion.div>
                 ) : (
-                  <MdFavoriteBorder className={"h-10 w-10"} />
+                  <MdFavoriteBorder className={"h-full w-10"} />
                 )}
               </AnimatePresence>
             </IconButton>

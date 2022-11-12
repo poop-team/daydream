@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
+import { likePost, unlikePost } from "../../requests/mutate";
 import CustomImage from "../CustomImage";
 import ImageDialog from "../Dialogs/ImageDialog";
 import Author from "../Widgets/Author";
@@ -11,6 +14,7 @@ interface Props {
   src: string;
   prompt: string;
   likes: number;
+  isLiked: boolean;
   authorName: string;
   authorAvatar?: string | null;
   showDialog?: boolean;
@@ -22,6 +26,7 @@ export default function ImageCard({
   src,
   prompt,
   likes,
+  isLiked,
   authorName,
   authorAvatar,
   showDialog = true,
@@ -30,6 +35,30 @@ export default function ImageCard({
   //#region Hooks
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // Tracks a local version of whether the post is liked or not which is updated immediately
+  const [localIsLiked, setLocalIsLiked] = useState(isLiked);
+
+  const { mutate: mutateLike, isLoading: isLiking } = useMutation({
+    mutationKey: ["like"],
+    mutationFn: () => likePost(id),
+    onError: (err: Error) => {
+      setLocalIsLiked(false); // Revert the local state on failure
+      toast.error(err.message);
+    },
+  });
+
+  const { mutate: mutateUnlike, isLoading: isUnliking } = useMutation({
+    mutationKey: ["unlike"],
+    mutationFn: () => unlikePost(id),
+    onError: (err: Error) => {
+      setLocalIsLiked(true); // Revert the local state on failure
+      toast.error(err.message);
+    },
+  });
+
+  useEffect(() => {
+    setLocalIsLiked(isLiked);
+  }, [isLiked]);
 
   //#endregion
 
@@ -44,6 +73,29 @@ export default function ImageCard({
   const handleDialogClose = () => {
     setIsDialogOpen(false);
   };
+
+  const handleLikeChange = (isLiked: boolean) => {
+    if (!isLiking && !isUnliking) {
+      setLocalIsLiked(isLiked); // Optimistically update the local state
+      if (isLiked) {
+        mutateLike();
+      } else {
+        mutateUnlike();
+      }
+    }
+  };
+
+  //#endregion
+
+  //#region Derived State
+
+  // Tracks a local version of the likes counter which is updated immediately
+  const localLikes =
+    localIsLiked && !isLiked
+      ? likes + 1
+      : !localIsLiked && isLiked
+      ? likes - 1
+      : likes;
 
   //#endregion
 
@@ -79,9 +131,8 @@ export default function ImageCard({
           }
         >
           <LikesCounter
-            likes={likes}
-            // TODO: Connect isLiked once the API calls are set up
-            isLiked={false}
+            likes={localLikes}
+            isLiked={localIsLiked}
             className={"justify-end"}
           />
           <p className={"text-center sm:line-clamp-2 md:line-clamp-4"}>
@@ -98,10 +149,9 @@ export default function ImageCard({
         id={id}
         src={src}
         prompt={prompt}
-        likes={likes}
-        isLiked={false}
-        // TODO: Connect onLikedChange once the API calls are set up
-        onLikedChange={() => {}}
+        likes={localLikes}
+        isLiked={localIsLiked}
+        onLikedChange={handleLikeChange}
         authorName={authorName}
         authorAvatar={authorAvatar}
         isOpen={isDialogOpen}
