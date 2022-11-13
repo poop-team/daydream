@@ -43,11 +43,14 @@ export default async function search(
       },
       select: {
         posts: {
-          orderBy: {
-            likes: {
-              _count: "desc",
+          orderBy: [
+            {
+              likes: {
+                _count: "desc",
+              },
             },
-          },
+            { dateCreated: "desc" },
+          ],
           select: {
             id: true,
             dateCreated: true,
@@ -83,11 +86,14 @@ export default async function search(
       take: limit ? parseInt(limit.toString()) : undefined,
       skip: cursorId ? 1 : 0,
       cursor: cursorId ? { id: cursorId.toString() } : undefined,
-      orderBy: {
-        likes: {
-          _count: "desc",
+      orderBy: [
+        {
+          likes: {
+            _count: "desc",
+          },
         },
-      },
+        { dateCreated: "desc" },
+      ],
       select: {
         id: true,
         dateCreated: true,
