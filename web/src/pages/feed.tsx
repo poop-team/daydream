@@ -39,6 +39,8 @@ export default function Feed({ searchValue }: Props) {
     onError: (err: Error) => {
       toast.error(err.message);
     },
+    refetchOnMount: "always", // Refetch on mount regardless of staleness
+    staleTime: Infinity, // Never stale. Prevents unexpected layout shifts when the post order changes while navigating the feed
   });
 
   const posts = useMemo(() => {
