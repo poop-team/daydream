@@ -29,7 +29,8 @@ export default async function search(
     Array.isArray(userId) ||
     Array.isArray(collectionId) ||
     Array.isArray(limit) ||
-    Array.isArray(cursorId)
+    Array.isArray(cursorId) ||
+    Array.isArray(recentOnly)
   ) {
     return res
       .status(400)
