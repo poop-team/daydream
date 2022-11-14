@@ -26,7 +26,7 @@ export default function FeedPage({ navigation }) {
           <Card />
         </ScrollView>
       </View>
-      <BottomNavBar navigation={navigation} />
+      <BottomNavBar navigation={navigation}/>
     </View>
   );
 }
