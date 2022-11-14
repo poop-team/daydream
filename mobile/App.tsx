@@ -4,6 +4,7 @@ import Login from "./src/pages/Login";
 import Register from "./src/pages/Register";
 import FeedPage from "./src/pages/feedPage";
 import Dummypage from "./src/components/pages/Dummypage";
+import ImageCreate from "./src/pages/ImageCreate";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -36,10 +37,9 @@ export default function App() {
         />
         <Stack.Screen
           name="createPage"
+          component={ImageCreate}
           options={{headerShown: false}}
-        >
-          {(props) => <Dummypage {...props} text= "create" />}
-        </Stack.Screen>
+        />
         <Stack.Screen
           name="profilePage"
           options={{headerShown: false}}

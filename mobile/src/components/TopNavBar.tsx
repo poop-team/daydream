@@ -7,6 +7,7 @@ interface Props extends TextInputProps {
   onChangeText: (value: string) => void;
   focusedColor?: string;
   unfocusedColor?: string;
+  icon?: string;
 }
 
 export default ({
@@ -14,6 +15,7 @@ export default ({
   onChangeText,
   focusedColor = "bg-indigo-200",
   unfocusedColor = "bg-slate-300",
+  icon = "search-outline",
   ...props
 }: Props) => {
   const inputRef: Ref<TextInput> = useRef();
@@ -23,11 +25,11 @@ export default ({
   const bgColor = isFocused ? focusedColor : unfocusedColor;
 
   return (
-    <View className="mx-4 top-9">
+    <View className="mx-4">
       <View className={`${bgColor} w-full flex-row items-center rounded-lg`}>
         <Pressable onPress={() => inputRef.current.focus()}>
           <View className={`${bgColor} mx-2`}>
-            <Icon size={20} name="search-outline" />
+            <Icon size={20} name={icon} />
           </View>
         </Pressable>
         <TextInput

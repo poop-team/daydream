@@ -8,7 +8,7 @@ interface Props {
   style?: StyleProp<ImageStyle>;
 }
 /**
- * @url url of the image string (default: muppet)
+ * @url url of the image string (default: muppet (<3) )
  * @styles width & height (default h-96, w-11/12)
  */
 function Card({
@@ -16,7 +16,7 @@ function Card({
   style,
 }: Props) {
   //these spaces are here so that the user of this api cannot mess it up if they forget to add a space
-  let baseStyle = "rounded-lg mt-5 mx-auto bottom-10";
+  let baseStyle = "rounded-lg mt-5 mx-auto";
   return (
     <Image
       source={{ uri: url }}
