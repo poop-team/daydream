@@ -29,11 +29,17 @@ export default function Create() {
     refetch: refetchRecentPosts,
   } = useQuery({
     queryKey: ["recent_posts"],
-    queryFn: () => searchPosts({ userId: getAuthSession().userId, limit: 6 }),
+    queryFn: () =>
+      searchPosts({
+        userId: getAuthSession().userId,
+        limit: 6,
+        recentOnly: true,
+      }),
     onError: (err: Error) => {
       toast.error(err.message);
     },
   });
+
   const { mutate: create, isLoading: isCreating } = useMutation(createPost, {
     onSuccess: async () => {
       await refetchRecentPosts();

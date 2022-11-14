@@ -14,6 +14,7 @@ export async function searchPosts({
   collectionId = "",
   limit = 16,
   cursorId = "",
+  recentOnly = false,
 }) {
   const params = new URLSearchParams({
     userId: getAuthSession().userId,
@@ -22,6 +23,7 @@ export async function searchPosts({
     collectionId,
     limit: limit.toString(),
     cursorId,
+    recentOnly: recentOnly.toString(),
   });
 
   return await doRequest<{ posts: Post[]; nextCursorId: string }>(
