@@ -69,7 +69,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Styles
 
   let navStyles =
-    "fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md";
+    "fixed top-0 z-10 h-14 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md";
   navStyles += isAuth ? " hidden" : ""; // Hide on auth pages.
   navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
@@ -95,7 +95,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               className={"hidden sm:block"}
             >
               <LinkIconButton href={"/feed"}>
-                <MdHome className={"h-full w-9"} />
+                <MdHome className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
           )}
@@ -119,7 +119,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
                 href={"/create"}
                 className={"hidden text-base sm:block"}
               >
-                <MdAddCircle className={"h-full w-9"} />
+                <MdAddCircle className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
           )}
@@ -136,7 +136,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               className={"ml-auto"}
             >
               <IconButton>
-                <MdSettings className={"h-full w-9"} />
+                <MdSettings className={"h-full w-10"} />
               </IconButton>
             </motion.li>
           ) : (
@@ -150,7 +150,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               className={"hidden sm:block"}
             >
               <LinkIconButton href={"/profile"}>
-                <MdAccountCircle className={"h-full w-9"} />
+                <MdAccountCircle className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
           )}
