@@ -17,6 +17,7 @@ import {
 } from "../../../styles/motion-definitions";
 import { Post } from "../../../types/post.type";
 import { getAuthSession } from "../../../utils/storage";
+import CircularProgress from "../../Feedback/CircularProgress";
 import IconButton from "../../Inputs/IconButton";
 import SearchBar from "../../Inputs/SearchBar";
 import Card from "../../Surfaces/Card";
@@ -154,7 +155,7 @@ export default function AddToCollectionPanel({
           className={"rotate-90 text-3xl md:rotate-0 md:text-4xl"}
         />
       </IconButton>
-      <div className={"w-full overflow-y-auto p-2 md:p-4"}>
+      <div className={"relative w-full overflow-y-auto p-2 md:p-4"}>
         <SearchBar
           value={searchValue}
           onValueChange={handleCollectionSearch}
@@ -195,16 +196,35 @@ export default function AddToCollectionPanel({
             ))}
           </AnimatePresence>
         </motion.ol>
-        {collections?.length === 0 && (
-          <motion.div
-            initial={"fadeOut"}
-            animate={"fadeIn"}
-            variants={transitionVariants}
-            className={"flex flex-col items-center justify-center"}
-          >
-            <h1 className={"text-xl font-bold"}>No collections found</h1>
-          </motion.div>
-        )}
+        <div
+          className={
+            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:text-2xl"
+          }
+        >
+          <AnimatePresence>
+            {areCollectionsLoading ? (
+              <motion.div
+                variants={transitionVariants}
+                initial="fadeOut"
+                animate="fadeIn"
+                exit="fadeOut"
+              >
+                <CircularProgress className={"scale-[200%]"} />
+              </motion.div>
+            ) : (
+              !collections?.length && (
+                <motion.p
+                  variants={transitionVariants}
+                  initial="fadeOut"
+                  animate="fadeIn"
+                  exit="fadeOut"
+                >
+                  No collections found
+                </motion.p>
+              )
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </Card>
   );
