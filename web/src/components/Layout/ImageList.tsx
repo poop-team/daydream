@@ -105,7 +105,6 @@ export default function ImageList({
           )}
         </motion.div>
       )}
-      ;
     </AnimatePresence>
   );
 }

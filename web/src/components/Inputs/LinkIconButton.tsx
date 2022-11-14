@@ -12,7 +12,7 @@ interface Props {
 export default function LinkIconButton({ href, className, children }: Props) {
   return (
     <Link href={href}>
-      <a>
+      <a draggable={false}>
         <IconButton
           aria-label={`Navigate to ${href.replace("/", "")}`}
           className={className}

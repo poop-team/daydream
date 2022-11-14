@@ -22,7 +22,7 @@ export default function useAuthRedirect() {
       if (error.cause?.code === 401) {
         clearAuthSession();
         if (router.pathname !== path.auth) {
-          toast.error(
+          toast(
             "You haven't logged in yet or your session has expired. Please log in again."
           );
           void router.push(path.auth);
