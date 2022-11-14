@@ -11,7 +11,6 @@ interface Props extends TextInputProps {
 }
 
 const StyledView = styled(View);
-const StyledInput = styled(TextInput);
 
 export default ({
   value,
@@ -25,13 +24,13 @@ export default ({
   const [isFocused, setFocused] = useState(false);
 
   const bgColor = isFocused ? focusedColor : unfocusedColor;
-  const iosStyle = " mt-14 mx-4 top-9";
-  const androidStyle = " mx-4 top-9"; 
+  const iosStyle = "mt-16 mx-4 top-9";
+  const androidStyle = "mx-4 top-9"; 
 
   return (
     <StyledView className={`
-      ios:${iosStyle} 
-      android:${androidStyle}`}>
+      ios: ${iosStyle} 
+      android: ${androidStyle}`}>
       <View className={`${bgColor} w-full flex-row items-center rounded-lg`}>
         <Pressable onPress={() => inputRef.current.focus()}>
           <View className={`${bgColor} mx-2`}>
