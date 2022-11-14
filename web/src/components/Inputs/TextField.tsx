@@ -116,7 +116,7 @@ export default function TextField({
               animate={"growIn"}
               exit={"growOut"}
               variants={transitionVariants}
-              className={"absolute right-2 top-2 z-10 h-7 w-7"}
+              className={"absolute right-2 z-10 h-full w-7"}
             >
               {error ? (
                 <BiError className={"h-full w-full text-red-500"} />
