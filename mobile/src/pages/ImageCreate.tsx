@@ -76,7 +76,7 @@ export default function ImageCreate({ navigation }) {
                 </View>
             </ScrollView>
         </SafeAreaView>
-        <BottomNavBar navigation={undefined} />
+        <BottomNavBar navigation={navigation} />
         </View>
     )
 }
