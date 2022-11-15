@@ -149,7 +149,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <LinkIconButton href={"/profile"}>
+              <LinkIconButton href={`/profile/me`}>
                 <MdAccountCircle className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
