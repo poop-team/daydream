@@ -32,12 +32,17 @@ export default async function like(req: Request, res: NextApiResponse) {
     return res.status(400).json("give me a valid postId");
   }
 
-  const like = await prisma.like.create({
-    data: {
-      userId: userId,
-      postID: postId,
-    },
-  });
-
-  res.json({ success: true });
+  prisma.like
+    .create({
+      data: {
+        userId: userId,
+        postID: postId,
+      },
+    })
+    .then((like) => {
+      res.json({ postId: like.postID });
+    })
+    .catch(() => {
+      res.status(500).json({ error: "Internal database error" });
+    });
 }

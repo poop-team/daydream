@@ -2,6 +2,7 @@
  * Functions to Fetch data from the API
  */
 
+import Collection from "../types/collection.type";
 import { Post } from "../types/post.type";
 import { User } from "../types/user.type";
 import { getAuthSession } from "../utils/storage";
@@ -12,7 +13,8 @@ export async function searchPosts({
   userId = "",
   collectionId = "",
   limit = 16,
-  cursorId = "", // cursorId
+  cursorId = "",
+  recentOnly = false,
 }) {
   const params = new URLSearchParams({
     userId: getAuthSession().userId,
@@ -21,6 +23,7 @@ export async function searchPosts({
     collectionId,
     limit: limit.toString(),
     cursorId,
+    recentOnly: recentOnly.toString(),
   });
 
   return await doRequest<{ posts: Post[]; nextCursorId: string }>(
@@ -30,10 +33,10 @@ export async function searchPosts({
   );
 }
 
-export async function getUser(userId = "") {
+export async function getUser(userId = getAuthSession().userId) {
   const params = new URLSearchParams({
     userId: getAuthSession().userId,
-    searchUserId: userId || getAuthSession().userId,
+    searchUserId: userId,
   });
 
   return await doRequest<User>(
@@ -46,6 +49,20 @@ export async function getUser(userId = "") {
 export async function authenticateUser() {
   return await doRequest<{ message: string }>(
     `/api/user/auth?userId=${getAuthSession().userId}`,
+    null,
+    "GET"
+  );
+}
+
+export async function getCollection({ collectionId = "", userId = "" }) {
+  const params = new URLSearchParams({
+    userId: getAuthSession().userId,
+    collectionId,
+    searchUserId: userId,
+  });
+
+  return await doRequest<{ collections: Collection[] }>(
+    `/api/collection/get?${params.toString()}`,
     null,
     "GET"
   );

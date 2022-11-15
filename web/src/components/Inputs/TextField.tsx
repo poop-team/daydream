@@ -1,5 +1,31 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { InputHTMLAttributes } from "react";
 import { BiError } from "react-icons/bi";
+
+import { transitionVariants } from "../../styles/motion-definitions";
+
+const helperTextVariants = {
+  initial: {
+    marginTop: "-1.5rem",
+    opacity: 0,
+  },
+  animate: {
+    marginTop: "0.25rem",
+    opacity: 1,
+    transition: {
+      marginTop: { duration: 0.2 },
+      opacity: { duration: 0.3 },
+    },
+  },
+  exit: {
+    marginTop: "-1.5rem",
+    opacity: 0,
+    transition: {
+      marginTop: { duration: 0.2 },
+      opacity: { duration: 0.1 },
+    },
+  },
+};
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   startIcon?: JSX.Element | null;
@@ -64,7 +90,9 @@ export default function TextField({
 
   return (
     <div className={`group flex flex-col ${className}`}>
-      <label className={`ml-1 ${error ? "text-red-500" : ""}`}>{label}</label>
+      <label className={`ml-1 duration-200 ${error ? "text-red-500" : ""}`}>
+        {label}
+      </label>
       <div className={"relative flex"}>
         {startIcon && (
           <div
@@ -81,23 +109,37 @@ export default function TextField({
           value={value}
           {...rest}
         />
-        {(endIcon || error) && (
-          <div
-            className={"absolute right-2 top-1/2 z-10 h-7 w-7 -translate-y-1/2"}
-          >
-            {error ? (
-              <BiError className={"h-full w-full text-red-500"} />
-            ) : (
-              endIcon
-            )}
-          </div>
-        )}
+        <AnimatePresence>
+          {(endIcon || error) && (
+            <motion.div
+              initial={"growOut"}
+              animate={"growIn"}
+              exit={"growOut"}
+              variants={transitionVariants}
+              className={"absolute right-2 z-10 h-full w-7"}
+            >
+              {error ? (
+                <BiError className={"h-full w-full text-red-500"} />
+              ) : (
+                endIcon
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-      {helperText && (
-        <p className={`ml-1 mt-1 ${error ? "text-red-500" : ""}`}>
-          {helperText}
-        </p>
-      )}
+      <AnimatePresence>
+        {helperText && (
+          <motion.p
+            initial={"initial"}
+            animate={"animate"}
+            exit={"exit"}
+            variants={helperTextVariants}
+            className={`ml-1 ${error ? "text-red-500" : ""}`}
+          >
+            {helperText}
+          </motion.p>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

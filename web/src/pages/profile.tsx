@@ -9,11 +9,9 @@ import Button from "../components/Inputs/Button";
 import LinkIconButton from "../components/Inputs/LinkIconButton";
 import SearchBar from "../components/Inputs/SearchBar";
 import ImageList from "../components/Layout/ImageList";
-import { searchPosts } from "../helpers/fetch";
+import useAuthRedirect from "../hooks/useAuthRedirect";
 import useDebounce from "../hooks/useDebounce";
-import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
-import {getAuthSession} from "../utils/storage";
-import get from "./api/user/get";
+import { searchPosts } from "../requests/fetch";
 
 interface Props {
   searchValue: string;
@@ -22,7 +20,7 @@ interface Props {
 export default function Profile({ searchValue }: Props) {
   //#region Hooks
 
-  useRedirectUnauthenticated();
+  useAuthRedirect();
 
   const { scrollYProgress } = useScroll();
   const [text, setText] = useState("");
@@ -41,6 +39,7 @@ export default function Profile({ searchValue }: Props) {
         search: searchValue,
         limit: 32,
         cursorId: pageParam as string,
+        recentOnly: true,
       }),
     getNextPageParam: (lastPage) => lastPage.nextCursorId,
     onError: (err: Error) => {
@@ -144,6 +143,16 @@ export default function Profile({ searchValue }: Props) {
         posts={posts}
         className={"px-2 py-16 sm:px-4 md:pb-8 lg:px-8"}
       />
+      {/*<div*/}
+      {/*  className="grid grid-cols-fill-10 justify-items-center gap-2 py-4 px-2 sm:grid-cols-fill-20 sm:px-4 md:gap-4*/}
+      {/*  lg:grid-cols-fill-30 lg:px-8 2xl:grid-cols-fill-40"*/}
+      {/*>*/}
+      {/*  {mockData.map((data) =>*/}
+      {/*    [1, 2, 3, 4, 5, 6].map((i) => (*/}
+      {/*      <ImageCard key={data.id + i} {...data} className="h-full w-full" />*/}
+      {/*    ))*/}
+      {/*  )}*/}
+      {/*</div>*/}
     </>
   );
 }

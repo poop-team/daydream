@@ -32,12 +32,17 @@ export default async function unlike(req: Request, res: NextApiResponse) {
     return res.status(400).json("give me a valid postId");
   }
 
-  await prisma.like.deleteMany({
-    where: {
-      postID: postId,
-      userId: userId,
-    },
-  });
-
-  res.json({ success: true });
+  prisma.like
+    .deleteMany({
+      where: {
+        postID: postId,
+        userId: userId,
+      },
+    })
+    .then(() => {
+      res.json({ postId });
+    })
+    .catch((err: Error) => {
+      res.status(500).json({ error: err.message });
+    });
 }

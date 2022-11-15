@@ -1,4 +1,4 @@
-# [Large Project](https://bigproject.vercel.app)  —  **`Monorepo`**
+# [Daydream](https://daydream.wtf)  —  **`Monorepo`**
 
 ## Description
 This is the monorepo with the mobile and web apps for the Large Project.

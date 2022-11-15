@@ -18,6 +18,7 @@ export default async function search(
     collectionId,
     limit,
     cursorId,
+    recentOnly, // Order by most recent only
   } = req.query;
   const search = unsanitizedSearch?.toString().trim() ?? "";
 
@@ -28,7 +29,8 @@ export default async function search(
     Array.isArray(userId) ||
     Array.isArray(collectionId) ||
     Array.isArray(limit) ||
-    Array.isArray(cursorId)
+    Array.isArray(cursorId) ||
+    Array.isArray(recentOnly)
   ) {
     return res
       .status(400)
@@ -43,9 +45,17 @@ export default async function search(
       },
       select: {
         posts: {
-          orderBy: {
-            dateCreated: "desc",
-          },
+          orderBy:
+            recentOnly === "true"
+              ? { dateCreated: "desc" }
+              : [
+                  {
+                    likes: {
+                      _count: "desc",
+                    },
+                  },
+                  { dateCreated: "desc" },
+                ],
           select: {
             id: true,
             dateCreated: true,
@@ -81,9 +91,17 @@ export default async function search(
       take: limit ? parseInt(limit.toString()) : undefined,
       skip: cursorId ? 1 : 0,
       cursor: cursorId ? { id: cursorId.toString() } : undefined,
-      orderBy: {
-        dateCreated: "desc",
-      },
+      orderBy:
+        recentOnly === "true"
+          ? { dateCreated: "desc" }
+          : [
+              {
+                likes: {
+                  _count: "desc",
+                },
+              },
+              { dateCreated: "desc" },
+            ],
       select: {
         id: true,
         dateCreated: true,

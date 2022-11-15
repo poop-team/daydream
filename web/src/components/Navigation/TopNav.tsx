@@ -9,8 +9,7 @@ import {
 } from "react-icons/md";
 
 import paths from "../../data/path";
-import search from "../../pages/api/post/search";
-import { navVariants, transitions } from "../../styles/motion-definitions";
+import { positionVariants, transitions } from "../../styles/motion-definitions";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
 import SearchBar from "../Inputs/SearchBar";
@@ -70,7 +69,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Styles
 
   let navStyles =
-    "fixed top-0 z-10 h-12 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md";
+    "fixed top-0 z-10 h-14 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md";
   navStyles += isAuth ? " hidden" : ""; // Hide on auth pages.
   navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
@@ -78,7 +77,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   return (
     <motion.nav
-      variants={navVariants}
+      variants={positionVariants}
       animate={navHidden ? "initialTop" : "animate"}
       transition={transitions.easeOut}
       className={navStyles}
@@ -88,7 +87,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
           {!isFeed && (
             <motion.li
               key={"home"}
-              variants={navVariants}
+              variants={positionVariants}
               initial={"initialLeft"}
               animate={"animate"}
               exit={"initialLeft"}
@@ -96,7 +95,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               className={"hidden sm:block"}
             >
               <LinkIconButton href={"/feed"}>
-                <MdHome className={"h-full w-9"} />
+                <MdHome className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
           )}
@@ -104,7 +103,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
           {isFeed && (
             <motion.li
               key={"search"}
-              variants={navVariants}
+              variants={positionVariants}
               initial={"initialTop"}
               animate={"animate"}
               exit={"initialTop"}
@@ -120,7 +119,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
                 href={"/create"}
                 className={"hidden text-base sm:block"}
               >
-                <MdAddCircle className={"h-full w-9"} />
+                <MdAddCircle className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
           )}
@@ -128,7 +127,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
           {isProfile ? (
             <motion.li
               key={"settings"}
-              variants={navVariants}
+              variants={positionVariants}
               initial={"initialRight"}
               animate={"animate"}
               exit={"initialRight"}
@@ -137,13 +136,13 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               className={"ml-auto"}
             >
               <IconButton>
-                <MdSettings className={"h-full w-9"} />
+                <MdSettings className={"h-full w-10"} />
               </IconButton>
             </motion.li>
           ) : (
             <motion.li
               key={"profile"}
-              variants={navVariants}
+              variants={positionVariants}
               initial={"initialRight"}
               animate={"animate"}
               exit={"initialRight"}
@@ -151,7 +150,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               className={"hidden sm:block"}
             >
               <LinkIconButton href={"/profile"}>
-                <MdAccountCircle className={"h-full w-9"} />
+                <MdAccountCircle className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
           )}
