@@ -1,38 +1,12 @@
 import { useState } from "react";
 import { Text, Pressable, View, ScrollView, SafeAreaView } from "react-native";
+import { imageStyles } from "../data/styles";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Icon from "react-native-vector-icons/Ionicons";
 import BottomNavBar from "../components/BottomNavBar";
 import TopNavBar from "../components/TopNavBar";
 import SelectableChip from "../components/SelectableChip";
-
-export const imageStyles = [
-    "Muppet",
-    "Realistic",
-    "Cartoon",
-    "Pencil Sketch",
-    "Line Drawing",
-    "Oil Painting",
-    "Futuristic",
-    "Noire",
-    "Watercolor",
-    "Pixelated",
-    "Mosaic",
-    "Retro",
-    "Abstract",
-    "Minimalist",
-    "Vintage",
-    "Gothic",
-    "Graffiti",
-    "Vaporwave",
-    "Anime",
-    "Manga",
-    "4K",
-    "3D",
-    "HDR",
-    "Detailed",
-];
 
 export default function ImageCreate({ navigation }) {
     const [search, setSearch] = useState("");
@@ -76,7 +50,7 @@ export default function ImageCreate({ navigation }) {
                 </View>
             </ScrollView>
         </SafeAreaView>
-        <BottomNavBar navigation={navigation} />
+        <BottomNavBar navigation={navigation}/>
         </View>
     )
 }
