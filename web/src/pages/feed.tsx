@@ -51,7 +51,7 @@ export default function Feed({ searchValue }: Props) {
         void fetchNextPage();
       }
     });
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage, scrollYProgress]);
+  }, [hasNextPage, isFetchingNextPage]);
 
   //#endregion
 

@@ -12,6 +12,8 @@ import ImageList from "../components/Layout/ImageList";
 import { searchPosts } from "../helpers/fetch";
 import useDebounce from "../hooks/useDebounce";
 import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
+import {getAuthSession} from "../utils/storage";
+import get from "./api/user/get";
 
 interface Props {
   searchValue: string;
@@ -59,6 +61,8 @@ export default function Profile({ searchValue }: Props) {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage, scrollYProgress]);
 
   //#endregion
+
+  const userData = get()
 
   const userViews = 1;
   const userSaves = 1;
