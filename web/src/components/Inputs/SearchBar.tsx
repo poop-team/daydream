@@ -53,7 +53,7 @@ export default function SearchBar({
       }
       placeholder={placeholder}
       className={className}
-      inputClassName={"py-0 px-4 rounded-3xl"}
+      inputClassName={"!rounded-full py-0.5 px-4"}
       value={value}
       onChange={handleChange}
     />

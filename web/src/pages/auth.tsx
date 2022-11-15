@@ -6,14 +6,14 @@ import { MdArrowForward } from "react-icons/md";
 
 import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
-import { login, register } from "../helpers/mutate";
-import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
+import useAuthRedirect from "../hooks/useAuthRedirect";
+import { login, register } from "../requests/mutate";
 import { storeAuthSession } from "../utils/storage";
 
 export default function AuthPage() {
   //# region Hooks
 
-  useRedirectUnauthenticated();
+  useAuthRedirect();
 
   const router = useRouter();
 
@@ -27,20 +27,24 @@ export default function AuthPage() {
     mutationFn: () => login(email, password),
     onSuccess: (data) => {
       storeAuthSession(data);
-      void router.push("/feed");
+      // Redirect to the previous page. If there is no previous page, it will redirect to the feed.
+      void router.back();
     },
     onError: (err: Error) => {
       toast.error(err.message);
     },
   });
+
   const { mutate: mutateRegister, isLoading: isRegistering } = useMutation({
     mutationFn: () => register(name, email, password),
     onSuccess: () => {
       toast.success("Account created successfully!");
-      setAction("login");
+      mutateLogin();
     },
     onError: (err: Error) => {
-      toast.error(err.message);
+      toast.error(
+        "Failed to create account. The email may already be in use by another account."
+      );
     },
   });
 
@@ -83,14 +87,16 @@ export default function AuthPage() {
   const passwordHelperText = passwordInvalid
     ? "Password must be at least 8 characters"
     : "";
-  const confirmPasswordInvalid = confirmPassword !== password && isRegister;
+  const confirmPasswordInvalid =
+    (!confirmPassword || confirmPassword !== password) && isRegister;
   const confirmPasswordHelperText = confirmPasswordInvalid
     ? "Passwords do not match"
     : "";
 
   const isLoading = isLoggingIn || isRegistering;
-  const isDisabled =
-    (emailInvalid || passwordInvalid || confirmPasswordInvalid) && isRegister;
+  const isDisabled = isLogin
+    ? email.trim() === "" || password.trim() === "" // Login
+    : emailInvalid || passwordInvalid || confirmPasswordInvalid; // Register
 
   //#endregion
 
@@ -118,9 +124,11 @@ export default function AuthPage() {
           <TextField
             label="Name:"
             value={name}
+            autoComplete={"name"}
             placeholder="Enter your name here..."
             error={nameInvalid}
             helperText={nameHelperText}
+            disabled={isLoading}
             onChange={(e) => setName(e.target.value)}
             className={"w-full"}
           />
@@ -128,9 +136,11 @@ export default function AuthPage() {
         <TextField
           label="Email:"
           value={email}
+          autoComplete={"email"}
           placeholder="Enter your email address..."
           error={emailInvalid}
           helperText={emailHelperText}
+          disabled={isLoading}
           onChange={(e) => setEmail(e.target.value)}
           className={"w-full"}
         />
@@ -138,9 +148,11 @@ export default function AuthPage() {
           label="Password:"
           type="password"
           value={password}
+          autoComplete={isLogin ? "current-password" : "new-password"}
           placeholder="Enter your password..."
           error={passwordInvalid}
           helperText={passwordHelperText}
+          disabled={isLoading}
           onChange={(e) => setPassword(e.target.value)}
           className={"w-full"}
         />
@@ -149,9 +161,11 @@ export default function AuthPage() {
             label="Confirm Password:"
             type="password"
             value={confirmPassword}
+            autoComplete={"off"}
             placeholder="Confirm your password..."
             error={confirmPasswordInvalid}
             helperText={confirmPasswordHelperText}
+            disabled={isLoading}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className={"w-full"}
           />
@@ -161,7 +175,13 @@ export default function AuthPage() {
           disabled={isDisabled}
           className={"mt-4 w-fit"}
         >
-          {isLogin ? "Log in" : "Register"}
+          {isLogin
+            ? isLoggingIn
+              ? "Logging in"
+              : "Log in"
+            : isRegistering
+            ? "Registering"
+            : "Register"}
           {!isLoading && (
             <MdArrowForward
               className={

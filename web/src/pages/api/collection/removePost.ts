@@ -51,5 +51,5 @@ export default async function addPostToCollection(
     },
   });
 
-  res.status(200).json({ success: true });
+  res.status(200).json({ collectionId: resStatus.id });
 }

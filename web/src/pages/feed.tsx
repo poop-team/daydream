@@ -4,9 +4,9 @@ import { useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
 
 import ImageList from "../components/Layout/ImageList";
-import { searchPosts } from "../helpers/fetch";
+import useAuthRedirect from "../hooks/useAuthRedirect";
 import useDebounce from "../hooks/useDebounce";
-import useRedirectUnauthenticated from "../hooks/useRedirectUnauthenticated";
+import { searchPosts } from "../requests/fetch";
 
 interface Props {
   searchValue: string;
@@ -15,7 +15,7 @@ interface Props {
 export default function Feed({ searchValue }: Props) {
   //#region Hooks
 
-  useRedirectUnauthenticated();
+  useAuthRedirect();
 
   const { scrollYProgress } = useScroll();
 
@@ -39,6 +39,8 @@ export default function Feed({ searchValue }: Props) {
     onError: (err: Error) => {
       toast.error(err.message);
     },
+    refetchOnMount: "always", // Refetch on mount regardless of staleness (e.g. if the user navigates back to the feed from another route)
+    staleTime: Infinity, // Never stale. Prevents unexpected layout shifts when the post order changes while navigating the feed
   });
 
   const posts = useMemo(() => {
