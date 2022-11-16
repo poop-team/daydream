@@ -10,15 +10,15 @@ export default function BottomNavBar() {
 
   const pressStyle =
     "active:rounded-full active:bg-indigo-800/70 active:opacity-95 h-10 w-20 items-center justify-center";
-  const iosStyle = "w-full py-10 bg-slate-200 flex-row items-center justify-around absolute bottom-0 rounded-tl-lg rounded-tr-lg h-12";
-  const androidStyle = "w-full bg-slate-200 flex-row items-center justify-around absolute bottom-0 rounded-tl-lg rounded-tr-lg h-12";
+  const iosStyle = "ios:w-full py-10 bg-slate-200 flex-row items-center justify-around absolute bottom-0 rounded-tl-lg rounded-tr-lg h-12";
+  const androidStyle = "android:w-full bg-slate-200 flex-row items-center justify-around absolute bottom-0 rounded-tl-lg rounded-tr-lg h-12";
 
   //# endregion
 
   return (
     <StyledView className={`
-      ios: ${iosStyle}
-      android: ${androidStyle}`}>
+      ${iosStyle}
+      ${androidStyle}`}>
       <Pressable className={pressStyle} onPress={() => {}}>
         <Ionicons name="home" size={30} color="black" />
       </Pressable>

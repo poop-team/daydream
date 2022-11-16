@@ -1,7 +1,6 @@
 import { Ref, useRef, useState } from "react";
 import { TextInput, View, Pressable, TextInputProps } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { styled } from 'nativewind';
 
 interface Props extends TextInputProps {
   value: string;
@@ -9,8 +8,6 @@ interface Props extends TextInputProps {
   focusedColor?: string;
   unfocusedColor?: string;
 }
-
-const StyledView = styled(View);
 
 export default ({
   value,
@@ -24,13 +21,13 @@ export default ({
   const [isFocused, setFocused] = useState(false);
 
   const bgColor = isFocused ? focusedColor : unfocusedColor;
-  const iosStyle = "mt-16 mx-4 top-9";
-  const androidStyle = "mx-4 top-9"; 
+  const iosStyle = "ios:mt-16 mx-4 top-9";
+  const androidStyle = "android:mx-4 top-9"; 
 
   return (
-    <StyledView className={`
-      ios: ${iosStyle} 
-      android: ${androidStyle}`}>
+    <View className={`
+      ${iosStyle} 
+      ${androidStyle}`}>
       <View className={`${bgColor} w-full flex-row items-center rounded-lg`}>
         <Pressable onPress={() => inputRef.current.focus()}>
           <View className={`${bgColor} mx-2`}>
@@ -54,6 +51,6 @@ export default ({
           </Pressable>
         )}
       </View>
-    </StyledView>
+    </View>
   );
 };

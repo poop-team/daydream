@@ -6,18 +6,47 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { login } from "../helpers/mutate";
 import { storeAuthSession } from "../utils/storage";
 
+interface Props {
+  value: string;
+  labelText: string;
+  placeholder: string;
+  secureTextEntry?: boolean;
+  onChangeText: (value: string) => void;
+}
+
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
 
-  //# region Styles
+  function LabelAndInput({ value, labelText, placeholder, secureTextEntry, onChangeText }: Props){
+    
+      //# region Styles
+    
+      const textInputViewStyle = "mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
+      const textStyle = "mt-6 mb-3 font-bold text-xl";
+      const textInputStyle = "ml-3 w-80";
 
-  const textInputViewStyle = "mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
-  const textStyle = "font-bold text-xl";
-  const textInputStyle = "ml-3 w-80";
+      //# endregion
 
-  //# endregion
+      return (
+        <>
+          <Text className={textStyle}>
+            {labelText}
+          </Text>
+
+          <View className={textInputViewStyle}>
+            <TextInput
+              className={textInputStyle}
+              value={value}
+              placeholder={placeholder}
+              placeholderTextColor="#000000"
+              secureTextEntry={secureTextEntry}
+              onChangeText={onChangeText}/>
+          </View>
+        </>
+      )
+  }
 
   return (
     <View className="flex-1 w-full">
@@ -32,32 +61,21 @@ export default function Login({ navigation }) {
       </View>
       <ScrollView className="w-screen h-screen position-relative scroll">
         <View className="flex-1 flex mx-auto">
-          <Text className={`mt-8 mb-3 ${textStyle}`}>
-            Enter your username:
-          </Text>
+          <LabelAndInput 
+            labelText="Enter your username:"
+            value=""
+            placeholder="*Enter Username"
+            onChangeText={setUsername}/>
 
-          <View className={textInputViewStyle}>
-            <TextInput
-              className={textInputStyle}
-              placeholder="*Enter Username"
-              placeholderTextColor="#000000"
-              onChangeText={setUsername}
-            />
-          </View>
+          <LabelAndInput
+            labelText="Enter your password:"
+            value=""
+            placeholder="*Enter Password"
+            secureTextEntry={true}
+            onChangeText={setPassword}/>
 
-          <Text className={`mb-3 ${textStyle}`}>Enter a password:</Text>
-
-          <View className={textInputViewStyle}>
-            <TextInput
-              className={textInputStyle}
-              secureTextEntry={true}
-              placeholder="*Enter Password"
-              placeholderTextColor="#000000"
-              onChangeText={setPassword}
-            />
-          </View>
           <Pressable className="items-center justify-center">
-            <Text className={`my-10 text-indigo-900 ${textStyle}`}>
+            <Text className="my-10 text-indigo-900 font-bold text-xl">
               Forgot your password?
             </Text>
           </Pressable>
@@ -85,7 +103,7 @@ export default function Login({ navigation }) {
           />
           <Pressable>
             <Text
-              className={`ml-0 text-indigo-900 ${textStyle}`}
+              className="ml-0 text-indigo-900 font-bold text-xl"
               onPress={() => navigation.navigate("Register")}
             >
               Create Account

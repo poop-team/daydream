@@ -16,10 +16,6 @@ function SelectableChip({ label, selected, onSelect, style }: Props) {
     onSelect(label, !selected);
   };
 
-  //# endregion
-
-  //# region styles
-
   let styles =
     "flex-row px-4 py-2 sm:px-8 sm:py-4 items-center justify-center rounded-full";
   styles += selected
