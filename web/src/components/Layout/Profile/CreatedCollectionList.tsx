@@ -22,7 +22,8 @@ export default function CreatedCollectionList({
 
   const [selectedCollection, setSelectedCollection] =
     useState<Collection | null>(null);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchCollectionValue, setSearchCollectionValue] = useState("");
+  const [searchPostValue, setSearchPostValue] = useState("");
 
   const { data: collectionData, isLoading: areCollectionsLoading } = useQuery({
     queryKey: ["user_collections"],
@@ -36,18 +37,41 @@ export default function CreatedCollectionList({
   const collections = useMemo(
     () =>
       collectionData?.collections.filter((collection) =>
-        collection.name.toLowerCase().includes(searchValue.toLowerCase())
+        collection.name
+          .toLowerCase()
+          .includes(searchCollectionValue.toLowerCase())
       ),
-    [collectionData, searchValue]
+    [collectionData, searchCollectionValue]
   );
+
+  const selectedCollectionPosts = useMemo(
+    () =>
+      selectedCollection?.posts.filter((post) =>
+        post.prompt.toLowerCase().includes(searchPostValue.toLowerCase())
+      ),
+    [selectedCollection, searchPostValue]
+  );
+
+  //#endregion
+
+  //#region Handlers
+
+  const handleCollectionClick = (collection: Collection) => {
+    setSearchPostValue("");
+    setSelectedCollection(collection);
+  };
 
   //#endregion
 
   return (
     <div>
       <ProfileSearchBar
-        searchValue={searchValue}
-        onSearchValueChange={setSearchValue}
+        searchValue={
+          selectedCollection ? searchPostValue : searchCollectionValue
+        }
+        onSearchValueChange={
+          selectedCollection ? setSearchPostValue : setSearchCollectionValue
+        }
         displayBackButton={!!selectedCollection}
         onBackButtonClick={() => setSelectedCollection(null)}
         placeholder={
@@ -59,12 +83,12 @@ export default function CreatedCollectionList({
           <CollectionList
             areCollectionsLoading={areCollectionsLoading || isProfileLoading}
             collections={collections}
-            onCollectionClick={setSelectedCollection}
+            onCollectionClick={handleCollectionClick}
           />
         ) : (
           <ImageList
             arePostsLoading={areCollectionsLoading || isProfileLoading}
-            posts={selectedCollection.posts}
+            posts={selectedCollectionPosts}
           />
         )}
       </div>
