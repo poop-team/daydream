@@ -24,7 +24,8 @@ export default function Profile() {
 
   const isClient = useClient();
 
-  const [searchValue, setSearchValue] = useState("");
+  const [createdSearchValue, setCreatedSearchValue] = useState("");
+  const [collectionSearchValue, setCollectionSearchValue] = useState("");
   const [view, setView] = useState<"created" | "collections">("created");
 
   const { data: profileData, isLoading: isProfileLoading } = useQuery({
@@ -33,6 +34,7 @@ export default function Profile() {
     onError: (err: Error) => {
       toast.error(err.message);
     },
+    enabled: !!router.query.id,
   });
 
   //#endregion
@@ -41,13 +43,11 @@ export default function Profile() {
 
   const handleViewChange = (view: "created" | "collections") => {
     setView(view);
-    setSearchValue("");
   };
 
   //#region Derived State
 
   const isCreatedView = view === "created";
-  const isCollectionsView = view === "collections";
 
   //#endregion
 
@@ -107,26 +107,46 @@ export default function Profile() {
           Collections
         </Button>
       </div>
-      <section className={"mt-4 h-full w-full sm:mt-12"}>
+      <section className={"mt-4 sm:mt-12"}>
         <div className={"flex grow items-center justify-center gap-2"}>
           <SearchBar
-            value={searchValue}
-            onValueChange={setSearchValue}
+            value={isCreatedView ? createdSearchValue : collectionSearchValue}
+            onValueChange={setCreatedSearchValue}
             className={"w-11/12 max-w-xl sm:w-2/3"}
           />
           <LinkIconButton
-            href={`/create?prompt=${searchValue}`}
+            href={`/create?prompt=${createdSearchValue}`}
             className={"hidden text-base sm:block"}
           >
             <MdAddCircle className={"h-full w-10"} />
           </LinkIconButton>
         </div>
-        {isCreatedView && (
-          <CreatedImagesList
-            userId={profileData?.id}
-            searchValue={searchValue}
-          />
-        )}
+        <AnimatePresence mode={"popLayout"}>
+          {isCreatedView ? (
+            <motion.div
+              key={"user-created"}
+              initial={"fadeOut"}
+              animate={"fadeIn"}
+              exit={"fadeOut"}
+              variants={transitionVariants}
+              className={"px-2 py-16 sm:px-4 md:pb-8 lg:px-8"}
+            >
+              <CreatedImagesList
+                userId={profileData?.id}
+                searchValue={createdSearchValue}
+                isProfileLoading={isProfileLoading}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key={"user-collections"}
+              initial={"growOut"}
+              animate={"growIn"}
+              exit={"growOut"}
+              variants={transitionVariants}
+            ></motion.div>
+          )}
+        </AnimatePresence>
       </section>
     </main>
   );
