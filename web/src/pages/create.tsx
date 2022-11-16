@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdArrowForward, MdAutoFixHigh, MdHistory } from "react-icons/md";
@@ -18,6 +19,8 @@ export default function Create() {
   //#region Hooks
 
   useAuthRedirect();
+
+  const router = useRouter();
 
   const [prompt, setPrompt] = useState("");
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
@@ -66,6 +69,13 @@ export default function Create() {
       };
     }
   }, [isCreating]);
+
+  useEffect(() => {
+    // Set the term to query if a query parameter is present in the URL.
+    if (!router.query.prompt) return;
+
+    setPrompt(router.query.prompt as string);
+  }, [router.query.prompt]);
 
   //#endregion
 
