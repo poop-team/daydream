@@ -3,7 +3,6 @@ import { MdAddCircle, MdArrowBack } from "react-icons/md";
 
 import { transitionVariants } from "../../styles/motion-definitions";
 import IconButton from "./IconButton";
-import LinkIconButton from "./LinkIconButton";
 import SearchBar from "./SearchBar";
 
 interface Props {
@@ -11,6 +10,8 @@ interface Props {
   onBackButtonClick?: () => void;
   searchValue: string;
   onSearchValueChange: (value: string) => void;
+  isAddButtonDisabled?: boolean;
+  onAddButtonClick?: () => void;
   placeholder?: string;
   className?: string;
 }
@@ -20,6 +21,8 @@ export default function ProfileSearchBar({
   onBackButtonClick = () => {},
   searchValue,
   onSearchValueChange,
+  isAddButtonDisabled = false,
+  onAddButtonClick = () => {},
   placeholder = "Search...",
   className = "",
 }: Props) {
@@ -55,12 +58,13 @@ export default function ProfileSearchBar({
             placeholder={placeholder}
             className={"w-full"}
           />
-          <LinkIconButton
-            href={`/create?prompt=${searchValue}`}
+          <IconButton
+            onClick={onAddButtonClick}
+            disabled={isAddButtonDisabled}
             className={"hidden sm:block"}
           >
             <MdAddCircle className={"h-full w-10"} />
-          </LinkIconButton>
+          </IconButton>
         </motion.div>
       </AnimatePresence>
     </div>

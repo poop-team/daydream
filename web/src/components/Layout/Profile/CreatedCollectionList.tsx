@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import { getCollections } from "../../../requests/fetch";
+import { createCollection } from "../../../requests/mutate";
 import Collection from "../../../types/collection.type";
 import { getAuthSession } from "../../../utils/storage";
 import ProfileSearchBar from "../../Inputs/ProfileSearchBar";
@@ -20,12 +22,19 @@ export default function CreatedCollectionList({
 }: Props) {
   //#region Hooks
 
+  const router = useRouter();
+
   const [selectedCollection, setSelectedCollection] =
     useState<Collection | null>(null);
+  const [isAddCollectionDisabled, setIsAddCollectionDisabled] = useState(true);
   const [searchCollectionValue, setSearchCollectionValue] = useState("");
   const [searchPostValue, setSearchPostValue] = useState("");
 
-  const { data: collectionData, isLoading: areCollectionsLoading } = useQuery({
+  const {
+    data: collectionData,
+    isLoading: areCollectionsLoading,
+    refetch: refetchCollections,
+  } = useQuery({
     queryKey: ["user_collections"],
     queryFn: () => getCollections({ userId: getAuthSession().userId }),
     onError: (err: Error) => {
@@ -33,6 +42,18 @@ export default function CreatedCollectionList({
     },
     enabled: !!userId,
   });
+
+  const { mutate: mutateCreateCollection, isLoading: isCreatingCollection } =
+    useMutation({
+      mutationKey: ["create_collection"],
+      mutationFn: () => createCollection(searchCollectionValue.trim()),
+      onSuccess: () => {
+        void refetchCollections();
+      },
+      onError: (err: Error) => {
+        toast.error(err.message);
+      },
+    });
 
   const collections = useMemo(
     () =>
@@ -52,13 +73,38 @@ export default function CreatedCollectionList({
     [selectedCollection, searchPostValue]
   );
 
+  useEffect(() => {
+    if (
+      searchCollectionValue.trim().length === 0 ||
+      collections?.some(
+        (collection) =>
+          collection.name.toLowerCase() ===
+          searchCollectionValue.trim().toLowerCase()
+      )
+    ) {
+      setIsAddCollectionDisabled(true);
+    } else {
+      setIsAddCollectionDisabled(false);
+    }
+  }, [collections, searchCollectionValue]);
+
   //#endregion
 
   //#region Handlers
 
-  const handleCollectionClick = (collection: Collection) => {
+  const handleCollectionSelect = (collection: Collection) => {
     setSearchPostValue("");
     setSelectedCollection(collection);
+  };
+
+  const handleCreateCollection = () => {
+    if (searchCollectionValue.trim()) {
+      if (!isCreatingCollection) {
+        mutateCreateCollection();
+      } else {
+        toast("A collection is already being created");
+      }
+    }
   };
 
   //#endregion
@@ -74,6 +120,14 @@ export default function CreatedCollectionList({
         }
         displayBackButton={!!selectedCollection}
         onBackButtonClick={() => setSelectedCollection(null)}
+        onAddButtonClick={() =>
+          selectedCollection
+            ? void router.push(`/create?prompt=${searchPostValue}`)
+            : handleCreateCollection()
+        }
+        isAddButtonDisabled={
+          selectedCollection ? false : isAddCollectionDisabled
+        }
         placeholder={
           selectedCollection ? "Search..." : "Search or create a collection..."
         }
@@ -83,7 +137,7 @@ export default function CreatedCollectionList({
           <CollectionList
             areCollectionsLoading={areCollectionsLoading || isProfileLoading}
             collections={collections}
-            onCollectionClick={handleCollectionClick}
+            onCollectionClick={handleCollectionSelect}
           />
         ) : (
           <ImageList
