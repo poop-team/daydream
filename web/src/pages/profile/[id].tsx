@@ -1,180 +1,133 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { useScroll } from "framer-motion";
-import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { MdAddCircle } from "react-icons/md";
+import { MdAccountCircle, MdAddCircle } from "react-icons/md";
 
+import CustomImage from "../../components/CustomImage";
 import Button from "../../components/Inputs/Button";
 import LinkIconButton from "../../components/Inputs/LinkIconButton";
 import SearchBar from "../../components/Inputs/SearchBar";
-import ImageList from "../../components/Layout/ImageList";
+import CreatedImagesList from "../../components/Layout/Profile/CreatedImagesList";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
-import useDebounce from "../../hooks/useDebounce";
-import { getUser, searchPosts } from "../../requests/fetch";
-import { getAuthSession } from "../../utils/storage";
+import useClient from "../../hooks/useClient";
+import { getUser } from "../../requests/fetch";
+import { transitionVariants } from "../../styles/motion-definitions";
 
-interface Props {
-  searchValue: string;
-}
-
-export default function Profile({ searchValue }: Props) {
+export default function Profile() {
   //#region Hooks
 
   useAuthRedirect();
 
   const router = useRouter();
-  const { scrollYProgress } = useScroll();
-  const [text, setText] = useState("");
-  const debouncedSearchValue = useDebounce(searchValue, 250);
 
-  const {
-    data: profileData,
-    isLoading: areProfileLoading,
-    refetch: refetchProfile,
-  } = useQuery({
-    queryKey: [
-      "user_profile",
-      router.query.id == "me" ? getAuthSession().userId : router.query.id,
-    ],
-    queryFn: () =>
-      getUser(
-        router.query.id == "me"
-          ? getAuthSession().userId
-          : (router.query.id as string)
-      ),
+  const isClient = useClient();
+
+  const [searchValue, setSearchValue] = useState("");
+  const [view, setView] = useState<"created" | "collections">("created");
+
+  const { data: profileData, isLoading: isProfileLoading } = useQuery({
+    queryKey: ["user_profile", router.query.id],
+    queryFn: () => getUser({ userName: router.query.id as string }),
     onError: (err: Error) => {
       toast.error(err.message);
     },
   });
-
-  const {
-    data: infinitePostsData,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: [
-      "profile_posts",
-      {
-        search: debouncedSearchValue,
-        userId:
-          router.query.id == "me" ? getAuthSession().userId : router.query.id,
-      },
-    ],
-    queryFn: ({ pageParam = "" }) =>
-      searchPosts({
-        search: searchValue,
-        userId:
-          router.query.id == "me"
-            ? getAuthSession().userId
-            : (router.query.id as string),
-        limit: 32,
-        cursorId: pageParam as string,
-        recentOnly: true,
-      }),
-    getNextPageParam: (lastPage) => lastPage.nextCursorId,
-    onError: (err: Error) => {
-      toast.error(err.message);
-    },
-  });
-
-  const posts = useMemo(() => {
-    return infinitePostsData?.pages.map((page) => page.posts).flat() ?? [];
-  }, [infinitePostsData]);
-
-  useEffect(() => {
-    return scrollYProgress.onChange((progress) => {
-      if (progress > 0.6 && !isFetchingNextPage && hasNextPage) {
-        void fetchNextPage();
-      }
-    });
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage, scrollYProgress]);
 
   //#endregion
 
-  const userViews = 1;
-  const userSaves = 1;
-  const userName = "username";
-  const userIcon = "https://avatars.githubusercontent.com/u/79925808?v=4";
+  //#region Handlers
+
+  const handleViewChange = (view: "created" | "collections") => {
+    setView(view);
+    setSearchValue("");
+  };
+
+  //#region Derived State
+
+  const isCreatedView = view === "created";
+  const isCollectionsView = view === "collections";
+
+  //#endregion
 
   return (
-    <>
-      <div className="p-4" />
-      <div className="container mx-auto">
-        <div className="p-4" />
-        <div className="flex flex-wrap items-center justify-center">
-          <a href="#" className="relative block">
-            <img
-              className="custom-position h-24 w-24 rounded-full object-cover"
-              src={userIcon}
-              alt="name"
-            />
-          </a>
-        </div>
-        <div className="p-4" />
-      </div>
-
-      <div className="container mx-auto">
-        <div className="flex flex-wrap items-center justify-center">
-          <div className="text-lg">@{userName}</div>
-        </div>
-        <div className="p-1" />
-      </div>
-
-      <div className="container mx-auto">
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <div className="text-sm">{userViews} views</div>
-          <div className="text-sm">{userSaves} saves</div>
-        </div>
-        <div className="p-2" />
-      </div>
-
-      <div className="container mx-auto">
-        <div className="p-2"></div>
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <div className="p-2">
-            <section className="flex gap-4">
-              <div className="flex flex-col items-center gap-2">
-                {/*<Button disabled>Created</Button>*/}
-                <Button variant="text">Created</Button>
+    <main className={"h-screen py-16"}>
+      <AnimatePresence mode={"popLayout"}>
+        {!isProfileLoading && profileData ? (
+          <motion.div
+            key={"profile"}
+            initial={"fadeOut"}
+            animate={"fadeIn"}
+            exit={"fadeOut"}
+            variants={transitionVariants}
+            className={"flex flex-col items-center gap-4 md:gap-8"}
+          >
+            {profileData.image ? (
+              <CustomImage
+                className="h-48 w-48 rounded-full object-cover"
+                src={profileData.image}
+                alt="name"
+              />
+            ) : (
+              <div className="h-48 w-48">
+                <MdAccountCircle className="h-full w-full text-slate-800" />
               </div>
-              {/*<div className="flex flex-col items-center gap-2">
-                <Button>Collections</Button>
-              </div>*/}
-              <Link href="collections">
-                <div className="flex flex-col items-center gap-2">
-                  <Button>Collections</Button>
-                </div>
-              </Link>
-            </section>
-          </div>
-        </div>
-        <div className="p-2" />
+            )}
+            <p className="text-xl">@{profileData.name}</p>
+            <p>{profileData.postCount.toLocaleString()} posts created</p>
+          </motion.div>
+        ) : (
+          // Render loading skeleton
+          <motion.div
+            key={"loading"}
+            initial={"fadeOut"}
+            animate={"fadeIn"}
+            exit={"fadeOut"}
+            variants={transitionVariants}
+            className={"flex flex-col items-center gap-4 md:gap-8"}
+          >
+            <div className="h-48 w-48 animate-pulse rounded-full bg-slate-300" />
+            <div className="h-8 w-24 animate-pulse rounded-full bg-slate-300" />
+            <div className="h-6 w-24 animate-pulse rounded-full bg-slate-300" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className={"mt-12 flex justify-center gap-4"}>
+        <Button
+          variant={isCreatedView ? "filled" : "text"}
+          onClick={() => handleViewChange("created")}
+        >
+          Created
+        </Button>
+        <Button
+          variant={isCreatedView ? "text" : "filled"}
+          onClick={() => handleViewChange("collections")}
+        >
+          Collections
+        </Button>
       </div>
-
-      <div className="container mx-auto">
-        <div className="flex flex-wrap items-center justify-center gap-4">
+      <section className={"mt-4 h-full w-full sm:mt-12"}>
+        <div className={"flex grow items-center justify-center gap-2"}>
           <SearchBar
-            value={text}
-            onValueChange={setText}
-            className="w-11/12 max-w-xl sm:w-2/3"
+            value={searchValue}
+            onValueChange={setSearchValue}
+            className={"w-11/12 max-w-xl sm:w-2/3"}
           />
-          <LinkIconButton href="/create" className="hidden text-base sm:block">
-            <MdAddCircle className="h-8 w-full" />
+          <LinkIconButton
+            href={`/create?prompt=${searchValue}`}
+            className={"hidden text-base sm:block"}
+          >
+            <MdAddCircle className={"h-full w-10"} />
           </LinkIconButton>
         </div>
-        <div className="p-2" />
-      </div>
-
-      <ImageList
-        arePostsLoading={isFetching && !isFetchingNextPage}
-        areMorePostsLoading={isFetchingNextPage}
-        posts={posts}
-        className={"px-2 py-16 sm:px-4 md:pb-8 lg:px-8"}
-      />
-    </>
+        {isCreatedView && (
+          <CreatedImagesList
+            userId={profileData?.id}
+            searchValue={searchValue}
+          />
+        )}
+      </section>
+    </main>
   );
 }

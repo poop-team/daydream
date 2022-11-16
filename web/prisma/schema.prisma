@@ -54,7 +54,7 @@ model Collection {
   user      User    @relation(fields: [userId], references: [id])
   posts     Post[]
 
-  @@unique([id, userId])
+  @@unique(fields: [id, userId], name: "collectionAndUserId") // added this constraint to let me check multiple conditions for prisma.update
 }
 
 model Like {

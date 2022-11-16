@@ -9,7 +9,9 @@ import {
 } from "react-icons/md";
 
 import paths from "../../data/path";
+import useClient from "../../hooks/useClient";
 import { positionVariants, transitions } from "../../styles/motion-definitions";
+import { getAuthSession } from "../../utils/storage";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
 import SearchBar from "../Inputs/SearchBar";
@@ -23,6 +25,8 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Hooks
 
   const router = useRouter();
+
+  const isClient = useClient();
 
   const { scrollY } = useScroll();
 
@@ -59,9 +63,12 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   //#region Derived State
 
+  const userName = isClient ? getAuthSession().userName : "";
+
   const isFeed = router.pathname === paths.feed;
   const isCreate = router.pathname === paths.create;
-  const isProfile = router.pathname === paths.profile;
+  const isProfile = router.pathname.startsWith(paths.profile);
+  const isOwnProfile = isProfile && router.query.id === userName;
   const isAuth = router.pathname == paths.auth;
 
   //#endregion
@@ -116,7 +123,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
                 className={"w-11/12 max-w-xl sm:w-2/3"}
               />
               <LinkIconButton
-                href={"/create"}
+                href={`/create?prompt=${searchValue}`}
                 className={"hidden text-base sm:block"}
               >
                 <MdAddCircle className={"h-full w-10"} />
@@ -124,7 +131,23 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
             </motion.li>
           )}
 
-          {isProfile ? (
+          {!isProfile && (
+            <motion.li
+              key={"profile"}
+              variants={positionVariants}
+              initial={"initialRight"}
+              animate={"animate"}
+              exit={"initialRight"}
+              transition={transitions.springStiff}
+              className={"hidden sm:block"}
+            >
+              <LinkIconButton href={`/profile/${userName}`}>
+                <MdAccountCircle className={"h-full w-10"} />
+              </LinkIconButton>
+            </motion.li>
+          )}
+
+          {isOwnProfile && (
             <motion.li
               key={"settings"}
               variants={positionVariants}
@@ -138,20 +161,6 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               <IconButton>
                 <MdSettings className={"h-full w-10"} />
               </IconButton>
-            </motion.li>
-          ) : (
-            <motion.li
-              key={"profile"}
-              variants={positionVariants}
-              initial={"initialRight"}
-              animate={"animate"}
-              exit={"initialRight"}
-              transition={transitions.springStiff}
-              className={"hidden sm:block"}
-            >
-              <LinkIconButton href={`/profile/me`}>
-                <MdAccountCircle className={"h-full w-10"} />
-              </LinkIconButton>
             </motion.li>
           )}
         </AnimatePresence>

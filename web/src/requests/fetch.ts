@@ -33,10 +33,12 @@ export async function searchPosts({
   );
 }
 
-export async function getUser(userId = getAuthSession().userId) {
+// You can provide either a userId or a userName
+export async function getUser({ userId = "", userName = "" }) {
   const params = new URLSearchParams({
     userId: getAuthSession().userId,
     searchUserId: userId,
+    userName: userName,
   });
 
   return await doRequest<User>(
