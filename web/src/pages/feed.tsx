@@ -13,6 +13,7 @@ export default function Feed({ searchValue }: Props) {
 
   const { posts, isFetching, isFetchingNextPage } = useInfiniteQueryPosts({
     searchValue,
+    limit: 32,
     queryOptions: {
       refetchOnMount: "always", // Refetch on mount regardless of staleness (e.g. if the user navigates back to the feed from another route)
       staleTime: Infinity, // Never stale. Prevents unexpected layout shifts when the post order changes while navigating the feed

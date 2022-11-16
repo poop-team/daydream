@@ -31,9 +31,9 @@ export default function ImageList({
           <div key={"postList"}>
             <motion.ol
               variants={staggerContainerVariants}
-              initial="hidden"
-              animate="show"
-              exit="hidden"
+              initial={"hidden"}
+              animate={"show"}
+              exit={"hidden"}
               transition={transitions.springStiff}
               className={`grid list-none grid-cols-fill-10 justify-items-center gap-2 sm:grid-cols-fill-20 md:gap-4 
             lg:grid-cols-fill-30 2xl:grid-cols-fill-40 ${className}`}

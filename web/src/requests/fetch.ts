@@ -56,7 +56,7 @@ export async function authenticateUser() {
   );
 }
 
-export async function getCollection({ collectionId = "", userId = "" }) {
+export async function getCollections({ collectionId = "", userId = "" }) {
   const params = new URLSearchParams({
     userId: getAuthSession().userId,
     collectionId,

@@ -3,15 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { MdAccountCircle, MdAddCircle } from "react-icons/md";
+import { MdAccountCircle } from "react-icons/md";
 
 import CustomImage from "../../components/CustomImage";
 import Button from "../../components/Inputs/Button";
-import LinkIconButton from "../../components/Inputs/LinkIconButton";
-import SearchBar from "../../components/Inputs/SearchBar";
-import CreatedImagesList from "../../components/Layout/Profile/CreatedImagesList";
+import CreatedCollectionList from "../../components/Layout/Profile/CreatedCollectionList";
+import CreatedImageList from "../../components/Layout/Profile/CreatedImageList";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
-import useClient from "../../hooks/useClient";
 import { getUser } from "../../requests/fetch";
 import { transitionVariants } from "../../styles/motion-definitions";
 
@@ -22,10 +20,6 @@ export default function Profile() {
 
   const router = useRouter();
 
-  const isClient = useClient();
-
-  const [createdSearchValue, setCreatedSearchValue] = useState("");
-  const [collectionSearchValue, setCollectionSearchValue] = useState("");
   const [view, setView] = useState<"created" | "collections">("created");
 
   const { data: profileData, isLoading: isProfileLoading } = useQuery({
@@ -44,6 +38,8 @@ export default function Profile() {
   const handleViewChange = (view: "created" | "collections") => {
     setView(view);
   };
+
+  //#endregion
 
   //#region Derived State
 
@@ -93,7 +89,7 @@ export default function Profile() {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className={"mt-12 flex justify-center gap-4"}>
+      <div className={"mt-4 flex justify-center gap-4 sm:mt-12"}>
         <Button
           variant={isCreatedView ? "filled" : "text"}
           onClick={() => handleViewChange("created")}
@@ -108,43 +104,31 @@ export default function Profile() {
         </Button>
       </div>
       <section className={"mt-4 sm:mt-12"}>
-        <div className={"flex grow items-center justify-center gap-2"}>
-          <SearchBar
-            value={isCreatedView ? createdSearchValue : collectionSearchValue}
-            onValueChange={setCreatedSearchValue}
-            className={"w-11/12 max-w-xl sm:w-2/3"}
-          />
-          <LinkIconButton
-            href={`/create?prompt=${createdSearchValue}`}
-            className={"hidden text-base sm:block"}
-          >
-            <MdAddCircle className={"h-full w-10"} />
-          </LinkIconButton>
-        </div>
-        <AnimatePresence mode={"popLayout"}>
+        <AnimatePresence mode={"wait"}>
           {isCreatedView ? (
             <motion.div
               key={"user-created"}
-              initial={"fadeOut"}
               animate={"fadeIn"}
               exit={"fadeOut"}
               variants={transitionVariants}
-              className={"px-2 py-16 sm:px-4 md:pb-8 lg:px-8"}
             >
-              <CreatedImagesList
+              <CreatedImageList
                 userId={profileData?.id}
-                searchValue={createdSearchValue}
                 isProfileLoading={isProfileLoading}
               />
             </motion.div>
           ) : (
             <motion.div
               key={"user-collections"}
-              initial={"growOut"}
-              animate={"growIn"}
-              exit={"growOut"}
+              animate={"fadeIn"}
+              exit={"fadeOut"}
               variants={transitionVariants}
-            ></motion.div>
+            >
+              <CreatedCollectionList
+                userId={profileData?.id}
+                isProfileLoading={isProfileLoading}
+              />
+            </motion.div>
           )}
         </AnimatePresence>
       </section>

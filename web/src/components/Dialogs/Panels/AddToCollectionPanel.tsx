@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdDoubleArrow } from "react-icons/md";
 
-import { getCollection } from "../../../requests/fetch";
+import { getCollections } from "../../../requests/fetch";
 import {
   addPostToCollection,
   removePostFromCollection,
@@ -47,7 +47,7 @@ export default function AddToCollectionPanel({
     refetch: refetchCollections,
   } = useQuery({
     queryKey: ["user_collections"],
-    queryFn: () => getCollection({ userId: getAuthSession().userId }),
+    queryFn: () => getCollections({ userId: getAuthSession().userId }),
     onError: (err: Error) => {
       toast.error(err.message);
     },

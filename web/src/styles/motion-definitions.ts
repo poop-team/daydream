@@ -93,8 +93,15 @@ export const positionVariants = {
 
 export const staggerContainerVariants = {
   show: {
+    opacity: 1,
     transition: {
-      staggerChildren: 0.03,
+      staggerChildren: 0.02,
+    },
+  },
+  hidden: {
+    opacity: 0,
+    transition: {
+      duration: 0.2,
     },
   },
 };
