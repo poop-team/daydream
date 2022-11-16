@@ -63,13 +63,13 @@ export default function Login({ navigation }) {
         <View className="flex-1 flex mx-auto">
           <LabelAndInput 
             labelText="Enter your username:"
-            value=""
+            value={username}
             placeholder="*Enter Username"
             onChangeText={setUsername}/>
 
           <LabelAndInput
             labelText="Enter your password:"
-            value=""
+            value={password}
             placeholder="*Enter Password"
             secureTextEntry={true}
             onChangeText={setPassword}/>
