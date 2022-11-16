@@ -10,18 +10,18 @@ datasource db {
 
 model User {
   id               String       @id @default(cuid())
-  name             String?
+  name             String?      @unique
   email            String?      @unique
   emailVerified    DateTime?
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
   image            String?
+  passwordHash     String
   savedCollections Collection[] @relation("savedCollections")
   collections      Collection[]
-  likes            Like[]i
+  likes            Like[]
   posts            Post[]       @relation("allPosts")
   savedPosts       Post[]       @relation("savedPosts")
-  passwordHash     String
 }
 
 model VerificationToken {
@@ -54,7 +54,7 @@ model Collection {
   user      User    @relation(fields: [userId], references: [id])
   posts     Post[]
 
-  @@unique(fields: [id, userId], name: "collectionAndUserId") // added this constraint to let me check multiple conditions for prisma.update
+  @@unique([id, userId])
 }
 
 model Like {
