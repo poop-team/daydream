@@ -23,7 +23,7 @@ export default function ImageList({
   posts,
   arePostsLoading,
   areMorePostsLoading,
-  noPostsMessage = "Nothing to display &#128542;",
+  noPostsMessage = "Nothing to display 😔",
   className = "",
 }: Props) {
   return (

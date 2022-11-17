@@ -131,7 +131,9 @@ export default function CreatedCollectionList({
         }
         hideAddButton={isProfileLoading || !isSelf}
         placeholder={
-          selectedCollection ? "Search..." : "Search or create a collection..."
+          selectedCollection || !isSelf
+            ? "Search..."
+            : "Search or create a collection..."
         }
       />
       <div className={"px-2 pb-16 pt-8 sm:px-4 sm:pt-12 md:pb-8 lg:px-8"}>
