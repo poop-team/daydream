@@ -54,6 +54,8 @@ export default async function create(req: Request, res: NextApiResponse) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const DiffusionModelPrediction = await DiffusionModel.predict({
     prompt: prompt,
+  }).catch((err) => {
+    return res.status(500).json({ error: err });
   });
   if (DiffusionModelPrediction == null) {
     return res.status(402).json({ error: "No image generated" });
