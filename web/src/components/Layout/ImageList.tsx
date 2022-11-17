@@ -15,6 +15,7 @@ interface Props {
   posts?: Post[];
   arePostsLoading: boolean;
   areMorePostsLoading?: boolean;
+  noPostsMessage?: string;
   className?: string;
 }
 
@@ -22,10 +23,11 @@ export default function ImageList({
   posts,
   arePostsLoading,
   areMorePostsLoading,
+  noPostsMessage = "Nothing to display &#128542;",
   className = "",
 }: Props) {
   return (
-    <section className={"relative h-full w-full"}>
+    <section className={`relative h-full w-full`}>
       <AnimatePresence mode={"popLayout"}>
         {posts?.length ? (
           <div key={"postList"}>
@@ -101,7 +103,7 @@ export default function ImageList({
                 initial={"fadeOut"}
                 animate={"fadeIn"}
               >
-                Nothing to display &#128542;
+                {noPostsMessage}
               </motion.p>
             )}
           </motion.div>
