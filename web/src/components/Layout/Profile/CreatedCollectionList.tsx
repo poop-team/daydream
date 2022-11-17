@@ -6,18 +6,19 @@ import { toast } from "react-hot-toast";
 import { getCollections } from "../../../requests/fetch";
 import { createCollection } from "../../../requests/mutate";
 import Collection from "../../../types/collection.type";
-import { getAuthSession } from "../../../utils/storage";
 import ProfileSearchBar from "../../Inputs/ProfileSearchBar";
 import CollectionList from "../CollectionList";
 import ImageList from "../ImageList";
 
 interface Props {
   userId?: string;
+  isSelf: boolean;
   isProfileLoading: boolean;
 }
 
 export default function CreatedCollectionList({
   userId,
+  isSelf,
   isProfileLoading,
 }: Props) {
   //#region Hooks
@@ -35,8 +36,8 @@ export default function CreatedCollectionList({
     isLoading: areCollectionsLoading,
     refetch: refetchCollections,
   } = useQuery({
-    queryKey: ["user_collections"],
-    queryFn: () => getCollections({ userId: getAuthSession().userId }),
+    queryKey: ["user_collections", userId],
+    queryFn: () => getCollections({ userId }),
     onError: (err: Error) => {
       toast.error(err.message);
     },
@@ -128,6 +129,7 @@ export default function CreatedCollectionList({
         isAddButtonDisabled={
           selectedCollection ? false : isAddCollectionDisabled
         }
+        hideAddButton={isProfileLoading || !isSelf}
         placeholder={
           selectedCollection ? "Search..." : "Search or create a collection..."
         }

@@ -12,6 +12,7 @@ interface Props {
   onSearchValueChange: (value: string) => void;
   isAddButtonDisabled?: boolean;
   onAddButtonClick?: () => void;
+  hideAddButton?: boolean;
   placeholder?: string;
   className?: string;
 }
@@ -23,6 +24,7 @@ export default function ProfileSearchBar({
   onSearchValueChange,
   isAddButtonDisabled = false,
   onAddButtonClick = () => {},
+  hideAddButton = false,
   placeholder = "Search...",
   className = "",
 }: Props) {
@@ -49,7 +51,7 @@ export default function ProfileSearchBar({
           key={"profile-collection-search-bar"}
           layout
           className={
-            "flex w-11/12 max-w-xl items-center justify-center gap-2 sm:w-2/3"
+            "flex h-10 w-11/12 max-w-xl items-center justify-center gap-2 sm:w-2/3"
           }
         >
           <SearchBar
@@ -58,13 +60,24 @@ export default function ProfileSearchBar({
             placeholder={placeholder}
             className={"w-full"}
           />
-          <IconButton
-            onClick={onAddButtonClick}
-            disabled={isAddButtonDisabled}
-            className={"hidden sm:block"}
-          >
-            <MdAddCircle className={"h-full w-10"} />
-          </IconButton>
+          <AnimatePresence>
+            {!hideAddButton && (
+              <motion.div
+                initial={"growOut"}
+                animate={"growIn"}
+                exit={"growOut"}
+                variants={transitionVariants}
+              >
+                <IconButton
+                  onClick={onAddButtonClick}
+                  disabled={isAddButtonDisabled}
+                  className={"hidden sm:block"}
+                >
+                  <MdAddCircle className={"h-full w-10"} />
+                </IconButton>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </AnimatePresence>
     </div>

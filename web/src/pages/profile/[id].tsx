@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { MdAccountCircle } from "react-icons/md";
+import { MdAccountCircle, MdPermMedia, MdWallpaper } from "react-icons/md";
 
 import CustomImage from "../../components/CustomImage";
 import Button from "../../components/Inputs/Button";
@@ -12,6 +12,7 @@ import CreatedImageList from "../../components/Layout/Profile/CreatedImageList";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { getUser } from "../../requests/fetch";
 import { transitionVariants } from "../../styles/motion-definitions";
+import { getAuthSession } from "../../utils/storage";
 
 export default function Profile() {
   //#region Hooks
@@ -21,10 +22,14 @@ export default function Profile() {
   const router = useRouter();
 
   const [view, setView] = useState<"created" | "collections">("created");
+  const [isSelf, setIsSelf] = useState(false); // Tracks if the user is viewing their own profile
 
   const { data: profileData, isLoading: isProfileLoading } = useQuery({
     queryKey: ["user_profile", router.query.id],
     queryFn: () => getUser({ userName: router.query.id as string }),
+    onSuccess: (user) => {
+      setIsSelf(user.id === getAuthSession().userId);
+    },
     onError: (err: Error) => {
       toast.error(err.message);
     },
@@ -70,8 +75,18 @@ export default function Profile() {
                 <MdAccountCircle className="h-full w-full text-slate-800" />
               </div>
             )}
-            <p className="text-xl">@{profileData.name}</p>
-            <p>{profileData.postCount.toLocaleString()} posts created</p>
+            <p className="text-xl font-medium">@{profileData.name}</p>
+            <div className="flex select-none gap-2 text-lg">
+              <p className="flex items-center gap-1">
+                {profileData.postCount.toLocaleString()}
+                <MdWallpaper />
+              </p>
+              <p>|</p>
+              <p className="flex items-center gap-1">
+                {profileData.collectionCount.toLocaleString()}
+                <MdPermMedia />
+              </p>
+            </div>
           </motion.div>
         ) : (
           // Render loading skeleton
@@ -115,6 +130,7 @@ export default function Profile() {
               <CreatedImageList
                 userId={profileData?.id}
                 isProfileLoading={isProfileLoading}
+                isSelf={isSelf}
               />
             </motion.div>
           ) : (
@@ -127,6 +143,7 @@ export default function Profile() {
               <CreatedCollectionList
                 userId={profileData?.id}
                 isProfileLoading={isProfileLoading}
+                isSelf={isSelf}
               />
             </motion.div>
           )}

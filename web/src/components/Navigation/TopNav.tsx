@@ -131,7 +131,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
             </motion.li>
           )}
 
-          {!isProfile && (
+          {(!isProfile || !isOwnProfile) && (
             <motion.li
               key={"profile"}
               variants={positionVariants}

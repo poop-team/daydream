@@ -7,10 +7,15 @@ import ImageList from "../ImageList";
 
 interface Props {
   userId?: string;
+  isSelf: boolean;
   isProfileLoading: boolean;
 }
 
-export default function CreatedImageList({ userId, isProfileLoading }: Props) {
+export default function CreatedImageList({
+  userId,
+  isSelf,
+  isProfileLoading,
+}: Props) {
   //#region Hooks
 
   const router = useRouter();
@@ -37,6 +42,7 @@ export default function CreatedImageList({ userId, isProfileLoading }: Props) {
         onAddButtonClick={() =>
           void router.push(`/create?prompt=${searchValue}`)
         }
+        hideAddButton={isProfileLoading || !isSelf}
       />
       <div className={"px-2 pb-16 pt-8 sm:px-4 sm:pt-12 md:pb-8 lg:px-8"}>
         <ImageList
