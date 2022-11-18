@@ -12,6 +12,7 @@ export default function Feed({ searchValue }: Props) {
   useAuthRedirect();
 
   const { posts, isFetching, isFetchingNextPage } = useInfiniteQueryPosts({
+    key: "feed_posts",
     searchValue,
     limit: 32,
     queryOptions: {

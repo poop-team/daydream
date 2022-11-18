@@ -23,6 +23,7 @@ export default function CreatedImageList({
   const [searchValue, setSearchValue] = useState("");
 
   const { posts, isFetching, isFetchingNextPage } = useInfiniteQueryPosts({
+    key: "user_posts",
     searchValue,
     userId,
     limit: 24,

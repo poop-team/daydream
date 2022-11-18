@@ -46,7 +46,7 @@ export default function AddToCollectionPanel({
     isLoading: areCollectionsLoading,
     refetch: refetchCollections,
   } = useQuery({
-    queryKey: ["user_collections"],
+    queryKey: ["collections"],
     queryFn: () => getCollections({ userId: getAuthSession().userId }),
     onError: (err: Error) => {
       toast.error(err.message);
@@ -71,7 +71,7 @@ export default function AddToCollectionPanel({
 
   const { mutate: mutateRemovePostFromCollection, isLoading: isRemoving } =
     useMutation({
-      mutationKey: ["add_post_to_collection"],
+      mutationKey: ["remove_post_from_collection"],
       mutationFn: (collectionId: string) =>
         removePostFromCollection(postId, collectionId),
       onSuccess: ({ collectionId }) => {

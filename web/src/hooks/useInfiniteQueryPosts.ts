@@ -7,6 +7,7 @@ import { searchPosts } from "../requests/fetch";
 import useDebounce from "./useDebounce";
 
 interface Params {
+  key: string;
   searchValue: string;
   userId?: string;
   recentOnly?: boolean;
@@ -19,6 +20,7 @@ interface Params {
 }
 
 export default function useInfiniteQueryPosts({
+  key,
   searchValue,
   userId,
   limit,
@@ -36,7 +38,7 @@ export default function useInfiniteQueryPosts({
     isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["feed_posts", { search: debouncedSearchValue, userId }],
+    queryKey: [key, { search: debouncedSearchValue, userId }],
     queryFn: ({ pageParam = "" }) =>
       searchPosts({
         search: searchValue,
