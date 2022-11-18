@@ -4,12 +4,22 @@ import { imageStyles } from "../data/styles";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Icon from "react-native-vector-icons/Ionicons";
+import MultiSelect from "react-native-multiple-select";
 import BottomNavBar from "../components/BottomNavBar";
 import TopNavBar from "../components/TopNavBar";
 import SelectableChip from "../components/SelectableChip";
 
 export default function ImageCreate({ navigation }) {
-    const [search, setSearch] = useState("");
+    const [prompt, setPrompt] = useState("");
+    const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
+
+    const handleCreate = () => {
+        let finalPrompt = prompt.trim();
+        if (selectedStyles.length > 0) {
+          finalPrompt += `, ${selectedStyles.join(", ")}`;
+        }
+        //create(finalPrompt);
+      };
 
     return (
         <View className="flex-1">
@@ -23,12 +33,13 @@ export default function ImageCreate({ navigation }) {
                     />
                 </Pressable>
                 <View className="grow">
-                    <TopNavBar icon="color-wand-outline" className="m-2" value={search} onChangeText={setSearch} />
+                    <TopNavBar icon="color-wand-outline" className="m-2" value={prompt} onChangeText={setPrompt} />
                 </View>
             </View>
             <ScrollView>
                 <View className="flex flex-row flex-wrap justify-evenly">
-                    {imageStyles.map(style =>
+                    <MultiSelect items={imageStyles} onSelectedItemsChange={setSelectedStyles} />
+                    {/* {imageStyles.map(style =>
                         <SelectableChip
                             key={style}
                             className="m-2 max-w-fit"
@@ -36,7 +47,7 @@ export default function ImageCreate({ navigation }) {
                             selected={false}
                             onSelect={() => { }}
                         />
-                    )}
+                    )} */}
                 </View>
                 <View className="flex mt-4 items-center">
                     <Button name="Create" />
