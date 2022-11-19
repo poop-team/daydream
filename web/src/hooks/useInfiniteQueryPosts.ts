@@ -57,7 +57,7 @@ export default function useInfiniteQueryPosts({
   });
 
   const posts = useMemo(() => {
-    return infinitePostsData?.pages.map((page) => page.posts).flat() ?? [];
+    return infinitePostsData?.pages.flatMap((page) => page.posts) ?? [];
   }, [infinitePostsData]);
 
   useEffect(() => {

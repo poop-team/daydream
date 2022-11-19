@@ -38,7 +38,7 @@ export default function CollectionList({
             lg:grid-cols-fill-30 2xl:grid-cols-fill-40 ${className}`}
           >
             <AnimatePresence mode={"popLayout"}>
-              {collections.map((collection, idx) => (
+              {collections.map((collection) => (
                 <motion.li
                   key={collection.id}
                   layout
