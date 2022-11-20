@@ -2,20 +2,20 @@
  * Functions to Fetch data from the API
  */
 
-import {Post} from "../types/post.type";
-import {User} from "../types/user.type";
-import {getAuthSession} from "../utils/storage";
+import { Post } from "../types/post.type";
+import { User } from "../types/user.type";
+import { getAuthSession } from "../utils/storage";
 import doRequest from "./request";
 import Collection from "../types/collection.type";
 
 export async function searchPosts({
-                                    search = "",
-                                    userId = "",
-                                    collectionId = "",
-                                    limit = 16,
-                                    cursorId = "",
-                                    recentOnly = false,
-                                  }) {
+  search = "",
+  userId = "",
+  collectionId = "",
+  limit = 16,
+  cursorId = "",
+  recentOnly = false,
+}) {
   const params = new URLSearchParams({
     userId: (await getAuthSession()).userId,
     search,
@@ -50,7 +50,11 @@ export async function getUser({ userId = "", userName = "" }) {
 
 export async function authenticateUser() {
   return await doRequest<{ message: string }>(
-    `https://daydream.wtf/api/user/auth?userId=${(await getAuthSession()).userId}`,
+    `https://daydream.wtf/api/user/auth?userId=${
+      (
+        await getAuthSession()
+      ).userId
+    }`,
     null,
     "GET"
   );
