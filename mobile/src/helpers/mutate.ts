@@ -9,7 +9,7 @@ import {CreatedPost} from "../types/post.type";
 
 export async function login(email: string, password: string) {
   return await doRequest<AuthSession>(
-    "https://project.up.railway.app/api/user/login",
+    "https://daydream.wtf/api/user/login",
     {
       userId: (await getAuthSession()).userId,
       email,
@@ -21,7 +21,7 @@ export async function login(email: string, password: string) {
 
 export async function register(name: string, email: string, password: string) {
   await doRequest(
-    "https://project.up.railway.app/api/user/register",
+    "https://daydream.wtf/api/user/register",
     {
       userId: (await getAuthSession()).userId,
       name,
@@ -34,7 +34,7 @@ export async function register(name: string, email: string, password: string) {
 
 export async function createPost(prompt: string) {
   return await doRequest<CreatedPost>(
-    "/api/post/create",
+    "https://daydream.wtf/api/post/create",
     {
       userId: (await getAuthSession()).userId,
       prompt,
@@ -48,7 +48,7 @@ export async function addPostToCollection(
   collectionId: string
 ) {
   return await doRequest<{ collectionId: string }>(
-    "/api/collection/addPost",
+    "https://daydream.wtf/api/collection/addPost",
     {
       userId: (await getAuthSession()).userId,
       postId,
@@ -63,7 +63,7 @@ export async function removePostFromCollection(
   collectionId: string
 ) {
   return await doRequest<{ collectionId: string }>(
-    "/api/collection/removePost",
+    "https://daydream.wtf/api/collection/removePost",
     {
       userId: (await getAuthSession()).userId,
       postId,
@@ -75,7 +75,7 @@ export async function removePostFromCollection(
 
 export async function createCollection(collectionName: string) {
   return await doRequest<{ collectionId: string }>(
-    "/api/collection/create",
+    "https://daydream.wtf/api/collection/create",
     {
       userId: (await getAuthSession()).userId,
       collectionName,
@@ -86,7 +86,7 @@ export async function createCollection(collectionName: string) {
 
 export async function likePost(postId: string) {
   return await doRequest<{ postId: string }>(
-    "/api/post/like",
+    "https://daydream.wtf/api/post/like",
     {
       userId: (await getAuthSession()).userId,
       postId,
@@ -96,7 +96,7 @@ export async function likePost(postId: string) {
 }
 export async function unlikePost(postId: string) {
   return await doRequest<{ postId: string }>(
-    "/api/post/unlike",
+    "https://daydream.wtf/api/post/unlike",
     {
       userId: (await getAuthSession()).userId,
       postId,
