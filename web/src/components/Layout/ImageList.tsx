@@ -12,7 +12,7 @@ import CircularProgress from "../Feedback/CircularProgress";
 import ImageCard from "../Surfaces/ImageCard";
 
 interface Props {
-  posts?: Post[];
+  posts: Post[];
   arePostsLoading: boolean;
   areMorePostsLoading?: boolean;
   noPostsMessage?: string;
@@ -29,7 +29,7 @@ export default function ImageList({
   return (
     <section className={`relative h-full w-full`}>
       <AnimatePresence mode={"popLayout"}>
-        {posts?.length ? (
+        {posts.length ? (
           <div key={"postList"}>
             <motion.ol
               variants={staggerContainerVariants}

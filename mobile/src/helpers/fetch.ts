@@ -2,18 +2,20 @@
  * Functions to Fetch data from the API
  */
 
-import { Post } from "../types/post.type";
-import { User } from "../types/user.type";
-import { getAuthSession } from "../utils/storage";
+import {Post} from "../types/post.type";
+import {User} from "../types/user.type";
+import {getAuthSession} from "../utils/storage";
 import doRequest from "./request";
+import Collection from "../types/collection.type";
 
 export async function searchPosts({
-  search = "",
-  userId = "",
-  collectionId = "",
-  limit = 16,
-  cursorId = "", // cursorId
-}) {
+                                    search = "",
+                                    userId = "",
+                                    collectionId = "",
+                                    limit = 16,
+                                    cursorId = "",
+                                    recentOnly = false,
+                                  }) {
   const params = new URLSearchParams({
     userId: (await getAuthSession()).userId,
     search,
@@ -21,6 +23,7 @@ export async function searchPosts({
     collectionId,
     limit: limit.toString(),
     cursorId,
+    recentOnly: recentOnly.toString(),
   });
 
   return await doRequest<{ posts: Post[]; nextCursorId: string }>(
@@ -30,10 +33,12 @@ export async function searchPosts({
   );
 }
 
-export async function getUser(userId = "") {
+// You can provide either a userId or a userName
+export async function getUser({ userId = "", userName = "" }) {
   const params = new URLSearchParams({
     userId: (await getAuthSession()).userId,
-    searchUserId: userId || (await getAuthSession()).userId,
+    searchUserId: userId,
+    userName: userName,
   });
 
   return await doRequest<User>(
@@ -46,6 +51,20 @@ export async function getUser(userId = "") {
 export async function authenticateUser() {
   return await doRequest<{ message: string }>(
     `/api/user/auth?userId=${(await getAuthSession()).userId}`,
+    null,
+    "GET"
+  );
+}
+
+export async function getCollections({ collectionId = "", userId = "" }) {
+  const params = new URLSearchParams({
+    userId: (await getAuthSession()).userId,
+    collectionId,
+    searchUserId: userId,
+  });
+
+  return await doRequest<{ collections: Collection[] }>(
+    `/api/collection/get?${params.toString()}`,
     null,
     "GET"
   );

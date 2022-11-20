@@ -146,7 +146,7 @@ export default function CreatedCollectionList({
         ) : (
           <ImageList
             arePostsLoading={areCollectionsLoading || isProfileLoading}
-            posts={selectedCollectionPosts}
+            posts={selectedCollectionPosts ?? []}
           />
         )}
       </div>

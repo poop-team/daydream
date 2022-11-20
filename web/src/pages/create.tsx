@@ -141,7 +141,7 @@ export default function Create() {
         <div className={"py-8"}>
           <ImageList
             arePostsLoading={areRecentPostsLoading}
-            posts={recentPostsData?.posts}
+            posts={recentPostsData?.posts ?? []}
             noPostsMessage={"Nothing yet. Create one!"}
           />
         </div>
