@@ -9,7 +9,6 @@ import {
 } from "react-icons/md";
 
 import paths from "../../data/path";
-import useClient from "../../hooks/useClient";
 import { positionVariants, transitions } from "../../styles/motion-definitions";
 import { getAuthSession } from "../../utils/storage";
 import IconButton from "../Inputs/IconButton";
@@ -25,8 +24,6 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Hooks
 
   const router = useRouter();
-
-  const isClient = useClient();
 
   const { scrollY } = useScroll();
 
@@ -63,7 +60,8 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   //#region Derived State
 
-  const userName = isClient ? getAuthSession().userName : "";
+  const userName =
+    typeof window !== "undefined" ? getAuthSession().userName : "";
 
   const isFeed = router.pathname === paths.feed;
   const isCreate = router.pathname === paths.create;
