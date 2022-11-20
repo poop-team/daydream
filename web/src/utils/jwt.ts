@@ -32,7 +32,7 @@ export const generateJWTForPasswordReset = async (
     sign(
       { userId },
       env.JWT_RESET_PRIVATE_KEY,
-      { expiresIn: "1 hour" },
+      { expiresIn: "20 minutes" },
       (err, data) => {
         if (err) {
           reject(err);
