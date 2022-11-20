@@ -29,7 +29,7 @@ export default ({
       <View className={`${bgColor} w-full flex-row items-center rounded-lg`}>
         <Pressable onPress={() => inputRef.current.focus()}>
           <View className={`${bgColor} mx-2`}>
-            <Icon size={20} name="search-outline" />
+            <Icon size={20} name={icon} />
           </View>
         </Pressable>
         <TextInput

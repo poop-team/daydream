@@ -13,29 +13,17 @@ interface Props {
   onChangeText: (value: string) => void;
 }
 
-function LabelAndInput({
-  value,
-  labelText,
-  placeholder,
-  secureTextEntry,
-  onChangeText,
-}: Props) {
-  // # region Styles
-
-  const textStyle = "font-bold mb-3 text-xl";
-  const textInputViewStyle =
-    "rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
-  const textInputStyle = "ml-3 w-80";
-
-  // # endregion
+function LabelAndInput({ value, labelText, placeholder, secureTextEntry, onChangeText}: Props){
 
   return (
     <>
-      <Text className={textStyle}>{labelText}</Text>
+      <Text className="font-bold mb-3 text-xl">
+        {labelText}
+      </Text>
 
-      <View className={textInputViewStyle}>
+      <View className="rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
         <TextInput
-          className={textInputStyle}
+          className="ml-3 w-80"
           value={value}
           placeholder={placeholder}
           placeholderTextColor="#000000"

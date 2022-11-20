@@ -14,38 +14,25 @@ interface Props {
   onChangeText: (value: string) => void;
 }
 
-function LabelAndInput({
-  value,
-  labelText,
-  placeholder,
-  secureTextEntry,
-  onChangeText,
-}: Props) {
-  //# region Styles
+function LabelAndInput({ value, labelText, placeholder, secureTextEntry, onChangeText }: Props){
 
-  const textInputViewStyle =
-    "mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
-  const textStyle = "mt-6 mb-3 font-bold text-xl";
-  const textInputStyle = "ml-3 w-80";
+    return (
+      <>
+        <Text className="mt-6 mb-3 font-bold text-xl">
+          {labelText}
+        </Text>
 
-  //# endregion
-
-  return (
-    <>
-      <Text className={textStyle}>{labelText}</Text>
-
-      <View className={textInputViewStyle}>
-        <TextInput
-          className={textInputStyle}
-          value={value}
-          placeholder={placeholder}
-          placeholderTextColor="#000000"
-          secureTextEntry={secureTextEntry}
-          onChangeText={onChangeText}
-        />
-      </View>
-    </>
-  );
+        <View className="mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
+          <TextInput
+            className="ml-3 w-80"
+            value={value}
+            placeholder={placeholder}
+            placeholderTextColor="#000000"
+            secureTextEntry={secureTextEntry}
+            onChangeText={onChangeText}/>
+        </View>
+      </>
+    )
 }
 
 export default function Login({ navigation }) {
@@ -80,9 +67,9 @@ export default function Login({ navigation }) {
             value={password}
             placeholder="*Enter Password"
             secureTextEntry={true}
-            onChangeText={setPassword}
-          />
-
+            onChangeText={setPassword}/>
+            
+          <Text className="text-red-500 mx-auto font-extrabold">{error}</Text>
           <Pressable className="items-center justify-center">
             <Text className="my-10 text-indigo-900 font-bold text-xl">
               Forgot your password?
@@ -111,7 +98,7 @@ export default function Login({ navigation }) {
                   }
                 })
                 .catch((err: Error) => {
-                  //toast.error(err.message);
+                  setError(err.message);
                   setIsPending(false);
                   setInvalidCount(invalidCount + 1);
                 });
