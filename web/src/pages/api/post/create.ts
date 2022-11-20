@@ -22,14 +22,6 @@ export default async function create(req: Request, res: NextApiResponse) {
 
   const { userId, prompt } = req.body;
 
-  //Whitelist users to use create posts. Prevent against me racking up 1k bill on replicate..
-
-  if (userId != "clallm6nr000lmc107l8ov7ee") {
-    return res
-      .status(401)
-      .json({ error: "You are not authenticated to create post." });
-  }
-
   if (!prompt.trim()) {
     return res.status(402).json("No prompt provided");
   }
