@@ -129,7 +129,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
             </motion.li>
           )}
 
-          {(!isProfile || !isOwnProfile) && (
+          {!isOwnProfile ? (
             <motion.li
               key={"profile"}
               variants={positionVariants}
@@ -143,9 +143,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
                 <MdAccountCircle className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
-          )}
-
-          {isOwnProfile && (
+          ) : (
             <motion.li
               key={"settings"}
               variants={positionVariants}
