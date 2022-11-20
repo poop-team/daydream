@@ -6,6 +6,43 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { login } from "../helpers/mutate";
 import { storeAuthSession } from "../utils/storage";
 
+interface Props {
+  value: string;
+  labelText: string;
+  placeholder: string;
+  secureTextEntry?: boolean;
+  onChangeText: (value: string) => void;
+}
+
+function LabelAndInput({ value, labelText, placeholder, secureTextEntry, onChangeText }: Props){
+  
+    //# region Styles
+  
+    const textInputViewStyle = "mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
+    const textStyle = "mt-6 mb-3 font-bold text-xl";
+    const textInputStyle = "ml-3 w-80";
+
+    //# endregion
+
+    return (
+      <>
+        <Text className={textStyle}>
+          {labelText}
+        </Text>
+
+        <View className={textInputViewStyle}>
+          <TextInput
+            className={textInputStyle}
+            value={value}
+            placeholder={placeholder}
+            placeholderTextColor="#000000"
+            secureTextEntry={secureTextEntry}
+            onChangeText={onChangeText}/>
+        </View>
+      </>
+    )
+}
+
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,31 +63,21 @@ export default function Login({ navigation }) {
       </View>
       <ScrollView className="w-screen h-screen position-relative scroll">
         <View className="flex-1 flex mx-auto">
-          <Text className=" mt-8 font-bold mb-3 text-xl">Enter your email:</Text>
+          <LabelAndInput 
+            labelText="Enter your username:"
+            value={username}
+            placeholder="*Enter Username"
+            onChangeText={setUsername}/>
 
-          <View className="mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
-            <TextInput
-              className="ml-3 w-80"
-              placeholder="*Enter email"
-              placeholderTextColor="#000000"
-              onChangeText={setUsername}
-            />
-          </View>
+          <LabelAndInput
+            labelText="Enter your password:"
+            value={password}
+            placeholder="*Enter Password"
+            secureTextEntry={true}
+            onChangeText={setPassword}/>
 
-          <Text className="font-bold mb-3 text-xl">Enter a password:</Text>
-
-          <View className="mx-auto rounded-lg bg-slate-300 w-80 mb-5 h-12 items-start justify-center">
-            <TextInput
-              className="ml-3 w-80"
-              secureTextEntry={true}
-              placeholder="*Enter Password"
-              placeholderTextColor="#000000"
-              onChangeText={setPassword}
-            />
-          </View>
-          <Text className="text-red-500 mx-auto font-extrabold">{error}</Text>
           <Pressable className="items-center justify-center">
-            <Text className="text-xl my-10 text-indigo-900 font-bold">
+            <Text className="my-10 text-indigo-900 font-bold text-xl">
               Forgot your password?
             </Text>
           </Pressable>
@@ -64,7 +91,7 @@ export default function Login({ navigation }) {
           <Button
             name="Login"
             className="mb-10"
-            disabled={isPending || invalidCount >= 5}
+            disabled={isPending}
             onPress={() => {
               setIsPending(true);
               login(username, password)
@@ -77,7 +104,7 @@ export default function Login({ navigation }) {
                   }
                 })
                 .catch((err: Error) => {
-                  setError(err.message);
+                  //toast.error(err.message);
                   setIsPending(false);
                   setInvalidCount(invalidCount + 1);
                 });
@@ -85,7 +112,7 @@ export default function Login({ navigation }) {
           />
           <Pressable>
             <Text
-              className="ml-0 text-xl text-indigo-900 font-bold"
+              className="ml-0 text-indigo-900 font-bold text-xl"
               onPress={() => navigation.navigate("Register")}
             >
               Create Account

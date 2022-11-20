@@ -25,11 +25,11 @@ export default ({
   const bgColor = isFocused ? focusedColor : unfocusedColor;
 
   return (
-    <View className="mx-4">
+    <View className={`mx-4 ios:mb-4`}>
       <View className={`${bgColor} w-full flex-row items-center rounded-lg`}>
         <Pressable onPress={() => inputRef.current.focus()}>
           <View className={`${bgColor} mx-2`}>
-            <Icon size={20} name={icon} />
+            <Icon size={20} name="search-outline" />
           </View>
         </Pressable>
         <TextInput
