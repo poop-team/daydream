@@ -3,9 +3,9 @@
  * same as web/src/helpers/mutate.ts
  */
 import doRequest from "./request";
-import {getAuthSession} from "../utils/storage";
-import {AuthSession} from "../types/auth.type";
-import {CreatedPost} from "../types/post.type";
+import { getAuthSession } from "../utils/storage";
+import { AuthSession } from "../types/auth.type";
+import { CreatedPost } from "../types/post.type";
 
 export async function login(email: string, password: string) {
   return await doRequest<AuthSession>(
