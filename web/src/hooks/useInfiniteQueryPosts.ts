@@ -66,7 +66,7 @@ export default function useInfiniteQueryPosts({
         void fetchNextPage();
       }
     });
-  }, [hasNextPage, isFetchingNextPage, scrollYProgress]);
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage, scrollYProgress]);
 
   return {
     posts,
