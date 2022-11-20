@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import { getCollections } from "../../../requests/fetch";
@@ -27,7 +27,6 @@ export default function CreatedCollectionList({
 
   const [selectedCollection, setSelectedCollection] =
     useState<Collection | null>(null);
-  const [isAddCollectionDisabled, setIsAddCollectionDisabled] = useState(true);
   const [searchCollectionValue, setSearchCollectionValue] = useState("");
   const [searchPostValue, setSearchPostValue] = useState("");
 
@@ -74,20 +73,6 @@ export default function CreatedCollectionList({
     [selectedCollection, searchPostValue]
   );
 
-  useEffect(() => {
-    const formattedSearchValue = searchCollectionValue.trim().toLowerCase();
-    if (
-      formattedSearchValue.length === 0 ||
-      collections?.some(
-        (collection) => collection.name.toLowerCase() === formattedSearchValue
-      )
-    ) {
-      setIsAddCollectionDisabled(true);
-    } else {
-      setIsAddCollectionDisabled(false);
-    }
-  }, [collections, searchCollectionValue]);
-
   //#endregion
 
   //#region Handlers
@@ -106,6 +91,17 @@ export default function CreatedCollectionList({
       }
     }
   };
+
+  //#endregion
+
+  //#region Derived State
+
+  const fCollectionSearchValue = searchCollectionValue.trim().toLowerCase();
+  const isAddCollectionDisabled =
+    fCollectionSearchValue.length === 0 ||
+    collections?.some(
+      (collection) => collection.name.toLowerCase() === fCollectionSearchValue
+    );
 
   //#endregion
 
