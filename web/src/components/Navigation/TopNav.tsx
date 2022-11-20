@@ -123,7 +123,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
                 className={"w-11/12 max-w-xl sm:w-2/3"}
               />
               <LinkIconButton
-                href={`/create?prompt=${searchValue}`}
+                href={`/create?prompt=${encodeURI(searchValue)}`}
                 className={"hidden text-base sm:block"}
               >
                 <MdAddCircle className={"h-full w-10"} />
@@ -141,7 +141,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <LinkIconButton href={`/profile/${userName}`}>
+              <LinkIconButton href={`/profile/${encodeURI(userName)}`}>
                 <MdAccountCircle className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
