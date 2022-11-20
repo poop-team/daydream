@@ -14,33 +14,38 @@ interface Props {
   onChangeText: (value: string) => void;
 }
 
-function LabelAndInput({ value, labelText, placeholder, secureTextEntry, onChangeText }: Props){
-  
-    //# region Styles
-  
-    const textInputViewStyle = "mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
-    const textStyle = "mt-6 mb-3 font-bold text-xl";
-    const textInputStyle = "ml-3 w-80";
+function LabelAndInput({
+  value,
+  labelText,
+  placeholder,
+  secureTextEntry,
+  onChangeText,
+}: Props) {
+  //# region Styles
 
-    //# endregion
+  const textInputViewStyle =
+    "mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
+  const textStyle = "mt-6 mb-3 font-bold text-xl";
+  const textInputStyle = "ml-3 w-80";
 
-    return (
-      <>
-        <Text className={textStyle}>
-          {labelText}
-        </Text>
+  //# endregion
 
-        <View className={textInputViewStyle}>
-          <TextInput
-            className={textInputStyle}
-            value={value}
-            placeholder={placeholder}
-            placeholderTextColor="#000000"
-            secureTextEntry={secureTextEntry}
-            onChangeText={onChangeText}/>
-        </View>
-      </>
-    )
+  return (
+    <>
+      <Text className={textStyle}>{labelText}</Text>
+
+      <View className={textInputViewStyle}>
+        <TextInput
+          className={textInputStyle}
+          value={value}
+          placeholder={placeholder}
+          placeholderTextColor="#000000"
+          secureTextEntry={secureTextEntry}
+          onChangeText={onChangeText}
+        />
+      </View>
+    </>
+  );
 }
 
 export default function Login({ navigation }) {
@@ -63,18 +68,20 @@ export default function Login({ navigation }) {
       </View>
       <ScrollView className="w-screen h-screen position-relative scroll">
         <View className="flex-1 flex mx-auto">
-          <LabelAndInput 
+          <LabelAndInput
             labelText="Enter your username:"
             value={username}
             placeholder="*Enter Username"
-            onChangeText={setUsername}/>
+            onChangeText={setUsername}
+          />
 
           <LabelAndInput
             labelText="Enter your password:"
             value={password}
             placeholder="*Enter Password"
             secureTextEntry={true}
-            onChangeText={setPassword}/>
+            onChangeText={setPassword}
+          />
 
           <Pressable className="items-center justify-center">
             <Text className="my-10 text-indigo-900 font-bold text-xl">
