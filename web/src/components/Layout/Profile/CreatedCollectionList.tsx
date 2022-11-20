@@ -75,12 +75,11 @@ export default function CreatedCollectionList({
   );
 
   useEffect(() => {
+    const formattedSearchValue = searchCollectionValue.trim().toLowerCase();
     if (
-      searchCollectionValue.trim().length === 0 ||
+      formattedSearchValue.length === 0 ||
       collections?.some(
-        (collection) =>
-          collection.name.toLowerCase() ===
-          searchCollectionValue.trim().toLowerCase()
+        (collection) => collection.name.toLowerCase() === formattedSearchValue
       )
     ) {
       setIsAddCollectionDisabled(true);
