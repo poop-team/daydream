@@ -5,7 +5,6 @@ import Button from "../components/Button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { register } from "../helpers/mutate";
 
-
 interface Props {
   value: string;
   labelText: string;
@@ -14,21 +13,25 @@ interface Props {
   onChangeText: (value: string) => void;
 }
 
-function LabelAndInput({ value, labelText, placeholder, secureTextEntry, onChangeText}: Props){
-
+function LabelAndInput({
+  value,
+  labelText,
+  placeholder,
+  secureTextEntry,
+  onChangeText,
+}: Props) {
   // # region Styles
 
   const textStyle = "font-bold mb-3 text-xl";
-  const textInputViewStyle = "rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
+  const textInputViewStyle =
+    "rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center";
   const textInputStyle = "ml-3 w-80";
 
   // # endregion
 
   return (
     <>
-      <Text className={textStyle}>
-        {labelText}
-      </Text>
+      <Text className={textStyle}>{labelText}</Text>
 
       <View className={textInputViewStyle}>
         <TextInput
@@ -37,10 +40,11 @@ function LabelAndInput({ value, labelText, placeholder, secureTextEntry, onChang
           placeholder={placeholder}
           placeholderTextColor="#000000"
           secureTextEntry={secureTextEntry}
-          onChangeText={onChangeText}/>
+          onChangeText={onChangeText}
+        />
       </View>
     </>
-  )
+  );
 }
 
 export default function Register({ navigation }) {
@@ -50,10 +54,14 @@ export default function Register({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState("");
- 
-  const isDataValid = password === confirmPassword && email.includes("@") && username.length > 0 && password.length > 7;
+
+  const isDataValid =
+    password === confirmPassword &&
+    email.includes("@") &&
+    username.length > 0 &&
+    password.length > 7;
   const errorTextStyle = "text-red-500 mx-auto font-extrabold";
-  
+
   return (
     <View className="flex-1 w-full">
       <View className="w-full flex-row place-content-start mt-16 ml-2">
@@ -71,7 +79,8 @@ export default function Register({ navigation }) {
             labelText="Enter your email:"
             value={email}
             placeholder="*Email"
-            onChangeText={setEmail}/>
+            onChangeText={setEmail}
+          />
 
           <Text className={errorTextStyle}>
             {email.includes("@") ? "" : "Please enter a valid email."}
@@ -81,7 +90,8 @@ export default function Register({ navigation }) {
             labelText="Enter a username:"
             value={username}
             placeholder="*Username"
-            onChangeText={setUsername}/>
+            onChangeText={setUsername}
+          />
 
           <Text className={errorTextStyle}>
             {username.length > 0 ? "" : "Please enter a name."}
@@ -92,22 +102,25 @@ export default function Register({ navigation }) {
             value={password}
             placeholder="*Password"
             secureTextEntry={true}
-            onChangeText={setPassword}/>
-          
+            onChangeText={setPassword}
+          />
+
           <LabelAndInput
             labelText="Confirm Password"
             value={confirmPassword}
             placeholder="*Password"
             secureTextEntry={true}
-            onChangeText={setConfirmPassword}/>
+            onChangeText={setConfirmPassword}
+          />
 
           <Text className={errorTextStyle}>
-            {error}
-            {" "}
+            {error}{" "}
             {password === confirmPassword ? "" : "Passwords do not match"}
           </Text>
           <Text className={errorTextStyle}>
-            {password.length > 7 ? "" : "Password must be at least 8 characters"}
+            {password.length > 7
+              ? ""
+              : "Password must be at least 8 characters"}
           </Text>
         </View>
         <View className="flex-1 w-full items-center my-12 justify-center">
