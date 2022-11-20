@@ -98,7 +98,7 @@ export default function Login({ navigation }) {
           <Button
             name="Login"
             className="mb-10"
-            disabled={isPending}
+            disabled={isPending || invalidCount >= 5}
             onPress={() => {
               setIsPending(true);
               login(username, password)
