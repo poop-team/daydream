@@ -13,6 +13,10 @@ export default async function get(req: NextApiRequest, res: NextApiResponse) {
 
   if (!searchUserId && !userName) {
     return res.status(400).json({ error: "No user id or name provided" });
+  } else if (searchUserId && userName) {
+    return res
+      .status(400)
+      .json({ error: "Provide either a user id or name but not both" });
   }
 
   if (Array.isArray(searchUserId) || Array.isArray(userName)) {
