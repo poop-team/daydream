@@ -2,8 +2,7 @@ import "react-native-gesture-handler";
 import Authentication from "./src/pages/Authentication";
 import Login from "./src/pages/Login";
 import Register from "./src/pages/Register";
-import FeedPage from "./src/pages/feedPage";
-import Dummypage from "./src/components/pages/Dummypage";
+import FeedPage from "./src/pages/FeedPage";
 import ImageCreate from "./src/pages/ImageCreate";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -39,13 +38,7 @@ export default function App() {
           name="createPage"
           component={ImageCreate}
           options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="profilePage"
-          options={{headerShown: false}}
-        >
-          {(props) => <Dummypage {...props} text= "profile" />}
-        </Stack.Screen>    
+        /> 
       </Stack.Navigator>
     </NavigationContainer>
   );

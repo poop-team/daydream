@@ -4,6 +4,7 @@ import { TextInput, Text, Pressable, View, ScrollView } from "react-native";
 import Button from "../components/Button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { register } from "../helpers/mutate";
+import LabelAndInput from "../components/LabelAndInput";
 
 export default function Register({ navigation }) {
   const [email, setEmail] = useState("");
@@ -12,9 +13,14 @@ export default function Register({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState("");
- 
-  const isDataValid = password === confirmPassword && email.includes("@") && username.length > 0 && password.length > 7;
-  const inputClassName = "ml-3 w-80";
+
+  const isDataValid =
+    password === confirmPassword &&
+    email.includes("@") &&
+    username.length > 0 &&
+    password.length > 7;
+  const errorTextStyle = "text-red-500 mx-auto font-extrabold";
+
   return (
     <View className="flex-1 w-full">
       <View className="w-full flex-row place-content-start mt-16 ml-2">
@@ -28,65 +34,52 @@ export default function Register({ navigation }) {
       </View>
       <ScrollView className="w-screen h-screen position-relative scroll ">
         <View className="flex-1 flex mx-auto mt-8">
-          <Text className="font-bold mb-3 text-xl">Enter your email:</Text>
+          <LabelAndInput
+            labelText="Enter your email:"
+            value={email}
+            placeholder="*Email"
+            onChangeText={setEmail}
+          />
 
-          <View className="rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
-            <TextInput
-              className={inputClassName}
-              placeholder="*Email"
-              placeholderTextColor="#000000"
-              onChangeText={setEmail}
-            />
-
-          </View>
-          <Text className="text-red-500 mx-auto font-extrabold">
+          <Text className={errorTextStyle}>
             {email.includes("@") ? "" : "Please enter a valid email."}
           </Text>
 
-          <Text className="font-bold mb-3 text-xl">Enter a name:</Text>
+          <LabelAndInput
+            labelText="Enter a username:"
+            value={username}
+            placeholder="*Username"
+            onChangeText={setUsername}
+          />
 
-          <View className="rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
-            <TextInput
-              className={inputClassName}
-              placeholder="*name"
-              placeholderTextColor="#000000"
-              onChangeText={setUsername}
-            />
-          </View>
-          <Text className="text-red-500 mx-auto font-extrabold">
+          <Text className={errorTextStyle}>
             {username.length > 0 ? "" : "Please enter a name."}
           </Text>
 
-          <Text className="font-bold mb-3 text-xl">Enter a password:</Text>
+          <LabelAndInput
+            labelText="Enter a password:"
+            value={password}
+            placeholder="*Password"
+            secureTextEntry={true}
+            onChangeText={setPassword}
+          />
 
-          <View className="rounded-lg bg-slate-300 w-80 mb-5 h-12 items-start justify-center">
-            <TextInput
-              className={inputClassName}
-              secureTextEntry={true}
-              placeholder="*Password"
-              placeholderTextColor="#000000"
-              onChangeText={setPassword}
-            />
-          </View>
+          <LabelAndInput
+            labelText="Confirm Password"
+            value={confirmPassword}
+            placeholder="*Password"
+            secureTextEntry={true}
+            onChangeText={setConfirmPassword}
+          />
 
-          <Text className="font-bold mb-3 text-xl">Confirm Password:</Text>
-
-          <View className="rounded-lg bg-slate-300 w-80 h-12 items-start justify-center">
-            <TextInput
-              className={inputClassName}
-              secureTextEntry={true}
-              placeholder="*Password"
-              placeholderTextColor="#000000"
-              onChangeText={setConfirmPassword}
-            />
-          </View>
-          <Text className="text-red-500 mx-auto font-extrabold">
-            {error}
-            {" "}
+          <Text className={errorTextStyle}>
+            {error}{" "}
             {password === confirmPassword ? "" : "Passwords do not match"}
           </Text>
-          <Text className="text-red-500 mx-auto font-extrabold">
-            {password.length > 7 ? "" : "Password must be at least 8 characters"}
+          <Text className={errorTextStyle}>
+            {password.length > 7
+              ? ""
+              : "Password must be at least 8 characters"}
           </Text>
         </View>
         <View className="flex-1 w-full items-center my-12 justify-center">
