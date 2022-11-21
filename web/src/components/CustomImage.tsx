@@ -40,7 +40,7 @@ export default function CustomImage({
 
   //#region Styles
 
-  let containerStyles = "bg-slate-400 dark:bg-slate-600 w-full h-full";
+  let containerStyles = "bg-slate-300 dark:bg-slate-600 w-full h-full";
   let imageStyles = "transition duration-200 ease-out";
   if (imageLoading) {
     containerStyles += " animate-pulse";

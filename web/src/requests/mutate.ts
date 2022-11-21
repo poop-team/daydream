@@ -72,6 +72,17 @@ export async function removePostFromCollection(
   );
 }
 
+export async function createCollection(collectionName: string) {
+  return await doRequest<{ collectionId: string }>(
+    "/api/collection/create",
+    {
+      userId: getAuthSession().userId,
+      collectionName,
+    },
+    "POST"
+  );
+}
+
 export async function likePost(postId: string) {
   return await doRequest<{ postId: string }>(
     "/api/post/like",

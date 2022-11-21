@@ -6,13 +6,15 @@ import { Post } from "../types/post.type";
 import { User } from "../types/user.type";
 import { getAuthSession } from "../utils/storage";
 import doRequest from "./request";
+import Collection from "../types/collection.type";
 
 export async function searchPosts({
   search = "",
   userId = "",
   collectionId = "",
   limit = 16,
-  cursorId = "", // cursorId
+  cursorId = "",
+  recentOnly = false,
 }) {
   const params = new URLSearchParams({
     userId: (await getAuthSession()).userId,
@@ -21,23 +23,26 @@ export async function searchPosts({
     collectionId,
     limit: limit.toString(),
     cursorId,
+    recentOnly: recentOnly.toString(),
   });
 
   return await doRequest<{ posts: Post[]; nextCursorId: string }>(
-    `/api/post/search?${params.toString()}`,
+    `https://daydream.wtf/api/post/search?${params.toString()}`,
     null,
     "GET"
   );
 }
 
-export async function getUser(userId = "") {
+// You can provide either a userId or a userName
+export async function getUser({ userId = "", userName = "" }) {
   const params = new URLSearchParams({
     userId: (await getAuthSession()).userId,
-    searchUserId: userId || (await getAuthSession()).userId,
+    searchUserId: userId,
+    userName: userName,
   });
 
   return await doRequest<User>(
-    `/api/user/get?${params.toString()}`,
+    `https://daydream.wtf/api/user/get?${params.toString()}`,
     null,
     "GET"
   );
@@ -45,7 +50,25 @@ export async function getUser(userId = "") {
 
 export async function authenticateUser() {
   return await doRequest<{ message: string }>(
-    `/api/user/auth?userId=${(await getAuthSession()).userId}`,
+    `https://daydream.wtf/api/user/auth?userId=${
+      (
+        await getAuthSession()
+      ).userId
+    }`,
+    null,
+    "GET"
+  );
+}
+
+export async function getCollections({ collectionId = "", userId = "" }) {
+  const params = new URLSearchParams({
+    userId: (await getAuthSession()).userId,
+    collectionId,
+    searchUserId: userId,
+  });
+
+  return await doRequest<{ collections: Collection[] }>(
+    `https://daydream.wtf/api/collection/get?${params.toString()}`,
     null,
     "GET"
   );
