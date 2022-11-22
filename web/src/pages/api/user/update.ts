@@ -90,7 +90,10 @@ async function uploadImage(image: string, res: NextApiResponse) {
       res.status(400).json({ error: "Invalid image" });
       return null;
     });
-  if (!resizedImage) return null;
+  if (!resizedImage) {
+    res.status(400).json({ error: "Invalid image" });
+    return null;
+  }
 
   const formData = new FormData();
   formData.append("image", resizedImage.toString("base64"));
@@ -114,6 +117,5 @@ async function uploadImage(image: string, res: NextApiResponse) {
     res.status(400).json({ error: "Image upload failed" });
     return null;
   }
-
   return data.link;
 }
