@@ -8,7 +8,7 @@ import { MdPermMedia, MdWallpaper } from "react-icons/md";
 import Button from "../../components/Inputs/Button";
 import CreatedCollectionList from "../../components/Layout/Profile/CreatedCollectionList";
 import CreatedImageList from "../../components/Layout/Profile/CreatedImageList";
-import ProfileImage from "../../components/Widgets/ProfileImage";
+import ProfileImage from "../../components/Surfaces/ProfileImage";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { getUser } from "../../requests/fetch";
 import { updateUser } from "../../requests/mutate";

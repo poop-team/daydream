@@ -1,8 +1,8 @@
 import { ChangeEvent } from "react";
 import { MdAccountCircle, MdEdit } from "react-icons/md";
 
-import CustomImage from "../CustomImage";
 import CircularProgress from "../Feedback/CircularProgress";
+import CustomImage from "./CustomImage";
 
 interface Props {
   image: string | null;

@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import { likePost, unlikePost } from "../../requests/mutate";
-import CustomImage from "../CustomImage";
 import ImageDialog from "../Dialogs/ImageDialog";
 import Author from "../Widgets/Author";
 import LikesCounter from "../Widgets/LikesCounter";
 import Card from "./Card";
+import CustomImage from "./CustomImage";
 
 interface Props {
   id: string;

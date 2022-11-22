@@ -12,10 +12,10 @@ import paths from "../../data/path";
 import useIsClient from "../../hooks/useIsClient";
 import { positionVariants, transitions } from "../../styles/motion-definitions";
 import { getAuthSession } from "../../utils/storage";
-import CustomImage from "../CustomImage";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
 import SearchBar from "../Inputs/SearchBar";
+import CustomImage from "../Surfaces/CustomImage";
 
 interface Props {
   searchValue: string;
