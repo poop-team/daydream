@@ -39,8 +39,8 @@ export default async function resetVerify(req: Request, res: NextApiResponse) {
         passwordHash,
       },
     })
-    .catch((e) => {
-      console.log(e);
+    .catch((e: Error) => {
+      console.error(e.message);
       return res.status(500).json({ error: "Password reset failed" });
     });
   //ideally we should be using refresh tokens to invalidate the old JWT token and force the user to login again from all devices

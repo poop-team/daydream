@@ -64,6 +64,7 @@ export default async function search(
             author: {
               select: {
                 name: true,
+                image: true,
                 id: true,
               },
             },
@@ -110,6 +111,7 @@ export default async function search(
         author: {
           select: {
             name: true,
+            image: true,
             id: true,
           },
         },

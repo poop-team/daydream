@@ -9,8 +9,10 @@ import {
 } from "react-icons/md";
 
 import paths from "../../data/path";
+import useIsClient from "../../hooks/useIsClient";
 import { positionVariants, transitions } from "../../styles/motion-definitions";
 import { getAuthSession } from "../../utils/storage";
+import CustomImage from "../CustomImage";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
 import SearchBar from "../Inputs/SearchBar";
@@ -24,6 +26,8 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Hooks
 
   const router = useRouter();
+
+  const isClient = useIsClient();
 
   const { scrollY } = useScroll();
 
@@ -60,8 +64,8 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   //#region Derived State
 
-  const userName =
-    typeof window !== "undefined" ? getAuthSession().userName : "";
+  const userName = isClient ? getAuthSession().userName : "";
+  const userAvatar = isClient ? getAuthSession().userAvatar : "";
 
   const isFeed = router.pathname === paths.feed;
   const isCreate = router.pathname === paths.create;
@@ -140,7 +144,22 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               className={"hidden sm:block"}
             >
               <LinkIconButton href={`/profile/${encodeURI(userName)}`}>
-                <MdAccountCircle className={"h-full w-10"} />
+                {userAvatar ? (
+                  <CustomImage
+                    src={userAvatar}
+                    alt="User Avatar"
+                    fill
+                    priority
+                    sizes={"2.5rem"}
+                    draggable={false}
+                    containerClassName={"relative h-10 w-10 rounded-full"}
+                    className={
+                      "absolute h-full w-full rounded-full object-cover"
+                    }
+                  />
+                ) : (
+                  <MdAccountCircle className={"h-full w-10"} />
+                )}
               </LinkIconButton>
             </motion.li>
           ) : (

@@ -7,6 +7,7 @@ export interface Post {
   author: {
     id: string;
     name: string;
+    image: string;
   };
   likes: Like[];
 }
