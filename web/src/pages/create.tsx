@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdArrowForward, MdAutoFixHigh, MdHistory } from "react-icons/md";
@@ -18,6 +19,8 @@ export default function Create() {
   //#region Hooks
 
   useAuthRedirect();
+
+  const router = useRouter();
 
   const [prompt, setPrompt] = useState("");
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
@@ -66,6 +69,13 @@ export default function Create() {
       };
     }
   }, [isCreating]);
+
+  useEffect(() => {
+    // Set the term to query if a query parameter is present in the URL.
+    if (!router.query.prompt) return;
+
+    setPrompt(router.query.prompt as string);
+  }, [router.query.prompt]);
 
   //#endregion
 
@@ -124,15 +134,17 @@ export default function Create() {
           />
         )}
       </Button>
-      <div className={`flex w-full flex-col`}>
-        <h2 className={"w-full text-center text-2xl font-bold sm:text-justify"}>
+      <div className={`mt-4 flex w-full flex-col sm:mt-8`}>
+        <h2 className={"w-full text-center text-2xl font-bold"}>
           Recently Created <MdHistory className={"inline-block h-full w-9"} />
         </h2>
-        <ImageList
-          arePostsLoading={areRecentPostsLoading}
-          posts={recentPostsData?.posts}
-          className={"py-8"}
-        />
+        <div className={"py-8"}>
+          <ImageList
+            arePostsLoading={areRecentPostsLoading}
+            posts={recentPostsData?.posts ?? []}
+            noPostsMessage={"Nothing yet. Create one!"}
+          />
+        </div>
       </div>
     </main>
   );

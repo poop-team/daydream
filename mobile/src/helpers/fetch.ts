@@ -27,7 +27,7 @@ export async function searchPosts({
   });
 
   return await doRequest<{ posts: Post[]; nextCursorId: string }>(
-    `/api/post/search?${params.toString()}`,
+    `https://daydream.wtf/api/post/search?${params.toString()}`,
     null,
     "GET"
   );
@@ -41,7 +41,7 @@ export async function getUser(userId) {
   });
 
   return await doRequest<User>(
-    `/api/user/get?${params.toString()}`,
+    `https://daydream.wtf/api/user/get?${params.toString()}`,
     null,
     "GET"
   );
@@ -49,7 +49,25 @@ export async function getUser(userId) {
 
 export async function authenticateUser() {
   return await doRequest<{ message: string }>(
-    `/api/user/auth?userId=${(await getAuthSession()).userId}`,
+    `https://daydream.wtf/api/user/auth?userId=${
+      (
+        await getAuthSession()
+      ).userId
+    }`,
+    null,
+    "GET"
+  );
+}
+
+export async function getCollections({ collectionId = "", userId = "" }) {
+  const params = new URLSearchParams({
+    userId: (await getAuthSession()).userId,
+    collectionId,
+    searchUserId: userId,
+  });
+
+  return await doRequest<{ collections: Collection[] }>(
+    `https://daydream.wtf/api/collection/get?${params.toString()}`,
     null,
     "GET"
   );

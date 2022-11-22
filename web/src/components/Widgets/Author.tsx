@@ -31,8 +31,7 @@ export default function Author({
       </div>
       <p className={"overflow-hidden text-ellipsis whitespace-nowrap"}>
         By{" "}
-        {/* TODO: Update this link when we know what the slug will look like */}
-        <Link href={`/profile/${authorName}`}>
+        <Link href={`/profile/${encodeURI(authorName)}`}>
           <a
             className={
               "inline text-inherit transition duration-200 ease-out hover:text-indigo-700 focus-visible:outline-none"
