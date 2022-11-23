@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -8,6 +9,7 @@ import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
 import useAuthRedirect from "../hooks/useAuthRedirect";
 import { login, register } from "../requests/mutate";
+import { transitionVariants } from "../styles/motion-definitions";
 import { storeAuthSession } from "../utils/storage";
 
 export default function AuthPage() {
@@ -101,7 +103,14 @@ export default function AuthPage() {
   //#endregion
 
   return (
-    <main className="flex h-screen flex-col items-center justify-center gap-8 p-4">
+    <motion.main
+      className={"flex h-screen flex-col items-center justify-center gap-8 p-4"}
+      initial={"fadeOut"}
+      animate={"fadeIn"}
+      exit={"fadeOut"}
+      custom={0.4}
+      variants={transitionVariants}
+    >
       <div className="flex gap-4">
         <Button
           variant={isLogin ? "filled" : "text"}
@@ -191,6 +200,6 @@ export default function AuthPage() {
           )}
         </Button>
       </form>
-    </main>
+    </motion.main>
   );
 }

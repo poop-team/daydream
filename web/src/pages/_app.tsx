@@ -2,6 +2,7 @@ import "tailwindcss/tailwind.css";
 import "../styles/globals.css";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AnimatePresence } from "framer-motion";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useState } from "react";
@@ -27,7 +28,9 @@ function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <TopNav searchValue={searchValue} setSearchValue={setSearchValue} />
-        <Component searchValue={searchValue} {...pageProps} />
+        <AnimatePresence mode={"popLayout"}>
+          <Component searchValue={searchValue} {...pageProps} />
+        </AnimatePresence>
         <BottomNav />
         <Toaster
           position={"bottom-center"}
