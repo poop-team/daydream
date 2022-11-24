@@ -4,7 +4,7 @@ import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { iconVariants } from "../../styles/motion-definitions";
 
 interface Props {
-  theme: "light" | "dark";
+  theme: string;
 }
 
 export default function ThemeIcon({ theme }: Props) {
