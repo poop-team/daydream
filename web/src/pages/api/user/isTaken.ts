@@ -1,24 +1,28 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { e } from "vitest/dist/index-40e0cb97";
 
 import { prisma } from "../../../server/db/client";
 
-// eslint-disable-next-line prettier/prettier
-export default async function isTaken(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    const { username } = req.query;
+export default function isTaken(req: NextApiRequest, res: NextApiResponse) {
+  const { username } = req.query;
 
-    const user = await prisma.user.findFirst({
+  if (username && typeof username !== "string") {
+    return res.status(400).json({ error: "Invalid username" });
+  }
+
+  prisma.user
+    .findFirst({
       where: {
         name: username as string,
       },
+    })
+    .then((user) => {
+      if (user) {
+        res.status(200).json({ isTaken: true });
+      } else {
+        res.status(200).json({ isTaken: false });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: "Internal database error" });
     });
-    if (!user) {
-      return res.status(400).json("Username taken");
-    } else {
-      res.status(200).json("Username free");
-    }
-  } catch (err) {
-    res.status(500).json(err);
-  }
 }
