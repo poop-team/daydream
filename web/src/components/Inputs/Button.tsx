@@ -45,7 +45,7 @@ export default function Button({
   if (isDisabled) {
     // Disabled Style
     baseStyle +=
-      " cursor-not-allowed text-slate-50 bg-indigo-900/80 dark:text-slate-900 dark:bg-indigo-50/80";
+      " cursor-not-allowed text-slate-50 bg-indigo-900/80 dark:text-slate-900 dark:bg-indigo-100/80";
   } else if (variant === "text") {
     // Text Style
     baseStyle +=
@@ -54,7 +54,7 @@ export default function Button({
     // Contained Style
     baseStyle +=
       " text-slate-50 bg-indigo-900 hover:bg-indigo-700 focus-visible:bg-indigo-700 active:scale-[96%]" +
-      " dark:text-slate-900 dark:bg-indigo-100 dark:hover:bg-indigo-300 dark:focus-visible:bg-indigo-300";
+      " dark:text-slate-900 dark:bg-indigo-200 dark:hover:bg-indigo-400 dark:focus-visible:bg-indigo-400";
   }
 
   //#endregion

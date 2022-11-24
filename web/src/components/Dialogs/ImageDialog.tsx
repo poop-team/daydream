@@ -1,11 +1,17 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { MdFavorite, MdFavoriteBorder, MdLibraryAdd } from "react-icons/md";
+import {
+  MdFavorite,
+  MdFavoriteBorder,
+  MdLibraryAdd,
+  MdOpenInNew,
+} from "react-icons/md";
 
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { transitions } from "../../styles/motion-definitions";
 import Button from "../Inputs/Button";
 import IconButton from "../Inputs/IconButton";
+import LinkIconButton from "../Inputs/LinkIconButton";
 import Card from "../Surfaces/Card";
 import CustomImage from "../Surfaces/CustomImage";
 import Author from "../Widgets/Author";
@@ -17,6 +23,7 @@ interface Props {
   id: string;
   src: string;
   prompt: string;
+  promptPreview: string;
   likes: number;
   isLiked: boolean;
   onLikedChange: (isLiked: boolean) => void;
@@ -30,6 +37,7 @@ export default function ImageDialog({
   id,
   src,
   prompt,
+  promptPreview,
   likes,
   isLiked,
   onLikedChange,
@@ -56,25 +64,41 @@ export default function ImageDialog({
 
   //#endregion
 
+  //#region Derived
+
+  const downloadLink = src.replace("_compressed", "");
+
+  //#endregion
+
   return (
     <StyledDialog isOpen={isOpen} onClose={handleDialogClose}>
       <Card
         className={
           "relative flex max-h-[90vh] w-full flex-col overflow-hidden bg-slate-100 dark:bg-slate-800 md:aspect-video md:flex-row"
         }
-        // onClick={() => setIsAddToCollectionPanelOpen(false)}
       >
-        {/* Big Image */}
-        <CustomImage
-          src={src}
-          alt={prompt}
-          fill
-          priority
-          quality={90}
-          sizes={"(max-width: 768px) 100vw, 50vw"}
-          containerClassName={"relative aspect-square"}
-          className={"object-cover"}
-        />
+        <div className={"group relative aspect-square"}>
+          {/* Download button */}
+          <div
+            className={`absolute -left-20 z-10 flex items-center justify-center rounded-br-lg bg-slate-100/80 px-4 py-2 
+            text-4xl opacity-0 transition-all duration-200 ease-out group-hover:left-0 group-hover:opacity-100 group-focus:left-0 group-focus:opacity-100 dark:bg-slate-800/80`}
+          >
+            <LinkIconButton href={downloadLink} target={"_blank"}>
+              <MdOpenInNew />
+            </LinkIconButton>
+          </div>
+          {/* Big Image */}
+          <CustomImage
+            src={src}
+            alt={prompt}
+            fill
+            priority
+            quality={90}
+            sizes={"(max-width: 768px) 100vw, 50vw"}
+            className={"object-cover"}
+            onClick={() => setIsAddToCollectionPanelOpen(false)}
+          />
+        </div>
         {/* Right Content Panel */}
         <div
           className={

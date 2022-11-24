@@ -1,18 +1,23 @@
 import Link from "next/link";
-import { ReactNode } from "react";
+import { AnchorHTMLAttributes, ReactNode } from "react";
 
 import IconButton from "./IconButton";
 
-interface Props {
+interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
   className?: string;
   children?: ReactNode;
 }
 
-export default function LinkIconButton({ href, className, children }: Props) {
+export default function LinkIconButton({
+  href,
+  className,
+  children,
+  ...props
+}: Props) {
   return (
     <Link href={href}>
-      <a draggable={false}>
+      <a draggable={false} {...props}>
         <IconButton
           aria-label={`Navigate to ${href.replace("/", "")}`}
           className={className}

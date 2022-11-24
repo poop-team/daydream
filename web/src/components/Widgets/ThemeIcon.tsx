@@ -1,18 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
-const iconVariants = {
-  hidden: {
-    opacity: 0,
-    scale: 0.6,
-    transition: { duration: 0.1, ease: "easeOut" },
-  },
-  shown: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.1, ease: "easeOut" },
-  },
-};
+import { iconVariants } from "../../styles/motion-definitions";
 
 interface Props {
   theme: "light" | "dark";
