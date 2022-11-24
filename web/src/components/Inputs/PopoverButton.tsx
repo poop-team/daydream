@@ -1,4 +1,10 @@
-import { flip, offset, shift, useFloating } from "@floating-ui/react-dom";
+import {
+  flip,
+  offset,
+  Placement,
+  shift,
+  useFloating,
+} from "@floating-ui/react-dom";
 import { Popover } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ElementType, HTMLAttributes, ReactNode } from "react";
@@ -12,6 +18,7 @@ interface Props {
   button: ElementType;
   buttonProps?: HTMLAttributes<HTMLButtonElement>;
   buttonChildren?: ReactNode;
+  popoverPlacement?: Placement;
   className?: string;
   rotateButtonOnOpen?: boolean;
   children(props: { open: boolean; close: () => void }): ReactNode;
@@ -21,6 +28,7 @@ export default function PopoverButton({
   button,
   buttonProps,
   buttonChildren,
+  popoverPlacement = "bottom",
   className = "",
   rotateButtonOnOpen = false,
   children,
@@ -29,8 +37,8 @@ export default function PopoverButton({
 
   const { x, y, reference, floating, strategy } = useFloating({
     strategy: "absolute",
-    placement: "bottom",
-    middleware: [offset(8), shift(), flip()],
+    placement: popoverPlacement,
+    middleware: [offset(10), shift(), flip()],
   });
 
   //#endregion
@@ -65,7 +73,7 @@ export default function PopoverButton({
                     left: x ?? 0,
                   }}
                   className={
-                    "w-max rounded-xl bg-slate-200/90 p-2 shadow-md backdrop-blur-md"
+                    "w-max rounded-xl bg-slate-200/90 p-2 shadow-md backdrop-blur-md dark:bg-slate-800/90"
                   }
                 >
                   {children({ open, close })}

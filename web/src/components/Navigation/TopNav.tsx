@@ -109,7 +109,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <LinkIconButton href={"/feed"}>
+              <LinkIconButton href={paths.feed}>
                 <MdHome className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
@@ -183,6 +183,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               <PopoverButton
                 button={IconButton}
                 buttonChildren={<MdSettings className={"h-full w-10"} />}
+                popoverPlacement={"bottom-end"}
                 rotateButtonOnOpen={true}
               >
                 {({ close }) => (

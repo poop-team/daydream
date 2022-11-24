@@ -155,9 +155,9 @@ export default function Profile() {
                 variants={transitionVariants}
                 className={"flex flex-col items-center gap-4 md:gap-8"}
               >
-                <div className="h-48 w-48 animate-pulse rounded-full bg-slate-300" />
-                <div className="h-8 w-24 animate-pulse rounded-full bg-slate-300" />
-                <div className="h-6 w-24 animate-pulse rounded-full bg-slate-300" />
+                <div className="h-48 w-48 animate-pulse rounded-full bg-slate-300 dark:bg-slate-700" />
+                <div className="h-8 w-24 animate-pulse rounded-full bg-slate-300 dark:bg-slate-700" />
+                <div className="h-6 w-24 animate-pulse rounded-full bg-slate-300 dark:bg-slate-700" />
               </motion.div>
             )}
           </AnimatePresence>

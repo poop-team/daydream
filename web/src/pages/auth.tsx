@@ -131,10 +131,10 @@ export default function AuthPage() {
       >
         {isRegister && (
           <TextField
-            label="Name:"
+            label={"Name:"}
             value={name}
             autoComplete={"name"}
-            placeholder="Enter your name here..."
+            placeholder={"Enter your name here..."}
             error={nameInvalid}
             helperText={nameHelperText}
             disabled={isLoading}
@@ -143,7 +143,7 @@ export default function AuthPage() {
           />
         )}
         <TextField
-          label="Email:"
+          label={"Email:"}
           value={email}
           autoComplete={"email"}
           placeholder="Enter your email address..."
@@ -154,11 +154,11 @@ export default function AuthPage() {
           className={"w-full"}
         />
         <TextField
-          label="Password:"
-          type="password"
+          label={"Password:"}
+          type={"password"}
           value={password}
           autoComplete={isLogin ? "current-password" : "new-password"}
-          placeholder="Enter your password..."
+          placeholder={"Enter your password..."}
           error={passwordInvalid}
           helperText={passwordHelperText}
           disabled={isLoading}
@@ -167,11 +167,11 @@ export default function AuthPage() {
         />
         {isRegister && (
           <TextField
-            label="Confirm Password:"
-            type="password"
+            label={"Confirm Password:"}
+            type={"password"}
             value={confirmPassword}
             autoComplete={"off"}
-            placeholder="Confirm your password..."
+            placeholder={"Confirm your password..."}
             error={confirmPasswordInvalid}
             helperText={confirmPasswordHelperText}
             disabled={isLoading}

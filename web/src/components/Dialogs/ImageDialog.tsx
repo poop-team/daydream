@@ -60,7 +60,7 @@ export default function ImageDialog({
     <StyledDialog isOpen={isOpen} onClose={handleDialogClose}>
       <Card
         className={
-          "relative flex max-h-[90vh] w-full flex-col overflow-hidden bg-slate-100 md:aspect-video md:flex-row"
+          "relative flex max-h-[90vh] w-full flex-col overflow-hidden bg-slate-100 dark:bg-slate-800 md:aspect-video md:flex-row"
         }
         // onClick={() => setIsAddToCollectionPanelOpen(false)}
       >

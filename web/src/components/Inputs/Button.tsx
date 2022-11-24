@@ -54,7 +54,7 @@ export default function Button({
     // Contained Style
     baseStyle +=
       " text-slate-50 bg-indigo-900 hover:bg-indigo-700 focus-visible:bg-indigo-700 active:scale-[96%]" +
-      " dark:text-slate-900 dark:bg-indigo-50 dark:hover:bg-indigo-300 dark:focus-visible:bg-indigo-300";
+      " dark:text-slate-900 dark:bg-indigo-100 dark:hover:bg-indigo-300 dark:focus-visible:bg-indigo-300";
   }
 
   //#endregion
