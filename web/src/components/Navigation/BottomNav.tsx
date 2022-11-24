@@ -41,7 +41,7 @@ export default function BottomNav() {
           <MdAddCircle className={"h-8 w-full"} />
         </BottomNavLinkItem>
         <BottomNavLinkItem
-          selected={isProfile && router.query.id === userName}
+          selected={isProfile && router.query.name === userName}
           href={`${paths.profile}/${encodeURI(userName ?? "")}`}
         >
           {userAvatar ? (

@@ -76,7 +76,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   const isFeed = router.pathname === paths.feed;
   const isCreate = router.pathname === paths.create;
   const isProfile = router.pathname.startsWith(paths.profile);
-  const isOwnProfile = isProfile && router.query.id === userName;
+  const isOwnProfile = isProfile && router.query.name === userName;
   const isAuth = router.pathname == paths.auth;
 
   //#endregion
