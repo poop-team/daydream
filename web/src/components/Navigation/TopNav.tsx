@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   MdAccountCircle,
   MdAddCircle,
@@ -10,6 +10,7 @@ import {
   MdSettings,
 } from "react-icons/md";
 
+import ThemeContext from "../../context/ThemeContext";
 import paths from "../../data/path";
 import useIsClient from "../../hooks/useIsClient";
 import { positionVariants, transitions } from "../../styles/motion-definitions";
@@ -30,6 +31,8 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Hooks
 
   const router = useRouter();
+
+  const { currentTheme, changeCurrentTheme } = useContext(ThemeContext);
 
   const isClient = useIsClient();
 
@@ -81,7 +84,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Styles
 
   let navStyles =
-    "fixed top-0 z-10 h-14 w-full rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md";
+    "fixed top-0 z-10 h-14 w-full rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md dark:bg-slate-900/70";
   navStyles += isAuth ? " hidden" : ""; // Hide on auth pages.
   navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
@@ -184,7 +187,11 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
                   <div className={"flex flex-col gap-1"}>
                     <Button
                       variant={"text"}
-                      onClick={() => {}}
+                      onClick={() => {
+                        changeCurrentTheme(
+                          currentTheme === "light" ? "dark" : "light"
+                        );
+                      }}
                       className={"w-full !justify-start"}
                     >
                       <MdDarkMode />
