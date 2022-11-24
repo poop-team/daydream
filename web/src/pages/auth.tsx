@@ -27,7 +27,7 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const debouncedUserName = useDebounce(userName, 250);
+  const debouncedUserName = useDebounce(userName, 200);
 
   const { data: isUserNameTaken, isLoading: isCheckingUserName } = useQuery({
     queryKey: ["auth_user_name_taken", debouncedUserName],
@@ -92,13 +92,12 @@ export default function AuthPage() {
   const emailInvalid =
     (email.trim() === "" || !email.includes("@")) && isRegister;
   const emailHelperText = emailInvalid ? "Invalid email" : "";
-  const userNameInvalid =
-    userName.trim() === "" || (isUserNameTaken && !isCheckingUserName);
+  const userNameInvalid = userName.trim() === "" || isUserNameTaken;
   const userNameHelperText =
     userName.trim() === ""
-      ? "Name cannot be empty"
-      : isUserNameTaken && !isCheckingUserName
-      ? "Username taken"
+      ? "Username cannot be empty"
+      : isUserNameTaken
+      ? "Already taken by another user 😞"
       : "";
   const passwordInvalid = password.length < 8 && isRegister;
   const passwordHelperText = passwordInvalid
@@ -112,11 +111,14 @@ export default function AuthPage() {
 
   const isLoading = isLoggingIn || isRegistering;
   const isDisabled = isLogin
-    ? email.trim() === "" || password.trim() === "" // Login
-    : userNameInvalid ||
+    ? // Login
+      email.trim() === "" || password.trim() === ""
+    : // Register
+      isCheckingUserName ||
+      userNameInvalid ||
       emailInvalid ||
       passwordInvalid ||
-      confirmPasswordInvalid; // Register
+      confirmPasswordInvalid;
 
   //#endregion
 
@@ -149,10 +151,10 @@ export default function AuthPage() {
       >
         {isRegister && (
           <TextField
-            label={"Name:"}
+            label={"Username:"}
             value={userName}
-            autoComplete={"name"}
-            placeholder={"Enter your name here..."}
+            autoComplete={"username"}
+            placeholder={"Enter your username here..."}
             error={userNameInvalid}
             helperText={userNameHelperText}
             disabled={isLoading}

@@ -12,7 +12,10 @@ export default function isTaken(req: NextApiRequest, res: NextApiResponse) {
   prisma.user
     .findFirst({
       where: {
-        name: userName as string,
+        name: {
+          equals: userName,
+          mode: "insensitive",
+        },
       },
     })
     .then((user) => {

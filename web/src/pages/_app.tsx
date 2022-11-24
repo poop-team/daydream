@@ -39,7 +39,7 @@ function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
             containerClassName={"!bottom-16 !select-none !text-center"}
             gutter={16}
             toastOptions={{
-              duration: 50000,
+              duration: 5000,
               className:
                 "!bg-slate-900/80 !text-slate-50 !backdrop-blur-md dark:!bg-slate-100/90 dark:!text-slate-900",
               success: {
