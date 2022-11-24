@@ -78,8 +78,8 @@ export default async function update(req: Request, res: NextApiResponse) {
 
 async function uploadImage(image: string, res: NextApiResponse) {
   // Resize and compress the image before uploading it to imgur
-  // Sharp will resize  both images and animated gifs
-  const uri = image.split(";base64,").pop() as string;
+  // Sharp will resize both images and animated gifs
+  const uri = image.split(";base64,").at(-1) as string;
   const resizedImage = await sharp(Buffer.from(uri, "base64"), {
     animated: true,
   })
