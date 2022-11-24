@@ -1,7 +1,7 @@
 import {
+  type Placement,
   flip,
   offset,
-  Placement,
   shift,
   useFloating,
 } from "@floating-ui/react-dom";
