@@ -4,7 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import {
   MdAccountCircle,
   MdAddCircle,
-  MdDarkMode,
   MdHome,
   MdLogout,
   MdSettings,
@@ -21,6 +20,7 @@ import LinkIconButton from "../Inputs/LinkIconButton";
 import PopoverButton from "../Inputs/PopoverButton";
 import SearchBar from "../Inputs/SearchBar";
 import CustomImage from "../Surfaces/CustomImage";
+import ThemeIcon from "../Widgets/ThemeIcon";
 
 interface Props {
   searchValue: string;
@@ -84,7 +84,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Styles
 
   let navStyles =
-    "fixed top-0 z-10 h-14 w-full rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md dark:bg-slate-900/70";
+    "fixed top-0 z-10 h-14 w-full rounded-b-lg bg-slate-50/70 px-4 backdrop-blur-md dark:bg-slate-900/70";
   navStyles += isAuth ? " hidden" : ""; // Hide on auth pages.
   navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
@@ -149,7 +149,9 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <LinkIconButton href={`/profile/${encodeURI(userName ?? "")}`}>
+              <LinkIconButton
+                href={`${paths.profile}/${encodeURI(userName ?? "")}`}
+              >
                 {userAvatar ? (
                   <CustomImage
                     src={userAvatar}
@@ -194,8 +196,8 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
                       }}
                       className={"w-full !justify-start"}
                     >
-                      <MdDarkMode />
-                      Toggle Theme
+                      <ThemeIcon theme={currentTheme} />
+                      {currentTheme === "light" ? "Dark" : "Light"} Mode
                     </Button>
                     <Button
                       variant={"text"}

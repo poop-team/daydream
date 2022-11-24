@@ -38,20 +38,23 @@ export default function Button({
   //#region Styles
 
   let baseStyle =
-    "flex select-none items-center justify-center rounded-full gap-2 px-4 py-2 transition duration-200 ease-out " +
-    "active:duration-300 focus-visible:ring-4 focus-visible:ring-indigo-300/90 ring-inset outline-none group";
+    "flex select-none items-center justify-center rounded-full gap-2 px-4 py-2 transition duration-200 ease-out" +
+    " active:duration-300 focus-visible:ring-4 focus-visible:ring-indigo-300/90 ring-inset outline-none group" +
+    " dark:focus-visible:ring-indigo-600/90";
 
   if (isDisabled) {
     // Disabled Style
-    baseStyle += " cursor-not-allowed text-slate-50 bg-indigo-900/80";
+    baseStyle +=
+      " cursor-not-allowed text-slate-50 bg-indigo-900/80 dark:text-slate-900 dark:bg-indigo-50/80";
   } else if (variant === "text") {
     // Text Style
     baseStyle +=
-      " hover:bg-slate-300 focus-visible:bg-slate-300 active:scale-[96%]";
+      " hover:bg-slate-300 focus-visible:bg-slate-300 active:scale-[96%] dark:hover:bg-slate-700 dark:focus-visible:bg-slate-700";
   } else {
     // Contained Style
     baseStyle +=
-      " text-slate-50 bg-indigo-900 hover:bg-indigo-700 focus-visible:bg-indigo-700 active:scale-[96%]";
+      " text-slate-50 bg-indigo-900 hover:bg-indigo-700 focus-visible:bg-indigo-700 active:scale-[96%]" +
+      " dark:text-slate-900 dark:bg-indigo-50 dark:hover:bg-indigo-300 dark:focus-visible:bg-indigo-300";
   }
 
   //#endregion
