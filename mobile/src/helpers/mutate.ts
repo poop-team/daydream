@@ -6,6 +6,7 @@ import doRequest from "./request";
 import { getAuthSession } from "../utils/storage";
 import { AuthSession } from "../types/auth.type";
 import { CreatedPost } from "../types/post.type";
+import { User } from "../types/user.type";
 
 export async function login(email: string, password: string) {
   return await doRequest<AuthSession>(
@@ -27,6 +28,18 @@ export async function register(name: string, email: string, password: string) {
       name,
       email,
       password,
+    },
+    "POST"
+  );
+}
+
+export async function updateUser(image = "", userName = "") {
+  return await doRequest<User>(
+    "https://daydream.wtf/api/user/update",
+    {
+      userId: (await getAuthSession()).userId,
+      image,
+      userName,
     },
     "POST"
   );

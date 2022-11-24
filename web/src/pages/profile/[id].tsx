@@ -1,16 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { toast } from "react-hot-toast";
-import { MdAccountCircle, MdPermMedia, MdWallpaper } from "react-icons/md";
+import { MdPermMedia, MdWallpaper } from "react-icons/md";
 
-import CustomImage from "../../components/CustomImage";
 import Button from "../../components/Inputs/Button";
 import CreatedCollectionList from "../../components/Layout/Profile/CreatedCollectionList";
 import CreatedImageList from "../../components/Layout/Profile/CreatedImageList";
+import ProfileImage from "../../components/Surfaces/ProfileImage";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { getUser } from "../../requests/fetch";
+import { updateUser } from "../../requests/mutate";
 import { transitionVariants } from "../../styles/motion-definitions";
 import { getAuthSession } from "../../utils/storage";
 
@@ -24,7 +25,11 @@ export default function Profile() {
   const [view, setView] = useState<"created" | "collections">("created");
   const [isSelf, setIsSelf] = useState(false); // Tracks if the user is viewing their own profile
 
-  const { data: profileData, isLoading: isProfileLoading } = useQuery({
+  const {
+    data: profileData,
+    isLoading: isProfileLoading,
+    refetch: refetchProfile,
+  } = useQuery({
     queryKey: ["user_profile", router.query.id],
     queryFn: () => getUser({ userName: router.query.id as string }),
     onSuccess: (user) => {
@@ -36,12 +41,55 @@ export default function Profile() {
     enabled: !!router.query.id,
   });
 
+  const { mutate: updateProfile, isLoading: isUpdatingProfile } = useMutation({
+    mutationKey: ["update_profile"],
+    mutationFn: updateUser,
+    onSuccess: (user) => {
+      toast.success("Profile updated");
+      localStorage.setItem("userName", user.name);
+      localStorage.setItem("userAvatar", user.image ?? "");
+      void refetchProfile();
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
+
   //#endregion
 
   //#region Handlers
 
   const handleViewChange = (view: "created" | "collections") => {
     setView(view);
+  };
+
+  const handleUpdateImage = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+    if (
+      file.type !== "image/jpeg" &&
+      file.type !== "image/png" &&
+      file.type !== "image/gif"
+    ) {
+      return toast.error(
+        "Invalid image type. Only jpg, png and gif are allowed."
+      );
+    }
+
+    // Read content and send to api
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      if (!fileReader.result) {
+        return toast.error("Could not read file.");
+      }
+      if (fileReader.result.toString().length > 8 * 1024 * 1024) {
+        return toast.error("Image size is too large. Max size is 8MB.");
+      }
+
+      updateProfile(fileReader.result.toString());
+    };
   };
 
   //#endregion
@@ -64,17 +112,12 @@ export default function Profile() {
             variants={transitionVariants}
             className={"flex flex-col items-center gap-4 md:gap-8"}
           >
-            {profileData.image ? (
-              <CustomImage
-                className="h-48 w-48 rounded-full object-cover"
-                src={profileData.image}
-                alt="name"
-              />
-            ) : (
-              <div className="h-48 w-48">
-                <MdAccountCircle className="h-full w-full text-slate-800" />
-              </div>
-            )}
+            <ProfileImage
+              image={profileData.image}
+              onImageChange={handleUpdateImage}
+              isSelf={isSelf}
+              isLoading={isUpdatingProfile}
+            />
             <p className="text-xl font-medium">@{profileData.name}</p>
             <div className="flex select-none gap-2 text-lg">
               <p className="flex items-center gap-1">

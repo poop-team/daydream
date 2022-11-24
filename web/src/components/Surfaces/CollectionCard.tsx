@@ -3,9 +3,9 @@ import { HTMLAttributes, useState } from "react";
 
 import { transitions } from "../../styles/motion-definitions";
 import { Post } from "../../types/post.type";
-import CustomImage from "../CustomImage";
 import LinearProgress from "../Feedback/LinearProgress";
 import Card from "./Card";
+import CustomImage from "./CustomImage";
 
 const variants = {
   initial: {

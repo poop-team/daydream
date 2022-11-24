@@ -24,7 +24,7 @@
     "react-dom": "18.2.0",
     "react-hot-toast": "2.4.0",
     "react-icons": "4.6.0",
-    "sharp": "0.31.1",
+    "sharp": "0.31.2",
     "zod": "3.19.1"
   },
   "devDependencies": {
@@ -40,6 +40,7 @@
     "@types/node": "18.11.2",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
+    "@types/sharp": "0.31.0",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "@vitejs/plugin-react": "2.1.0",

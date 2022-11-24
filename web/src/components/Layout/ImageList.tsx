@@ -55,7 +55,7 @@ export default function ImageList({
                       src={post.imageURL}
                       prompt={post.prompt}
                       authorName={post.author.name}
-                      authorAvatar={undefined}
+                      authorAvatar={post.author.image}
                       likes={post.likes.length}
                       isLiked={
                         !!post.likes.find(
