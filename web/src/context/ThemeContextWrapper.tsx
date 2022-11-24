@@ -5,7 +5,7 @@ import ThemeContext from "./ThemeContext";
 export default function ThemeContextWrapper({ children }: PropsWithChildren) {
   //#region Hooks
 
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState("");
 
   useEffect(() => {
     const theme = localStorage.getItem("theme") as "light" | "dark";
@@ -20,7 +20,7 @@ export default function ThemeContextWrapper({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (theme === "light") document.documentElement.classList.remove("dark");
-    else document.documentElement.classList.add("dark");
+    else if (theme === "dark") document.documentElement.classList.add("dark");
   }, [theme]);
 
   //#endregion

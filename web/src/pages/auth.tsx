@@ -39,7 +39,7 @@ export default function AuthPage() {
     onSuccess: (data) => {
       storeAuthSession(data);
       // Redirect to the previous page. If there is no previous page, it will redirect to the feed.
-      void router.back();
+      router.back();
     },
     onError: (err: Error) => {
       toast.error(err.message);
