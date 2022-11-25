@@ -26,9 +26,17 @@ export async function searchPosts({
   });
 
   return await doRequest<{ posts: Post[]; nextCursorId: string }>(
-    `https://project.up.railway.app/api/post/search?${params.toString()}`,
-    null,
-    "GET"
+    `https://project.up.railway.app/api/post/search?`,
+    {
+      userId: (await getAuthSession()).userId,
+      search,
+      searchUserId: userId,
+      collectionId,
+      limit: limit.toString(),
+      cursorId,
+      recentOnly: recentOnly.toString(),
+    },
+    "POST"
   );
 }
 
