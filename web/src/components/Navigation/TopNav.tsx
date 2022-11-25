@@ -71,7 +71,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   //#region Derived State
 
-  const { userName, userAvatar } = (isClient && getAuthSession()) || {};
+  const { userName = "", userAvatar } = (isClient && getAuthSession()) || {};
 
   const isFeed = router.pathname === paths.feed;
   const isCreate = router.pathname === paths.create;
@@ -149,9 +149,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <LinkIconButton
-                href={`${paths.profile}/${encodeURI(userName ?? "")}`}
-              >
+              <LinkIconButton href={`${paths.profile}/${encodeURI(userName)}`}>
                 {userAvatar ? (
                   <CustomImage
                     src={userAvatar}
