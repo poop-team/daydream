@@ -3,6 +3,7 @@
  */
 import { AuthSession } from "../types/auth.type";
 import { CreatedPost } from "../types/post.type";
+import { User } from "../types/user.type";
 import { getAuthSession } from "../utils/storage";
 import doRequest from "./request";
 
@@ -26,6 +27,18 @@ export async function register(name: string, email: string, password: string) {
       name,
       email,
       password,
+    },
+    "POST"
+  );
+}
+
+export async function updateUser(image = "", userName = "") {
+  return await doRequest<User>(
+    "/api/user/update",
+    {
+      userId: getAuthSession().userId,
+      image,
+      userName,
     },
     "POST"
   );
@@ -69,6 +82,17 @@ export async function removePostFromCollection(
       collectionId,
     },
     "DELETE"
+  );
+}
+
+export async function createCollection(collectionName: string) {
+  return await doRequest<{ collectionId: string }>(
+    "/api/collection/create",
+    {
+      userId: getAuthSession().userId,
+      collectionName,
+    },
+    "POST"
   );
 }
 

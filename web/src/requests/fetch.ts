@@ -33,10 +33,12 @@ export async function searchPosts({
   );
 }
 
-export async function getUser(userId = getAuthSession().userId) {
+// You can provide either a userId or a userName
+export async function getUser({ userId = "", userName = "" }) {
   const params = new URLSearchParams({
     userId: getAuthSession().userId,
     searchUserId: userId,
+    userName: userName,
   });
 
   return await doRequest<User>(
@@ -54,7 +56,7 @@ export async function authenticateUser() {
   );
 }
 
-export async function getCollection({ collectionId = "", userId = "" }) {
+export async function getCollections({ collectionId = "", userId = "" }) {
   const params = new URLSearchParams({
     userId: getAuthSession().userId,
     collectionId,

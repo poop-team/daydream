@@ -10,18 +10,18 @@ datasource db {
 
 model User {
   id               String       @id @default(cuid())
-  name             String?
-  email            String?      @unique
+  name             String       @unique
+  email            String       @unique
   emailVerified    DateTime?
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
   image            String?
+  passwordHash     String
   savedCollections Collection[] @relation("savedCollections")
   collections      Collection[]
   likes            Like[]
   posts            Post[]       @relation("allPosts")
   savedPosts       Post[]       @relation("savedPosts")
-  passwordHash     String
 }
 
 model VerificationToken {

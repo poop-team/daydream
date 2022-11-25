@@ -12,6 +12,8 @@ export const serverSchema = z.object({
   X_API_KEY: z.string(),
   DIFFUSION_URL: z.string(),
   JWT_PRIVATE_KEY: z.string(),
+  JWT_RESET_PRIVATE_KEY: z.string(),
+  IMGUR_CLIENT_ID: z.string(),
 });
 
 /**

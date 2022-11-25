@@ -22,13 +22,18 @@ export default async function create(req: Request, res: NextApiResponse) {
     return res.status(400).json("No collection name specified in request body");
   }
 
-  const collection = await prisma.collection.create({
-    data: {
-      userId: userId,
-      name: collectionName,
-    },
-  });
-
-  // TODO: Ideally we would return the entire collection object here and not just the ID
-  res.json(collection);
+  prisma.collection
+    .create({
+      data: {
+        userId: userId,
+        name: collectionName,
+      },
+    })
+    .then((collection) => {
+      res.json({ collectionId: collection.id });
+    })
+    .catch((err: Error) => {
+      console.error(err.message);
+      res.status(500).json({ error: "Internal database error" });
+    });
 }

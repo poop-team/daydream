@@ -4,10 +4,10 @@ import { MdFavorite, MdFavoriteBorder, MdLibraryAdd } from "react-icons/md";
 
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { transitions } from "../../styles/motion-definitions";
-import CustomImage from "../CustomImage";
 import Button from "../Inputs/Button";
 import IconButton from "../Inputs/IconButton";
 import Card from "../Surfaces/Card";
+import CustomImage from "../Surfaces/CustomImage";
 import Author from "../Widgets/Author";
 import LikesCounter from "../Widgets/LikesCounter";
 import AddToCollectionPanel from "./Panels/AddToCollectionPanel";

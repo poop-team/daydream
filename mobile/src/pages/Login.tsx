@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { login } from "../helpers/mutate";
 import { storeAuthSession } from "../utils/storage";
+import LabelAndInput from "../components/LabelAndInput";
 
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
@@ -26,31 +27,23 @@ export default function Login({ navigation }) {
       </View>
       <ScrollView className="w-screen h-screen position-relative scroll">
         <View className="flex-1 flex mx-auto">
-          <Text className=" mt-8 font-bold mb-3 text-xl">Enter your email:</Text>
+          <LabelAndInput
+            labelText="Enter your username:"
+            value={username}
+            placeholder="*Enter Username"
+            onChangeText={setUsername}
+          />
 
-          <View className="mx-auto rounded-lg bg-slate-300 w-80 h-12 mb-5 items-start justify-center">
-            <TextInput
-              className="ml-3 w-80"
-              placeholder="*Enter email"
-              placeholderTextColor="#000000"
-              onChangeText={setUsername}
-            />
-          </View>
-
-          <Text className="font-bold mb-3 text-xl">Enter a password:</Text>
-
-          <View className="mx-auto rounded-lg bg-slate-300 w-80 mb-5 h-12 items-start justify-center">
-            <TextInput
-              className="ml-3 w-80"
-              secureTextEntry={true}
-              placeholder="*Enter Password"
-              placeholderTextColor="#000000"
-              onChangeText={setPassword}
-            />
-          </View>
+          <LabelAndInput
+            labelText="Enter your password:"
+            value={password}
+            placeholder="*Enter Password"
+            secureTextEntry={true}
+            onChangeText={setPassword}/>
+            
           <Text className="text-red-500 mx-auto font-extrabold">{error}</Text>
           <Pressable className="items-center justify-center">
-            <Text className="text-xl my-10 text-indigo-900 font-bold">
+            <Text className="my-10 text-indigo-900 font-bold text-xl">
               Forgot your password?
             </Text>
           </Pressable>
@@ -85,7 +78,7 @@ export default function Login({ navigation }) {
           />
           <Pressable>
             <Text
-              className="ml-0 text-xl text-indigo-900 font-bold"
+              className="ml-0 text-indigo-900 font-bold text-xl"
               onPress={() => navigation.navigate("Register")}
             >
               Create Account
