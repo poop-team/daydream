@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { searchPosts } from "../helpers/fetch";
+import { searchPosts } from "../requests/fetch";
 import { useEffect, useMemo } from "react";
 // todo - add scroll check to see if we need to fetch more
 // todo - refresh posts on refocus of app
