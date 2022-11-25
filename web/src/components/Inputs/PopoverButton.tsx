@@ -9,10 +9,7 @@ import { Popover } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ElementType, HTMLAttributes, ReactNode } from "react";
 
-import {
-  transitions,
-  transitionVariants,
-} from "../../styles/motion-definitions";
+import { transitionVariants } from "../../styles/motion-definitions";
 
 interface Props {
   button: ElementType;
@@ -66,14 +63,13 @@ export default function PopoverButton({
                   animate={"growIn"}
                   exit={"growOut"}
                   variants={transitionVariants}
-                  transition={transitions.springStiff}
                   style={{
                     position: strategy,
                     top: y ?? 0,
                     left: x ?? 0,
                   }}
                   className={
-                    "w-max rounded-xl bg-slate-200/90 p-2 shadow-md backdrop-blur-md dark:bg-slate-800/90"
+                    "w-max rounded-xl bg-slate-200/90 p-2 shadow-md backdrop-blur-md transition-colors duration-200 dark:bg-slate-800/90"
                   }
                 >
                   {children({ open, close })}

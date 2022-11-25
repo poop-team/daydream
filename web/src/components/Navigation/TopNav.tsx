@@ -84,7 +84,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Styles
 
   let navStyles =
-    "fixed top-0 z-10 h-14 w-full rounded-b-lg bg-slate-50/70 px-4 backdrop-blur-md dark:bg-slate-900/70";
+    "fixed top-0 z-10 h-14 w-full rounded-b-lg px-4 backdrop-blur-md bg-slate-50/70 transition-colors duration-200 dark:bg-slate-900/70";
   navStyles += isAuth ? " hidden" : ""; // Hide on auth pages.
   navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
