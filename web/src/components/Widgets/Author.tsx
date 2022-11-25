@@ -34,7 +34,7 @@ export default function Author({
         <Link href={`/profile/${encodeURI(authorName)}`}>
           <a
             className={
-              "inline text-inherit transition duration-200 ease-out hover:text-indigo-700 focus-visible:outline-none"
+              "inline text-inherit transition duration-200 ease-out hover:text-indigo-700 focus-visible:outline-none dark:hover:text-indigo-300"
             }
           >
             <b>{authorName}</b>

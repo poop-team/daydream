@@ -3,16 +3,19 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../server/db/client";
 
 export default function isTaken(req: NextApiRequest, res: NextApiResponse) {
-  const { username } = req.query;
+  const { userName } = req.query;
 
-  if (username && typeof username !== "string") {
+  if (userName && typeof userName !== "string") {
     return res.status(400).json({ error: "Invalid username" });
   }
 
   prisma.user
     .findFirst({
       where: {
-        name: username as string,
+        name: {
+          equals: userName,
+          mode: "insensitive",
+        },
       },
     })
     .then((user) => {

@@ -1,15 +1,15 @@
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   MdAccountCircle,
   MdAddCircle,
-  MdDarkMode,
   MdHome,
   MdLogout,
   MdSettings,
 } from "react-icons/md";
 
+import ThemeContext from "../../context/ThemeContext";
 import paths from "../../data/path";
 import useIsClient from "../../hooks/useIsClient";
 import { positionVariants, transitions } from "../../styles/motion-definitions";
@@ -20,6 +20,7 @@ import LinkIconButton from "../Inputs/LinkIconButton";
 import PopoverButton from "../Inputs/PopoverButton";
 import SearchBar from "../Inputs/SearchBar";
 import CustomImage from "../Surfaces/CustomImage";
+import ThemeIcon from "../Widgets/ThemeIcon";
 
 interface Props {
   searchValue: string;
@@ -30,6 +31,8 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Hooks
 
   const router = useRouter();
+
+  const { currentTheme, changeCurrentTheme } = useContext(ThemeContext);
 
   const isClient = useIsClient();
 
@@ -73,7 +76,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   const isFeed = router.pathname === paths.feed;
   const isCreate = router.pathname === paths.create;
   const isProfile = router.pathname.startsWith(paths.profile);
-  const isOwnProfile = isProfile && router.query.id === userName;
+  const isOwnProfile = isProfile && router.query.name === userName;
   const isAuth = router.pathname == paths.auth;
 
   //#endregion
@@ -81,7 +84,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Styles
 
   let navStyles =
-    "fixed top-0 z-10 h-14 w-full rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md";
+    "fixed top-0 z-10 h-14 w-full rounded-b-lg px-4 backdrop-blur-md bg-slate-50/70 transition-colors duration-200 dark:bg-slate-900/70";
   navStyles += isAuth ? " hidden" : ""; // Hide on auth pages.
   navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
@@ -106,7 +109,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <LinkIconButton href={"/feed"}>
+              <LinkIconButton href={paths.feed}>
                 <MdHome className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
@@ -146,7 +149,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <LinkIconButton href={`/profile/${encodeURI(userName)}`}>
+              <LinkIconButton href={`${paths.profile}/${encodeURI(userName)}`}>
                 {userAvatar ? (
                   <CustomImage
                     src={userAvatar}
@@ -178,17 +181,22 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               <PopoverButton
                 button={IconButton}
                 buttonChildren={<MdSettings className={"h-full w-10"} />}
+                popoverPlacement={"bottom-end"}
                 rotateButtonOnOpen={true}
               >
                 {({ close }) => (
                   <div className={"flex flex-col gap-1"}>
                     <Button
                       variant={"text"}
-                      onClick={() => {}}
+                      onClick={() => {
+                        changeCurrentTheme(
+                          currentTheme === "light" ? "dark" : "light"
+                        );
+                      }}
                       className={"w-full !justify-start"}
                     >
-                      <MdDarkMode />
-                      Toggle Theme
+                      <ThemeIcon theme={currentTheme} />
+                      {currentTheme === "light" ? "Dark" : "Light"} Mode
                     </Button>
                     <Button
                       variant={"text"}

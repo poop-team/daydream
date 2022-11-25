@@ -57,8 +57,8 @@ export default function CollectionCard({
 
   return (
     <Card
-      className={`group relative aspect-square h-fit cursor-pointer select-none overflow-hidden  p-6 shadow-none 
-      transition-all duration-200 ease-out ${className}`}
+      className={`group relative z-0 aspect-square h-fit cursor-pointer select-none  overflow-hidden p-6 
+      shadow-none transition-all duration-200 ease-out ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       {...rest}

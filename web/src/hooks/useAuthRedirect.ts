@@ -15,7 +15,7 @@ export default function useAuthRedirect() {
     queryFn: authenticateUser,
     onSuccess: () => {
       if (router.pathname === path.auth) {
-        void router.push("/feed");
+        void router.push(path.feed);
       }
     },
     onError: (error: ErrorResponse) => {

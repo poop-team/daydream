@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { ReactNode } from "react";
 
 import { transitions } from "../../styles/motion-definitions";
 
 interface Props {
   href: string;
+  selected: boolean;
   className?: string;
   children?: ReactNode;
 }
@@ -20,27 +20,14 @@ interface Props {
  */
 export default function BottomNavLinkItem({
   href,
+  selected,
   className = "",
   children,
 }: Props) {
-  //#region Hooks
-
-  const router = useRouter();
-
-  //#endregion
-
-  //#region Derived State
-
-  const selected =
-    (router.pathname === "/" && href === "/") ||
-    (router.pathname.startsWith(href) && href !== "/");
-
-  //#endregion
-
   return (
     <li
       className={`${className} relative w-1/4 ${
-        selected ? "text-slate-50" : ""
+        selected ? "text-slate-50 dark:text-slate-900" : ""
       } transition duration-200`}
     >
       <Link href={href}>
@@ -55,7 +42,7 @@ export default function BottomNavLinkItem({
               scaleX: selected ? 1 : 0,
             }}
             transition={transitions.spring}
-            className={`absolute -bottom-0.5 -z-10 h-9 w-full rounded-full bg-indigo-800/90`}
+            className={`absolute -bottom-0.5 -z-10 h-9 w-full rounded-full bg-indigo-800/90 dark:bg-indigo-200/90`}
           />
         </button>
       </Link>

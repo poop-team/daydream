@@ -73,16 +73,18 @@ export default function TextField({
   if (!disabled && !error) {
     // Default Style
     inputStyle +=
-      " outline-slate-500 group-hover:outline-indigo-600 focus:outline-indigo-600";
+      " outline-slate-500 group-hover:outline-indigo-600 focus:outline-indigo-600" +
+      " dark:outline-slate-400 dark:group-hover:outline-indigo-500 dark:focus:outline-indigo-500";
   } else {
     if (disabled) {
       // Disabled Style
-      inputStyle += " cursor-not-allowed bg-slate-100 outline-slate-300";
+      inputStyle +=
+        " cursor-not-allowed bg-slate-100 outline-slate-300 dark:bg-slate-800 dark:outline-slate-600";
     }
     if (error) {
       // Error Style
       inputStyle +=
-        " outline-red-500 group-hover:outline-red-800 focus:outline-red-800";
+        " outline-red-500 group-hover:outline-red-800 focus:outline-red-800 dark:outline-red-400 dark:group-hover:outline-red-700 dark:focus:outline-red-700";
     }
   }
 

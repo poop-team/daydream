@@ -32,8 +32,8 @@ export default function Profile() {
     isLoading: isProfileLoading,
     refetch: refetchProfile,
   } = useQuery({
-    queryKey: ["user_profile", router.query.id],
-    queryFn: () => getUser({ userName: router.query.id as string }),
+    queryKey: ["user_profile", router.query.name],
+    queryFn: () => getUser({ userName: router.query.name as string }),
     onSuccess: (user) => {
       setIsSelf(user.id === getAuthSession().userId);
     },
@@ -43,7 +43,7 @@ export default function Profile() {
       }
       toast.error(err.message);
     },
-    enabled: !!router.query.id && !notFound,
+    enabled: !!router.query.name && !notFound,
   });
 
   const { mutate: updateProfile, isLoading: isUpdatingProfile } = useMutation({
@@ -155,9 +155,9 @@ export default function Profile() {
                 variants={transitionVariants}
                 className={"flex flex-col items-center gap-4 md:gap-8"}
               >
-                <div className="h-48 w-48 animate-pulse rounded-full bg-slate-300" />
-                <div className="h-8 w-24 animate-pulse rounded-full bg-slate-300" />
-                <div className="h-6 w-24 animate-pulse rounded-full bg-slate-300" />
+                <div className="h-48 w-48 animate-pulse rounded-full bg-slate-300 dark:bg-slate-700" />
+                <div className="h-8 w-24 animate-pulse rounded-full bg-slate-300 dark:bg-slate-700" />
+                <div className="h-6 w-24 animate-pulse rounded-full bg-slate-300 dark:bg-slate-700" />
               </motion.div>
             )}
           </AnimatePresence>

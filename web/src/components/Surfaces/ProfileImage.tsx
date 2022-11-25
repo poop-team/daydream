@@ -31,7 +31,7 @@ export default function ProfileImage({
         />
       ) : (
         <div className="h-48 w-48">
-          <MdAccountCircle className="h-full w-full text-slate-800" />
+          <MdAccountCircle className="h-full w-full text-slate-800 dark:text-slate-100" />
         </div>
       )}
       {isSelf && (
