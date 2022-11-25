@@ -4,16 +4,20 @@ import { useEffect, useState } from "react";
 import {
   MdAccountCircle,
   MdAddCircle,
+  MdDarkMode,
   MdHome,
+  MdLogout,
   MdSettings,
 } from "react-icons/md";
 
 import paths from "../../data/path";
 import useIsClient from "../../hooks/useIsClient";
 import { positionVariants, transitions } from "../../styles/motion-definitions";
-import { getAuthSession } from "../../utils/storage";
+import { clearAuthSession, getAuthSession } from "../../utils/storage";
+import Button from "../Inputs/Button";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
+import PopoverButton from "../Inputs/PopoverButton";
 import SearchBar from "../Inputs/SearchBar";
 import CustomImage from "../Surfaces/CustomImage";
 
@@ -64,8 +68,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   //#region Derived State
 
-  const userName = isClient ? getAuthSession().userName : "";
-  const userAvatar = isClient ? getAuthSession().userAvatar : "";
+  const { userName = "", userAvatar } = (isClient && getAuthSession()) || {};
 
   const isFeed = router.pathname === paths.feed;
   const isCreate = router.pathname === paths.create;
@@ -78,7 +81,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Styles
 
   let navStyles =
-    "fixed top-0 z-10 h-14 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md";
+    "fixed top-0 z-10 h-14 w-full rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md";
   navStyles += isAuth ? " hidden" : ""; // Hide on auth pages.
   navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
@@ -169,13 +172,39 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               initial={"initialRight"}
               animate={"animate"}
               exit={"initialRight"}
-              whileHover={{ rotate: 20 }}
               transition={transitions.springStiff}
               className={"ml-auto"}
             >
-              <IconButton>
-                <MdSettings className={"h-full w-10"} />
-              </IconButton>
+              <PopoverButton
+                button={IconButton}
+                buttonChildren={<MdSettings className={"h-full w-10"} />}
+                rotateButtonOnOpen={true}
+              >
+                {({ close }) => (
+                  <div className={"flex flex-col gap-1"}>
+                    <Button
+                      variant={"text"}
+                      onClick={() => {}}
+                      className={"w-full !justify-start"}
+                    >
+                      <MdDarkMode />
+                      Toggle Theme
+                    </Button>
+                    <Button
+                      variant={"text"}
+                      onClick={() => {
+                        close();
+                        clearAuthSession();
+                        void router.replace(paths.auth);
+                      }}
+                      className={"w-full !justify-start"}
+                    >
+                      <MdLogout />
+                      Sign Out
+                    </Button>
+                  </div>
+                )}
+              </PopoverButton>
             </motion.li>
           )}
         </AnimatePresence>

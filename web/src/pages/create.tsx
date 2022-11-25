@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -13,6 +14,7 @@ import { imageStyles } from "../data/styles";
 import useAuthRedirect from "../hooks/useAuthRedirect";
 import { searchPosts } from "../requests/fetch";
 import { createPost } from "../requests/mutate";
+import { transitionVariants } from "../styles/motion-definitions";
 import { getAuthSession } from "../utils/storage";
 
 export default function Create() {
@@ -102,10 +104,15 @@ export default function Create() {
   //#endregion
 
   return (
-    <main
+    <motion.main
       className={
         "mx-auto flex h-screen max-w-7xl flex-col items-center gap-8 px-4 pt-4 pb-8 sm:pt-16"
       }
+      initial={"fadeOut"}
+      animate={"fadeIn"}
+      exit={"fadeOut"}
+      custom={0.4}
+      variants={transitionVariants}
     >
       <TextField
         placeholder={"Epic digital art of..."}
@@ -146,6 +153,6 @@ export default function Create() {
           />
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 }

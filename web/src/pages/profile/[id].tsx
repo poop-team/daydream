@@ -13,6 +13,7 @@ import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { getUser } from "../../requests/fetch";
 import { updateUser } from "../../requests/mutate";
 import { transitionVariants } from "../../styles/motion-definitions";
+import { ErrorResponse } from "../../types/error.type";
 import { getAuthSession } from "../../utils/storage";
 
 export default function Profile() {
@@ -24,6 +25,7 @@ export default function Profile() {
 
   const [view, setView] = useState<"created" | "collections">("created");
   const [isSelf, setIsSelf] = useState(false); // Tracks if the user is viewing their own profile
+  const [notFound, setNotFound] = useState(false); // Tracks if the user was not found
 
   const {
     data: profileData,
@@ -35,10 +37,13 @@ export default function Profile() {
     onSuccess: (user) => {
       setIsSelf(user.id === getAuthSession().userId);
     },
-    onError: (err: Error) => {
+    onError: (err: ErrorResponse) => {
+      if (err.cause?.code === 404) {
+        setNotFound(true);
+      }
       toast.error(err.message);
     },
-    enabled: !!router.query.id,
+    enabled: !!router.query.id && !notFound,
   });
 
   const { mutate: updateProfile, isLoading: isUpdatingProfile } = useMutation({
@@ -101,97 +106,117 @@ export default function Profile() {
   //#endregion
 
   return (
-    <main className={"h-screen py-16"}>
-      <AnimatePresence mode={"popLayout"}>
-        {!isProfileLoading && profileData ? (
-          <motion.div
-            key={"profile"}
-            initial={"fadeOut"}
-            animate={"fadeIn"}
-            exit={"fadeOut"}
-            variants={transitionVariants}
-            className={"flex flex-col items-center gap-4 md:gap-8"}
-          >
-            <ProfileImage
-              image={profileData.image}
-              onImageChange={handleUpdateImage}
-              isSelf={isSelf}
-              isLoading={isUpdatingProfile}
-            />
-            <p className="text-xl font-medium">@{profileData.name}</p>
-            <div className="flex select-none gap-2 text-lg">
-              <p className="flex items-center gap-1">
-                {profileData.postCount.toLocaleString()}
-                <MdWallpaper />
-              </p>
-              <p>|</p>
-              <p className="flex items-center gap-1">
-                {profileData.collectionCount.toLocaleString()}
-                <MdPermMedia />
-              </p>
-            </div>
-          </motion.div>
-        ) : (
-          // Render loading skeleton
-          <motion.div
-            key={"loading"}
-            initial={"fadeOut"}
-            animate={"fadeIn"}
-            exit={"fadeOut"}
-            variants={transitionVariants}
-            className={"flex flex-col items-center gap-4 md:gap-8"}
-          >
-            <div className="h-48 w-48 animate-pulse rounded-full bg-slate-300" />
-            <div className="h-8 w-24 animate-pulse rounded-full bg-slate-300" />
-            <div className="h-6 w-24 animate-pulse rounded-full bg-slate-300" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <div className={"mt-4 flex justify-center gap-4 sm:mt-12"}>
-        <Button
-          variant={isCreatedView ? "filled" : "text"}
-          onClick={() => handleViewChange("created")}
-        >
-          Created
-        </Button>
-        <Button
-          variant={isCreatedView ? "text" : "filled"}
-          onClick={() => handleViewChange("collections")}
-        >
-          Collections
-        </Button>
-      </div>
-      <section className={"mt-4 sm:mt-12"}>
-        <AnimatePresence mode={"wait"}>
-          {isCreatedView ? (
-            <motion.div
-              key={"user-created"}
-              animate={"fadeIn"}
-              exit={"fadeOut"}
-              variants={transitionVariants}
+    <motion.main
+      className={"h-screen py-16"}
+      initial={"fadeOut"}
+      animate={"fadeIn"}
+      exit={"fadeOut"}
+      custom={0.4}
+      variants={transitionVariants}
+    >
+      {isProfileLoading || profileData ? (
+        <>
+          <AnimatePresence mode={"popLayout"}>
+            {!isProfileLoading && profileData ? (
+              <motion.div
+                key={"profile"}
+                initial={"fadeOut"}
+                animate={"fadeIn"}
+                exit={"fadeOut"}
+                variants={transitionVariants}
+                className={"flex flex-col items-center gap-4 md:gap-8"}
+              >
+                <ProfileImage
+                  image={profileData.image}
+                  onImageChange={handleUpdateImage}
+                  isSelf={isSelf}
+                  isLoading={isUpdatingProfile}
+                />
+                <p className="text-xl font-medium">@{profileData.name}</p>
+                <div className="flex select-none gap-2 text-lg">
+                  <p className="flex items-center gap-1">
+                    {profileData.postCount.toLocaleString()}
+                    <MdWallpaper />
+                  </p>
+                  <p>|</p>
+                  <p className="flex items-center gap-1">
+                    {profileData.collectionCount.toLocaleString()}
+                    <MdPermMedia />
+                  </p>
+                </div>
+              </motion.div>
+            ) : (
+              // Render loading skeleton
+              <motion.div
+                key={"loading"}
+                initial={"fadeOut"}
+                animate={"fadeIn"}
+                exit={"fadeOut"}
+                variants={transitionVariants}
+                className={"flex flex-col items-center gap-4 md:gap-8"}
+              >
+                <div className="h-48 w-48 animate-pulse rounded-full bg-slate-300" />
+                <div className="h-8 w-24 animate-pulse rounded-full bg-slate-300" />
+                <div className="h-6 w-24 animate-pulse rounded-full bg-slate-300" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <div className={"mt-4 flex justify-center gap-4 sm:mt-12"}>
+            <Button
+              variant={isCreatedView ? "filled" : "text"}
+              onClick={() => handleViewChange("created")}
             >
-              <CreatedImageList
-                userId={profileData?.id}
-                isProfileLoading={isProfileLoading}
-                isSelf={isSelf}
-              />
-            </motion.div>
-          ) : (
-            <motion.div
-              key={"user-collections"}
-              animate={"fadeIn"}
-              exit={"fadeOut"}
-              variants={transitionVariants}
+              Created
+            </Button>
+            <Button
+              variant={isCreatedView ? "text" : "filled"}
+              onClick={() => handleViewChange("collections")}
             >
-              <CreatedCollectionList
-                userId={profileData?.id}
-                isProfileLoading={isProfileLoading}
-                isSelf={isSelf}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </section>
-    </main>
+              Collections
+            </Button>
+          </div>
+          <section className={"mt-4 sm:mt-12"}>
+            <AnimatePresence mode={"wait"}>
+              {isCreatedView ? (
+                <motion.div
+                  key={"user-created"}
+                  animate={"fadeIn"}
+                  exit={"fadeOut"}
+                  variants={transitionVariants}
+                >
+                  <CreatedImageList
+                    userId={profileData?.id}
+                    isProfileLoading={isProfileLoading}
+                    isSelf={isSelf}
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key={"user-collections"}
+                  animate={"fadeIn"}
+                  exit={"fadeOut"}
+                  variants={transitionVariants}
+                >
+                  <CreatedCollectionList
+                    userId={profileData?.id}
+                    isProfileLoading={isProfileLoading}
+                    isSelf={isSelf}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </section>
+        </>
+      ) : (
+        <div
+          className={"flex h-full flex-col items-center justify-center gap-4"}
+        >
+          <p className={"text-2xl font-medium"}>Profile not found</p>
+          <p className={"text-center text-lg"}>
+            The profile you are looking for does not exist.
+          </p>
+        </div>
+      )}
+    </motion.main>
   );
 }

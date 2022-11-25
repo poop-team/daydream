@@ -31,36 +31,36 @@ export const transitions = {
 };
 
 export const transitionVariants = {
-  fadeIn: {
+  fadeIn: (delay = 0.2) => ({
     opacity: 1,
     transition: {
-      duration: 0.2,
+      duration: delay,
       ease: "easeOut",
     },
-  },
-  fadeOut: {
+  }),
+  fadeOut: (delay = 0.2) => ({
     opacity: 0,
     transition: {
-      duration: 0.2,
+      duration: delay,
       ease: "easeIn",
     },
-  },
-  growIn: {
+  }),
+  growIn: (delay = 0.2) => ({
     scale: 1,
     opacity: 1,
     transition: {
-      duration: 0.2,
+      duration: delay,
       ease: "easeOut",
     },
-  },
-  growOut: {
-    scale: 0.85,
+  }),
+  growOut: (delay = 0.2) => ({
+    scale: 0.9,
     opacity: 0,
     transition: {
-      duration: 0.2,
+      duration: delay,
       ease: "easeIn",
     },
-  },
+  }),
   scaleIn: {
     scale: 1,
     opacity: 1,
