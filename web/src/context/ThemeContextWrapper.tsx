@@ -5,7 +5,7 @@ import ThemeContext from "./ThemeContext";
 export default function ThemeContextWrapper({ children }: PropsWithChildren) {
   //#region Hooks
 
-  const [theme, setTheme] = useState("");
+  const [theme, setTheme] = useState<"light" | "dark" | undefined>();
 
   useEffect(() => {
     const theme = localStorage.getItem("theme") as "light" | "dark";
@@ -35,7 +35,11 @@ export default function ThemeContextWrapper({ children }: PropsWithChildren) {
   //#endregion
 
   return (
-    <ThemeContext.Provider value={{ currentTheme: theme, changeCurrentTheme }}>
+    <ThemeContext.Provider
+      // If the theme has not been determined yet (when rendering on the server), the theme will be set to light by default.
+      // This will provide the app with a theme value, but it will avoid the flash of unstyled content (FOUC).
+      value={{ currentTheme: theme ?? "light", changeCurrentTheme }}
+    >
       {children}
     </ThemeContext.Provider>
   );
