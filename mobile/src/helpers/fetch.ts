@@ -26,7 +26,7 @@ export async function searchPosts({
   });
 
   return await doRequest<{ posts: Post[]; nextCursorId: string }>(
-    `/api/post/search?${params.toString()}`,
+    `https://project.up.railway.app/api/post/search?${params.toString()}`,
     null,
     "GET"
   );
@@ -40,7 +40,7 @@ export async function getUser(userId = "", userName = "") {
   });
 
   return await doRequest<User>(
-    `/api/user/get?${params.toString()}`,
+    `https://project.up.railway.app/api/user/get?${params.toString()}`,
     null,
     "GET"
   );
@@ -48,7 +48,7 @@ export async function getUser(userId = "", userName = "") {
 
 export async function authenticateUser() {
   return await doRequest<{ message: string }>(
-    `/api/user/auth?userId=${(await getAuthSession()).userId}`,
+    `https://project.up.railway.app/api/user/auth?userId=${(await getAuthSession()).userId}`,
     null,
     "GET"
   );
