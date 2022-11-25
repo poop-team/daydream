@@ -19,13 +19,13 @@ export default function FeedPage({ navigation }) {
   });
   //end region
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-red-500">
       <SafeAreaView className="flex-1">
         <TopNavBar value="" onChangeText={setSearch} />
-        <View className="position-relative w-screen h-screen items-center justify-center top-10">
-          <ScrollView className="w-screen h-screen position-relative scroll ">
+        <View className="position-relative w-screen items-center justify-center android:mt-3">
+          {/*surely there is a better way to keep the scroll view above the nav*/}
+          <ScrollView className="w-screen android:mb-12">
             {
-              //this is where the posts will go
               blob.posts.map((post) => (
                 <Card url={post.imageURL} />
               ))
