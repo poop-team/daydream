@@ -85,7 +85,6 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   let navStyles =
     "fixed top-0 z-10 h-14 w-full rounded-b-lg px-4 backdrop-blur-md bg-slate-50/70 transition-colors duration-200 dark:bg-slate-900/70";
-  navStyles += isAuth ? " hidden" : ""; // Hide on auth pages.
   navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
   //#endregion
@@ -99,7 +98,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
     >
       <ul className={"flex h-full list-none items-center justify-between"}>
         <AnimatePresence mode={"popLayout"} initial={false}>
-          {!isFeed && (
+          {!isFeed && !isAuth && (
             <motion.li
               key={"home"}
               variants={positionVariants}
@@ -139,7 +138,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
             </motion.li>
           )}
 
-          {!isOwnProfile ? (
+          {!isOwnProfile && !isAuth ? (
             <motion.li
               key={"profile"}
               variants={positionVariants}
@@ -198,18 +197,20 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
                       <ThemeIcon theme={currentTheme} />
                       {currentTheme === "light" ? "Dark" : "Light"} Mode
                     </Button>
-                    <Button
-                      variant={"text"}
-                      onClick={() => {
-                        close();
-                        clearAuthSession();
-                        void router.replace(paths.auth);
-                      }}
-                      className={"w-full !justify-start"}
-                    >
-                      <MdLogout />
-                      Sign Out
-                    </Button>
+                    {!isAuth && (
+                      <Button
+                        variant={"text"}
+                        onClick={() => {
+                          close();
+                          clearAuthSession();
+                          void router.replace(paths.auth);
+                        }}
+                        className={"w-full !justify-start"}
+                      >
+                        <MdLogout />
+                        Sign Out
+                      </Button>
+                    )}
                   </div>
                 )}
               </PopoverButton>
