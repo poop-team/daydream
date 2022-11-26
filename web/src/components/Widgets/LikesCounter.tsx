@@ -12,12 +12,12 @@ export default function LikesCounter({
   className = "",
 }: Props) {
   return (
-    <div className={`flex items-center gap-1 ${className}`}>
+    <div className={`flex items-center gap-2 ${className}`}>
       {likes.toLocaleString()}
       {isLiked ? (
-        <MdFavorite className={"h-8 w-8"} />
+        <MdFavorite className={"h-full w-8"} />
       ) : (
-        <MdFavoriteBorder className={"h-8 w-8"} />
+        <MdFavoriteBorder className={"h-full w-8"} />
       )}
     </div>
   );
