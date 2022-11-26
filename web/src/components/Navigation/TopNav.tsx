@@ -122,12 +122,12 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               animate={"animate"}
               exit={"initialTop"}
               transition={transitions.springStiff}
-              className={"flex grow items-center justify-center gap-2"}
+              className={"flex grow items-center justify-center sm:gap-2"}
             >
               <SearchBar
                 value={searchValue}
                 onValueChange={setSearchValue}
-                className={"w-11/12 max-w-xl sm:w-2/3"}
+                className={"w-full max-w-xl sm:w-2/3"}
               />
               <LinkIconButton
                 href={`/create?prompt=${encodeURI(searchValue)}`}
