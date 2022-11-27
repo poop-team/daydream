@@ -1,31 +1,39 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { MdAddCircle, MdArrowBack } from "react-icons/md";
+import { MdAddCircle, MdArrowBack, MdDelete } from "react-icons/md";
 
 import { transitionVariants } from "../../styles/motion-definitions";
+import Button from "./Button";
 import IconButton from "./IconButton";
+import PopoverButton from "./PopoverButton";
 import SearchBar from "./SearchBar";
 
 interface Props {
   displayBackButton?: boolean;
-  onBackButtonClick?: () => void;
+  displayRemoveButton?: boolean;
   searchValue: string;
   onSearchValueChange: (value: string) => void;
   isAddButtonDisabled?: boolean;
+  onBackButtonClick?: () => void;
   onAddButtonClick?: () => void;
-  hideAddButton?: boolean;
+  onRemoveButtonClick?: () => void;
+  displayAddButton?: boolean;
   placeholder?: string;
+  removePopoverText?: string;
   className?: string;
 }
 
 export default function ProfileSearchBar({
   displayBackButton = false,
-  onBackButtonClick = () => {},
+  displayAddButton = true,
+  displayRemoveButton = false,
   searchValue,
   onSearchValueChange,
   isAddButtonDisabled = false,
+  onBackButtonClick = () => {},
   onAddButtonClick = () => {},
-  hideAddButton = false,
+  onRemoveButtonClick = () => {},
   placeholder = "Search...",
+  removePopoverText = "Are you sure?",
   className = "",
 }: Props) {
   return (
@@ -59,10 +67,16 @@ export default function ProfileSearchBar({
             onValueChange={onSearchValueChange}
             placeholder={placeholder}
             className={"w-full"}
+            onKeyUp={(e) => {
+              if (e.key === "Enter" && !isAddButtonDisabled) {
+                onAddButtonClick();
+              }
+            }}
           />
-          <AnimatePresence>
-            {!hideAddButton && (
+          <AnimatePresence mode={"wait"}>
+            {displayAddButton && (
               <motion.div
+                key={"profile-search-add-button"}
                 initial={"growOut"}
                 animate={"growIn"}
                 exit={"growOut"}
@@ -71,10 +85,46 @@ export default function ProfileSearchBar({
                 <IconButton
                   onClick={onAddButtonClick}
                   disabled={isAddButtonDisabled}
-                  className={"hidden sm:block"}
                 >
                   <MdAddCircle className={"h-full w-10"} />
                 </IconButton>
+              </motion.div>
+            )}
+            {displayRemoveButton && (
+              <motion.div
+                key={"profile-search-remove-button"}
+                initial={"growOut"}
+                animate={"growIn"}
+                exit={"growOut"}
+                variants={transitionVariants}
+              >
+                <PopoverButton
+                  button={IconButton}
+                  buttonChildren={<MdDelete className={"h-full w-10"} />}
+                >
+                  {({ close }) => (
+                    <div className={"w-56 p-2"}>
+                      <p className={"text-center text-lg font-bold"}>
+                        {removePopoverText}
+                      </p>
+                      <div className={"mt-4 flex justify-center gap-2"}>
+                        <Button
+                          variant={"text"}
+                          onClick={() => {
+                            onRemoveButtonClick();
+                            close();
+                          }}
+                          className={"w-1/2"}
+                        >
+                          Yes
+                        </Button>
+                        <Button onClick={close} className={"w-1/2"}>
+                          No
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </PopoverButton>
               </motion.div>
             )}
           </AnimatePresence>

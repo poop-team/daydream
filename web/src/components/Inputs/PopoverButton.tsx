@@ -69,7 +69,7 @@ export default function PopoverButton({
                     left: x ?? 0,
                   }}
                   className={
-                    "w-max rounded-xl bg-slate-200/90 p-2 shadow-md backdrop-blur-md transition-colors duration-200 dark:bg-slate-800/90"
+                    "z-50 w-max max-w-[90vw] rounded-xl bg-slate-200/90 p-2 shadow-md backdrop-blur-md transition-colors duration-200 dark:bg-slate-800/90"
                   }
                 >
                   {children({ open, close })}
