@@ -95,7 +95,7 @@ export default function TextField({
       <label className={`ml-1 duration-200 ${error ? "text-red-500" : ""}`}>
         {label}
       </label>
-      <div className={"relative flex"}>
+      <div className={"relative z-0 flex"}>
         {startIcon && (
           <div
             className={"absolute left-2 top-1/2 z-10 h-7 w-7 -translate-y-1/2"}
