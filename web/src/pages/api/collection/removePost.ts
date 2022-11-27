@@ -11,7 +11,6 @@ interface Request extends NextApiRequest {
   };
 }
 
-// TODO: We should check somewhere that the collection belongs to the user. We don't want to allow users to remove posts from other users' collections.
 export default async function addPostToCollection(
   req: Request,
   res: NextApiResponse
@@ -42,8 +41,8 @@ export default async function addPostToCollection(
   const resStatus = await prisma.collection.update({
     where: {
       collectionAndUserId: {
-        userId: userId.toString(),
-        id: collectionId.toString(),
+        userId: userId,
+        id: collectionId,
       },
     },
     data: {
