@@ -1,5 +1,5 @@
 import { styled } from "nativewind";
-import React from "react";
+import React, { memo } from "react";
 import { Image, ImageStyle, StyleProp } from "react-native";
 
 //fixme: I will probably have to break card up unto a sub-component like the web version and then url will be required
@@ -26,4 +26,4 @@ function Card({
   );
 }
 
-export default styled(Card);
+export default memo(styled(Card));

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,6 +12,7 @@ export default function FeedPage({ navigation }) {
 
   const blob = useInfiniteQueryPosts({
     searchValue: search,
+    limit: 8,
     recentOnly: false,
     key: "feedPage",
   });
@@ -37,7 +38,7 @@ export default function FeedPage({ navigation }) {
               pageProgress = event.nativeEvent.contentOffset.y;
             }}
             onEndReached={() => {
-              if (pageProgress > pageHeight - 1000 && !blob.isFetching) {
+              if (pageProgress / pageHeight > 0.65 && !blob.isFetching) {
                 blob.fetchNextPage();
               }
             }}
