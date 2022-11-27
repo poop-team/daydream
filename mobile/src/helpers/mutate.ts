@@ -97,6 +97,17 @@ export async function createCollection(collectionName: string) {
   );
 }
 
+export async function deleteCollection(collectionId: string) {
+  return await doRequest<{ collectionId: string }>(
+    "https://daydream.wtf/api/collection/delete",
+    {
+      userId: (await getAuthSession()).userId,
+      collectionId,
+    },
+    "DELETE"
+  );
+}
+
 export async function likePost(postId: string) {
   return await doRequest<{ postId: string }>(
     "https://daydream.wtf/api/post/like",
