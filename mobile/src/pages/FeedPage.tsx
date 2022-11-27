@@ -1,18 +1,15 @@
-import { useState, useMemo, useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import { useState } from "react";
+import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BottomNavBar from "../components/BottomNavBar";
 import Card from "../components/Card";
 import TopNavBar from "../components/TopNavBar";
-import useAuthGetStorage from "../hooks/useGetAuthStorage";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
 
 export default function FeedPage({ navigation }) {
-  //region hooks
   const [search, setSearch] = useState("");
 
-  //this blob probably needs to be moved to a different file
   const blob = useInfiniteQueryPosts({
     searchValue: search,
     recentOnly: false,
@@ -22,13 +19,12 @@ export default function FeedPage({ navigation }) {
   let pageHeight = 0;
   let pageProgress = 0;
 
-  //end region
   return (
     <View className="flex-1">
       <SafeAreaView className="flex-1">
         <TopNavBar value="" onChangeText={setSearch} />
         <View className="position-relative w-screen items-center justify-center android:mt-3">
-          {/*surely there is a better way to keep the scroll view above the nav*/}
+          {/*surely there is a better way to keep the scroll view above the bottomNav*/}
           <FlatList
             className="w-screen android:mb-12"
             data={blob.posts}

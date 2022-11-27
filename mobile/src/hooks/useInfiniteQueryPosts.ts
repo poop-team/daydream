@@ -1,9 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { searchPosts } from "../requests/fetch";
-import { useEffect, useMemo } from "react";
-// todo - add scroll check to see if we need to fetch more
+import { useMemo } from "react";
 // todo - refresh posts on refocus of app
-// todo - add refresh on scroll up
+// todo - add refresh on scroll up (maybe)
 
 /*
  * This hook is used to fetch posts from the API
@@ -52,7 +51,6 @@ export default function useInfiniteQueryPosts({
     getNextPageParam: (lastPage) => lastPage.nextCursorId,
     onError: (err: Error) => {
       //toast.error(err.message);
-      console.log(err);
     },
     refetchOnMount: queryOptions?.refetchOnMount ?? true,
     staleTime: queryOptions?.staleTime ?? 1000 * 60 * 5,
