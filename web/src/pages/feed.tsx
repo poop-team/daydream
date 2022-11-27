@@ -39,7 +39,7 @@ export default function Feed({ searchValue }: Props) {
         arePostsLoading={isFetching && !isFetchingNextPage}
         areMorePostsLoading={isFetchingNextPage}
         posts={posts}
-        className={"px-2 py-16 sm:px-4 md:pb-8 lg:px-8"}
+        className={"px-4 py-16 md:pb-8 lg:px-8"}
       />
     </motion.main>
   );

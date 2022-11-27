@@ -77,7 +77,7 @@ export default function ImageDialog({
           "relative flex max-h-[90vh] w-full flex-col overflow-hidden bg-slate-100 dark:bg-slate-800 md:aspect-video md:flex-row"
         }
       >
-        <div className={"group relative aspect-square"}>
+        <div className={"group relative aspect-square h-full w-full"}>
           {/* Download button */}
           <div
             className={`absolute -left-20 z-10 flex items-center justify-center rounded-br-lg bg-slate-100/80 px-4 py-2 
@@ -95,14 +95,14 @@ export default function ImageDialog({
             priority
             quality={90}
             sizes={"(max-width: 768px) 100vw, 50vw"}
-            className={"object-cover"}
+            className={"object-contain"}
             onClick={() => setIsAddToCollectionPanelOpen(false)}
           />
         </div>
         {/* Right Content Panel */}
         <div
           className={
-            "flex basis-full flex-col items-center gap-2 p-4 md:p-6 lg:gap-4"
+            "flex w-full flex-col items-center gap-2 p-4 md:p-6 lg:gap-4"
           }
         >
           <div className={"flex w-full select-none justify-between"}>
