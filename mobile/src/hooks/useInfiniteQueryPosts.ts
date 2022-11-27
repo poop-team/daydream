@@ -6,9 +6,9 @@ import { useEffect, useMemo } from "react";
 // todo - add refresh on scroll up
 
 /*
-* This hook is used to fetch posts from the API
-* returns an array of posts and a function to fetch more posts
-*/
+ * This hook is used to fetch posts from the API
+ * returns an array of posts and a function to fetch more posts
+ */
 interface Params {
   key: string;
   searchValue: string;
@@ -22,7 +22,7 @@ interface Params {
   };
 }
 
-export default function ImageList({
+export default function useInfiniteQueryPosts({
   key,
   searchValue,
   userId,
@@ -30,8 +30,7 @@ export default function ImageList({
   recentOnly,
   queryOptions,
 }: Params) {
-  //const { scrollYProgress } = useScroll();
-
+  // FixMe - search bar debouncing needs to be done, seems like the value resets too quickly
   //const debouncedSearchValue = useDebounce(searchValue, 250);
 
   const {
@@ -63,18 +62,12 @@ export default function ImageList({
   const posts = useMemo(() => {
     return infinitePostsData?.pages.flatMap((page) => page.posts) ?? [];
   }, [infinitePostsData]);
-  /*
-    useEffect(() => {
-      return scrollYProgress.onChange((progress) => {
-        if (progress > 0.6 && !isFetchingNextPage && hasNextPage) {
-          void fetchNextPage();
-        }
-      });
-    }, [fetchNextPage, hasNextPage, isFetchingNextPage, scrollYProgress]);
-  */
+
   return {
     posts,
     isFetching,
     isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
   };
 }

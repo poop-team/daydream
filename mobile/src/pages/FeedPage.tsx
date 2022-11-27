@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { View, ScrollView } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BottomNavBar from "../components/BottomNavBar";
 import Card from "../components/Card";
@@ -28,24 +29,25 @@ export default function FeedPage({ navigation }) {
         <TopNavBar value="" onChangeText={setSearch} />
         <View className="position-relative w-screen items-center justify-center android:mt-3">
           {/*surely there is a better way to keep the scroll view above the nav*/}
-          <ScrollView
+          <FlatList
             className="w-screen android:mb-12"
+            data={blob.posts}
+            renderItem={({ item }) => (
+              <Card key={item.id} url={item.imageURL} />
+            )}
+            keyExtractor={(item) => item.id}
             onScroll={(event) => {
+              pageHeight = event.nativeEvent.contentSize.height;
               pageProgress = event.nativeEvent.contentOffset.y;
-              console.log(pageProgress);
             }}
-            alwaysBounceVertical={true}
-            onContentSizeChange={(width, height) => {
-              pageHeight = height;
-              console.log(pageHeight);
+            onEndReached={() => {
+              if (pageProgress > pageHeight - 1000 && !blob.isFetching) {
+                blob.fetchNextPage();
+              }
             }}
-          >
-            <View>
-              {blob.posts.map((post) => (
-                <Card url={post.imageURL} key={post.id} />
-              ))}
-            </View>
-          </ScrollView>
+            onEndReachedThreshold={0.5}
+            scrollEventThrottle={8}
+          />
         </View>
       </SafeAreaView>
       <BottomNavBar navigation={navigation} />
