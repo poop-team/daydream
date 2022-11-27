@@ -20,7 +20,9 @@ export default async function addPost(req: Request, res: NextApiResponse) {
   const { userId, postId, collectionId } = req.body;
 
   if (!postId) {
-    return res.status(400).json("No postId specified in request body");
+    return res
+      .status(400)
+      .json({ error: "No postId specified in request body" });
   }
 
   // find the post
@@ -31,7 +33,7 @@ export default async function addPost(req: Request, res: NextApiResponse) {
   });
 
   if (!postToAdd) {
-    return res.status(400).json("Invalid postId");
+    return res.status(404).json({ error: "Post not found" });
   }
 
   prisma.collection

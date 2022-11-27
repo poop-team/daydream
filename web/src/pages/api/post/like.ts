@@ -19,7 +19,9 @@ export default async function like(req: Request, res: NextApiResponse) {
   const { userId, postId } = req.body;
 
   if (!postId) {
-    return res.status(400).json("Give me post to like");
+    return res
+      .status(400)
+      .json({ error: "No postId specified in request body" });
   }
 
   const postToLike = await prisma.post.findFirst({
@@ -29,7 +31,7 @@ export default async function like(req: Request, res: NextApiResponse) {
   });
 
   if (!postToLike) {
-    return res.status(400).json("give me a valid postId");
+    return res.status(400).json({ error: "Post not found" });
   }
 
   prisma.like

@@ -19,7 +19,9 @@ export default async function create(req: Request, res: NextApiResponse) {
   const { userId, collectionName } = req.body;
 
   if (!collectionName) {
-    return res.status(400).json("No collection name specified in request body");
+    return res
+      .status(400)
+      .json({ error: "No collection name specified in request body" });
   }
 
   prisma.collection

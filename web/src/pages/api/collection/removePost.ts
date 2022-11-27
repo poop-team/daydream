@@ -24,7 +24,9 @@ export default async function addPostToCollection(
   const { userId, postId, collectionId } = req.body;
 
   if (!postId) {
-    return res.status(400).json("Give me a post for the collection");
+    return res
+      .status(400)
+      .json({ error: "No postId specified in request body" });
   }
 
   const postToAdd = await prisma.post.findFirst({
@@ -34,7 +36,7 @@ export default async function addPostToCollection(
   });
 
   if (!postToAdd) {
-    return res.status(400).json("Invalid PostID");
+    return res.status(404).json({ error: "Post not found" });
   }
 
   const resStatus = await prisma.collection.update({

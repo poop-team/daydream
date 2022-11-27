@@ -23,7 +23,7 @@ export default async function create(req: Request, res: NextApiResponse) {
   const { userId, prompt } = req.body;
 
   if (!prompt.trim()) {
-    return res.status(402).json("No prompt provided");
+    return res.status(400).json({ error: "Empty prompt provided" });
   }
 
   // const url = `${env.DIFFUSION_URL}/txt2img?prompt=${prompt}&format=json`;
@@ -50,7 +50,7 @@ export default async function create(req: Request, res: NextApiResponse) {
     return res.status(500).json({ error: err });
   });
   if (DiffusionModelPrediction == null) {
-    return res.status(402).json({ error: "No image generated" });
+    return res.status(400).json({ error: "No image generated" });
   }
   const image = DiffusionModelPrediction[0];
 
