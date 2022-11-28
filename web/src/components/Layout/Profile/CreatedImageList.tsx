@@ -43,7 +43,7 @@ export default function CreatedImageList({
         onAddButtonClick={() =>
           void router.push(`/create?prompt=${searchValue}`)
         }
-        hideAddButton={isProfileLoading || !isSelf}
+        displayAddButton={!isProfileLoading && isSelf}
       />
       <div className={"px-2 pb-16 pt-8 sm:px-4 sm:pt-12 md:pb-8 lg:px-8"}>
         <ImageList

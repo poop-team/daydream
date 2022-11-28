@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import { getCollections } from "../../../requests/fetch";
-import { createCollection } from "../../../requests/mutate";
+import { createCollection, deleteCollection } from "../../../requests/mutate";
 import Collection from "../../../types/collection.type";
 import ProfileSearchBar from "../../Inputs/ProfileSearchBar";
 import CollectionList from "../CollectionList";
@@ -46,8 +46,22 @@ export default function CreatedCollectionList({
   const { mutate: mutateCreateCollection, isLoading: isCreatingCollection } =
     useMutation({
       mutationKey: ["create_collection"],
-      mutationFn: () => createCollection(searchCollectionValue.trim()),
+      mutationFn: createCollection,
       onSuccess: () => {
+        setSearchCollectionValue("");
+        void refetchCollections();
+      },
+      onError: (err: Error) => {
+        toast.error(err.message);
+      },
+    });
+
+  const { mutate: mutateDeleteCollection, isLoading: isDeletingCollection } =
+    useMutation({
+      mutationKey: ["delete_collection"],
+      mutationFn: deleteCollection,
+      onSuccess: () => {
+        setSelectedCollection(null);
         void refetchCollections();
       },
       onError: (err: Error) => {
@@ -85,9 +99,19 @@ export default function CreatedCollectionList({
   const handleCreateCollection = () => {
     if (searchCollectionValue.trim()) {
       if (!isCreatingCollection) {
-        mutateCreateCollection();
+        mutateCreateCollection(searchCollectionValue.trim());
       } else {
         toast("A collection is already being created");
+      }
+    }
+  };
+
+  const handleDeleteCollection = () => {
+    if (selectedCollection) {
+      if (!isDeletingCollection) {
+        mutateDeleteCollection(selectedCollection.id);
+      } else {
+        toast("A collection is already being deleted");
       }
     }
   };
@@ -115,21 +139,22 @@ export default function CreatedCollectionList({
           selectedCollection ? setSearchPostValue : setSearchCollectionValue
         }
         displayBackButton={!!selectedCollection}
-        onBackButtonClick={() => setSelectedCollection(null)}
-        onAddButtonClick={() =>
-          selectedCollection
-            ? void router.push(`/create?prompt=${searchPostValue}`)
-            : handleCreateCollection()
+        displayAddButton={!selectedCollection && !isProfileLoading && isSelf}
+        displayRemoveButton={
+          !!selectedCollection && !isProfileLoading && isSelf
         }
+        onBackButtonClick={() => setSelectedCollection(null)}
+        onRemoveButtonClick={handleDeleteCollection}
+        onAddButtonClick={handleCreateCollection}
         isAddButtonDisabled={
           selectedCollection ? false : isAddCollectionDisabled
         }
-        hideAddButton={isProfileLoading || !isSelf}
         placeholder={
           selectedCollection || !isSelf
             ? "Search..."
             : "Search or create a collection..."
         }
+        removePopoverText={"Are you sure you want to remove this collection?"}
       />
       <div className={"px-2 pb-16 pt-8 sm:px-4 sm:pt-12 md:pb-8 lg:px-8"}>
         {!selectedCollection ? (

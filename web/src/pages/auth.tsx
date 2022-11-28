@@ -124,14 +124,14 @@ export default function AuthPage() {
 
   return (
     <motion.main
-      className={"flex h-screen flex-col items-center justify-center gap-8 p-4"}
+      className={"flex h-screen flex-col items-center gap-8 py-16 px-4"}
       initial={"fadeOut"}
       animate={"fadeIn"}
       exit={"fadeOut"}
       custom={0.4}
       variants={transitionVariants}
     >
-      <div className="flex gap-4">
+      <div className="mt-auto flex gap-4">
         <Button
           variant={isLogin ? "filled" : "text"}
           onClick={() => setAction("login")}
@@ -146,7 +146,7 @@ export default function AuthPage() {
         </Button>
       </div>
       <form
-        className="flex w-full max-w-md flex-col items-center gap-2 sm:gap-4"
+        className="mb-auto flex w-full max-w-md flex-col items-center gap-2 pb-4 sm:gap-4"
         onSubmit={handleSubmit}
       >
         {isRegister && (

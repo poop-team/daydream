@@ -29,7 +29,7 @@ export default function Author({
       ) : (
         <MdAccountCircle className={"h-full w-8"} />
       )}
-      <p className={"overflow-hidden text-ellipsis whitespace-nowrap"}>
+      <p className={"truncate"}>
         By{" "}
         <Link href={`/profile/${encodeURI(authorName)}`}>
           <a
