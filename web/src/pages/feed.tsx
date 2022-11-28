@@ -1,6 +1,9 @@
+import { motion } from "framer-motion";
+
 import ImageList from "../components/Layout/ImageList";
 import useAuthRedirect from "../hooks/useAuthRedirect";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
+import { transitionVariants } from "../styles/motion-definitions";
 
 interface Props {
   searchValue: string;
@@ -24,13 +27,20 @@ export default function Feed({ searchValue }: Props) {
   //#endregion
 
   return (
-    <main className={"h-screen"}>
+    <motion.main
+      className={"h-screen"}
+      initial={"fadeOut"}
+      animate={"fadeIn"}
+      exit={"fadeOut"}
+      custom={0.4}
+      variants={transitionVariants}
+    >
       <ImageList
         arePostsLoading={isFetching && !isFetchingNextPage}
         areMorePostsLoading={isFetchingNextPage}
         posts={posts}
-        className={"px-2 py-16 sm:px-4 md:pb-8 lg:px-8"}
+        className={"px-4 py-16 md:pb-8 lg:px-8"}
       />
-    </main>
+    </motion.main>
   );
 }

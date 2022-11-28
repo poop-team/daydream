@@ -25,7 +25,7 @@ export default async function Register(req: Request, res: NextApiResponse) {
   try {
     await prisma.user.create({
       data: {
-        name,
+        name: name.trim().toLowerCase(),
         email,
         passwordHash,
       },

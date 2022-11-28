@@ -1,19 +1,26 @@
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   MdAccountCircle,
   MdAddCircle,
   MdHome,
+  MdLogout,
   MdSettings,
 } from "react-icons/md";
 
+import ThemeContext from "../../context/ThemeContext";
 import paths from "../../data/path";
+import useIsClient from "../../hooks/useIsClient";
 import { positionVariants, transitions } from "../../styles/motion-definitions";
-import { getAuthSession } from "../../utils/storage";
+import { clearAuthSession, getAuthSession } from "../../utils/storage";
+import Button from "../Inputs/Button";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
+import PopoverButton from "../Inputs/PopoverButton";
 import SearchBar from "../Inputs/SearchBar";
+import CustomImage from "../Surfaces/CustomImage";
+import ThemeIcon from "../Widgets/ThemeIcon";
 
 interface Props {
   searchValue: string;
@@ -24,6 +31,10 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Hooks
 
   const router = useRouter();
+
+  const { currentTheme, changeCurrentTheme } = useContext(ThemeContext);
+
+  const isClient = useIsClient();
 
   const { scrollY } = useScroll();
 
@@ -60,13 +71,12 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   //#region Derived State
 
-  const userName =
-    typeof window !== "undefined" ? getAuthSession().userName : "";
+  const { userName = "", userAvatar } = (isClient && getAuthSession()) || {};
 
   const isFeed = router.pathname === paths.feed;
   const isCreate = router.pathname === paths.create;
   const isProfile = router.pathname.startsWith(paths.profile);
-  const isOwnProfile = isProfile && router.query.id === userName;
+  const isOwnProfile = isProfile && router.query.name === userName;
   const isAuth = router.pathname == paths.auth;
 
   //#endregion
@@ -74,8 +84,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   //#region Styles
 
   let navStyles =
-    "fixed top-0 z-10 h-14 w-full overflow-hidden rounded-b-xl bg-slate-50/70 px-4 backdrop-blur-md";
-  navStyles += isAuth ? " hidden" : ""; // Hide on auth pages.
+    "fixed top-0 z-10 h-14 w-full rounded-b-lg px-4 backdrop-blur-md bg-slate-50/70 transition-colors duration-200 dark:bg-slate-900/70";
   navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
   //#endregion
@@ -89,7 +98,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
     >
       <ul className={"flex h-full list-none items-center justify-between"}>
         <AnimatePresence mode={"popLayout"} initial={false}>
-          {!isFeed && (
+          {!isFeed && !isAuth && (
             <motion.li
               key={"home"}
               variants={positionVariants}
@@ -99,7 +108,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <LinkIconButton href={"/feed"}>
+              <LinkIconButton href={paths.feed}>
                 <MdHome className={"h-full w-10"} />
               </LinkIconButton>
             </motion.li>
@@ -113,12 +122,12 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               animate={"animate"}
               exit={"initialTop"}
               transition={transitions.springStiff}
-              className={"flex grow items-center justify-center gap-2"}
+              className={"flex grow items-center justify-center sm:gap-2"}
             >
               <SearchBar
                 value={searchValue}
                 onValueChange={setSearchValue}
-                className={"w-11/12 max-w-xl sm:w-2/3"}
+                className={"w-full max-w-xl sm:w-2/3"}
               />
               <LinkIconButton
                 href={`/create?prompt=${encodeURI(searchValue)}`}
@@ -129,7 +138,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
             </motion.li>
           )}
 
-          {!isOwnProfile ? (
+          {!isOwnProfile && !isAuth ? (
             <motion.li
               key={"profile"}
               variants={positionVariants}
@@ -139,8 +148,23 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               transition={transitions.springStiff}
               className={"hidden sm:block"}
             >
-              <LinkIconButton href={`/profile/${encodeURI(userName)}`}>
-                <MdAccountCircle className={"h-full w-10"} />
+              <LinkIconButton href={`${paths.profile}/${encodeURI(userName)}`}>
+                {userAvatar ? (
+                  <CustomImage
+                    src={userAvatar}
+                    alt="User Avatar"
+                    fill
+                    priority
+                    sizes={"2.5rem"}
+                    draggable={false}
+                    containerClassName={"relative h-10 w-10 rounded-full"}
+                    className={
+                      "absolute h-full w-full rounded-full object-cover"
+                    }
+                  />
+                ) : (
+                  <MdAccountCircle className={"h-full w-10"} />
+                )}
               </LinkIconButton>
             </motion.li>
           ) : (
@@ -150,13 +174,46 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               initial={"initialRight"}
               animate={"animate"}
               exit={"initialRight"}
-              whileHover={{ rotate: 20 }}
               transition={transitions.springStiff}
               className={"ml-auto"}
             >
-              <IconButton>
-                <MdSettings className={"h-full w-10"} />
-              </IconButton>
+              <PopoverButton
+                button={IconButton}
+                buttonChildren={<MdSettings className={"h-full w-10"} />}
+                popoverPlacement={"bottom-end"}
+                rotateButtonOnOpen={true}
+              >
+                {({ close }) => (
+                  <div className={"flex flex-col gap-1"}>
+                    <Button
+                      variant={"text"}
+                      onClick={() => {
+                        changeCurrentTheme(
+                          currentTheme === "light" ? "dark" : "light"
+                        );
+                      }}
+                      className={"w-full !justify-start"}
+                    >
+                      <ThemeIcon theme={currentTheme} />
+                      {currentTheme === "light" ? "Dark" : "Light"} Mode
+                    </Button>
+                    {!isAuth && (
+                      <Button
+                        variant={"text"}
+                        onClick={() => {
+                          close();
+                          clearAuthSession();
+                          void router.replace(paths.auth);
+                        }}
+                        className={"w-full !justify-start"}
+                      >
+                        <MdLogout />
+                        Sign Out
+                      </Button>
+                    )}
+                  </div>
+                )}
+              </PopoverButton>
             </motion.li>
           )}
         </AnimatePresence>
