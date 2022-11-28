@@ -19,7 +19,9 @@ export default async function unlike(req: Request, res: NextApiResponse) {
   const { userId, postId } = req.body;
 
   if (!postId) {
-    return res.status(400).json("Give me post to like");
+    return res
+      .status(400)
+      .json({ error: "No postId specified in request body" });
   }
 
   const postToUnlike = await prisma.post.findFirst({
@@ -29,7 +31,7 @@ export default async function unlike(req: Request, res: NextApiResponse) {
   });
 
   if (!postToUnlike) {
-    return res.status(400).json("give me a valid postId");
+    return res.status(404).json({ error: "Post not found" });
   }
 
   prisma.like

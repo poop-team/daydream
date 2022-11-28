@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -13,6 +14,7 @@ import { imageStyles } from "../data/styles";
 import useAuthRedirect from "../hooks/useAuthRedirect";
 import { searchPosts } from "../requests/fetch";
 import { createPost } from "../requests/mutate";
+import { transitionVariants } from "../styles/motion-definitions";
 import { getAuthSession } from "../utils/storage";
 
 export default function Create() {
@@ -102,10 +104,15 @@ export default function Create() {
   //#endregion
 
   return (
-    <main
+    <motion.main
       className={
-        "mx-auto flex h-screen max-w-7xl flex-col items-center gap-8 px-4 pt-4 pb-8 sm:pt-16"
+        "mx-auto flex h-screen max-w-7xl flex-col items-center gap-8 px-4 pt-4 sm:pt-20 lg:px-8"
       }
+      initial={"fadeOut"}
+      animate={"fadeIn"}
+      exit={"fadeOut"}
+      custom={0.4}
+      variants={transitionVariants}
     >
       <TextField
         placeholder={"Epic digital art of..."}
@@ -134,18 +141,17 @@ export default function Create() {
           />
         )}
       </Button>
-      <div className={`mt-4 flex w-full flex-col sm:mt-8`}>
+      <div className={`mt-4 flex w-full flex-col gap-4 sm:my-8`}>
         <h2 className={"w-full text-center text-2xl font-bold"}>
           Recently Created <MdHistory className={"inline-block h-full w-9"} />
         </h2>
-        <div className={"py-8"}>
-          <ImageList
-            arePostsLoading={areRecentPostsLoading}
-            posts={recentPostsData?.posts ?? []}
-            noPostsMessage={"Nothing yet. Create one!"}
-          />
-        </div>
+        <ImageList
+          arePostsLoading={areRecentPostsLoading}
+          posts={recentPostsData?.posts ?? []}
+          noPostsMessage={"Nothing yet. Create one!"}
+          className={"pb-16"}
+        />
       </div>
-    </main>
+    </motion.main>
   );
 }

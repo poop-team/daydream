@@ -5,10 +5,12 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
+import paths from "../data/path";
+
 export default function AnySlug() {
   const router = useRouter();
 
   useEffect(() => {
-    void router.replace("/feed");
+    void router.replace(paths.feed);
   }, [router]);
 }

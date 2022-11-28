@@ -48,6 +48,16 @@ export async function getUser({ userId = "", userName = "" }) {
   );
 }
 
+export async function getIsUsernameTaken(userName: string) {
+  return (
+    await doRequest<{ isTaken: boolean }>(
+      `/api/user/isTaken?userName=${userName}`,
+      null,
+      "GET"
+    )
+  ).isTaken;
+}
+
 export async function authenticateUser() {
   return await doRequest<{ message: string }>(
     `/api/user/auth?userId=${getAuthSession().userId}`,

@@ -143,7 +143,7 @@ export default function AddToCollectionPanel({
 
   return (
     <Card
-      className={`flex h-full w-full flex-col bg-slate-100/80 backdrop-blur-md md:flex-row ${className}`}
+      className={`flex h-full w-full flex-col bg-slate-100/90 backdrop-blur-md dark:bg-slate-800/90 md:flex-row ${className}`}
     >
       <IconButton
         className={

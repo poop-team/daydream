@@ -32,8 +32,10 @@ export default function SelectableChip({
   let styles =
     "flex gap-2 px-2 py-0.5 sm:px-4 sm:py-1 rounded-full transition duration-200 ease-in-out outline-none focus-visible:ring-2 focus-visible:ring-offset-2 items-center";
   styles += selected
-    ? " text-slate-50 bg-indigo-900 hover:bg-indigo-700 focus-visible:bg-indigo-700 focus-visible:ring-indigo-700"
-    : " bg-slate-200 text-slate-900 hover:bg-slate-300 focus-visible:bg-slate-300 focus-visible:ring-slate-300";
+    ? " text-slate-50 bg-indigo-900 hover:bg-indigo-700 focus-visible:bg-indigo-700 focus-visible:ring-indigo-700" +
+      " dark:text-slate-900 dark:bg-indigo-200 dark:hover:bg-indigo-400 dark:focus-visible:bg-indigo-400 dark:focus-visible:ring-indigo-400"
+    : " bg-slate-200 text-slate-900 hover:bg-slate-300 focus-visible:bg-slate-300 focus-visible:ring-slate-300" +
+      " dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700 dark:focus-visible:bg-slate-700 dark:focus-visible:ring-slate-700";
 
   //#endregion
 

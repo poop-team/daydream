@@ -68,21 +68,23 @@ export default function TextField({
   //#region Styles
 
   let inputStyle =
-    "rounded-md bg-transparent px-4 py-2 text-lg outline outline-2 hover:outline-3 focus:outline-3 transition duration-200 ease w-full";
+    "rounded-md bg-transparent px-4 py-2 text-lg border-2 outline-none transition duration-200 ease-out w-full";
 
   if (!disabled && !error) {
     // Default Style
     inputStyle +=
-      " outline-slate-500 group-hover:outline-indigo-600 focus:outline-indigo-600";
+      " border-slate-500 group-hover:border-indigo-600 focus:border-indigo-600" +
+      " dark:border-slate-400 dark:group-hover:border-indigo-500 dark:focus:border-indigo-500";
   } else {
     if (disabled) {
       // Disabled Style
-      inputStyle += " cursor-not-allowed bg-slate-100 outline-slate-300";
+      inputStyle +=
+        " cursor-not-allowed bg-slate-100 border-slate-300 dark:bg-slate-800 dark:border-slate-600";
     }
     if (error) {
       // Error Style
       inputStyle +=
-        " outline-red-500 group-hover:outline-red-800 focus:outline-red-800";
+        " border-red-500 group-hover:border-red-800 focus:border-red-800 dark:border-red-400 dark:group-hover:border-red-700 dark:focus:border-red-700";
     }
   }
 
@@ -93,7 +95,7 @@ export default function TextField({
       <label className={`ml-1 duration-200 ${error ? "text-red-500" : ""}`}>
         {label}
       </label>
-      <div className={"relative flex"}>
+      <div className={"relative z-0 flex"}>
         {startIcon && (
           <div
             className={"absolute left-2 top-1/2 z-10 h-7 w-7 -translate-y-1/2"}

@@ -99,6 +99,7 @@ export default function ImageCard({
 
   // We might use this split prompt to classify the styles used later on
   const splitPrompt = prompt.split(/[,.]/).filter((word) => word.length > 0);
+  const promptPreview = splitPrompt[0];
 
   //#endregion
 
@@ -140,7 +141,7 @@ export default function ImageCard({
           />
           <p className={"text-center text-lg sm:line-clamp-2 md:line-clamp-3"}>
             {/* Only the first sentence/section of the prompt which contains the main topic will be displayed here */}
-            {splitPrompt[0]}
+            {promptPreview}
           </p>
           <Author
             authorName={authorName}
@@ -153,6 +154,7 @@ export default function ImageCard({
         id={id}
         src={src}
         prompt={prompt}
+        promptPreview={promptPreview}
         likes={localLikes}
         isLiked={localIsLiked}
         onLikedChange={handleLikeChange}
