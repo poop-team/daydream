@@ -3,7 +3,6 @@ import { TextInput, View, Pressable, TextInputProps } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 interface Props extends TextInputProps {
-  value: string;
   onChangeText: (value: string) => void;
   focusedColor?: string;
   unfocusedColor?: string;
@@ -11,7 +10,6 @@ interface Props extends TextInputProps {
 }
 
 export default ({
-  value,
   onChangeText,
   focusedColor = "bg-indigo-200",
   unfocusedColor = "bg-slate-300",
@@ -37,7 +35,6 @@ export default ({
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           className={`${bgColor} py-1 rounded-r-lg flex-1`}
-          value={value}
           onChangeText={onChangeText}
           {...props}
         />

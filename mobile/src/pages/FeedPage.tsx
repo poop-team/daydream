@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,7 +23,7 @@ export default function FeedPage({ navigation }) {
   return (
     <View className="flex-1">
       <SafeAreaView className="flex-1">
-        <TopNavBar value="" onChangeText={setSearch} />
+        <TopNavBar onChangeText={setSearch} />
         <View className="position-relative w-screen items-center justify-center android:mt-3">
           {/*surely there is a better way to keep the scroll view above the bottomNav*/}
           <FlatList
