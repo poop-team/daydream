@@ -198,7 +198,7 @@ export default function AddToCollectionPanel({
         </motion.ol>
         <div
           className={
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:text-2xl"
+            "absolute top-1/2 left-1/2 mt-6 -translate-x-1/2 -translate-y-1/2 sm:text-2xl md:mt-0"
           }
         >
           <AnimatePresence>
@@ -209,7 +209,7 @@ export default function AddToCollectionPanel({
                 animate="fadeIn"
                 exit="fadeOut"
               >
-                <CircularProgress className={"scale-[200%]"} />
+                <CircularProgress className={"scale-[150%] md:scale-[200%]"} />
               </motion.div>
             ) : (
               !collections?.length && (
@@ -218,8 +218,9 @@ export default function AddToCollectionPanel({
                   initial="fadeOut"
                   animate="fadeIn"
                   exit="fadeOut"
+                  className={"whitespace-nowrap"}
                 >
-                  No collections found
+                  {"No collections to show 😔"}
                 </motion.p>
               )
             )}

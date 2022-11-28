@@ -154,7 +154,6 @@ export default function ImageCard({
         id={id}
         src={src}
         prompt={prompt}
-        promptPreview={promptPreview}
         likes={localLikes}
         isLiked={localIsLiked}
         onLikedChange={handleLikeChange}

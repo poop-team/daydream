@@ -141,7 +141,7 @@ export default function Create() {
           />
         )}
       </Button>
-      <div className={`mt-4 flex w-full flex-col gap-4 sm:my-8`}>
+      <div className={`mt-4 flex w-full flex-col gap-4 sm:my-8 sm:gap-6`}>
         <h2 className={"w-full text-center text-2xl font-bold"}>
           Recently Created <MdHistory className={"inline-block h-full w-9"} />
         </h2>
