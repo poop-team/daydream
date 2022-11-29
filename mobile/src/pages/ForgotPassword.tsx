@@ -14,7 +14,7 @@ export default function ForgotPassword({ navigation }) {
                     <Icon
                         size={40}
                         name="arrow-back-outline"
-                        onPress={() => navigation.navigate("Home")}
+                        onPress={() => navigation.navigate("Login")}
                     />
                 </Pressable>
             </View>
