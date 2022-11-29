@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import {
   MdAccountCircle,
   MdAddCircle,
+  MdFilterAlt,
   MdHome,
   MdLogout,
   MdSettings,
@@ -23,11 +24,18 @@ import CustomImage from "../Surfaces/CustomImage";
 import ThemeIcon from "../Widgets/ThemeIcon";
 
 interface Props {
+  feedSortValue: "featured" | "recent";
+  setFeedSortValue: (value: "featured" | "recent") => void;
   searchValue: string;
   setSearchValue: (value: string) => void;
 }
 
-export default function TopNav({ searchValue, setSearchValue }: Props) {
+export default function TopNav({
+  feedSortValue,
+  setFeedSortValue,
+  searchValue,
+  setSearchValue,
+}: Props) {
   //#region Hooks
 
   const router = useRouter();
@@ -129,6 +137,38 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               transition={transitions.springStiff}
               className={`flex grow justify-center sm:justify-start sm:gap-2`}
             >
+              <PopoverButton
+                button={IconButton}
+                buttonChildren={<MdFilterAlt className={"h-full w-10"} />}
+                popoverPlacement={"bottom-start"}
+              >
+                {({ close }) => (
+                  <div className={"flex flex-col gap-2"}>
+                    <Button
+                      variant={feedSortValue === "featured" ? "filled" : "text"}
+                      onClick={() => {
+                        setFeedSortValue("featured");
+                        close();
+                      }}
+                      className={"w-full !justify-start"}
+                    >
+                      {"🔥 Featured"}
+                    </Button>
+                    {!isAuth && (
+                      <Button
+                        variant={feedSortValue === "recent" ? "filled" : "text"}
+                        onClick={() => {
+                          setFeedSortValue("recent");
+                          close();
+                        }}
+                        className={"w-full !justify-start"}
+                      >
+                        {"📅 Recent"}
+                      </Button>
+                    )}
+                  </div>
+                )}
+              </PopoverButton>
               <SearchBar
                 value={searchValue}
                 onValueChange={setSearchValue}
@@ -202,7 +242,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
                 rotateButtonOnOpen={true}
               >
                 {({ close }) => (
-                  <div className={"flex flex-col gap-1"}>
+                  <div className={"flex flex-col gap-2"}>
                     <Button
                       variant={"text"}
                       onClick={() => {

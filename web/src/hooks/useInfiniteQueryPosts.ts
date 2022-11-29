@@ -38,7 +38,7 @@ export default function useInfiniteQueryPosts({
     isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: [key, { search: debouncedSearchValue, userId }],
+    queryKey: [key, { search: debouncedSearchValue, userId, recentOnly }],
     queryFn: ({ pageParam = "" }) =>
       searchPosts({
         search: searchValue,
