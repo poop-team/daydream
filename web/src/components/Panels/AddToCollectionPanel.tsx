@@ -5,25 +5,25 @@ import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdDoubleArrow } from "react-icons/md";
 
-import useIsClient from "../../../hooks/useIsClient";
-import { getCollections } from "../../../requests/fetch";
+import useIsClient from "../../hooks/useIsClient";
+import { getCollections } from "../../requests/fetch";
 import {
   addPostToCollection,
   removePostFromCollection,
-} from "../../../requests/mutate";
+} from "../../requests/mutate";
 import {
   staggerContainerVariants,
   staggerItemVariants,
   transitions,
   transitionVariants,
-} from "../../../styles/motion-definitions";
-import { Post } from "../../../types/post.type";
-import { getAuthSession } from "../../../utils/storage";
-import CircularProgress from "../../Feedback/CircularProgress";
-import IconButton from "../../Inputs/IconButton";
-import SearchBar from "../../Inputs/SearchBar";
-import Card from "../../Surfaces/Card";
-import CollectionCard from "../../Surfaces/CollectionCard";
+} from "../../styles/motion-definitions";
+import { Post } from "../../types/post.type";
+import { getAuthSession } from "../../utils/storage";
+import CircularProgress from "../Feedback/CircularProgress";
+import IconButton from "../Inputs/IconButton";
+import SearchBar from "../Inputs/SearchBar";
+import Card from "../Surfaces/Card";
+import CollectionCard from "../Surfaces/CollectionCard";
 
 interface Props {
   postId: string;
@@ -248,7 +248,7 @@ export default function AddToCollectionPanel({
                           }
                           onClick={(e) => e.stopPropagation()} // Prevents other handlers from firing
                         >
-                          your profile&apos;s collections tab
+                          your profile&apos;s Collections tab
                         </a>
                       </Link>
                     </>

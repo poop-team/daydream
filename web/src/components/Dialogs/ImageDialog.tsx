@@ -5,12 +5,12 @@ import { MdLibraryAdd } from "react-icons/md";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { transitions } from "../../styles/motion-definitions";
 import Button from "../Inputs/Button";
+import AddToCollectionPanel from "../Panels/AddToCollectionPanel";
 import Card from "../Surfaces/Card";
 import CustomImage from "../Surfaces/CustomImage";
 import Author from "../Widgets/Author";
 import FloatingImageActions from "../Widgets/FloatingImageActions";
 import LikesCounter from "../Widgets/LikesCounter";
-import AddToCollectionPanel from "./Panels/AddToCollectionPanel";
 import StyledDialog from "./StyledDialog";
 
 interface Props {

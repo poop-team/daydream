@@ -5,10 +5,10 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdArrowForward, MdLibraryAdd } from "react-icons/md";
 
-import AddToCollectionPanel from "../../components/Dialogs/Panels/AddToCollectionPanel";
 import CircularProgress from "../../components/Feedback/CircularProgress";
 import Button from "../../components/Inputs/Button";
 import ImageList from "../../components/Layout/ImageList";
+import AddToCollectionPanel from "../../components/Panels/AddToCollectionPanel";
 import CustomImage from "../../components/Surfaces/CustomImage";
 import Author from "../../components/Widgets/Author";
 import FloatingImageActions from "../../components/Widgets/FloatingImageActions";
@@ -40,12 +40,13 @@ export default function Post() {
     onError: (err: Error) => {
       toast.error(err.message);
     },
+    enabled: !!router.query.id,
   });
 
   const { data: featuredPostsData, isLoading: areFeaturedPostsLoading } =
     useQuery({
       queryKey: ["featured_posts"],
-      queryFn: () => searchPosts({ search: "", limit: 6 }),
+      queryFn: () => searchPosts({ search: "", limit: 9 }),
       onError: (err: Error) => {
         toast.error("Failed to load featured posts");
       },
@@ -211,9 +212,7 @@ export default function Post() {
           </AnimatePresence>
         </div>
       ) : isPostLoading ? (
-        <div className={"m-auto"}>
-          <CircularProgress className={"scale-[200%]"} />
-        </div>
+        <CircularProgress className={"m-auto scale-[200%]"} />
       ) : (
         <div className={"m-auto text-center"}>
           <h1 className={"text-4xl font-bold"}>Post Not Found</h1>
@@ -231,14 +230,16 @@ export default function Post() {
           arePostsLoading={areFeaturedPostsLoading}
           noPostsMessage={"No Featured Posts to show"}
         />
-        <Button
-          variant={"text"}
-          onClick={() => void router.push("/feed")}
-          className={"m-auto"}
-        >
-          View More
-          <MdArrowForward className={"h-5 w-5"} />
-        </Button>
+        {featuredPostsData?.nextCursorId && (
+          <Button
+            variant={"text"}
+            onClick={() => void router.push("/feed")}
+            className={"m-auto"}
+          >
+            View More
+            <MdArrowForward className={"h-5 w-5"} />
+          </Button>
+        )}
       </div>
     </motion.main>
   );

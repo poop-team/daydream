@@ -97,7 +97,11 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
       transition={transitions.easeOut}
       className={navStyles}
     >
-      <ul className={"flex h-full list-none items-center justify-between"}>
+      <ul
+        className={
+          "flex h-full list-none items-center justify-between sm:gap-4"
+        }
+      >
         <AnimatePresence mode={"popLayout"} initial={false}>
           {!isFeed && !isAuth && (
             <motion.li
@@ -107,7 +111,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               animate={"animate"}
               exit={"initialLeft"}
               transition={transitions.springStiff}
-              className={"hidden sm:block"}
+              className={"hidden justify-start sm:block"}
             >
               <LinkIconButton href={paths.feed}>
                 <MdHome className={"h-full w-10"} />
@@ -123,13 +127,26 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               animate={"animate"}
               exit={"initialTop"}
               transition={transitions.springStiff}
-              className={"flex grow items-center justify-center sm:gap-2"}
+              className={`flex grow justify-center sm:justify-start sm:gap-2`}
             >
               <SearchBar
                 value={searchValue}
                 onValueChange={setSearchValue}
                 className={"w-full max-w-xl sm:w-2/3"}
               />
+            </motion.li>
+          )}
+
+          {!isCreate && (
+            <motion.li
+              key={"create"}
+              variants={positionVariants}
+              initial={"initialTop"}
+              animate={"animate"}
+              exit={"initialTop"}
+              transition={transitions.springStiff}
+              className={`ml-auto sm:gap-2`}
+            >
               <LinkIconButton
                 href={`/create?prompt=${encodeURI(searchValue)}`}
                 className={"hidden text-base sm:block"}
@@ -176,7 +193,6 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               animate={"animate"}
               exit={"initialRight"}
               transition={transitions.springStiff}
-              className={"ml-auto"}
             >
               <PopoverButton
                 button={IconButton}
