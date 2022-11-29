@@ -27,26 +27,35 @@ export default async function get(req: Request, res: NextApiResponse) {
     return res.status(400).json({ error: "postId cannot be a string array" });
   }
 
-  const post = await prisma.post.findUnique({
-    where: {
-      id: query.postId,
-    },
-    select: {
-      id: true,
-      dateCreated: true,
-      prompt: true,
-      imageURL: true,
-      author: {
-        select: {
-          name: true,
-          id: true,
-        },
+  prisma.post
+    .findUnique({
+      where: {
+        id: query.postId,
       },
-      likes: true,
-    },
-  });
+      select: {
+        id: true,
+        dateCreated: true,
+        prompt: true,
+        imageURL: true,
+        author: {
+          select: {
+            name: true,
+            id: true,
+            image: true,
+          },
+        },
+        likes: true,
+      },
+    })
+    .then((post) => {
+      if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+      }
 
-  if (!post) {
-    return res.status(400).json({ error: "postId did not match any posts" });
-  } else return res.json({ post });
+      return res.json(post);
+    })
+    .catch((e: Error) => {
+      console.log(e.message);
+      return res.status(500).json({ error: "Internal server error" });
+    });
 }

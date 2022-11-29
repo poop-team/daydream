@@ -74,6 +74,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   const { userName = "", userAvatar } = (isClient && getAuthSession()) || {};
 
   const isFeed = router.pathname === paths.feed;
+  const isPost = router.pathname.startsWith(paths.post);
   const isCreate = router.pathname === paths.create;
   const isProfile = router.pathname.startsWith(paths.profile);
   const isOwnProfile = isProfile && router.query.name === userName;
@@ -85,7 +86,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   let navStyles =
     "fixed top-0 z-10 h-14 w-full rounded-b-lg px-4 backdrop-blur-md bg-slate-50/70 transition-colors duration-200 dark:bg-slate-900/70";
-  navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
+  navStyles += isCreate || isPost ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
   //#endregion
 
