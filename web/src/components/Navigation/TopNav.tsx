@@ -137,7 +137,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
             </motion.li>
           )}
 
-          {!isCreate && (
+          {!isCreate && !isAuth && (
             <motion.li
               key={"create"}
               variants={positionVariants}
@@ -193,6 +193,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               animate={"animate"}
               exit={"initialRight"}
               transition={transitions.springStiff}
+              className={`${isAuth ? "ml-auto" : ""}`}
             >
               <PopoverButton
                 button={IconButton}
