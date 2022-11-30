@@ -6,12 +6,14 @@ import BottomNavBar from "../components/BottomNavBar";
 import Card from "../components/Card";
 import TopNavBar from "../components/TopNavBar";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
+import useDebounce from "../hooks/useDebounce";
 
 export default function FeedPage({ navigation }) {
   const [search, setSearch] = useState("");
 
+  const debouncedSearch = useDebounce(search, 500);
   const blob = useInfiniteQueryPosts({
-    searchValue: search,
+    searchValue: debouncedSearch,
     limit: 8,
     recentOnly: false,
     key: "feedPage",
@@ -19,7 +21,6 @@ export default function FeedPage({ navigation }) {
 
   let pageHeight = 0;
   let pageProgress = 0;
-
   return (
     <View className="flex-1">
       <SafeAreaView className="flex-1">
