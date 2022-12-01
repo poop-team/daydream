@@ -16,7 +16,7 @@ export default function FeedPage({ navigation }) {
     searchValue: debouncedSearch,
     limit: 8,
     recentOnly: false,
-    key: "feedPage",
+    key: "feed_posts",
   });
 
   let pageHeight = 0;
