@@ -124,10 +124,10 @@ export default function CollectionCard({
         </div>
       )}
       <div
-        className={`absolute bottom-0 left-0 z-20 flex w-full justify-between bg-slate-800/70 p-1 text-slate-50 backdrop-blur-md`}
+        className={`absolute bottom-0 left-0 z-20 flex w-full justify-between bg-slate-800/70 py-1 px-2 text-slate-50 backdrop-blur-md`}
       >
-        <div className={"basis-full text-center"}>
-          <p className={"text-xl sm:text-2xl"}>{name}</p>
+        <div className={"w-full truncate text-center"}>
+          <p className={"truncate text-xl sm:text-2xl"}>{name}</p>
           <p className={"text-sm sm:text-base"}>{posts.length} saved</p>
         </div>
       </div>

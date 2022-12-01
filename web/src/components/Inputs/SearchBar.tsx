@@ -1,10 +1,10 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, InputHTMLAttributes } from "react";
 import { MdClose, MdSearch } from "react-icons/md";
 
 import IconButton from "./IconButton";
 import TextField from "./TextField";
 
-interface Props {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   value: string;
   onValueChange: (value: string) => void;
   placeholder?: string;
@@ -24,6 +24,7 @@ export default function SearchBar({
   onValueChange,
   className = "",
   placeholder = "Search...",
+  ...props
 }: Props) {
   //#region Handlers
 
@@ -56,6 +57,7 @@ export default function SearchBar({
       inputClassName={"!rounded-full py-0.5 px-4"}
       value={value}
       onChange={handleChange}
+      {...props}
     />
   );
 }

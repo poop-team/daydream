@@ -96,6 +96,17 @@ export async function createCollection(collectionName: string) {
   );
 }
 
+export async function deleteCollection(collectionId: string) {
+  return await doRequest<{ collectionId: string }>(
+    "/api/collection/delete",
+    {
+      userId: getAuthSession().userId,
+      collectionId,
+    },
+    "DELETE"
+  );
+}
+
 export async function likePost(postId: string) {
   return await doRequest<{ postId: string }>(
     "/api/post/like",

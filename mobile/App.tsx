@@ -2,8 +2,9 @@ import "react-native-gesture-handler";
 import Authentication from "./src/pages/Authentication";
 import Login from "./src/pages/Login";
 import Register from "./src/pages/Register";
-import FeedPage from "./src/pages/FeedPage";
+import FeedPage from "./src/pages/feedPage";
 import ImageCreate from "./src/pages/ImageCreate";
+import ForgotPassword from "./src/pages/ForgotPassword";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -41,6 +42,11 @@ export default function App() {
           <Stack.Screen
             name="createPage"
             component={ImageCreate}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

@@ -14,7 +14,7 @@ export default async function doRequest<R>(
   body: any,
   method: "GET" | "POST" | "PUT" | "DELETE" = "GET"
 ): Promise<R> {
-  const res = await fetch(`https://daydream.wtf${url}`, {
+  const res = await fetch(url, {
     method: method,
     headers: {
       "Content-Type": "application/json",
@@ -29,8 +29,7 @@ export default async function doRequest<R>(
       error: string;
     } | null;
     throw new Error(data?.error ?? "Unknown server error", {
-      // FIXME this is bad :(
-      cause: { code: res.status } as unknown as Error,
+      cause: { code: res.status },
     });
   }
 
