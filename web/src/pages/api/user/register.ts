@@ -1,5 +1,8 @@
+import { User } from "@prisma/client";
 import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
+import nodemailer from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 import { prisma } from "../../../server/db/client";
 import { validateMethod, validateString } from "../../../utils/validation";
@@ -23,12 +26,35 @@ export default async function Register(req: Request, res: NextApiResponse) {
   const passwordHash = await hash(password, 10);
 
   try {
-    await prisma.user.create({
+    // create new user table via prisma
+    const newUser: User = await prisma.user.create({
       data: {
         name: name.trim().toLowerCase(),
         email,
         passwordHash,
       },
+    });
+
+    // use nodemailer to send a verification email to the user's email address
+    const transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo> =
+      nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      });
+
+    const confirmEmailAPIRoute = `http://localhost:3000/api/user/confirmEmail/${newUser.id}`;
+
+    await transporter.sendMail({
+      from: process.env.EMAIL,
+      to: email,
+      text:
+        "Please verify your email with " +
+        confirmEmailAPIRoute +
+        " | Sent from:\nThe Team at Daydream",
+      html: `<div>Please verify your email with ${confirmEmailAPIRoute}</div><p>Sent from:\nThe Team at Daydream</p>`,
     });
   } catch (e) {
     return res.status(500).json({
@@ -37,6 +63,7 @@ export default async function Register(req: Request, res: NextApiResponse) {
   }
 
   return res.status(201).json({
-    message: "Registration successful!",
+    message:
+      "Registration successful! Email verification link sent to your email. Please verify first to log in.",
   });
 }
