@@ -5,6 +5,7 @@ import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 import { prisma } from "../../../server/db/client";
+import { generateJWTForEmailVerification } from "../../../utils/jwt";
 import { validateMethod, validateString } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
@@ -34,6 +35,7 @@ export default async function Register(req: Request, res: NextApiResponse) {
         passwordHash,
       },
     });
+    const jwt = await generateJWTForEmailVerification(newUser.id);
 
     // use nodemailer to send a verification email to the user's email address
     const transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo> =
@@ -45,7 +47,7 @@ export default async function Register(req: Request, res: NextApiResponse) {
         },
       });
 
-    const confirmEmailAPIRoute = `http://localhost:3000/api/user/confirmEmail/${newUser.id}`;
+    const confirmEmailAPIRoute = `http://localhost:3000/api/user/confirmEmail/id?=${newUser.id}token?=${jwt}`;
 
     await transporter.sendMail({
       from: process.env.EMAIL,

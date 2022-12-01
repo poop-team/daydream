@@ -1,8 +1,9 @@
 import { User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { prisma } from "../../../../server/db/client";
-import { validateMethod } from "../../../../utils/validation";
+import { prisma } from "../../../server/db/client";
+import { validateJWT } from "../../../utils/jwt";
+import { validateMethod } from "../../../utils/validation";
 
 export default async function confirmEmail(
   req: NextApiRequest,
@@ -10,12 +11,23 @@ export default async function confirmEmail(
 ) {
   if (!validateMethod("GET", req, res)) return;
 
-  const { userID } = req.query;
+  const userID = req.query.id;
+  const token = req.query.token;
 
-  if (Array.isArray(userID) || userID === undefined) {
+  if (
+    Array.isArray(userID) ||
+    userID === undefined ||
+    Array.isArray(token) ||
+    token === undefined
+  ) {
     return res
       .status(400)
       .json({ Error: "Passed params cannot be a string array or undefined" });
+  }
+
+  const isJWTValid: boolean = await validateJWT(userID, token);
+  if (!isJWTValid) {
+    return res.status(400).json({ Error: "Token is invalid." });
   }
 
   // verify that the user exists with the userID
