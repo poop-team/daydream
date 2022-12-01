@@ -21,8 +21,11 @@ export default async function Register(req: Request, res: NextApiResponse) {
 
   const { name, email, password } = req.body;
 
-  if (!validateString(email, "email is required", res)) return;
-  if (!validateString(password, "password is required", res)) return;
+  if (!name.trim() || !email.trim() || !password) {
+    return res.status(400).json({
+      error: "Name, email and password are required",
+    });
+  }
 
   const passwordHash = await hash(password, 10);
 
@@ -31,10 +34,21 @@ export default async function Register(req: Request, res: NextApiResponse) {
     const newUser: User = await prisma.user.create({
       data: {
         name: name.trim().toLowerCase(),
-        email,
+        email: email.trim(),
         passwordHash,
       },
+    })
+    .then((user) => {
+      return res.status(201).json({
+        userId: user.id,
+      });
+    })
+    .catch(() => {
+      return res.status(500).json({
+        error: "Registration failed!",
+      });
     });
+
     const jwt = await generateJWTForEmailVerification(newUser.id);
 
     // use nodemailer to send a verification email to the user's email address
