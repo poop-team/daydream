@@ -9,7 +9,6 @@ import Button from "../../components/Inputs/Button";
 import CreatedCollectionList from "../../components/Layout/Profile/CreatedCollectionList";
 import CreatedImageList from "../../components/Layout/Profile/CreatedImageList";
 import ProfileImage from "../../components/Surfaces/ProfileImage";
-import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { getUser } from "../../requests/fetch";
 import { updateUser } from "../../requests/mutate";
 import { transitionVariants } from "../../styles/motion-definitions";
@@ -18,8 +17,6 @@ import { getAuthSession } from "../../utils/storage";
 
 export default function Profile() {
   //#region Hooks
-
-  useAuthRedirect();
 
   const router = useRouter();
 
