@@ -11,7 +11,6 @@ import ImageList from "../components/Layout/ImageList";
 import StyleList from "../components/Layout/StyleList";
 import { createImageLoadingTexts as loadingTexts } from "../data/loading-texts";
 import { imageStyles } from "../data/styles";
-import useAuthRedirect from "../hooks/useAuthRedirect";
 import { searchPosts } from "../requests/fetch";
 import { createPost } from "../requests/mutate";
 import { transitionVariants } from "../styles/motion-definitions";
@@ -19,8 +18,6 @@ import { getAuthSession } from "../utils/storage";
 
 export default function Create() {
   //#region Hooks
-
-  useAuthRedirect();
 
   const router = useRouter();
 

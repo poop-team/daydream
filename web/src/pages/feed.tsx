@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 
 import ImageList from "../components/Layout/ImageList";
-import useAuthRedirect from "../hooks/useAuthRedirect";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
 import { transitionVariants } from "../styles/motion-definitions";
 
@@ -12,8 +11,6 @@ interface Props {
 
 export default function Feed({ searchValue, feedSortValue }: Props) {
   //#region Hooks
-
-  useAuthRedirect();
 
   const { posts, isFetching, isFetchingNextPage } = useInfiniteQueryPosts({
     key: "feed_posts",
