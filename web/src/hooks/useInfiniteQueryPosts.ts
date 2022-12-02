@@ -10,6 +10,7 @@ interface Params {
   key: string;
   searchValue: string;
   userId?: string;
+  collectionId?: string;
   recentOnly?: boolean;
   limit?: number;
   queryOptions?: {
@@ -23,7 +24,8 @@ export default function useInfiniteQueryPosts({
   key,
   searchValue,
   userId,
-  limit,
+  collectionId,
+  limit = 32,
   recentOnly,
   queryOptions,
 }: Params) {
@@ -38,11 +40,15 @@ export default function useInfiniteQueryPosts({
     isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: [key, { search: debouncedSearchValue, userId, recentOnly }],
+    queryKey: [
+      key,
+      { search: debouncedSearchValue, userId, collectionId, recentOnly },
+    ],
     queryFn: ({ pageParam = "" }) =>
       searchPosts({
         search: searchValue,
         userId,
+        collectionId,
         cursorId: pageParam as string,
         limit,
         recentOnly,

@@ -14,7 +14,8 @@ export default async function search(
 
   const {
     search: unsanitizedSearch,
-    searchUserId: userId,
+    userId,
+    searchUserId,
     collectionId,
     limit,
     cursorId,
@@ -27,6 +28,7 @@ export default async function search(
   if (
     Array.isArray(search) ||
     Array.isArray(userId) ||
+    Array.isArray(searchUserId) ||
     Array.isArray(collectionId) ||
     Array.isArray(limit) ||
     Array.isArray(cursorId) ||
@@ -37,91 +39,72 @@ export default async function search(
       .json({ Error: "Passed params cannot be a string array" });
   }
 
-  let posts;
-  if (collectionId) {
-    const searchedPosts = await prisma.collection.findUnique({
-      where: {
-        id: collectionId,
+  const posts = await prisma.post.findMany({
+    where: {
+      authorId: searchUserId || undefined, // Leave undefined if no searchUserId is passed
+      prompt: {
+        // Performs a case-insensitive search for prompts that contain the search string
+        contains: search,
+        mode: "insensitive",
       },
-      select: {
-        posts: {
-          orderBy:
-            recentOnly === "true"
-              ? { dateCreated: "desc" }
-              : [
-                  {
-                    likes: {
-                      _count: "desc",
-                    },
-                  },
-                  { dateCreated: "desc" },
-                ],
-          select: {
-            id: true,
-            dateCreated: true,
-            prompt: true,
-            imageURL: true,
-            author: {
-              select: {
-                name: true,
-                image: true,
-                id: true,
+      // If a collectionId is passed, only return posts that are in that collection
+      collections: collectionId
+        ? {
+            some: {
+              id: collectionId,
+            },
+          }
+        : undefined,
+    },
+    take: limit ? parseInt(limit.toString()) : undefined,
+    skip: cursorId ? 1 : 0,
+    cursor: cursorId ? { id: cursorId.toString() } : undefined,
+    orderBy:
+      recentOnly === "true"
+        ? { dateCreated: "desc" }
+        : [
+            {
+              likes: {
+                _count: "desc",
               },
             },
-            likes: true,
-          },
+            { dateCreated: "desc" },
+          ],
+    select: {
+      id: true,
+      dateCreated: true,
+      prompt: true,
+      imageURL: true,
+      author: {
+        select: {
+          name: true,
+          image: true,
+          id: true,
         },
       },
-    });
-
-    if (searchedPosts?.posts) {
-      posts = searchedPosts.posts.filter((post: { prompt: string }) =>
-        post.prompt.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-  } else {
-    posts = await prisma.post.findMany({
-      where: {
-        authorId: userId || undefined, // Leave undefined if no userId is passed
-        prompt: {
-          // Performs a case-insensitive search for prompts that contain the search string
-          contains: search,
-          mode: "insensitive",
+      _count: {
+        select: {
+          likes: true,
         },
       },
-      take: limit ? parseInt(limit.toString()) : undefined,
-      skip: cursorId ? 1 : 0,
-      cursor: cursorId ? { id: cursorId.toString() } : undefined,
-      orderBy:
-        recentOnly === "true"
-          ? { dateCreated: "desc" }
-          : [
-              {
-                likes: {
-                  _count: "desc",
-                },
-              },
-              { dateCreated: "desc" },
-            ],
-      select: {
-        id: true,
-        dateCreated: true,
-        prompt: true,
-        imageURL: true,
-        author: {
-          select: {
-            name: true,
-            image: true,
-            id: true,
-          },
+      // Get the current user's like status for each post
+      likes: {
+        where: {
+          userId: userId,
         },
-        likes: true,
       },
-    });
-  }
+    },
+  });
 
   res.json({
-    posts: posts ?? [],
+    posts:
+      posts.map((post) => ({
+        ...post,
+        _count: undefined, // Remove this field
+        likes: undefined, // Remove this field
+        likeCount: post._count.likes,
+        isLiked: post.likes.length > 0,
+      })) ?? [],
     nextCursorId:
       posts && posts?.length > 0 ? posts[posts.length - 1].id : null,
   });
