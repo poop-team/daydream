@@ -137,6 +137,7 @@ export default function ImageCard({
           <LikesCounter
             likes={localLikes}
             isLiked={localIsLiked}
+            onLikeClick={() => handleLikeChange(!localIsLiked)}
             className={"justify-end"}
           />
           <p className={"text-center text-lg sm:line-clamp-2 md:line-clamp-3"}>
@@ -154,7 +155,6 @@ export default function ImageCard({
         id={id}
         src={src}
         prompt={prompt}
-        promptPreview={promptPreview}
         likes={localLikes}
         isLiked={localIsLiked}
         onLikedChange={handleLikeChange}
