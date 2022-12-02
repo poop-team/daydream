@@ -38,7 +38,6 @@ export default async function get(req: NextApiRequest, res: NextApiResponse) {
             image: true,
           },
         },
-        likes: true,
         // Return the collections it is in
         collections: {
           where: {
@@ -49,6 +48,17 @@ export default async function get(req: NextApiRequest, res: NextApiResponse) {
             name: true,
           },
         },
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
+        // Get the current user's like status for each post
+        likes: {
+          where: {
+            userId: userId,
+          },
+        },
       },
     })
     .then((post) => {
@@ -56,7 +66,13 @@ export default async function get(req: NextApiRequest, res: NextApiResponse) {
         return res.status(404).json({ error: "Post not found" });
       }
 
-      return res.json(post);
+      return res.json({
+        ...post,
+        likeCount: post._count.likes,
+        isLiked: post.likes.length > 0,
+        _count: undefined,
+        likes: undefined,
+      });
     })
     .catch((e: Error) => {
       console.error(e.message);
