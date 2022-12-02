@@ -24,7 +24,7 @@ export default function FeedPage({ navigation }) {
   return (
     <View className="flex-1">
       <SafeAreaView className="flex-1">
-        <TopNavBar onChangeText={setSearch} />
+        <TopNavBar value={search} onChangeText={setSearch} />
         <View className="position-relative w-screen items-center justify-center android:mt-3">
           {/*surely there is a better way to keep the scroll view above the bottomNav*/}
           <FlatList
