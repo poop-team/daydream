@@ -29,7 +29,8 @@ export default async function doRequest<R>(
       error: string;
     } | null;
     throw new Error(data?.error ?? "Unknown server error", {
-      cause: { code: res.status },
+      // FIXME this bad
+      cause: { code: res.status } as unknown as Error,
     });
   }
 

@@ -8,7 +8,7 @@ import { storeAuthSession } from "../utils/storage";
 import LabelAndInput from "../components/LabelAndInput";
 
 export default function Login({ navigation }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState("");
@@ -28,10 +28,10 @@ export default function Login({ navigation }) {
       <ScrollView className="w-screen h-screen position-relative scroll">
         <View className="flex-1 flex mx-auto">
           <LabelAndInput
-            labelText="Enter your username:"
-            value={username}
-            placeholder="*Enter Username"
-            onChangeText={setUsername}
+            labelText="Enter your email:"
+            value={email}
+            placeholder="*Enter Email"
+            onChangeText={setEmail}
           />
 
           <LabelAndInput
@@ -62,7 +62,7 @@ export default function Login({ navigation }) {
             disabled={isPending || invalidCount >= 5}
             onPress={() => {
               setIsPending(true);
-              login(username, password)
+              login("danigomezdugan@gmail.com", "password")
                 .then(async (data) => {
                   if (data) {
                     storeAuthSession(data);
