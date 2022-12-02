@@ -7,7 +7,6 @@ import { MdArrowForward } from "react-icons/md";
 
 import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
-import useAuthRedirect from "../hooks/useAuthRedirect";
 import useDebounce from "../hooks/useDebounce";
 import { getIsUsernameTaken } from "../requests/fetch";
 import { login, register } from "../requests/mutate";
@@ -16,8 +15,6 @@ import { storeAuthSession } from "../utils/storage";
 
 export default function AuthPage() {
   //# region Hooks
-
-  useAuthRedirect();
 
   const router = useRouter();
 

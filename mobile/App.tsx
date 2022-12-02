@@ -5,7 +5,6 @@ import Register from "./src/pages/Register";
 import FeedPage from "./src/pages/feedPage";
 import ImageCreate from "./src/pages/ImageCreate";
 import ForgotPassword from "./src/pages/ForgotPassword";
-
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

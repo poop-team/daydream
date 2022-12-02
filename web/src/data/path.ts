@@ -4,6 +4,7 @@ const paths = {
   profile: "/profile",
   create: "/create",
   auth: "/auth",
+  post: "/post",
 };
 
 export default paths;

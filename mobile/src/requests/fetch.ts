@@ -2,11 +2,11 @@
  * Functions to Fetch data from the API
  */
 
-import Collection from "../types/collection.type";
 import { Post } from "../types/post.type";
 import { User } from "../types/user.type";
 import { getAuthSession } from "../utils/storage";
 import doRequest from "./request";
+import Collection from "../types/collection.type";
 
 export async function searchPosts({
   search = "",
@@ -33,15 +33,28 @@ export async function searchPosts({
   );
 }
 
-export async function getUser(userId) {
-  userId = userId ?? (await getAuthSession()).userId;
+// You can provide either a userId or a userName
+export async function getUser({ userId = "", userName = "" }) {
   const params = new URLSearchParams({
     userId: (await getAuthSession()).userId,
-    searchUserId: userId,
+    searchUserId: userId || (await getAuthSession()).userId,
+    userName: userName,
   });
 
   return await doRequest<User>(
     `https://daydream.wtf/api/user/get?${params.toString()}`,
+    null,
+    "GET"
+  );
+}
+export async function getPost(postId: string) {
+  const params = new URLSearchParams({
+    userId: (await getAuthSession()).userId,
+    postId,
+  });
+
+  return await doRequest<Post>(
+    `/api/post/get?${params.toString()}`,
     null,
     "GET"
   );
@@ -68,20 +81,6 @@ export async function getCollections({ collectionId = "", userId = "" }) {
 
   return await doRequest<{ collections: Collection[] }>(
     `https://daydream.wtf/api/collection/get?${params.toString()}`,
-    null,
-    "GET"
-  );
-}
-
-export async function getCollection({ collectionId = "", userId = "" }) {
-  const params = new URLSearchParams({
-    userId: (await getAuthSession()).userId,
-    collectionId,
-    searchUserId: userId,
-  });
-
-  return await doRequest<{ collections: Collection[] }>(
-    `/api/collection/get?${params.toString()}`,
     null,
     "GET"
   );

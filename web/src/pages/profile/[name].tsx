@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdPermMedia, MdWallpaper } from "react-icons/md";
 
@@ -9,7 +9,6 @@ import Button from "../../components/Inputs/Button";
 import CreatedCollectionList from "../../components/Layout/Profile/CreatedCollectionList";
 import CreatedImageList from "../../components/Layout/Profile/CreatedImageList";
 import ProfileImage from "../../components/Surfaces/ProfileImage";
-import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { getUser } from "../../requests/fetch";
 import { updateUser } from "../../requests/mutate";
 import { transitionVariants } from "../../styles/motion-definitions";
@@ -18,8 +17,6 @@ import { getAuthSession } from "../../utils/storage";
 
 export default function Profile() {
   //#region Hooks
-
-  useAuthRedirect();
 
   const router = useRouter();
 
@@ -60,12 +57,24 @@ export default function Profile() {
     },
   });
 
+  // Update the view state when the query param changes
+  useEffect(() => {
+    const { view } = router.query;
+    if (view === "collections") {
+      setView("collections");
+    } else {
+      setView("created");
+    }
+  }, [router.query]);
+
   //#endregion
 
   //#region Handlers
 
   const handleViewChange = (view: "created" | "collections") => {
-    setView(view);
+    void router.push({
+      query: { name: router.query.name, view },
+    });
   };
 
   const handleUpdateImage = (e: ChangeEvent<HTMLInputElement>) => {

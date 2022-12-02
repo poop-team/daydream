@@ -80,8 +80,9 @@ export default function CollectionList({
                 variants={transitionVariants}
                 initial={"fadeOut"}
                 animate={"fadeIn"}
+                className={"whitespace-nowrap"}
               >
-                Nothing to display &#128542;
+                {"No collections to show 😔"}
               </motion.p>
             )}
           </motion.div>
