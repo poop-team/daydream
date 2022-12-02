@@ -47,6 +47,18 @@ export async function getUser({ userId = "", userName = "" }) {
     "GET"
   );
 }
+export async function getPost(postId: string) {
+  const params = new URLSearchParams({
+    userId: (await getAuthSession()).userId,
+    postId,
+  });
+
+  return await doRequest<Post>(
+    `/api/post/get?${params.toString()}`,
+    null,
+    "GET"
+  );
+}
 
 export async function authenticateUser() {
   return await doRequest<{ message: string }>(
