@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
+import useInfiniteQueryPosts from "../../../hooks/useInfiniteQueryPosts";
 import { getCollections } from "../../../requests/fetch";
 import { createCollection, deleteCollection } from "../../../requests/mutate";
 import Collection from "../../../types/collection.type";
@@ -43,6 +44,20 @@ export default function CreatedCollectionList({
     enabled: !!userId,
   });
 
+  const {
+    posts: selectedCollectionPosts,
+    isFetching: isFetchingPosts,
+    isFetchingNextPage: isFetchingPostsNextPage,
+  } = useInfiniteQueryPosts({
+    key: "user_collection_posts",
+    recentOnly: true,
+    collectionId: selectedCollection?.id,
+    searchValue: searchPostValue,
+    queryOptions: {
+      enabled: !!selectedCollection,
+    },
+  });
+
   const { mutate: mutateCreateCollection, isLoading: isCreatingCollection } =
     useMutation({
       mutationKey: ["create_collection"],
@@ -77,14 +92,6 @@ export default function CreatedCollectionList({
           .includes(searchCollectionValue.toLowerCase())
       ),
     [collectionData, searchCollectionValue]
-  );
-
-  const selectedCollectionPosts = useMemo(
-    () =>
-      selectedCollection?.posts.filter((post) =>
-        post.prompt.toLowerCase().includes(searchPostValue.toLowerCase())
-      ),
-    [selectedCollection, searchPostValue]
   );
 
   // Update the selected collection state when the query param changes
@@ -183,7 +190,8 @@ export default function CreatedCollectionList({
           />
         ) : (
           <ImageList
-            arePostsLoading={areCollectionsLoading || isProfileLoading}
+            arePostsLoading={isFetchingPosts}
+            areMorePostsLoading={isFetchingPostsNextPage}
             posts={selectedCollectionPosts ?? []}
           />
         )}

@@ -100,6 +100,7 @@ export default function ImageCard({
             isLiked={isLiked}
             onLikeClick={() => mutateLikeChange(!isLiked)}
             className={"justify-end"}
+            iconClassName={"fill-slate-50"}
           />
           <p className={"text-center text-lg sm:line-clamp-2 md:line-clamp-3"}>
             {/* Only the first sentence/section of the prompt which contains the main topic will be displayed here */}

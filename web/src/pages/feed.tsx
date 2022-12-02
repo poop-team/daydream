@@ -18,7 +18,6 @@ export default function Feed({ searchValue, feedSortValue }: Props) {
   const { posts, isFetching, isFetchingNextPage } = useInfiniteQueryPosts({
     key: "feed_posts",
     searchValue,
-    limit: 32,
     recentOnly: feedSortValue === "recent",
     queryOptions: {
       refetchOnMount: "always", // Refetch on mount regardless of staleness (e.g. if the user navigates back to the feed from another route)
