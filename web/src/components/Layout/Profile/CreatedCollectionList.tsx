@@ -158,10 +158,10 @@ export default function CreatedCollectionList({
         displayRemoveButton={
           !!selectedCollection && !isProfileLoading && isSelf
         }
-        onBackButtonClick={() =>
-          delete router.query.collectionId &&
-          void router.push({ query: router.query })
-        }
+        onBackButtonClick={() => {
+          delete router.query.collectionId;
+          void router.push({ query: router.query });
+        }}
         onRemoveButtonClick={handleDeleteCollection}
         onAddButtonClick={handleCreateCollection}
         isAddButtonDisabled={

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { TextInput, Text, Pressable, View, ScrollView } from "react-native";
 import Button from "../components/Button";
 import Icon from "react-native-vector-icons/Ionicons";
-import { register } from "../helpers/mutate";
+import { register } from "../requests/mutate";
 import LabelAndInput from "../components/LabelAndInput";
 
 export default function Register({ navigation }) {

@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdArrowForward, MdLibraryAdd } from "react-icons/md";
 
@@ -71,14 +71,12 @@ export default function Post() {
   });
 
   const isLiked = useMemo(() => {
-    return !!postData?.likes.find(
+    const isLiked = !!postData?.likes.find(
       (like) => like.userId === getAuthSession().userId
     );
-  }, [postData]);
-
-  useEffect(() => {
     setLocalIsLiked(isLiked);
-  }, [isLiked]);
+    return isLiked;
+  }, [postData]);
 
   //#endregion
 

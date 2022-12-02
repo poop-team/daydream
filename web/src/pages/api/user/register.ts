@@ -2,7 +2,7 @@ import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
-import { validateMethod, validateString } from "../../../utils/validation";
+import { validateMethod } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {
@@ -17,26 +17,30 @@ export default async function Register(req: Request, res: NextApiResponse) {
 
   const { name, email, password } = req.body;
 
-  if (!validateString(email, "email is required", res)) return;
-  if (!validateString(password, "password is required", res)) return;
-
-  const passwordHash = await hash(password, 10);
-
-  try {
-    await prisma.user.create({
-      data: {
-        name: name.trim().toLowerCase(),
-        email,
-        passwordHash,
-      },
-    });
-  } catch (e) {
-    return res.status(500).json({
-      error: "Registration failed!",
+  if (!name.trim() || !email.trim() || !password) {
+    return res.status(400).json({
+      error: "Name, email and password are required",
     });
   }
 
-  return res.status(201).json({
-    message: "Registration successful!",
-  });
+  const passwordHash = await hash(password, 10);
+
+  prisma.user
+    .create({
+      data: {
+        name: name.trim().toLowerCase(),
+        email: email.trim(),
+        passwordHash,
+      },
+    })
+    .then((user) => {
+      return res.status(201).json({
+        userId: user.id,
+      });
+    })
+    .catch(() => {
+      return res.status(500).json({
+        error: "Registration failed!",
+      });
+    });
 }
