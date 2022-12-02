@@ -26,7 +26,6 @@ export default function CreatedImageList({
     key: "user_posts",
     searchValue,
     userId,
-    limit: 24,
     recentOnly: true,
     queryOptions: {
       enabled: !!userId,
