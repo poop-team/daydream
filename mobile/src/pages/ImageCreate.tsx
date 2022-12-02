@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ActivityIndicator, Text, Pressable, View, ScrollView, SafeAreaView } from "react-native";
 import { imageStyles } from "../data/styles";
@@ -16,10 +16,6 @@ import { createPost } from "../helpers/mutate";
 export default function ImageCreate({ navigation }) {
     const [prompt, setPrompt] = useState("");
     const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
-
-    useEffect(() => {
-        console.log(selectedStyles);
-    });
 
     const { mutate: create, isLoading: isCreating } = useMutation(createPost, {
         onSuccess: async () => {
