@@ -23,7 +23,7 @@ export default function ImageCreate({ navigation }) {
                     />
                 </Pressable>
                 <View className="grow">
-                    <TopNavBar icon="color-wand-outline" className="m-2" onChangeText={setSearch} />
+                    <TopNavBar icon="color-wand-outline" className="m-2" value={search} onChangeText={setSearch} />
                 </View>
             </View>
             <ScrollView>
