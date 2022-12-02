@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
+import type { MouseEvent } from "react";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 
 import IconButton from "../Inputs/IconButton";
@@ -6,7 +7,7 @@ import IconButton from "../Inputs/IconButton";
 interface Props {
   likes: number;
   isLiked: boolean;
-  onLikeClick?: () => void;
+  onLikeClick?: (e: MouseEvent) => void;
   className?: string;
 }
 
@@ -22,7 +23,7 @@ export default function LikesCounter({
       <IconButton
         onClick={(e) => {
           e.stopPropagation();
-          onLikeClick?.();
+          onLikeClick?.(e);
         }}
       >
         <AnimatePresence initial={false}>
