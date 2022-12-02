@@ -7,7 +7,6 @@ import {
   transitionVariants,
 } from "../../styles/motion-definitions";
 import type { Post } from "../../types/post.type";
-import { getAuthSession } from "../../utils/storage";
 import CircularProgress from "../Feedback/CircularProgress";
 import ImageCard from "../Surfaces/ImageCard";
 
@@ -56,12 +55,8 @@ export default function ImageList({
                       prompt={post.prompt}
                       authorName={post.author.name}
                       authorAvatar={post.author.image}
-                      likes={post.likes.length}
-                      isLiked={
-                        !!post.likes.find(
-                          (like) => like.userId === getAuthSession().userId
-                        )
-                      }
+                      likeCount={post.likeCount}
+                      isLiked={post.isLiked}
                     />
                   </motion.li>
                 ))}
