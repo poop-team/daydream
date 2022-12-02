@@ -1,6 +1,15 @@
 import { styled } from "nativewind";
 import React from "react";
-import { Image, ImageStyle, StyleProp } from "react-native";
+import {
+  Image,
+  ImageStyle,
+  Pressable,
+  StyleProp,
+  View,
+  Modal,
+  Text,
+} from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 //fixme: I will probably have to break card up unto a sub-component like the web version and then url will be required
 interface Props {
@@ -16,13 +25,41 @@ function Card({
   style,
 }: Props) {
   //these spaces are here so that the user of this api cannot mess it up if they forget to add a space
+  const [modalVisible, setModalVisible] = React.useState(false);
+  console.log("modalVisible", modalVisible);
   let baseStyle = "rounded-lg mt-5 mx-auto";
   return (
-    <Image
-      source={{ uri: url }}
-      className={`${baseStyle} h-96 w-11/12`}
-      style={style}
-    />
+    <View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <TouchableOpacity
+          className="flex items-center justify-center bg-white bg-opacity-50 h-full w-full"
+          onPress={() => {
+            setModalVisible(!modalVisible);
+            console.log("1");
+          }}
+        >
+          <Image className="w-11/12 h-96 rounded-lg" source={{ uri: url }} />
+          <Text>by {}</Text>
+          <Pressable>
+            <Text>Hide Modal</Text>
+          </Pressable>
+        </TouchableOpacity>
+      </Modal>
+      <Pressable onPress={() => setModalVisible(true)}>
+        <Image
+          source={{ uri: url }}
+          className={`${baseStyle} h-96 w-11/12`}
+          style={style}
+        />
+      </Pressable>
+    </View>
   );
 }
 
