@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
 import { generateJWT } from "../../../utils/jwt";
-import { validateMethod, validateString } from "../../../utils/validation";
+import { validateMethod } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {
@@ -17,8 +17,11 @@ export default async function Login(req: Request, res: NextApiResponse) {
 
   const { email, password } = req.body;
 
-  if (!validateString(email, "email is required", res)) return;
-  if (!validateString(password, "password is required", res)) return;
+  if (!email.trim() || !password.trim()) {
+    return res.status(400).json({
+      error: "Email and password are required",
+    });
+  }
 
   const user = await prisma.user.findUnique({
     where: {

@@ -37,7 +37,7 @@ export async function searchPosts({
 export async function getUser({ userId = "", userName = "" }) {
   const params = new URLSearchParams({
     userId: (await getAuthSession()).userId,
-    searchUserId: userId,
+    searchUserId: userId || (await getAuthSession()).userId,
     userName: userName,
   });
 
