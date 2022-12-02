@@ -9,9 +9,9 @@ import Icon from "react-native-vector-icons/Ionicons";
 import MultiSelect from "../components/MultiSelect";
 import BottomNavBar from "../components/BottomNavBar";
 import TopNavBar from "../components/TopNavBar";
-import { searchPosts } from "../helpers/fetch";
+import { searchPosts } from "../requests/fetch";
 import { getAuthSession } from "../utils/storage";
-import { createPost } from "../helpers/mutate";
+import { createPost } from "../requests/mutate";
 
 export default function ImageCreate({ navigation }) {
     const [prompt, setPrompt] = useState("");
