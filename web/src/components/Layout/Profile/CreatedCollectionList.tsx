@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import { getCollections } from "../../../requests/fetch";
@@ -87,13 +87,28 @@ export default function CreatedCollectionList({
     [selectedCollection, searchPostValue]
   );
 
+  // Update the selected collection state when the query param changes
+  useEffect(() => {
+    const { collectionId } = router.query;
+    if (collectionId) {
+      const collection = collectionData?.collections.find(
+        (collection) => collection.id === collectionId
+      );
+      setSelectedCollection(collection ?? null);
+    } else {
+      setSelectedCollection(null);
+    }
+  }, [collectionData?.collections, router.query]);
+
   //#endregion
 
   //#region Handlers
 
   const handleCollectionSelect = (collection: Collection) => {
     setSearchPostValue("");
-    setSelectedCollection(collection);
+    void router.push({
+      query: { ...router.query, collectionId: collection.id },
+    });
   };
 
   const handleCreateCollection = () => {
@@ -143,7 +158,10 @@ export default function CreatedCollectionList({
         displayRemoveButton={
           !!selectedCollection && !isProfileLoading && isSelf
         }
-        onBackButtonClick={() => setSelectedCollection(null)}
+        onBackButtonClick={() => {
+          delete router.query.collectionId;
+          void router.push({ query: router.query });
+        }}
         onRemoveButtonClick={handleDeleteCollection}
         onAddButtonClick={handleCreateCollection}
         isAddButtonDisabled={

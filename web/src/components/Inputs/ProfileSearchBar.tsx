@@ -24,7 +24,7 @@ interface Props {
 
 export default function ProfileSearchBar({
   displayBackButton = false,
-  displayAddButton = true,
+  displayAddButton = false,
   displayRemoveButton = false,
   searchValue,
   onSearchValueChange,

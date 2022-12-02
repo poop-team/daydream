@@ -23,11 +23,11 @@ export default function Author({
           fill
           priority
           sizes={"2rem"}
-          containerClassName={"relative h-8 w-8 rounded-full"}
+          containerClassName={"relative h-10 w-10 rounded-full"}
           className={"rounded-full"}
         />
       ) : (
-        <MdAccountCircle className={"h-full w-8"} />
+        <MdAccountCircle className={"h-10 w-10"} />
       )}
       <p className={"truncate"}>
         By{" "}

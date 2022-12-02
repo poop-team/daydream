@@ -1,27 +1,29 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdDoubleArrow } from "react-icons/md";
 
-import { getCollections } from "../../../requests/fetch";
+import useIsClient from "../../hooks/useIsClient";
+import { getCollections } from "../../requests/fetch";
 import {
   addPostToCollection,
   removePostFromCollection,
-} from "../../../requests/mutate";
+} from "../../requests/mutate";
 import {
   staggerContainerVariants,
   staggerItemVariants,
   transitions,
   transitionVariants,
-} from "../../../styles/motion-definitions";
-import { Post } from "../../../types/post.type";
-import { getAuthSession } from "../../../utils/storage";
-import CircularProgress from "../../Feedback/CircularProgress";
-import IconButton from "../../Inputs/IconButton";
-import SearchBar from "../../Inputs/SearchBar";
-import Card from "../../Surfaces/Card";
-import CollectionCard from "../../Surfaces/CollectionCard";
+} from "../../styles/motion-definitions";
+import { Post } from "../../types/post.type";
+import { getAuthSession } from "../../utils/storage";
+import CircularProgress from "../Feedback/CircularProgress";
+import IconButton from "../Inputs/IconButton";
+import SearchBar from "../Inputs/SearchBar";
+import Card from "../Surfaces/Card";
+import CollectionCard from "../Surfaces/CollectionCard";
 
 interface Props {
   postId: string;
@@ -35,6 +37,8 @@ export default function AddToCollectionPanel({
   className = "",
 }: Props) {
   //#region Hooks
+
+  const isClient = useIsClient();
 
   const [searchValue, setSearchValue] = useState("");
   const [loadingCollectionIds, setLoadingCollectionIds] = useState<string[]>(
@@ -141,6 +145,12 @@ export default function AddToCollectionPanel({
 
   //#endregion
 
+  //#region Derived State
+
+  const { userName = "" } = (isClient && getAuthSession()) || {};
+
+  //#endregion
+
   return (
     <Card
       className={`flex h-full w-full flex-col bg-slate-100/90 backdrop-blur-md dark:bg-slate-800/90 md:flex-row ${className}`}
@@ -155,7 +165,7 @@ export default function AddToCollectionPanel({
           className={"rotate-90 text-3xl md:rotate-0 md:text-4xl"}
         />
       </IconButton>
-      <div className={"relative w-full overflow-y-auto p-2 md:p-4"}>
+      <div className={"relative h-full w-full overflow-y-auto p-2 md:p-4"}>
         <SearchBar
           value={searchValue}
           onValueChange={handleCollectionSearch}
@@ -198,7 +208,7 @@ export default function AddToCollectionPanel({
         </motion.ol>
         <div
           className={
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:text-2xl"
+            "absolute top-1/2 left-1/2 mt-6 -translate-x-1/2 -translate-y-1/2 sm:text-2xl md:mt-0"
           }
         >
           <AnimatePresence>
@@ -209,7 +219,7 @@ export default function AddToCollectionPanel({
                 animate="fadeIn"
                 exit="fadeOut"
               >
-                <CircularProgress className={"scale-[200%]"} />
+                <CircularProgress className={"scale-[150%] md:scale-[200%]"} />
               </motion.div>
             ) : (
               !collections?.length && (
@@ -218,8 +228,31 @@ export default function AddToCollectionPanel({
                   initial="fadeOut"
                   animate="fadeIn"
                   exit="fadeOut"
+                  className={"break-words text-center"}
                 >
-                  No collections found
+                  {searchValue ? (
+                    "No collections to show 😔"
+                  ) : (
+                    <>
+                      You haven&apos;t created any collections yet.
+                      <br />
+                      Create one by going to{" "}
+                      <Link
+                        href={`/profile/${encodeURI(
+                          userName
+                        )}?view=collections`}
+                      >
+                        <a
+                          className={
+                            "inline text-inherit underline transition duration-200 ease-out hover:text-indigo-700 focus-visible:outline-none dark:hover:text-indigo-300"
+                          }
+                          onClick={(e) => e.stopPropagation()} // Prevents other handlers from firing
+                        >
+                          your profile&apos;s Collections tab
+                        </a>
+                      </Link>
+                    </>
+                  )}
                 </motion.p>
               )
             )}

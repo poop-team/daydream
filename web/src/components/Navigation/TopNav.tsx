@@ -74,6 +74,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
   const { userName = "", userAvatar } = (isClient && getAuthSession()) || {};
 
   const isFeed = router.pathname === paths.feed;
+  const isPost = router.pathname.startsWith(paths.post);
   const isCreate = router.pathname === paths.create;
   const isProfile = router.pathname.startsWith(paths.profile);
   const isOwnProfile = isProfile && router.query.name === userName;
@@ -85,7 +86,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
 
   let navStyles =
     "fixed top-0 z-10 h-14 w-full rounded-b-lg px-4 backdrop-blur-md bg-slate-50/70 transition-colors duration-200 dark:bg-slate-900/70";
-  navStyles += isCreate ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
+  navStyles += isCreate || isPost ? " hidden sm:block" : ""; // Hide on mobile, show on desktop.
 
   //#endregion
 
@@ -96,7 +97,11 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
       transition={transitions.easeOut}
       className={navStyles}
     >
-      <ul className={"flex h-full list-none items-center justify-between"}>
+      <ul
+        className={
+          "flex h-full list-none items-center justify-between sm:gap-4"
+        }
+      >
         <AnimatePresence mode={"popLayout"} initial={false}>
           {!isFeed && !isAuth && (
             <motion.li
@@ -106,7 +111,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               animate={"animate"}
               exit={"initialLeft"}
               transition={transitions.springStiff}
-              className={"hidden sm:block"}
+              className={"hidden justify-start sm:block"}
             >
               <LinkIconButton href={paths.feed}>
                 <MdHome className={"h-full w-10"} />
@@ -122,13 +127,26 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               animate={"animate"}
               exit={"initialTop"}
               transition={transitions.springStiff}
-              className={"flex grow items-center justify-center sm:gap-2"}
+              className={`flex grow justify-center sm:justify-start sm:gap-2`}
             >
               <SearchBar
                 value={searchValue}
                 onValueChange={setSearchValue}
                 className={"w-full max-w-xl sm:w-2/3"}
               />
+            </motion.li>
+          )}
+
+          {!isCreate && !isAuth && (
+            <motion.li
+              key={"create"}
+              variants={positionVariants}
+              initial={"initialTop"}
+              animate={"animate"}
+              exit={"initialTop"}
+              transition={transitions.springStiff}
+              className={`ml-auto sm:gap-2`}
+            >
               <LinkIconButton
                 href={`/create?prompt=${encodeURI(searchValue)}`}
                 className={"hidden text-base sm:block"}
@@ -175,7 +193,7 @@ export default function TopNav({ searchValue, setSearchValue }: Props) {
               animate={"animate"}
               exit={"initialRight"}
               transition={transitions.springStiff}
-              className={"ml-auto"}
+              className={`${isAuth ? "ml-auto" : ""}`}
             >
               <PopoverButton
                 button={IconButton}
