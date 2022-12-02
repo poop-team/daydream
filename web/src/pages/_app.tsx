@@ -18,6 +18,9 @@ function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
   //#region Hooks
 
   const [searchValue, setSearchValue] = useState("");
+  const [feedSortValue, setFeedSortValue] = useState<"featured" | "recent">(
+    "featured"
+  );
 
   //#endregion
 
@@ -29,9 +32,18 @@ function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <ThemeContextWrapper>
-          <TopNav searchValue={searchValue} setSearchValue={setSearchValue} />
+          <TopNav
+            feedSortValue={feedSortValue}
+            setFeedSortValue={setFeedSortValue}
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
           <AnimatePresence mode={"popLayout"}>
-            <Component searchValue={searchValue} {...pageProps} />
+            <Component
+              searchValue={searchValue}
+              feedSortValue={feedSortValue}
+              {...pageProps}
+            />
           </AnimatePresence>
           <BottomNav />
           <Toaster
