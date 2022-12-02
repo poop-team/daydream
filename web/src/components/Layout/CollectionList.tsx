@@ -48,10 +48,7 @@ export default function CollectionList({
                   onClick={() => onCollectionClick(collection)}
                   className={"h-full w-full"}
                 >
-                  <CollectionCard
-                    posts={collection.posts}
-                    name={collection.name}
-                  />
+                  <CollectionCard collection={collection} />
                 </motion.li>
               ))}
             </AnimatePresence>

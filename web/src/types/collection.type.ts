@@ -1,9 +1,10 @@
-import { Post } from "./post.type";
+import { PreviewPost } from "./post.type";
 
 interface Collection {
   id: string;
   name: string;
-  posts: Post[];
+  posts: PreviewPost[];
+  postCount: number;
 }
 
 export default Collection;
