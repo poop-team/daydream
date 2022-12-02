@@ -48,12 +48,16 @@ export async function getUser({ userId = "", userName = "" }) {
   );
 }
 
-export async function getPost(postId: string) {
-  return await doRequest<Post>(
-    `/api/post/get?userId=${getAuthSession().userId}&postId=${postId}`,
-    null,
-    "GET"
-  );
+export async function getPost(postId: string, collectionId = "") {
+  const params = new URLSearchParams({
+    userId: getAuthSession().userId,
+    postId: postId,
+    collectionId: collectionId,
+  });
+
+  return await doRequest<
+    { collections: { id: string; name: string }[] } & Post
+  >(`/api/post/get?${params.toString()}`, null, "GET");
 }
 
 export async function getIsUsernameTaken(userName: string) {

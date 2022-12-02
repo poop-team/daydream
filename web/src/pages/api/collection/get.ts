@@ -32,24 +32,31 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
         id: true,
         name: true,
         posts: {
+          take: 3,
           select: {
             id: true,
             dateCreated: true,
             prompt: true,
             imageURL: true,
-            author: {
-              select: {
-                name: true,
-                id: true,
-              },
-            },
-            likes: true,
+          },
+        },
+        _count: {
+          select: {
+            posts: true,
           },
         },
       },
     })
     .then((collections) => {
-      res.status(200).json({ collections });
+      res.status(200).json({
+        collections: collections.map((collection) => ({
+          id: collection.id,
+          name: collection.name,
+          posts: collection.posts,
+          postCount: collection._count.posts,
+          _count: undefined,
+        })),
+      });
     })
     .catch((err: Error) => {
       console.error(err.message);

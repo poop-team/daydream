@@ -47,17 +47,16 @@ export async function getUser({ userId = "", userName = "" }) {
     "GET"
   );
 }
-export async function getPost(postId: string) {
+export async function getPost(postId: string, collectionId = "") {
   const params = new URLSearchParams({
     userId: (await getAuthSession()).userId,
-    postId,
+    postId: postId,
+    collectionId: collectionId,
   });
 
-  return await doRequest<Post>(
-    `/api/post/get?${params.toString()}`,
-    null,
-    "GET"
-  );
+  return await doRequest<
+    { collections: { id: string; name: string }[] } & Post
+  >(`https://daydream.wtf/api/post/get?${params.toString()}`, null, "GET");
 }
 
 export async function authenticateUser() {
