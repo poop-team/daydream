@@ -138,8 +138,6 @@ export default function AddToCollectionPanel({
   const addedCollectionIds =
     postData?.collections.map((collection) => collection.id) ?? [];
 
-  console.log(postData);
-
   //#endregion
 
   return (
