@@ -15,8 +15,11 @@ export default ({ navigation }) => {
           <Image
             className="w-48 h-48 m-4 rounded-full"
             source={require("../images/daydream_logo_words.png")}
-          />
-          <Text>0 views 0 saved</Text>
+            />
+          <View className="flex flex-row gap-2">
+            <Text>0 views</Text>
+            <Text>0 saved</Text>
+          </View>
           <View className="flex flex-row gap-2 m-4">
             <Button className="py-0">
               <Text className="text-base text-slate-50">Created</Text>
