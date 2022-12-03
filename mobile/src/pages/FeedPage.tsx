@@ -34,12 +34,8 @@ export default function FeedPage({ navigation }) {
               <Card key={item.id} url={item.imageURL} />
             )}
             keyExtractor={(item) => item.id}
-            onScroll={(event) => {
-              pageHeight = event.nativeEvent.contentSize.height;
-              pageProgress = event.nativeEvent.contentOffset.y;
-            }}
             onEndReached={() => {
-              if (pageProgress / pageHeight > 0.65 && !blob.isFetching) {
+              if (!blob.isFetching) {
                 blob.fetchNextPage();
               }
             }}
