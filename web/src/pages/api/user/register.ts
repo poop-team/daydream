@@ -47,7 +47,11 @@ export default async function Register(req: Request, res: NextApiResponse) {
         },
       });
 
-    const confirmEmailAPIRoute = `http://localhost:3000/api/user/confirmEmail/id?=${newUser.id}token?=${jwt}`;
+    const url =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : "https://daydream.wtf";
+    const confirmEmailAPIRoute = `${url}/api/user/confirmEmail?userId=${newUser.id}&token=${jwt}`;
 
     await transporter.sendMail({
       from: process.env.EMAIL,
