@@ -32,7 +32,7 @@ export const generateJWTForEmailVerification = async (
     sign(
       { userId },
       env.JWT_PRIVATE_KEY,
-      { expiresIn: "365d" },
+      { expiresIn: "20 minutes" },
       (err, data) => {
         if (err) {
           reject(err);
