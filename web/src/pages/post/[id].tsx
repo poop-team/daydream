@@ -5,11 +5,11 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdArrowForward, MdLibraryAdd } from "react-icons/md";
 
-import CircularProgress from "../../components/Feedback/CircularProgress";
 import Button from "../../components/Inputs/Button";
 import ImageList from "../../components/Layout/ImageList";
 import AddToCollectionPanel from "../../components/Panels/AddToCollectionPanel";
 import CustomImage from "../../components/Surfaces/CustomImage";
+import Skeleton from "../../components/Surfaces/Skeleton";
 import Author from "../../components/Widgets/Author";
 import FloatingImageActions from "../../components/Widgets/FloatingImageActions";
 import LikesCounter from "../../components/Widgets/LikesCounter";
@@ -164,7 +164,18 @@ export default function Post() {
           </AnimatePresence>
         </div>
       ) : isPostLoading ? (
-        <CircularProgress className={"m-auto scale-[200%]"} />
+        <div className={"flex flex-col gap-8 md:flex-row"}>
+          <Skeleton className={"aspect-square w-full"} />
+          <div className={"flex w-full flex-col items-center gap-2 lg:gap-4"}>
+            <div className={"flex h-10 w-full items-center justify-between"}>
+              <Skeleton className={"mr-2 h-10 w-10 rounded-full"} />
+              <Skeleton className={"mr-auto h-8 w-32"} />
+              <Skeleton className={"h-8 w-20"} />
+            </div>
+            <Skeleton className={"w-full basis-28 px-1 md:basis-full"} />
+            <Skeleton className={"mt-auto h-10 w-48"} />
+          </div>
+        </div>
       ) : (
         <div className={"m-auto text-center"}>
           <h1 className={"text-4xl font-bold"}>Post Not Found</h1>
