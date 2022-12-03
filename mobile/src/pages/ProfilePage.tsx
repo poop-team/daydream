@@ -3,13 +3,26 @@ import BottomNavBar from "../components/BottomNavBar";
 import TopNavBar from "../components/TopNavBar";
 import Button from "../components/Button";
 import { useState } from "react";
+import { getAuthSession } from "../utils/storage";
 
 export default ({ navigation }) => {
   const [search, setSearch] = useState("");
+  const [userId, setUserId] = useState(null)
+  const [userName, setUserName] = useState("")
+  const [userAvatar, setUserAvatar] = useState(null);
 
   const [currentView, setCurrentView] = useState<"created" | "collections">(
     "created"
   );
+
+  useEffect(() => {
+    (async () => {
+      const { userId, userAvatar, userName } = await getAuthSession();
+      setUserId(userId);
+      setUserName(userName);
+      setUserAvatar(userAvatar);
+    })();
+  }, []);
 
   return (
     <View className="w-full flex flex-1 justify-between">
@@ -17,9 +30,10 @@ export default ({ navigation }) => {
         <ScrollView>
           <View className="flex items-center mt-16">
             <Image
-              className="w-48 h-48 m-4 rounded-full"
+              className="w-48 h-48 mt-4 rounded-full"
               source={require("../images/daydream_logo_words.png")}
             />
+            <Text className="mb-2 text-lg font-semibold">@{userName}</Text>
             <View className="flex flex-row gap-2">
               <Text>0 views</Text>
               <Text>0 saved</Text>
