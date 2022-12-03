@@ -2,14 +2,19 @@ import { SafeAreaView, Image, View, Text, ScrollView } from "react-native";
 import BottomNavBar from "../components/BottomNavBar";
 import TopNavBar from "../components/TopNavBar";
 import Button from "../components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getAuthSession } from "../utils/storage";
+import { getUser } from "../requests/fetch";
+import { User } from "../types/user.type";
 
 export default ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [userId, setUserId] = useState(null)
   const [userName, setUserName] = useState("")
   const [userAvatar, setUserAvatar] = useState(null);
+
+  const [user, setUser] = useState<User | null>(null);
 
   const [currentView, setCurrentView] = useState<"created" | "collections">(
     "created"
@@ -24,6 +29,27 @@ export default ({ navigation }) => {
     })();
   }, []);
 
+  const {
+    data: profileData,
+    isLoading: isProfileLoading,
+    refetch: refetchProfile,
+  } = useQuery({
+    // FIXME figure out how to incorporate userid here
+    queryKey: ["user_profile"],
+    queryFn: async () => {
+      const userId = (await getAuthSession()).userId;
+      return getUser({ userId });
+    },
+    onSuccess: (user: User) => setUser(user),
+    /*
+    onError: (err: ErrorResponse) => {
+      if (err.cause?.code === 404) {
+        setNotFound(true);
+      }
+      toast.error(err.message);
+    },
+*/
+  });
   return (
     <View className="w-full flex flex-1 justify-between">
       <SafeAreaView className="w-full flex flex-1">
@@ -35,8 +61,8 @@ export default ({ navigation }) => {
             />
             <Text className="mb-2 text-lg font-semibold">@{userName}</Text>
             <View className="flex flex-row gap-2">
-              <Text>0 views</Text>
-              <Text>0 saved</Text>
+              <Text>{user?.postCount ?? 0} images</Text>
+              <Text>{user?.collectionCount ?? 0} collections</Text>
             </View>
             <View className="flex flex-row gap-2 m-4 w-full justify-center">
               <Button
