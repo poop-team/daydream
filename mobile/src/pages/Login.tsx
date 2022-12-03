@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { TextInput, Text, Pressable, View, ScrollView } from "react-native";
+import { Text, Pressable, View, ScrollView } from "react-native";
 import Button from "../components/Button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { login } from "../helpers/mutate";
@@ -39,11 +39,13 @@ export default function Login({ navigation }) {
             value={password}
             placeholder="*Enter Password"
             secureTextEntry={true}
-            onChangeText={setPassword}/>
-            
+            onChangeText={setPassword} />
+
           <Text className="text-red-500 mx-auto font-extrabold">{error}</Text>
           <Pressable className="items-center justify-center">
-            <Text className="my-10 text-indigo-900 font-bold text-xl">
+            <Text 
+            className="my-10 text-indigo-900 font-bold text-xl" 
+            onPress={() => navigation.navigate("ForgotPassword")}>
               Forgot your password?
             </Text>
           </Pressable>
