@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import Image from "next/future/image";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -29,6 +30,9 @@ export default function AuthPage() {
   const { data: isUserNameTaken, isLoading: isCheckingUserName } = useQuery({
     queryKey: ["auth_user_name_taken", debouncedUserName],
     queryFn: () => getIsUsernameTaken(userName),
+    onError: () => {
+      toast("Error checking username availability");
+    },
   });
 
   const { mutate: mutateLogin, isLoading: isLoggingIn } = useMutation({
@@ -121,14 +125,44 @@ export default function AuthPage() {
 
   return (
     <motion.main
-      className={"flex h-screen flex-col items-center gap-8 py-16 px-4"}
+      className={
+        "flex h-screen flex-col items-center gap-6 overflow-x-hidden py-16 px-4 sm:gap-8"
+      }
       initial={"fadeOut"}
       animate={"fadeIn"}
       exit={"fadeOut"}
       custom={0.4}
       variants={transitionVariants}
     >
-      <div className="mt-auto flex gap-4">
+      <motion.div
+        key={"logo"}
+        layout
+        drag
+        dragSnapToOrigin
+        dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+        whileHover={{ cursor: "grab" }}
+        whileDrag={{ cursor: "grabbing" }}
+        initial={{ scale: 0.1, y: 100 }}
+        animate={{ scale: 1, y: 0 }}
+        transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+        className={
+          "relative z-[1] mt-auto min-h-[12rem] min-w-[12rem] sm:min-h-[16rem] sm:min-w-[16rem]"
+        }
+      >
+        <Image
+          src={"/images/logo_text.png"}
+          alt={"Logo"}
+          fill
+          priority
+          draggable={false}
+          sizes={"(max-width: 768px) 100vw, 16rem"}
+          // Filter color based on status
+          className={`h-full w-full object-contain transition duration-300 ${
+            isDisabled ? "hue-rotate-30" : "hue-rotate-0"
+          }`}
+        />
+      </motion.div>
+      <div className="flex gap-4">
         <Button
           variant={isLogin ? "filled" : "text"}
           onClick={() => setAction("login")}
