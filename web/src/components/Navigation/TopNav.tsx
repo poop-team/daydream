@@ -5,7 +5,6 @@ import {
   MdAccountCircle,
   MdAddCircle,
   MdFilterAlt,
-  MdHome,
   MdLogout,
   MdSettings,
 } from "react-icons/md";
@@ -122,7 +121,18 @@ export default function TopNav({
               className={"hidden justify-start sm:block"}
             >
               <LinkIconButton href={paths.feed}>
-                <MdHome className={"h-full w-10"} />
+                <CustomImage
+                  src={"/images/logo.png"}
+                  alt="Home Logo"
+                  fill
+                  priority
+                  sizes={"2.5rem"}
+                  draggable={false}
+                  containerClassName={"relative h-10 w-10 !bg-transparent"}
+                  className={
+                    "absolute h-full w-full object-cover hover:brightness-125"
+                  }
+                />
               </LinkIconButton>
             </motion.li>
           )}
