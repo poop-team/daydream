@@ -142,8 +142,9 @@ export default ({ navigation }) => {
 const CreatedView = ({ posts }: { posts: Post[] }) => {
   return (
     <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-1 my-1">
-      {posts.map(({ imageURL }) => (
+      {posts.map(({ imageURL, id }) => (
         <Image
+          key={id}
           source={{ uri: imageURL }}
           className="rounded-lg h-[48vw] aspect-square"
         />
