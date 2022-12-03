@@ -14,8 +14,6 @@ export default ({ navigation }) => {
   const [userName, setUserName] = useState("")
   const [userAvatar, setUserAvatar] = useState(null);
 
-  const [user, setUser] = useState<User | null>(null);
-
   const [currentView, setCurrentView] = useState<"created" | "collections">(
     "created"
   );
@@ -40,7 +38,6 @@ export default ({ navigation }) => {
       const userId = (await getAuthSession()).userId;
       return getUser({ userId });
     },
-    onSuccess: (user: User) => setUser(user),
     /*
     onError: (err: ErrorResponse) => {
       if (err.cause?.code === 404) {
@@ -57,8 +54,8 @@ export default ({ navigation }) => {
           <View className="flex items-center mt-16">
             <Image
               className="w-48 h-48 mt-4 rounded-full"
-              source={require("../images/daydream_logo_words.png")}
-            />
+              source={!user?.image ? require("../../assets/profile.jpg") : { uri: user.image }}
+              />
             <Text className="mb-2 text-lg font-semibold">@{userName}</Text>
             <View className="flex flex-row gap-2">
               <Text>{user?.postCount ?? 0} images</Text>
