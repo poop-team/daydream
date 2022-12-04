@@ -37,8 +37,7 @@ export default ({ navigation }) => {
     // FIXME figure out how to incorporate userid here
     queryKey: ["user_profile"],
     queryFn: async () => {
-      const userId = (await getAuthSession()).userId;
-      return getUser({ userId });
+      return getUser({});
     },
     /*
     onError: (err: ErrorResponse) => {
