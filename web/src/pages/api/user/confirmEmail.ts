@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
@@ -11,29 +10,22 @@ export default async function confirmEmail(
 ) {
   if (!validateMethod("GET", req, res)) return;
 
-  const userID = req.query.id;
-  const token = req.query.token;
+  const { userId, token } = req.query;
 
-  if (
-    Array.isArray(userID) ||
-    userID === undefined ||
-    Array.isArray(token) ||
-    token === undefined
-  ) {
+  if (!userId || !token || Array.isArray(userId) || Array.isArray(token)) {
     return res
       .status(400)
-      .json({ Error: "Passed params cannot be a string array or undefined" });
+      .json({ error: "Passed params cannot be a string array or undefined" });
   }
 
-  const isJWTValid: boolean = await validateJWT(userID, token);
-  if (!isJWTValid) {
-    return res.status(400).json({ Error: "Token is invalid." });
+  if (!(await validateJWT(userId, token))) {
+    return res.status(400).json({ error: "Token is invalid" });
   }
 
   // verify that the user exists with the userID
-  const maybeUser: User | null = await prisma.user.findFirst({
+  const maybeUser = await prisma.user.findFirst({
     where: {
-      id: userID,
+      id: userId,
     },
   });
 
