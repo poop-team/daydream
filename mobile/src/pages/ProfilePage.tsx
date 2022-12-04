@@ -9,12 +9,15 @@ import { getUser } from "../requests/fetch";
 import { ErrorResponse } from "../types/error.type";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
 import { Post } from "../types/post.type";
+import useDebounce from "../hooks/useDebounce";
 
 export default ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [userId, setUserId] = useState(null);
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState(null);
+
+  const debouncedSearch = useDebounce(search, 500);
 
   const [currentView, setCurrentView] = useState<"created" | "collections">(
     "created"
@@ -52,7 +55,7 @@ export default ({ navigation }) => {
   const { posts, isFetching, isFetchingNextPage, fetchNextPage } =
     useInfiniteQueryPosts({
       key: "user_posts",
-      searchValue: search,
+      searchValue: debouncedSearch,
       userId,
       limit: 8,
       recentOnly: true,
