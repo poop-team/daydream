@@ -25,6 +25,29 @@ export const generateJWT = async (userId: string): Promise<string> => {
   });
 };
 
+export const generateJWTForEmailVerification = async (
+  userId: string
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    sign(
+      { userId },
+      env.JWT_PRIVATE_KEY,
+      { expiresIn: "20 minutes" },
+      (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          if (!data) {
+            reject(Error("JWT signing failed!"));
+          } else {
+            resolve(data);
+          }
+        }
+      }
+    );
+  });
+};
+
 export const generateJWTForPasswordReset = async (
   userId: string
 ): Promise<string> => {
