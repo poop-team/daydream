@@ -11,7 +11,6 @@ import ImageList from "../components/Layout/ImageList";
 import StyleList from "../components/Layout/StyleList";
 import { createImageLoadingTexts as loadingTexts } from "../data/loading-texts";
 import { imageStyles } from "../data/styles";
-import useAuthRedirect from "../hooks/useAuthRedirect";
 import { searchPosts } from "../requests/fetch";
 import { createPost } from "../requests/mutate";
 import { transitionVariants } from "../styles/motion-definitions";
@@ -19,8 +18,6 @@ import { getAuthSession } from "../utils/storage";
 
 export default function Create() {
   //#region Hooks
-
-  useAuthRedirect();
 
   const router = useRouter();
 
@@ -141,7 +138,7 @@ export default function Create() {
           />
         )}
       </Button>
-      <div className={`mt-4 flex w-full flex-col gap-4 sm:my-8`}>
+      <div className={`mt-4 flex w-full flex-col gap-4 sm:my-8 sm:gap-6`}>
         <h2 className={"w-full text-center text-2xl font-bold"}>
           Recently Created <MdHistory className={"inline-block h-full w-9"} />
         </h2>

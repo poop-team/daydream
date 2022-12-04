@@ -37,12 +37,24 @@ export async function searchPosts({
 export async function getUser({ userId = "", userName = "" }) {
   const params = new URLSearchParams({
     userId: (await getAuthSession()).userId,
-    searchUserId: userId,
+    searchUserId: userId || (await getAuthSession()).userId,
     userName: userName,
   });
 
   return await doRequest<User>(
     `https://daydream.wtf/api/user/get?${params.toString()}`,
+    null,
+    "GET"
+  );
+}
+export async function getPost(postId: string) {
+  const params = new URLSearchParams({
+    userId: (await getAuthSession()).userId,
+    postId,
+  });
+
+  return await doRequest<Post>(
+    `/api/post/get?${params.toString()}`,
     null,
     "GET"
   );
