@@ -84,6 +84,7 @@ async function uploadImage(image: string, res: NextApiResponse) {
     animated: true,
   })
     .resize(192, 192)
+    .gif({ colors: 128 })
     .toBuffer()
     .catch((err) => {
       console.error(err);
