@@ -36,6 +36,13 @@ export default async function Login(req: Request, res: NextApiResponse) {
     return;
   }
 
+  if (user.emailVerified === null) {
+    res.status(401).json({
+      error: "Email is not yet verified. Please verify email to log in.",
+    });
+    return;
+  }
+
   const success = await compare(password, user.passwordHash);
   if (!success) {
     res.status(401).json({
