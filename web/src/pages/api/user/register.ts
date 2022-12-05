@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
@@ -6,7 +5,7 @@ import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 import { prisma } from "../../../server/db/client";
 import { generateJWTForEmailVerification } from "../../../utils/jwt";
-import { validateMethod, validateString } from "../../../utils/validation";
+import { validateMethod } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {
@@ -21,11 +20,14 @@ export default async function Register(req: Request, res: NextApiResponse) {
 
   const { name, email, password } = req.body;
   // allow only emails vikkhuang89@gmail.com, abc123@robertboyd.dev
-  if (email.trim() !== "vikkhuang89@gmail.com" || email.trim() !== "abc123@robertboyd.dev") {
+  if (
+    email.trim() !== "vikkhuang89@gmail.com" ||
+    email.trim() !== "abc123@robertboyd.dev"
+  ) {
     res.status(400).json({ error: "Invalid email" });
     return;
   }
-  
+
   if (!name.trim() || !email.trim() || !password) {
     return res.status(400).json({
       error: "Name, email and password are required",
@@ -36,22 +38,12 @@ export default async function Register(req: Request, res: NextApiResponse) {
 
   try {
     // create new user table via prisma
-    const newUser: User = await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         name: name.trim().toLowerCase(),
         email: email.trim(),
         passwordHash,
       },
-    })
-    .then((user) => {
-      return res.status(201).json({
-        userId: user.id,
-      });
-    })
-    .catch(() => {
-      return res.status(500).json({
-        error: "Registration failed!",
-      });
     });
 
     const jwt = await generateJWTForEmailVerification(newUser.id);

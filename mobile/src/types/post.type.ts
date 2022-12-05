@@ -1,4 +1,3 @@
-// FIXME: Change these types once the search API is ready (Especially the "likes" type which should be a number)
 export interface Post {
   dateCreated: Date;
   id: string;
@@ -9,7 +8,8 @@ export interface Post {
     name: string;
     image: string;
   };
-  likes: Like[];
+  likeCount: number;
+  isLiked: boolean;
 }
 
 interface Like {
@@ -18,6 +18,13 @@ interface Like {
 }
 
 export interface CreatedPost {
+  prompt: string;
+  imageURL: string;
+}
+
+export interface PreviewPost {
+  id: string;
+  dateCreated: string;
   prompt: string;
   imageURL: string;
 }
