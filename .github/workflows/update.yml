@@ -47,6 +47,5 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
       
-      //update only android profile preview
       - name: Publish update
         run: eas update --platform android --profile preview
