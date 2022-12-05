@@ -2,6 +2,7 @@ import { compare } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
+import sendConfirmationEmail from "../../../utils/email";
 import { generateJWT } from "../../../utils/jwt";
 import { validateMethod } from "../../../utils/validation";
 
@@ -30,25 +31,26 @@ export default async function Login(req: Request, res: NextApiResponse) {
   });
 
   if (!user) {
-    res.status(401).json({
-      error: "Invalid login credentials.",
+    return res.status(401).json({
+      error: "Invalid login credentials",
     });
-    return;
-  }
-
-  if (user.emailVerified === null) {
-    res.status(401).json({
-      error: "Email is not yet verified. Please verify email to log in.",
-    });
-    return;
   }
 
   const success = await compare(password, user.passwordHash);
   if (!success) {
-    res.status(401).json({
-      error: "Invalid login credentials.",
+    return res.status(401).json({
+      error: "Invalid login credentials",
     });
-    return;
+  }
+
+  if (!user.emailVerified) {
+    // Send another email verification email
+    await sendConfirmationEmail(user.email, user.name, user.id);
+
+    return res.status(401).json({
+      error:
+        "Email is not yet verified. Another verification email has been sent. Please check your inbox",
+    });
   }
 
   try {
