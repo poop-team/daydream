@@ -29,7 +29,7 @@ export default async function create(req: Request, res: NextApiResponse) {
 
   // Check if the prompt is profane
   //added these two words to the profanity list
-  profanity.addWords(["sexy", "nude", "bikini"]);
+  profanity.addWords(["sexy", "nude", "bikini", "virgin", "Jessica", "Adamson" ]);
   if (profanity.exists(prompt)) {
     return res.status(400).json({ error: "Profanity detected in prompt" });
   }
