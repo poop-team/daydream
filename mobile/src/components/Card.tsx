@@ -31,9 +31,7 @@ function Card({
 }: Props) {
   //these spaces are here so that the user of this api cannot mess it up if they forget to add a space
   const [modalVisible, setModalVisible] = React.useState(false);
-  console.log("modalVisible", modalVisible);
   let baseStyle = "rounded-lg mt-5 mx-auto";
-  console.log(data.likes.includes(data.author.id));
 
   return (
     <View>
@@ -44,9 +42,8 @@ function Card({
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}
-
       >
-        <View style={styles.modalView} >
+        <View style={styles.modalView}>
           <View className="flex items-center justify-center bg-white my-auto rounded-lg">
             <View className="w-full flex-row place-content-start ml-2">
               <Pressable>
@@ -66,7 +63,8 @@ function Card({
                   <Text className="">By: </Text>
                   <Text className="font-black">{data.author.name}</Text>
                 </View>
-                <Text className="">{data.likes.length}</Text>
+                {/* these are here to prevent crash if null*/}
+                <Text className="">{data?.likes?.length}</Text>
                 {/*FIXME: LIKE COUNTER NEEDS TO BE UPDATEABLE*/}
                 {data.likes.includes(data.author.id) ? (
                   <Icon name="heart" color="red" size={20} />
@@ -74,7 +72,7 @@ function Card({
                   <Icon name="heart-outline" size={20} />
                 )}
               </View>
-              <Text>{data.prompt}</Text>
+              <Text>{data?.prompt}</Text>
               <Button pilled>
                 <View className="flex-row">
                   <Text className="text-white">Add to Collection </Text>
@@ -98,11 +96,11 @@ function Card({
 const styles = StyleSheet.create({
   modalView: {
     height: "100%",
-    shadowOpacity: 0.20,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowColor: "#000",
     backgroundColor: "rgba(0,0,0,0.5)",
-  }
-})
+  },
+});
 
 export default styled(Card);
