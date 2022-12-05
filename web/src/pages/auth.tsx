@@ -39,8 +39,7 @@ export default function AuthPage() {
     mutationFn: () => login(email, password),
     onSuccess: (data) => {
       storeAuthSession(data);
-      // Redirect to the previous page. If there is no previous page, it will redirect to the feed.
-      router.back();
+      void router.replace("/");
     },
     onError: (err: Error) => {
       toast.error(err.message);
@@ -49,9 +48,12 @@ export default function AuthPage() {
 
   const { mutate: mutateRegister, isLoading: isRegistering } = useMutation({
     mutationFn: () => register(userName, email, password),
-    onSuccess: () => {
+    onSuccess: ({ userId }) => {
       toast.success("Account created successfully!");
-      mutateLogin();
+      void router.push({
+        pathname: "/auth/confirmEmail",
+        query: { userId, email },
+      });
     },
     onError: (err: Error) => {
       toast.error(
@@ -93,6 +95,7 @@ export default function AuthPage() {
   const emailInvalid =
     (email.trim() === "" || !email.includes("@")) && isRegister;
   const emailHelperText = emailInvalid ? "Invalid email" : "";
+
   const userNameInvalid = userName.trim() === "" || isUserNameTaken;
   const userNameHelperText =
     userName.trim() === ""
@@ -100,10 +103,12 @@ export default function AuthPage() {
       : isUserNameTaken
       ? "Already taken by another user 😞"
       : "";
+
   const passwordInvalid = password.length < 8 && isRegister;
   const passwordHelperText = passwordInvalid
     ? "Password must be at least 8 characters"
     : "";
+
   const confirmPasswordInvalid =
     (!confirmPassword || confirmPassword !== password) && isRegister;
   const confirmPasswordHelperText = confirmPasswordInvalid
@@ -139,10 +144,10 @@ export default function AuthPage() {
         layout
         drag
         dragSnapToOrigin
-        dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+        dragTransition={{ bounceStiffness: 600, bounceDamping: 30 }}
         whileHover={{ cursor: "grab" }}
         whileDrag={{ cursor: "grabbing" }}
-        initial={{ scale: 0.1, y: 100 }}
+        initial={{ scale: 0.6, y: 100 }}
         animate={{ scale: 1, y: 0 }}
         transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
         className={
