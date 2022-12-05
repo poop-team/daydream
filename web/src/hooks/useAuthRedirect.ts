@@ -14,14 +14,14 @@ export default function useAuthRedirect() {
     queryKey: ["user"],
     queryFn: authenticateUser,
     onSuccess: () => {
-      if (router.pathname === path.auth) {
+      if (router.pathname.startsWith(path.auth)) {
         void router.push(path.feed);
       }
     },
     onError: (error: ErrorResponse) => {
       if (error.cause?.code === 401) {
         clearAuthSession();
-        if (router.pathname !== path.auth) {
+        if (!router.pathname.startsWith(path.auth)) {
           toast(
             "You haven't logged in yet or your session has expired. Please log in again."
           );
