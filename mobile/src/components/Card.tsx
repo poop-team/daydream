@@ -25,14 +25,14 @@ interface Props {
  * @data data from the useInfiniteQueryPosts hook
  */
 function Card({
-  url = "https://project.up.railway.app/_next/image?url=https%3A%2F%2Fsbleaping.s3.us-east-1.amazonaws.com%2Fsb%2F9d532691aa47444996dba0e889b6a728.png&w=1080&q=90",
+  url,
   style,
   post,
 }: Props) {
   //these spaces are here so that the user of this api cannot mess it up if they forget to add a space
   const [modalVisible, setModalVisible] = React.useState(false);
   let baseStyle = "rounded-lg mt-5 mx-auto";
-  url = post?.imageURL;
+  url = post?.imageURL || "https://project.up.railway.app/_next/image?url=https%3A%2F%2Fsbleaping.s3.us-east-1.amazonaws.com%2Fsb%2F9d532691aa47444996dba0e889b6a728.png&w=1080&q=90";
   return (
     <View>
       <Modal
