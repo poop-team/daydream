@@ -1,4 +1,4 @@
-name: update
+name: updateEas
 on:
   push:
     branches: [ main ]
@@ -22,22 +22,26 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v2
+        working-directory: ./mobile
         with:
           node-version: 16.x
           cache: yarn
 
       - name: Setup Expo
         uses: expo/expo-github-action@v7
+        working-directory: ./mobile
         with:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Find yarn cache
+        working-directory: ./mobile
         id: yarn-cache-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Restore cache
+        working-directory: ./mobile
         uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache-path.outputs.dir }}
@@ -45,8 +49,9 @@ jobs:
           restore-keys: ${{ runner.os }}-yarn-
 
       - name: Install dependencies
+        working-directory: ./mobile
         run: yarn install --immutable
       
-      //update only android profile preview
       - name: Publish update
+        working-directory: ./mobile
         run: eas update --platform android --profile preview
