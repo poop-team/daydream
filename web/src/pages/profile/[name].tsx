@@ -40,6 +40,7 @@ export default function Profile() {
       }
       toast.error(err.message);
     },
+    refetchOnMount: "always",
     enabled: !!router.query.name && !notFound,
   });
 
@@ -208,6 +209,7 @@ export default function Profile() {
                 >
                   <CreatedCollectionList
                     userId={profileData?.id}
+                    refetchProfile={() => void refetchProfile()}
                     isProfileLoading={isProfileLoading}
                     isSelf={isSelf}
                   />

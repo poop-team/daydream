@@ -2,8 +2,8 @@
  * Functions to Fetch data from the API
  */
 
-import Collection from "../types/collection.type";
-import { Post } from "../types/post.type";
+import type { Collection } from "../types/collection.type";
+import { Post, PostWithCollections } from "../types/post.type";
 import { User } from "../types/user.type";
 import { getAuthSession } from "../utils/storage";
 import doRequest from "./request";
@@ -48,16 +48,21 @@ export async function getUser({ userId = "", userName = "" }) {
   );
 }
 
-export async function getPost(postId: string, collectionId = "") {
+export async function getPostWithCollections(
+  postId: string,
+  collectionId = ""
+) {
   const params = new URLSearchParams({
     userId: getAuthSession().userId,
     postId: postId,
     collectionId: collectionId,
   });
 
-  return await doRequest<
-    { collections: { id: string; name: string }[] } & Post
-  >(`/api/post/get?${params.toString()}`, null, "GET");
+  return await doRequest<PostWithCollections>(
+    `/api/post/get?${params.toString()}`,
+    null,
+    "GET"
+  );
 }
 
 export async function getIsUsernameTaken(userName: string) {

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { profanity } from "@2toad/profanity";
 import { NextApiRequest, NextApiResponse } from "next";
 import Replicate from "Replicate";
 
@@ -24,6 +25,20 @@ export default async function create(req: Request, res: NextApiResponse) {
 
   if (!prompt.trim()) {
     return res.status(400).json({ error: "Empty prompt provided" });
+  }
+
+  // Check if the prompt is profane
+  //added these two words to the profanity list
+  profanity.addWords([
+    "sexy",
+    "nude",
+    "bikini",
+    "virgin",
+    "Jessica",
+    "Adamson",
+  ]);
+  if (profanity.exists(prompt)) {
+    return res.status(400).json({ error: "Profanity detected in prompt" });
   }
 
   // const url = `${env.DIFFUSION_URL}/txt2img?prompt=${prompt}&format=json`;

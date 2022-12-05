@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import useInfiniteQueryPosts from "../../../hooks/useInfiniteQueryPosts";
 import { getCollections } from "../../../requests/fetch";
 import { createCollection, deleteCollection } from "../../../requests/mutate";
-import Collection from "../../../types/collection.type";
+import type { Collection } from "../../../types/collection.type";
 import ProfileSearchBar from "../../Inputs/ProfileSearchBar";
 import CollectionList from "../CollectionList";
 import ImageList from "../ImageList";
@@ -14,12 +14,14 @@ import ImageList from "../ImageList";
 interface Props {
   userId?: string;
   isSelf: boolean;
+  refetchProfile: () => void;
   isProfileLoading: boolean;
 }
 
 export default function CreatedCollectionList({
   userId,
   isSelf,
+  refetchProfile,
   isProfileLoading,
 }: Props) {
   //#region Hooks
@@ -64,6 +66,7 @@ export default function CreatedCollectionList({
       mutationFn: createCollection,
       onSuccess: () => {
         setSearchCollectionValue("");
+        refetchProfile();
         void refetchCollections();
       },
       onError: (err: Error) => {
@@ -77,6 +80,7 @@ export default function CreatedCollectionList({
       mutationFn: deleteCollection,
       onSuccess: () => {
         setSelectedCollection(null);
+        refetchProfile();
         void refetchCollections();
       },
       onError: (err: Error) => {

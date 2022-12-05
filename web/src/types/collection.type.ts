@@ -1,10 +1,10 @@
 import { PreviewPost } from "./post.type";
 
-interface Collection {
+export interface Collection {
   id: string;
   name: string;
   posts: PreviewPost[];
   postCount: number;
 }
 
-export default Collection;
+export type CollectionPreview = Pick<Collection, "id" | "name">;
