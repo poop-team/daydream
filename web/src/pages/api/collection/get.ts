@@ -49,12 +49,9 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
     })
     .then((collections) => {
       res.status(200).json({
-        collections: collections.map((collection) => ({
-          id: collection.id,
-          name: collection.name,
-          posts: collection.posts,
-          postCount: collection._count.posts,
-          _count: undefined,
+        collections: collections.map(({ _count, ...collection }) => ({
+          ...collection,
+          postCount: _count.posts,
         })),
       });
     })

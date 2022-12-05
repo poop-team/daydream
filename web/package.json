@@ -20,7 +20,6 @@
     "cssnano": "5.1.14",
     "framer-motion": "7.6.12",
     "jsonwebtoken": "8.5.1",
-    "lodash": "4.17.21",
     "next": "12.3.3",
     "nodemailer": "6.8.0",
     "react": "18.2.0",

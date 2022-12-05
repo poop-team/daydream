@@ -66,12 +66,11 @@ export default async function get(req: NextApiRequest, res: NextApiResponse) {
         return res.status(404).json({ error: "Post not found" });
       }
 
+      const { _count, likes, ...postWithoutCount } = post;
       return res.json({
-        ...post,
-        likeCount: post._count.likes,
-        isLiked: post.likes.length > 0,
-        _count: undefined,
-        likes: undefined,
+        ...postWithoutCount,
+        likeCount: _count.likes,
+        isLiked: likes.length > 0,
       });
     })
     .catch((e: Error) => {
