@@ -14,12 +14,14 @@ import ImageList from "../ImageList";
 interface Props {
   userId?: string;
   isSelf: boolean;
+  refetchProfile: () => void;
   isProfileLoading: boolean;
 }
 
 export default function CreatedCollectionList({
   userId,
   isSelf,
+  refetchProfile,
   isProfileLoading,
 }: Props) {
   //#region Hooks
@@ -64,6 +66,7 @@ export default function CreatedCollectionList({
       mutationFn: createCollection,
       onSuccess: () => {
         setSearchCollectionValue("");
+        refetchProfile();
         void refetchCollections();
       },
       onError: (err: Error) => {
@@ -77,6 +80,7 @@ export default function CreatedCollectionList({
       mutationFn: deleteCollection,
       onSuccess: () => {
         setSelectedCollection(null);
+        refetchProfile();
         void refetchCollections();
       },
       onError: (err: Error) => {

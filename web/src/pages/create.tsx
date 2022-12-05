@@ -40,6 +40,7 @@ export default function Create() {
     onError: (err: Error) => {
       toast.error(err.message);
     },
+    refetchOnMount: "always",
   });
 
   const { mutate: create, isLoading: isCreating } = useMutation(createPost, {
