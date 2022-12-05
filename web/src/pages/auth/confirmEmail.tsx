@@ -88,7 +88,7 @@ export default function ConfirmEmail() {
             "Could not confirm email. This may be because the link is invalid or expired"
           )
         ) : (
-          "Verification link sent to the provided email, check your inbox!"
+          "Verification link sent to the provided email, check your inbox! Don't forget to also check spam if you don't see it"
         )}
       </p>
       <div className={"mb-auto"}>
