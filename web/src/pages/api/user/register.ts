@@ -13,22 +13,31 @@ interface Request extends NextApiRequest {
   };
 }
 
+const validEmailDomains = [
+  "robertboyd.dev",
+  "raciel.dev",
+  "knights.ucf.edu",
+  "faiz.info",
+];
+
 export default async function Register(req: Request, res: NextApiResponse) {
   if (!validateMethod("POST", req, res)) return;
 
   const { name, email, password } = req.body;
-  // allow only emails vikkhuang89@gmail.com, abc123@robertboyd.dev
-  if (
-    email.trim() !== "vikkhuang89@gmail.com" ||
-    email.trim() !== "abc123@robertboyd.dev"
-  ) {
-    res.status(400).json({ error: "Invalid email" });
-    return;
-  }
 
   if (!name.trim() || !email.trim() || !password) {
     return res.status(400).json({
       error: "Name, email and password are required",
+    });
+  }
+
+  if (
+    !validEmailDomains.some((domain) =>
+      email.trim().toLowerCase().endsWith(domain)
+    )
+  ) {
+    return res.status(400).json({
+      error: "Access restricted, sorry 😢",
     });
   }
 
