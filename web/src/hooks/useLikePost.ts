@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { likePost, unlikePost } from "../requests/mutate";
 
 interface Params {
-  postId: string;
+  postId?: string;
   initialLikeCount: number;
   initialIsLiked: boolean;
 }
@@ -19,7 +19,7 @@ export default function useLikePost({
 
   const { mutate: mutateLike, isLoading: isLiking } = useMutation({
     mutationKey: ["like"],
-    mutationFn: () => likePost(postId),
+    mutationFn: () => likePost(postId ?? ""),
     onError: (err: Error) => {
       setIsLiked(false); // Revert the local state on failure
       toast.error(err.message);
@@ -28,7 +28,7 @@ export default function useLikePost({
 
   const { mutate: mutateUnlike, isLoading: isUnliking } = useMutation({
     mutationKey: ["unlike"],
-    mutationFn: () => unlikePost(postId),
+    mutationFn: () => unlikePost(postId ?? ""),
     onError: (err: Error) => {
       setIsLiked(true); // Revert the local state on failure
       toast.error(err.message);
