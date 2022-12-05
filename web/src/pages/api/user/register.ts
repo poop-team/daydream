@@ -1,10 +1,8 @@
 import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
-import nodemailer from "nodemailer";
-import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 import { prisma } from "../../../server/db/client";
-import { generateJWTForEmailVerification } from "../../../utils/jwt";
+import sendConfirmationEmail from "../../../utils/email";
 import { validateMethod } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
@@ -46,41 +44,14 @@ export default async function Register(req: Request, res: NextApiResponse) {
       },
     });
 
-    const jwt = await generateJWTForEmailVerification(newUser.id);
+    await sendConfirmationEmail(newUser.email, newUser.name, newUser.id);
 
-    // use nodemailer to send a verification email to the user's email address
-    const transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo> =
-      nodemailer.createTransport({
-        service: "Gmail",
-        auth: {
-          user: process.env.EMAIL,
-          pass: process.env.EMAIL_PASSWORD,
-        },
-      });
-
-    const url =
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
-        : "https://daydream.wtf";
-    const confirmEmailAPIRoute = `${url}/api/user/confirmEmail?userId=${newUser.id}&token=${jwt}`;
-
-    await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: email,
-      text:
-        "Please verify your email with " +
-        confirmEmailAPIRoute +
-        " | Sent from:\nThe Team at Daydream",
-      html: `<div>Please verify your email with ${confirmEmailAPIRoute}</div><p>Sent from:\nThe Team at Daydream</p>`,
+    return res.status(201).json({
+      userId: newUser.id,
     });
   } catch (e) {
     return res.status(500).json({
       error: "Registration failed!",
     });
   }
-
-  return res.status(201).json({
-    message:
-      "Registration successful! Email verification link sent to your email. Please verify first to log in.",
-  });
 }

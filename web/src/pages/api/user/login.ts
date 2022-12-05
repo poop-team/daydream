@@ -2,12 +2,14 @@ import { compare } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
+import sendConfirmationEmail from "../../../utils/email";
 import { generateJWT } from "../../../utils/jwt";
 import { validateMethod } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {
-    email: string;
+    email?: string;
+    name?: string;
     password: string;
   };
 }
@@ -15,40 +17,42 @@ interface Request extends NextApiRequest {
 export default async function Login(req: Request, res: NextApiResponse) {
   if (!validateMethod("POST", req, res)) return;
 
-  const { email, password } = req.body;
+  const { email, name, password } = req.body;
 
-  if (!email.trim() || !password.trim()) {
+  if (!(email?.trim() || name?.trim()) || !password.trim()) {
     return res.status(400).json({
-      error: "Email and password are required",
+      error: "Email or username and password are required",
     });
   }
 
   const user = await prisma.user.findUnique({
     where: {
-      email,
+      email: email?.trim() || undefined,
+      name: name?.trim() || undefined,
     },
   });
 
   if (!user) {
-    res.status(401).json({
-      error: "Invalid login credentials.",
+    return res.status(401).json({
+      error: "Invalid login credentials",
     });
-    return;
-  }
-
-  if (user.emailVerified === null) {
-    res.status(401).json({
-      error: "Email is not yet verified. Please verify email to log in.",
-    });
-    return;
   }
 
   const success = await compare(password, user.passwordHash);
   if (!success) {
-    res.status(401).json({
-      error: "Invalid login credentials.",
+    return res.status(401).json({
+      error: "Invalid login credentials",
     });
-    return;
+  }
+
+  if (!user.emailVerified) {
+    // Send another email verification email
+    await sendConfirmationEmail(user.email, user.name, user.id);
+
+    return res.status(401).json({
+      error:
+        "Email is not yet verified. Another verification email has been sent. Please check your inbox",
+    });
   }
 
   try {
