@@ -5,10 +5,11 @@ import Button from "../components/Button";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAuthSession } from "../utils/storage";
-import { getUser } from "../requests/fetch";
+import {getCollections, getUser} from "../requests/fetch";
 import { ErrorResponse } from "../types/error.type";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
 import { Post } from "../types/post.type";
+import Collection from "../types/collection.type";
 
 export default ({ navigation }) => {
   const [search, setSearch] = useState("");
@@ -61,6 +62,19 @@ export default ({ navigation }) => {
         enabled: !!userId,
       },
     });
+
+  const {
+    data: collectionData,
+    isLoading: areCollectionsLoading,
+    refetch: refetchCollections,
+  } = useQuery({
+    queryKey: ["user_collections", userId],
+    queryFn: () => getCollections({ userId }),
+    onError: (err: Error) => {
+      console.error(err.message);
+    },
+    enabled: !!userId,
+  });
 
   return (
     <View className="w-full flex flex-1 justify-between">
@@ -130,6 +144,7 @@ export default ({ navigation }) => {
             </View>
             <TopNavBar value={search} onChangeText={setSearch} />
             {currentView === "created" && <CreatedView posts={posts ?? []} />}
+            {currentView === "collections" && <CollectionView collections={collectionData?.collections ?? []} />}
             {isFetchingNextPage && <ActivityIndicator size="large" color="#312E81" className="android:py-4 ios:py-2" />}
           </View>
         </ScrollView>
@@ -150,6 +165,30 @@ const CreatedView = ({ posts }: { posts: Post[] }) => {
         />
       ))}
       {posts.length % 2 === 1 && (
+        <View className="rounded-lg h-[48vw] aspect-square" />
+      )}
+    </View>
+  );
+};
+
+const CollectionView = ({ collections }: { collections: Collection[] }) => {
+  return (
+    <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-1 my-1">
+      {collections.map((collection) => (
+        <View key={collection.id} className="flex aspect-square rounded-lg h-[48vw]">
+          { collection.posts[0]?.imageURL ? <Image
+            source={{ uri: collection.posts[0]?.imageURL }}
+            className="h-[77%]"
+          /> : <View className="flex flex-1 items-center justify-center bg-gray-250"><Text className="">Hello</Text></View>}
+          <Text className="font-bold">
+            {collection.name}
+          </Text>
+          <Text>
+            {collection.posts.length} saved
+          </Text>
+        </View>
+      ))}
+      {collections.length % 2 === 1 && (
         <View className="rounded-lg h-[48vw] aspect-square" />
       )}
     </View>
