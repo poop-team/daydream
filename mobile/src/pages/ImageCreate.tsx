@@ -78,7 +78,7 @@ export default function ImageCreate({ navigation }) {
                         tagRemoveIconColor="#ed4242"
                         tagContainerStyle={{ backgroundColor: "white" }}
                         styleTextTag={{ }} />
-                    <Button name="Create" onPress={handleCreate} className="mt-4"/>
+                    <Button disabled={isCreating} name="Create" onPress={handleCreate} className="mt-4"/>
                 </View>
                 <View className="flex-row mb-4 items-center justify-center">
                     <Text className=" mr-2 font-bold first-line:text-2xl">Recently created</Text>
