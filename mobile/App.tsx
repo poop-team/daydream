@@ -9,6 +9,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
+import ProfilePage from "./src/pages/ProfilePage";
 
 const Stack = createStackNavigator();
 const queryClient = new QueryClient();
@@ -36,19 +37,24 @@ export default function App() {
           <Stack.Screen
             name="FeedPage"
             component={FeedPage}
-          options={{headerShown: false}}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="createPage"
             component={ImageCreate}
-          options={{headerShown: false}}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-          name="ForgotPassword"
-          component={ForgotPassword}
-          options={{headerShown: false}}
-        /> 
-      </Stack.Navigator>
+            name="profilePage"
+            component={ProfilePage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
       </NavigationContainer>
     </QueryClientProvider>
   );

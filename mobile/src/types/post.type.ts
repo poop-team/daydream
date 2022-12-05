@@ -7,8 +7,14 @@ export interface Post {
   author: {
     id: string;
     name: string;
+    image: string;
   };
-  likes: [];
+  likes: Like[];
+}
+
+interface Like {
+  userId: string;
+  postID: string;
 }
 
 export interface CreatedPost {
