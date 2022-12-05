@@ -3031,14 +3031,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "@szmarczak/http-timer@npm:^4.0.5":
   version: 4.0.6
   resolution: "@szmarczak/http-timer@npm:4.0.6"
   dependencies:
     defer-to-connect: ^2.0.0
   checksum: c29df3bcec6fc3bdec2b17981d89d9c9fc9bd7d0c9bcfe92821dc533f4440bc890ccde79971838b4ceed1921d456973c4180d7175ee1d0023ad0562240a58d95
-=======
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-core@npm:4.15.1":
   version: 4.15.1
   resolution: "@tanstack/query-core@npm:4.15.1"
@@ -3062,7 +3063,6 @@ __metadata:
     react-native:
       optional: true
   checksum: 2c2d4c5c8bab2cd978ddd42153d33f844bd24a17ebe42f269cc64ee2a031f60f980b441640172885d9fd156fe9abc74ffc800fb68c6b6f6ef4fe48ffadafff79
->>>>>>> origin/main
   languageName: node
   linkType: hard
 
@@ -7663,7 +7663,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "extract-zip@npm:^2.0.1":
   version: 2.0.1
   resolution: "extract-zip@npm:2.0.1"
@@ -7681,10 +7680,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
-=======
 "fast-deep-equal@npm:3.1.3, fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
->>>>>>> origin/main
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
   checksum: e21a9d8d84f53493b6aa15efc9cfd53dd5b714a1f23f67fb5dc8f574af80df889b3bce25dc081887c6d25457cce704e636395333abad896ccdec03abaf1f3f9d
@@ -8514,7 +8510,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
+"golden-fleece@npm:1.0.9":
+  version: 1.0.9
+  resolution: "golden-fleece@npm:1.0.9"
+  checksum: 7f4c3245dfc0272a39d528909911053767d028a9f3dd5b5d13744797a41664d9ada001bbdbab8b67ef323b79cd609d46364db7eacff11d8bdc8b902f00ea5acf
+  languageName: node
+  linkType: hard
+
 "got@npm:^11.8.5":
   version: 11.8.5
   resolution: "got@npm:11.8.5"
@@ -8531,12 +8533,6 @@ __metadata:
     p-cancelable: ^2.0.0
     responselike: ^2.0.0
   checksum: 2de8a1bbda4e9b6b2b72b2d2100bc055a59adc1740529e631f61feb44a8b9a1f9f8590941ed9da9df0090b6d6d0ed8ffee94cd9ac086ec3409b392b33440f7d2
-=======
-"golden-fleece@npm:1.0.9":
-  version: 1.0.9
-  resolution: "golden-fleece@npm:1.0.9"
-  checksum: 7f4c3245dfc0272a39d528909911053767d028a9f3dd5b5d13744797a41664d9ada001bbdbab8b67ef323b79cd609d46364db7eacff11d8bdc8b902f00ea5acf
->>>>>>> origin/main
   languageName: node
   linkType: hard
 
@@ -10907,19 +10903,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
+"keychain@npm:1.3.0":
+  version: 1.3.0
+  resolution: "keychain@npm:1.3.0"
+  checksum: 6009357f3ccb7b0f73ca29d9039682cad3fd083c59892b7939c625c70d902d43c52268371e652316f161cca6e4d6d01e0d0cb84c3a92edf28cffe42abcd15969
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^4.0.0":
   version: 4.5.2
   resolution: "keyv@npm:4.5.2"
   dependencies:
     json-buffer: 3.0.1
   checksum: 13ad58303acd2261c0d4831b4658451603fd159e61daea2121fcb15feb623e75ee328cded0572da9ca76b7b3ceaf8e614f1806c6b3af5db73c9c35a345259651
-=======
-"keychain@npm:1.3.0":
-  version: 1.3.0
-  resolution: "keychain@npm:1.3.0"
-  checksum: 6009357f3ccb7b0f73ca29d9039682cad3fd083c59892b7939c625c70d902d43c52268371e652316f161cca6e4d6d01e0d0cb84c3a92edf28cffe42abcd15969
->>>>>>> origin/main
   languageName: node
   linkType: hard
 
