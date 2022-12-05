@@ -8,8 +8,8 @@ import {
   View,
   Modal,
   Text,
+  StyleSheet,
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import Button from "./Button";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -38,57 +38,52 @@ function Card({
   return (
     <View>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}
+
       >
-        <TouchableOpacity
-          className="flex items-center justify-center bg-white bg-opacity-50 h-full w-full"
-          onPress={() => {
-            setModalVisible(!modalVisible);
-            console.log("1");
-          }}
-        >
-          <View className="w-full flex-row place-content-start mt-16 ml-2">
-            <Pressable>
-              <Icon
-                size={40}
-                name="arrow-back-outline"
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                }}
-              />
-            </Pressable>
-          </View>
-          <Image className="w-11/12 h-96 rounded-lg" source={{ uri: url }} />
-          <View className="flex w-full flex-col items-center gap-2 p-4 md:p-6 lg:gap-4">
-            <View className="flex-row align-middle justify-between">
-              <View className="w-5/6 flex-row c">
-                <Text className="">By: </Text>
-                <Text className="font-black">
-                  {data.author.name}
-                </Text>
-              </View>
-              <Text className="">{data.likes.length}</Text>
-              {/*FIXME: LIKE COUNTER NEEDS TO BE UPDATEABLE*/}
-              {data.likes.includes(data.author.id) ? (
-                <Icon name="heart" color="red" size={20} />
-              ) : (
-                <Icon name="heart-outline" size={20} />
-              )}
+        <View style={styles.modalView} >
+          <View className="flex items-center justify-center bg-white my-auto rounded-lg">
+            <View className="w-full flex-row place-content-start ml-2">
+              <Pressable>
+                <Icon
+                  size={40}
+                  name="arrow-back-outline"
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                  }}
+                />
+              </Pressable>
             </View>
-            <Text>{data.prompt}</Text>
-            <Button pilled>
-              <View className="flex-row">
-                <Text className="text-white">Add to Collection</Text>
-                <Icon name="albums-outline" size={20} color="white" />
+            <Image className="w-11/12 h-96 rounded-lg" source={{ uri: url }} />
+            <View className="flex w-full flex-col items-center gap-2 p-4 md:p-6 lg:gap-4">
+              <View className="flex-row align-middle justify-between">
+                <View className="w-5/6 flex-row c">
+                  <Text className="">By: </Text>
+                  <Text className="font-black">{data.author.name}</Text>
+                </View>
+                <Text className="">{data.likes.length}</Text>
+                {/*FIXME: LIKE COUNTER NEEDS TO BE UPDATEABLE*/}
+                {data.likes.includes(data.author.id) ? (
+                  <Icon name="heart" color="red" size={20} />
+                ) : (
+                  <Icon name="heart-outline" size={20} />
+                )}
               </View>
-            </Button>
+              <Text>{data.prompt}</Text>
+              <Button pilled>
+                <View className="flex-row">
+                  <Text className="text-white">Add to Collection </Text>
+                  <Icon name="albums-outline" size={20} color="white" />
+                </View>
+              </Button>
+            </View>
           </View>
-        </TouchableOpacity>
+        </View>
       </Modal>
       <Pressable onPress={() => setModalVisible(true)}>
         <Image
@@ -100,5 +95,14 @@ function Card({
     </View>
   );
 }
+const styles = StyleSheet.create({
+  modalView: {
+    height: "100%",
+    shadowOpacity: 0.20,
+    shadowRadius: 4,
+    shadowColor: "#000",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  }
+})
 
 export default styled(Card);
