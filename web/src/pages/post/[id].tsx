@@ -50,7 +50,7 @@ export default function Post() {
     });
 
   const { mutateLikeChange, likeCount, isLiked } = useLikePost({
-    postId: postData?.id ?? "",
+    postId: postData?.id,
     initialIsLiked: postData?.isLiked ?? false,
     initialLikeCount: postData?.likeCount ?? 0,
   });
