@@ -5,6 +5,13 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@2toad/profanity@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@2toad/profanity@npm:2.2.0"
+  checksum: 42d63bb3892c897670c91b99452df2c05972734b0853ded4718a227d4b6c2a43cbdb185aa7e0ff945b45814cdcdd39e1cfd546fa861d782807db76ba5ec2143e
+  languageName: node
+  linkType: hard
+
 "@adobe/css-tools@npm:^4.0.1":
   version: 4.0.1
   resolution: "@adobe/css-tools@npm:4.0.1"
@@ -1707,6 +1714,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "big-project@workspace:."
   dependencies:
+    "@2toad/profanity": ^2.2.0
     "@floating-ui/react-dom": 1.0.1
     "@headlessui/react": 1.7.4
     "@prisma/client": 4.6.1

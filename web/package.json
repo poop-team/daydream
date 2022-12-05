@@ -10,6 +10,7 @@
     "test": "bash ./run_tests.sh"
   },
   "dependencies": {
+    "@2toad/profanity": "^2.2.0",
     "@floating-ui/react-dom": "1.0.1",
     "@headlessui/react": "1.7.4",
     "@prisma/client": "4.6.1",
