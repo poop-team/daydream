@@ -6,7 +6,7 @@ import {
   transitions,
   transitionVariants,
 } from "../../styles/motion-definitions";
-import Collection from "../../types/collection.type";
+import type { Collection } from "../../types/collection.type";
 import CircularProgress from "../Feedback/CircularProgress";
 import CollectionCard from "../Surfaces/CollectionCard";
 

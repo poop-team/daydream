@@ -15,7 +15,7 @@ import FloatingImageActions from "../../components/Widgets/FloatingImageActions"
 import LikesCounter from "../../components/Widgets/LikesCounter";
 import useLikePost from "../../hooks/useLikePost";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
-import { getPost, searchPosts } from "../../requests/fetch";
+import { getPostWithCollections, searchPosts } from "../../requests/fetch";
 import {
   transitions,
   transitionVariants,
@@ -33,7 +33,7 @@ export default function Post() {
 
   const { data: postData, isLoading: isPostLoading } = useQuery({
     queryKey: ["post", router.query.id],
-    queryFn: () => getPost(router.query.id as string),
+    queryFn: () => getPostWithCollections(router.query.id as string),
     onError: (err: Error) => {
       toast.error(err.message);
     },

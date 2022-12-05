@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import useInfiniteQueryPosts from "../../../hooks/useInfiniteQueryPosts";
 import { getCollections } from "../../../requests/fetch";
 import { createCollection, deleteCollection } from "../../../requests/mutate";
-import Collection from "../../../types/collection.type";
+import type { Collection } from "../../../types/collection.type";
 import ProfileSearchBar from "../../Inputs/ProfileSearchBar";
 import CollectionList from "../CollectionList";
 import ImageList from "../ImageList";

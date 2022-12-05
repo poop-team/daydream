@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { HTMLAttributes, useState } from "react";
 
 import { transitions } from "../../styles/motion-definitions";
-import Collection from "../../types/collection.type";
+import type { Collection } from "../../types/collection.type";
 import LinearProgress from "../Feedback/LinearProgress";
 import Card from "./Card";
 import CustomImage from "./CustomImage";

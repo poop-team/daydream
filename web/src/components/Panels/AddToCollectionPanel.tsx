@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import { MdDoubleArrow } from "react-icons/md";
 
 import useIsClient from "../../hooks/useIsClient";
-import { getCollections, getPost } from "../../requests/fetch";
+import { getCollections, getPostWithCollections } from "../../requests/fetch";
 import {
   addPostToCollection,
   removePostFromCollection,
@@ -17,7 +17,7 @@ import {
   transitions,
   transitionVariants,
 } from "../../styles/motion-definitions";
-import Collection from "../../types/collection.type";
+import type { Collection } from "../../types/collection.type";
 import { PreviewPost } from "../../types/post.type";
 import { getAuthSession } from "../../utils/storage";
 import CircularProgress from "../Feedback/CircularProgress";
@@ -48,7 +48,7 @@ export default function AddToCollectionPanel({
 
   const { data: postData, refetch: refetchPost } = useQuery({
     queryKey: ["post_to_add_to_collection", postId],
-    queryFn: () => getPost(postId),
+    queryFn: () => getPostWithCollections(postId),
     onError: (err: Error) => {
       toast.error(err.message);
     },
