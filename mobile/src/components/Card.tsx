@@ -17,7 +17,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 interface Props {
   url?: string;
   style?: StyleProp<ImageStyle>;
-  data?: any;
+  post?: any;
 }
 /**
  * @url url of the image string (default: muppet (<3) )
@@ -27,12 +27,12 @@ interface Props {
 function Card({
   url = "https://project.up.railway.app/_next/image?url=https%3A%2F%2Fsbleaping.s3.us-east-1.amazonaws.com%2Fsb%2F9d532691aa47444996dba0e889b6a728.png&w=1080&q=90",
   style,
-  data,
+  post,
 }: Props) {
   //these spaces are here so that the user of this api cannot mess it up if they forget to add a space
   const [modalVisible, setModalVisible] = React.useState(false);
   let baseStyle = "rounded-lg mt-5 mx-auto";
-
+  url = post?.imageURL;
   return (
     <View>
       <Modal
@@ -61,18 +61,18 @@ function Card({
               <View className="flex-row align-middle justify-between">
                 <View className="w-5/6 flex-row c">
                   <Text className="">By: </Text>
-                  <Text className="font-black">{data?.author?.name}</Text>
+                  <Text className="font-black">{post?.author?.name}</Text>
                 </View>
                 {/* these are here to prevent crash if null*/}
-                <Text className="">{data?.likes?.length ?? 0}</Text>
+                <Text className="">{post?.likes?.length ?? 0}</Text>
                 {/*FIXME: LIKE COUNTER NEEDS TO BE UPDATEABLE*/}
-                {data?.likes?.includes(data?.author?.id) ? (
+                {post?.likes?.includes(post?.author?.id) ? (
                   <Icon name="heart" color="red" size={20} />
                 ) : (
                   <Icon name="heart-outline" size={20} />
                 )}
               </View>
-              <Text>{data?.prompt}</Text>
+              <Text>{post?.prompt}</Text>
               <Button pilled>
                 <View className="flex-row">
                   <Text className="text-white">Add to Collection </Text>

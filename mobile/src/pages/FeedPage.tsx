@@ -31,7 +31,7 @@ export default function FeedPage({ navigation }) {
             className="w-screen android:mb-12"
             data={blob.posts}
             renderItem={({ item }) => (
-              <Card key={item.id} url={item.imageURL} data={item}/>
+              <Card key={item.id} url={item.imageURL} post={item}/>
             )}
             keyExtractor={(item) => item.id}
             onScroll={(event) => {

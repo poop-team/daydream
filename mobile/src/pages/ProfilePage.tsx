@@ -1,4 +1,11 @@
-import { SafeAreaView, Image, View, Text, ScrollView, ActivityIndicator } from "react-native";
+import {
+  SafeAreaView,
+  Image,
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import BottomNavBar from "../components/BottomNavBar";
 import TopNavBar from "../components/TopNavBar";
 import Button from "../components/Button";
@@ -10,6 +17,7 @@ import { ErrorResponse } from "../types/error.type";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
 import { Post } from "../types/post.type";
 import useDebounce from "../hooks/useDebounce";
+import Card from "../components/Card";
 
 export default ({ navigation }) => {
   const [search, setSearch] = useState("");
@@ -63,7 +71,6 @@ export default ({ navigation }) => {
         enabled: !!userId,
       },
     });
-
   return (
     <View className="w-full flex flex-1 justify-between">
       <SafeAreaView className="w-full flex flex-1">
@@ -132,7 +139,13 @@ export default ({ navigation }) => {
             </View>
             <TopNavBar value={search} onChangeText={setSearch} />
             {currentView === "created" && <CreatedView posts={posts ?? []} />}
-            {isFetchingNextPage && <ActivityIndicator size="large" color="#312E81" className="android:py-4 ios:py-2" />}
+            {isFetchingNextPage && (
+              <ActivityIndicator
+                size="large"
+                color="#312E81"
+                className="android:py-4 ios:py-2"
+              />
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -144,11 +157,11 @@ export default ({ navigation }) => {
 const CreatedView = ({ posts }: { posts: Post[] }) => {
   return (
     <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-1 my-1">
-      {posts.map(({ imageURL, id }) => (
-        <Image
-          key={id}
-          source={{ uri: imageURL }}
+      {posts.map((post) => (
+        <Card
+          key={post.id}
           className="rounded-lg h-[48vw] aspect-square"
+          post={post}
         />
       ))}
       {posts.length % 2 === 1 && (
