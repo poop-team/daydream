@@ -63,7 +63,7 @@ export default function ConfirmEmail() {
   return (
     <motion.main
       className={
-        "flex h-screen flex-col items-center gap-6 overflow-x-hidden p-4 py-16 text-justify sm:gap-8 [&>p]:text-center [&>p]:text-xl"
+        "flex h-screen flex-col items-center gap-6 overflow-x-hidden p-4 py-16 text-justify sm:gap-8"
       }
       initial={"fadeOut"}
       animate={"fadeIn"}
@@ -71,7 +71,11 @@ export default function ConfirmEmail() {
       custom={0.4}
       variants={transitionVariants}
     >
-      <p className={"mt-auto flex flex-col items-center gap-8"}>
+      <p
+        className={
+          "mt-auto flex flex-col items-center gap-8 text-center text-xl"
+        }
+      >
         {router.query.token ? (
           isConfirmingEmail ? (
             <>
