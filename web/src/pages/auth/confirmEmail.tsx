@@ -60,8 +60,6 @@ export default function ConfirmEmail() {
     }, 5000);
   }
 
-  console.log(router.query);
-
   return (
     <motion.main
       className={

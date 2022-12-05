@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/future/image";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
@@ -11,7 +11,7 @@ import TextField from "../components/Inputs/TextField";
 import useDebounce from "../hooks/useDebounce";
 import { getIsUsernameTaken } from "../requests/fetch";
 import { login, register } from "../requests/mutate";
-import { transitionVariants } from "../styles/motion-definitions";
+import { transitions, transitionVariants } from "../styles/motion-definitions";
 import { storeAuthSession } from "../utils/storage";
 
 export default function AuthPage() {
@@ -149,7 +149,7 @@ export default function AuthPage() {
         whileDrag={{ cursor: "grabbing" }}
         initial={{ scale: 0.6, y: 100 }}
         animate={{ scale: 1, y: 0 }}
-        transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+        transition={transitions.spring}
         className={
           "relative z-[1] mt-auto min-h-[12rem] min-w-[12rem] sm:min-h-[16rem] sm:min-w-[16rem]"
         }
@@ -167,7 +167,11 @@ export default function AuthPage() {
           }`}
         />
       </motion.div>
-      <div className="flex gap-4">
+      <motion.div
+        layout
+        transition={transitions.springStiff}
+        className="flex gap-4"
+      >
         <Button
           variant={isLogin ? "filled" : "text"}
           onClick={() => setAction("login")}
@@ -180,24 +184,35 @@ export default function AuthPage() {
         >
           Register
         </Button>
-      </div>
+      </motion.div>
       <form
         className="mb-auto flex w-full max-w-md flex-col items-center gap-2 pb-4 sm:gap-4"
         onSubmit={handleSubmit}
       >
-        {isRegister && (
-          <TextField
-            label={"Username:"}
-            value={userName}
-            autoComplete={"username"}
-            placeholder={"Enter your username here..."}
-            error={userNameInvalid}
-            helperText={userNameHelperText}
-            disabled={isLoading}
-            onChange={(e) => setUserName(e.target.value)}
-            className={"w-full"}
-          />
-        )}
+        <AnimatePresence mode={"popLayout"}>
+          {isRegister && (
+            <motion.div
+              initial={"growOut"}
+              animate={"growIn"}
+              exit={"growOut"}
+              custom={0.1}
+              variants={transitionVariants}
+              className={"w-full"}
+            >
+              <TextField
+                label={"Username:"}
+                value={userName}
+                autoComplete={"username"}
+                placeholder={"Enter your username here..."}
+                error={userNameInvalid}
+                helperText={userNameHelperText}
+                disabled={isLoading}
+                onChange={(e) => setUserName(e.target.value)}
+                className={"w-full"}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
         <TextField
           label={"Email:"}
           value={email}
@@ -221,40 +236,52 @@ export default function AuthPage() {
           onChange={(e) => setPassword(e.target.value)}
           className={"w-full"}
         />
-        {isRegister && (
-          <TextField
-            label={"Confirm Password:"}
-            type={"password"}
-            value={confirmPassword}
-            autoComplete={"off"}
-            placeholder={"Confirm your password..."}
-            error={confirmPasswordInvalid}
-            helperText={confirmPasswordHelperText}
-            disabled={isLoading}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className={"w-full"}
-          />
-        )}
-        <Button
-          loading={isLoading}
-          disabled={isDisabled}
-          className={"mt-4 w-fit"}
-        >
-          {isLogin
-            ? isLoggingIn
-              ? "Logging in"
-              : "Log in"
-            : isRegistering
-            ? "Registering"
-            : "Register"}
-          {!isLoading && (
-            <MdArrowForward
-              className={
-                "h-full w-6 transition duration-200 ease-in-out group-hover:translate-x-0.5"
-              }
-            />
+        <AnimatePresence mode={"popLayout"}>
+          {isRegister && (
+            <motion.div
+              initial={"growOut"}
+              animate={"growIn"}
+              exit={"growOut"}
+              custom={0.1}
+              variants={transitionVariants}
+              className={"w-full"}
+            >
+              <TextField
+                label={"Confirm Password:"}
+                type={"password"}
+                value={confirmPassword}
+                autoComplete={"off"}
+                placeholder={"Confirm your password..."}
+                error={confirmPasswordInvalid}
+                helperText={confirmPasswordHelperText}
+                disabled={isLoading}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </motion.div>
           )}
-        </Button>
+        </AnimatePresence>
+        <motion.div layout transition={transitions.springStiff}>
+          <Button
+            loading={isLoading}
+            disabled={isDisabled}
+            className={"mt-4 w-fit"}
+          >
+            {isLogin
+              ? isLoggingIn
+                ? "Logging in"
+                : "Log in"
+              : isRegistering
+              ? "Registering"
+              : "Register"}
+            {!isLoading && (
+              <MdArrowForward
+                className={
+                  "h-full w-6 transition duration-200 ease-in-out group-hover:translate-x-0.5"
+                }
+              />
+            )}
+          </Button>
+        </motion.div>
       </form>
     </motion.main>
   );
