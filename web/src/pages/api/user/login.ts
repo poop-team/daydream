@@ -8,7 +8,8 @@ import { validateMethod } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {
-    email: string;
+    email?: string;
+    name?: string;
     password: string;
   };
 }
@@ -16,17 +17,18 @@ interface Request extends NextApiRequest {
 export default async function Login(req: Request, res: NextApiResponse) {
   if (!validateMethod("POST", req, res)) return;
 
-  const { email, password } = req.body;
+  const { email, name, password } = req.body;
 
-  if (!email.trim() || !password.trim()) {
+  if (!(email?.trim() || name?.trim()) || !password.trim()) {
     return res.status(400).json({
-      error: "Email and password are required",
+      error: "Email or username and password are required",
     });
   }
 
   const user = await prisma.user.findUnique({
     where: {
-      email,
+      email: email?.trim() || undefined,
+      name: name?.trim() || undefined,
     },
   });
 
