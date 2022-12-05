@@ -33,7 +33,7 @@ function Card({
   const [modalVisible, setModalVisible] = React.useState(false);
   console.log("modalVisible", modalVisible);
   let baseStyle = "rounded-lg mt-5 mx-auto";
-  console.log(data.likes.includes(data.author.id))
+  console.log(data.likes.includes(data.author.id));
 
   return (
     <View>
@@ -65,13 +65,19 @@ function Card({
           </View>
           <Image className="w-11/12 h-96 rounded-lg" source={{ uri: url }} />
           <View className="flex w-full flex-col items-center gap-2 p-4 md:p-6 lg:gap-4">
-            <View className="flex-row align-middle justify-center">
-              <Text className="">By {data.author.name}</Text>
-              <Text>{data.likes.length}</Text>
+            <View className="flex-row align-middle justify-between">
+              <View className="w-5/6 flex-row c">
+                <Text className="">By: </Text>
+                <Text className="font-black">
+                  {data.author.name}
+                </Text>
+              </View>
+              <Text className="">{data.likes.length}</Text>
+              {/*FIXME: LIKE COUNTER NEEDS TO BE UPDATEABLE*/}
               {data.likes.includes(data.author.id) ? (
-                <Icon name="heart" color = "red"/>
+                <Icon name="heart" color="red" size={20} />
               ) : (
-                <Icon name="heart-outline" />
+                <Icon name="heart-outline" size={20} />
               )}
             </View>
             <Text>{data.prompt}</Text>
