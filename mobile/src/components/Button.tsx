@@ -3,18 +3,18 @@ import { ReactNode } from "react";
 import { Pressable, Text, PressableProps } from "react-native";
 
 interface Props extends PressableProps {
-  name: string;
+  name?: string;
   children?: ReactNode;
   disabled?: boolean;
   pilled?: boolean;
 }
 
 /**
- * name - (string) button text (required).
- * children - (jsx tags/component)(optional) ie. pass in an icon (optional).
- * onPress - (function) button click handler. (optional) (default: ()=>{})
- * disabled - (boolean) calling this in the prop will grey the button out(optional).
- * pilled - (boolean) calling this will round the button all the way(optional).
+ * @name - (string) button text (required).
+ * @children - (jsx tags/component)(optional) ie. pass in an icon (optional).
+ * @onPress - (function) button click handler. (optional) (default: ()=>{})
+ * @disabled - (boolean) calling this in the prop will grey the button out(optional).
+ * @pilled - (boolean) calling this will round the button all the way(optional).
  */
 
 function Button({
