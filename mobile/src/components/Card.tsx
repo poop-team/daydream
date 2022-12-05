@@ -61,12 +61,12 @@ function Card({
               <View className="flex-row align-middle justify-between">
                 <View className="w-5/6 flex-row c">
                   <Text className="">By: </Text>
-                  <Text className="font-black">{data.author.name}</Text>
+                  <Text className="font-black">{data?.author?.name}</Text>
                 </View>
                 {/* these are here to prevent crash if null*/}
                 <Text className="">{data?.likes?.length}</Text>
                 {/*FIXME: LIKE COUNTER NEEDS TO BE UPDATEABLE*/}
-                {data.likes.includes(data.author.id) ? (
+                {data?.likes?.includes(data?.author?.id) ? (
                   <Icon name="heart" color="red" size={20} />
                 ) : (
                   <Icon name="heart-outline" size={20} />
