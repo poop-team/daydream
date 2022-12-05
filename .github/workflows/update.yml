@@ -22,6 +22,7 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v2
+        working-directory: ./mobile
         with:
           node-version: 16.x
           cache: yarn
