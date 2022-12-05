@@ -98,12 +98,10 @@ export default async function search(
 
   res.json({
     posts:
-      posts.map((post) => ({
+      posts.map(({ _count, likes, ...post }) => ({
         ...post,
-        _count: undefined, // Remove this field
-        likes: undefined, // Remove this field
-        likeCount: post._count.likes,
-        isLiked: post.likes.length > 0,
+        likeCount: _count.likes,
+        isLiked: likes.length > 0,
       })) ?? [],
     nextCursorId:
       posts && posts?.length > 0 ? posts[posts.length - 1].id : null,
