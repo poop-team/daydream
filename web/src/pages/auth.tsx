@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/future/image";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdArrowForward } from "react-icons/md";
 
@@ -10,20 +10,24 @@ import Button from "../components/Inputs/Button";
 import TextField from "../components/Inputs/TextField";
 import useDebounce from "../hooks/useDebounce";
 import { getIsUsernameTaken } from "../requests/fetch";
-import { login, register } from "../requests/mutate";
+import { login, register, sendPasswordResetEmail } from "../requests/mutate";
 import { transitions, transitionVariants } from "../styles/motion-definitions";
 import { storeAuthSession } from "../utils/storage";
+
+type Action = "login" | "register" | "reset";
 
 export default function AuthPage() {
   //# region Hooks
 
   const router = useRouter();
 
-  const [action, setAction] = useState<"login" | "register">("login");
+  const [action, setAction] = useState<Action>("login");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [waitBeforeResend, setWaitBeforeResend] = useState(0);
 
   const debouncedUserName = useDebounce(userName, 200);
 
@@ -39,7 +43,7 @@ export default function AuthPage() {
     mutationFn: () => login(email, password),
     onSuccess: (data) => {
       storeAuthSession(data);
-      void router.replace("/");
+      void router.push("/feed");
     },
     onError: (err: Error) => {
       toast.error(err.message);
@@ -55,16 +59,56 @@ export default function AuthPage() {
         query: { userId, email },
       });
     },
-    onError: (err: Error) => {
+    onError: () => {
       toast.error(
         "Failed to create account. The email may already be in use by another account."
       );
     },
   });
 
-  //# endregion
+  const { mutate: mutateSendResetEmail, isLoading: isSendingResetEmail } =
+    useMutation({
+      mutationFn: () => sendPasswordResetEmail(email),
+      onSuccess: () => {
+        toast.success(
+          "Email sent, check your inbox! Don't forget to also check spam if you don't see it"
+        );
+
+        let timerSecs = 30;
+        setWaitBeforeResend(timerSecs);
+        const interval = setInterval(() => {
+          setWaitBeforeResend(--timerSecs);
+          if (timerSecs === 0) {
+            clearInterval(interval);
+          }
+        }, 1000);
+      },
+      onError: () => {
+        toast.error("Failed to send email");
+      },
+    });
+
+  useEffect(() => {
+    if (
+      ["login", "register", "reset"].includes(router.query.action as string)
+    ) {
+      setAction(router.query.action as Action);
+    }
+  }, [router.query.action]);
+
+  //#endregion
 
   //#region Handlers
+
+  const handleActionChange = (action: Action) => {
+    void router.push(
+      {
+        query: { action },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -73,7 +117,7 @@ export default function AuthPage() {
       if (!emailInvalid && !passwordInvalid) {
         mutateLogin();
       }
-    } else {
+    } else if (action === "register") {
       if (
         !userNameInvalid &&
         !emailInvalid &&
@@ -81,6 +125,10 @@ export default function AuthPage() {
         !confirmPasswordInvalid
       ) {
         mutateRegister();
+      }
+    } else if (action === "reset") {
+      if (!emailInvalid) {
+        mutateSendResetEmail();
       }
     }
   };
@@ -91,9 +139,10 @@ export default function AuthPage() {
 
   const isLogin = action === "login";
   const isRegister = action === "register";
+  const isReset = action === "reset";
 
   const emailInvalid =
-    (email.trim() === "" || !email.includes("@")) && isRegister;
+    (email.trim() === "" || !email.includes("@")) && (isRegister || isReset);
   const emailHelperText = emailInvalid ? "Invalid email" : "";
 
   const userNameInvalid = userName.trim() === "" || isUserNameTaken;
@@ -115,16 +164,20 @@ export default function AuthPage() {
     ? "Passwords do not match"
     : "";
 
-  const isLoading = isLoggingIn || isRegistering;
-  const isDisabled = isLogin
-    ? // Login
-      email.trim() === "" || password.trim() === ""
-    : // Register
+  const isLoading = isLoggingIn || isRegistering || isSendingResetEmail;
+  let isDisabled = false;
+  if (isLogin) {
+    isDisabled = email.trim() === "" || password.trim() === "";
+  } else if (isRegister) {
+    isDisabled =
       isCheckingUserName ||
       userNameInvalid ||
       emailInvalid ||
       passwordInvalid ||
       confirmPasswordInvalid;
+  } else if (isReset) {
+    isDisabled = emailInvalid || waitBeforeResend > 0;
+  }
 
   //#endregion
 
@@ -163,7 +216,7 @@ export default function AuthPage() {
           sizes={"(max-width: 768px) 100vw, 16rem"}
           // Filter color based on status
           className={`h-full w-full object-contain transition duration-300 ${
-            isDisabled ? "hue-rotate-30" : "hue-rotate-0"
+            isDisabled ? "brightness-75" : "brightness-100"
           }`}
         />
       </motion.div>
@@ -174,15 +227,21 @@ export default function AuthPage() {
       >
         <Button
           variant={isLogin ? "filled" : "text"}
-          onClick={() => setAction("login")}
+          onClick={() => handleActionChange("login")}
         >
           Log In
         </Button>
         <Button
           variant={isRegister ? "filled" : "text"}
-          onClick={() => setAction("register")}
+          onClick={() => handleActionChange("register")}
         >
           Register
+        </Button>
+        <Button
+          variant={isReset ? "filled" : "text"}
+          onClick={() => handleActionChange("reset")}
+        >
+          Reset
         </Button>
       </motion.div>
       <form
@@ -224,18 +283,30 @@ export default function AuthPage() {
           onChange={(e) => setEmail(e.target.value)}
           className={"w-full"}
         />
-        <TextField
-          label={"Password:"}
-          type={"password"}
-          value={password}
-          autoComplete={isLogin ? "current-password" : "new-password"}
-          placeholder={"Enter your password..."}
-          error={passwordInvalid}
-          helperText={passwordHelperText}
-          disabled={isLoading}
-          onChange={(e) => setPassword(e.target.value)}
-          className={"w-full"}
-        />
+        <AnimatePresence mode={"popLayout"}>
+          {!isReset && (
+            <motion.div
+              initial={"growOut"}
+              animate={"growIn"}
+              exit={"growOut"}
+              custom={0.1}
+              variants={transitionVariants}
+              className={"w-full"}
+            >
+              <TextField
+                label={"Password:"}
+                type={"password"}
+                value={password}
+                autoComplete={isLogin ? "current-password" : "new-password"}
+                placeholder={"Enter your password..."}
+                error={passwordInvalid}
+                helperText={passwordHelperText}
+                disabled={isLoading}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
         <AnimatePresence mode={"popLayout"}>
           {isRegister && (
             <motion.div
@@ -266,14 +337,15 @@ export default function AuthPage() {
             disabled={isDisabled}
             className={"mt-4 w-fit"}
           >
-            {isLogin
-              ? isLoggingIn
-                ? "Logging in"
-                : "Log in"
-              : isRegistering
-              ? "Registering"
-              : "Register"}
-            {!isLoading && (
+            {isLogin && (isLoggingIn ? "Logging in" : "Log In")}
+            {isRegister && (isRegistering ? "Registering" : "Register")}
+            {isReset &&
+              (isSendingResetEmail
+                ? "Sending Recovery Link"
+                : waitBeforeResend > 0
+                ? `Wait ${waitBeforeResend} seconds before resending`
+                : "Send Me a Recovery Link")}
+            {!isLoading && !isReset && (
               <MdArrowForward
                 className={
                   "h-full w-6 transition duration-200 ease-in-out group-hover:translate-x-0.5"

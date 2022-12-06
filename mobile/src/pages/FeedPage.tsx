@@ -37,7 +37,9 @@ export default function FeedPage({ navigation }) {
           <FlatList
             className="w-screen android:mb-12"
             data={blob.posts}
-            renderItem={({ item }) => <Card key={item.id} post={item} />}
+            renderItem={({ item }) => (
+              <Card key={item.id} post={item}/>
+            )}
             keyExtractor={(item) => item.id}
             onScroll={(event) => {
               pageHeight = event.nativeEvent.contentSize.height;
