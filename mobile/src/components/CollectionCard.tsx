@@ -33,8 +33,8 @@ function CollectionCard({ collection }: Props) {
         }}
       >
         <View style={styles.modalView}>
-          <View className=" bg-white my-auto">
-            <View className="w-full flex-row ml-2 justify-start">
+          <View className="h-4/6 bg-white my-auto rounded-lg">
+            <View className="w-full flex-row ml-2 mt-2 justify-start">
               <Pressable>
                 <Icon
                   size={40}
@@ -53,19 +53,24 @@ function CollectionCard({ collection }: Props) {
             <View className="flex flex-row justify-center">
               <Text>
                 {`${currentCollection.postCount} ${
-                  currentCollection.postCount % 2 == 1 ? "post" : "posts"
+                  currentCollection.postCount === 1 ? "post" : "posts"
                 }`}
               </Text>
             </View>
-            <View className="mb-4">
-              {currentCollection.posts.map((post) => (
-                <Card
-                  key={post.id}
-                  className="rounded-lg h-[48vw] aspect-square"
-                  post={post}
-                />
-              ))}
-            </View>
+            <ScrollView>
+              <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-2 my-4">
+                {currentCollection.posts.map((post) => (
+                  <Card
+                    key={post.id}
+                    className="rounded-lg h-[40vw] aspect-square"
+                    post={post}
+                  />
+                ))}
+                {currentCollection.posts.length % 2 === 1 && (
+                  <View className="rounded-lg h-[40vw] aspect-square" />
+                )}
+              </View>
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -86,7 +91,7 @@ function CollectionCard({ collection }: Props) {
                 style={{ minHeight: screenWidth * 0.48 - 48 }}
               />
               <Text className="font-bold">{collection.name}</Text>
-              <Text>{collection.posts.length} saved</Text>
+              <Text>{collection.postCount} saved</Text>
             </Pressable>
           </>
         ) : (
