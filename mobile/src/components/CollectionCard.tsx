@@ -11,6 +11,7 @@ interface Props {
 function CollectionCard({
   collection,
 }: Props) {
+  const [currentCollection, setCurrentCollection] = React.useState(collection)
   const [modalVisible, setModalVisible] = React.useState(false);
   return (
     <View>
@@ -19,7 +20,7 @@ function CollectionCard({
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }
-      }>
+        }>
         <View className="w-full h-full bg-white">
           <View className="w-full flex-row place-content-start ml-2">
             <Pressable>
@@ -32,8 +33,23 @@ function CollectionCard({
               />
             </Pressable>
           </View>
+          <View/>
           <View>
-            {collection.posts.map((post) => (
+            {/*
+            Dear Rob,
+
+            !author.name == crash
+            Left this is a reminder of what to investigate tomorrow.
+
+            * console.log(collection) doesn't show an author name.
+            * overall idea of this <view>:
+              - take collection
+              - iterate through the Posts[] stored in it
+              - display the image cards, as seen in src/pages/ProfilePage.tsx : 165
+
+            - Jan
+            */}
+            {currentCollection.posts.map((post) => (
               <Card
                 key={post.id}
                 className="rounded-lg h-[48vw] aspect-square"
@@ -45,24 +61,41 @@ function CollectionCard({
       </Modal>
       <View key={collection.id} className="flex aspect-square rounded-lg h-[48vw]">
         {collection.posts[0]?.imageURL ?
-          <Pressable onPress={() => setModalVisible(true)}>
-            <Image
-              source={{uri: collection.posts[0]?.imageURL}}
-              className="h-[77%]"
-            />
-          </Pressable>:
-          <View className="flex flex-1 items-center justify-center bg-slate-300/80">
-            <Text className="text-xl font-semibold text-slate-600"> {/*TOOD not displaying box anymore*/}
-              Nothing saved yet
+          <>
+            <Pressable onPress={() =>
+            {
+              setCurrentCollection(collection);
+              console.log(collection);
+              setModalVisible(true);
+            }
+            }>
+              <Image
+                source={{uri: collection.posts[0]?.imageURL}}
+                className="h-[80%]"
+              />
+              <Text className="font-bold">
+                {collection.name}
+              </Text>
+              <Text>
+                {collection.posts.length} saved
+              </Text>
+            </Pressable>
+          </>
+          :
+          <>
+            <View className="flex flex-1 items-center justify-center bg-slate-300/80">
+              <Text className="text-xl font-semibold text-slate-600">
+                Nothing saved yet
+              </Text>
+            </View>
+            <Text className="font-bold">
+              {collection.name}
             </Text>
-          </View>
+            <Text>
+              {collection.posts.length} saved
+            </Text>
+          </>
         }
-        <Text className="font-bold">
-          {collection.name}
-        </Text>
-        <Text>
-          {collection.posts.length} saved
-        </Text>
       </View>
     </View>
   )
