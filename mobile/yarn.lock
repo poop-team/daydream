@@ -10834,7 +10834,6 @@ __metadata:
     react-dom: 18.0.0
     react-native: 0.69.6
     react-native-gesture-handler: ^2.8.0
-    react-native-multiple-select: ^0.5.12
     react-native-safe-area-context: 4.3.1
     react-native-screens: ~3.15.0
     react-native-vector-icons: ^9.2.0
@@ -14210,21 +14209,6 @@ __metadata:
   version: 0.0.7
   resolution: "react-native-gradle-plugin@npm:0.0.7"
   checksum: 959ce3bcbc8362909210fae894e4b414a0afdff39fe1683463214b7feddae6beaf8584ebe62323b1e91ba31de00311e826588e0d807c93a949e445b1770cac27
-  languageName: node
-  linkType: hard
-
-"react-native-multiple-select@npm:^0.5.12":
-  version: 0.5.12
-  resolution: "react-native-multiple-select@npm:0.5.12"
-  dependencies:
-    prop-types: ^15.7.2
-  peerDependencies:
-    deprecated-react-native-prop-types: ">2.0.0"
-    lodash: "*"
-    react: ">16.6.0"
-    react-native: ">0.57.0"
-    react-native-vector-icons: ">6.0.0"
-  checksum: 79ba4e8cdb20db4e9c2c9dd67c4e3502883e22ebed96cf588f67cd8cb24a418d68d5c5b47fbe86b722dd4b8decfeabe4cb90a4d16bf4e3d0eef0ea5113dc598b
   languageName: node
   linkType: hard
 
