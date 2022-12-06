@@ -62,7 +62,7 @@ function Card({
                   <Text className="font-black">{post?.author.name}</Text>
                 </View>
                 {/* these are here to prevent crash if null*/}
-                <Text className="">{post?.likes.length ?? 0}</Text>
+                <Text className="">{post?.likes?.length ?? 0}</Text>
                 {/*FIXME: LIKE COUNTER NEEDS TO BE UPDATEABLE*/}
                 {post?.likes?.includes(post?.author?.id) ? (
                   <Icon name="heart" color="red" size={20} />
