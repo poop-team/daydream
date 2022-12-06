@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
-import sendConfirmationEmail from "../../../utils/email";
+import { sendConfirmationEmail } from "../../../utils/email";
 import { validateMethod } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
