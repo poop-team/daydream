@@ -57,7 +57,7 @@ export default function CustomImage({
         src={src}
         alt={alt}
         className={`${imageStyles} ${className}`}
-        onLoad={handleImageLoaded}
+        onLoadingComplete={handleImageLoaded}
         {...rest}
       />
     </div>

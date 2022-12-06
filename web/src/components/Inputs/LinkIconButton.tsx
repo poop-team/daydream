@@ -17,7 +17,7 @@ export default function LinkIconButton({
 }: Props) {
   return (
     <Link href={href}>
-      <a draggable={false} {...props}>
+      <a draggable={false} {...props} tabIndex={-1}>
         <IconButton
           aria-label={`Navigate to ${href.replace("/", "")}`}
           className={className}

@@ -1,12 +1,9 @@
-import { User } from "@prisma/client";
 import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
-import nodemailer from "nodemailer";
-import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 import { prisma } from "../../../server/db/client";
-import { generateJWTForEmailVerification } from "../../../utils/jwt";
-import { validateMethod, validateString } from "../../../utils/validation";
+import sendConfirmationEmail from "../../../utils/email";
+import { validateMethod } from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {
@@ -15,6 +12,13 @@ interface Request extends NextApiRequest {
     password: string;
   };
 }
+
+const validEmailDomains = [
+  "robertboyd.dev",
+  "raciel.dev",
+  "knights.ucf.edu",
+  "faiz.info",
+];
 
 export default async function Register(req: Request, res: NextApiResponse) {
   if (!validateMethod("POST", req, res)) return;
@@ -27,63 +31,36 @@ export default async function Register(req: Request, res: NextApiResponse) {
     });
   }
 
+  if (
+    !validEmailDomains.some((domain) =>
+      email.trim().toLowerCase().endsWith(domain)
+    )
+  ) {
+    return res.status(400).json({
+      error: "Access restricted, sorry 😢",
+    });
+  }
+
   const passwordHash = await hash(password, 10);
 
   try {
     // create new user table via prisma
-    const newUser: User = await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         name: name.trim().toLowerCase(),
         email: email.trim(),
         passwordHash,
       },
-    })
-    .then((user) => {
-      return res.status(201).json({
-        userId: user.id,
-      });
-    })
-    .catch(() => {
-      return res.status(500).json({
-        error: "Registration failed!",
-      });
     });
 
-    const jwt = await generateJWTForEmailVerification(newUser.id);
+    await sendConfirmationEmail(newUser.email, newUser.name, newUser.id);
 
-    // use nodemailer to send a verification email to the user's email address
-    const transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo> =
-      nodemailer.createTransport({
-        service: "Gmail",
-        auth: {
-          user: process.env.EMAIL,
-          pass: process.env.EMAIL_PASSWORD,
-        },
-      });
-
-    const url =
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
-        : "https://daydream.wtf";
-    const confirmEmailAPIRoute = `${url}/api/user/confirmEmail?userId=${newUser.id}&token=${jwt}`;
-
-    await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: email,
-      text:
-        "Please verify your email with " +
-        confirmEmailAPIRoute +
-        " | Sent from:\nThe Team at Daydream",
-      html: `<div>Please verify your email with ${confirmEmailAPIRoute}</div><p>Sent from:\nThe Team at Daydream</p>`,
+    return res.status(201).json({
+      userId: newUser.id,
     });
   } catch (e) {
     return res.status(500).json({
       error: "Registration failed!",
     });
   }
-
-  return res.status(201).json({
-    message:
-      "Registration successful! Email verification link sent to your email. Please verify first to log in.",
-  });
 }

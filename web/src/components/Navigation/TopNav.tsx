@@ -5,7 +5,6 @@ import {
   MdAccountCircle,
   MdAddCircle,
   MdFilterAlt,
-  MdHome,
   MdLogout,
   MdSettings,
 } from "react-icons/md";
@@ -15,6 +14,7 @@ import paths from "../../data/path";
 import useIsClient from "../../hooks/useIsClient";
 import { positionVariants, transitions } from "../../styles/motion-definitions";
 import { clearAuthSession, getAuthSession } from "../../utils/storage";
+import Logo from "../Icons/Logo";
 import Button from "../Inputs/Button";
 import IconButton from "../Inputs/IconButton";
 import LinkIconButton from "../Inputs/LinkIconButton";
@@ -86,7 +86,7 @@ export default function TopNav({
   const isCreate = router.pathname === paths.create;
   const isProfile = router.pathname.startsWith(paths.profile);
   const isOwnProfile = isProfile && router.query.name === userName;
-  const isAuth = router.pathname == paths.auth;
+  const isAuth = router.pathname.startsWith(paths.auth);
 
   //#endregion
 
@@ -122,7 +122,7 @@ export default function TopNav({
               className={"hidden justify-start sm:block"}
             >
               <LinkIconButton href={paths.feed}>
-                <MdHome className={"h-full w-10"} />
+                <Logo className={"h-10 w-10"} />
               </LinkIconButton>
             </motion.li>
           )}
@@ -217,7 +217,7 @@ export default function TopNav({
                     draggable={false}
                     containerClassName={"relative h-10 w-10 rounded-full"}
                     className={
-                      "absolute h-full w-full rounded-full object-cover"
+                      "absolute h-full w-full rounded-full object-cover hover:brightness-125"
                     }
                   />
                 ) : (

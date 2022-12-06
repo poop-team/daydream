@@ -5,6 +5,13 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@2toad/profanity@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@2toad/profanity@npm:2.2.0"
+  checksum: 42d63bb3892c897670c91b99452df2c05972734b0853ded4718a227d4b6c2a43cbdb185aa7e0ff945b45814cdcdd39e1cfd546fa861d782807db76ba5ec2143e
+  languageName: node
+  linkType: hard
+
 "@adobe/css-tools@npm:^4.0.1":
   version: 4.0.1
   resolution: "@adobe/css-tools@npm:4.0.1"
@@ -1707,6 +1714,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "big-project@workspace:."
   dependencies:
+    "@2toad/profanity": ^2.2.0
     "@floating-ui/react-dom": 1.0.1
     "@headlessui/react": 1.7.4
     "@prisma/client": 4.6.1
@@ -1743,7 +1751,6 @@ __metadata:
     framer-motion: 7.6.12
     jsdom: 20.0.3
     jsonwebtoken: 8.5.1
-    lodash: 4.17.21
     next: 12.3.3
     nodemailer: 6.8.0
     postcss: 8.4.19
@@ -4717,7 +4724,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:4.17.21, lodash@npm:^4.17.15":
+"lodash@npm:^4.17.15":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7

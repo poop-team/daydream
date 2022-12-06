@@ -1,21 +1,31 @@
-import { SafeAreaView, Image, View, Text, ScrollView, ActivityIndicator } from "react-native";
+import {
+  SafeAreaView,
+  Image,
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import BottomNavBar from "../components/BottomNavBar";
 import TopNavBar from "../components/TopNavBar";
 import Button from "../components/Button";
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getAuthSession } from "../utils/storage";
+import {useEffect, useState} from "react";
+import {useQuery} from "@tanstack/react-query";
+import {getAuthSession} from "../utils/storage";
 import {getCollections, getUser} from "../requests/fetch";
-import { ErrorResponse } from "../types/error.type";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
-import { Post } from "../types/post.type";
+import {Post} from "../types/post.type";
+import useDebounce from "../hooks/useDebounce";
+import Card from "../components/Card";
 import Collection from "../types/collection.type";
 
-export default ({ navigation }) => {
+export default ({navigation}) => {
   const [search, setSearch] = useState("");
   const [userId, setUserId] = useState(null);
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState(null);
+
+  const debouncedSearch = useDebounce(search, 500);
 
   const [currentView, setCurrentView] = useState<"created" | "collections">(
     "created"
@@ -23,7 +33,7 @@ export default ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
-      const { userId, userAvatar, userName } = await getAuthSession();
+      const {userId, userAvatar, userName} = await getAuthSession();
       setUserId(userId);
       setUserName(userName);
       setUserAvatar(userAvatar);
@@ -38,23 +48,14 @@ export default ({ navigation }) => {
     // FIXME figure out how to incorporate userid here
     queryKey: ["user_profile"],
     queryFn: async () => {
-      const userId = (await getAuthSession()).userId;
-      return getUser({ userId });
-    },
-    /*
-    onError: (err: ErrorResponse) => {
-      if (err.cause?.code === 404) {
-        setNotFound(true);
-      }
-      toast.error(err.message);
-    },
-*/
+      return getUser({});
+    }
   });
 
-  const { posts, isFetching, isFetchingNextPage, fetchNextPage } =
+  const {posts, isFetching, isFetchingNextPage, fetchNextPage} =
     useInfiniteQueryPosts({
       key: "user_posts",
-      searchValue: search,
+      searchValue: debouncedSearch,
       userId,
       limit: 8,
       recentOnly: true,
@@ -69,7 +70,7 @@ export default ({ navigation }) => {
     refetch: refetchCollections,
   } = useQuery({
     queryKey: ["user_collections", userId],
-    queryFn: () => getCollections({ userId }),
+    queryFn: () => getCollections({userId}),
     onError: (err: Error) => {
       console.error(err.message);
     },
@@ -81,8 +82,8 @@ export default ({ navigation }) => {
       <SafeAreaView className="w-full flex flex-1">
         <ScrollView
           onScroll={({
-            nativeEvent: { layoutMeasurement, contentOffset, contentSize },
-          }) => {
+                       nativeEvent: {layoutMeasurement, contentOffset, contentSize},
+                     }) => {
             const isNearBottom =
               layoutMeasurement.height + contentOffset.y >=
               contentSize.height - 20;
@@ -98,7 +99,7 @@ export default ({ navigation }) => {
               source={
                 !user?.image
                   ? require("../../assets/profile.jpg")
-                  : { uri: user.image }
+                  : {uri: user.image}
               }
             />
             <Text className="mb-2 text-lg font-semibold">@{userName}</Text>
@@ -142,44 +143,51 @@ export default ({ navigation }) => {
                 </Text>
               </Button>
             </View>
-            <TopNavBar value={search} onChangeText={setSearch} />
-            {currentView === "created" && <CreatedView posts={posts ?? []} />}
-            {currentView === "collections" && <CollectionView collections={collectionData?.collections ?? []} />}
-            {isFetchingNextPage && <ActivityIndicator size="large" color="#312E81" className="android:py-4 ios:py-2" />}
+            <TopNavBar value={search} onChangeText={setSearch}/>
+            {currentView === "created" && <CreatedView posts={posts ?? []}/>}
+            {currentView === "collections" && <CollectionView collections={collectionData?.collections ?? []}/>}
+            {isFetchingNextPage && (
+              <ActivityIndicator
+                size="large"
+                color="#312E81"
+                className="android:py-4 ios:py-2"
+              />
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>
-      <BottomNavBar navigation={navigation} />
+      <BottomNavBar navigation={navigation}/>
     </View>
   );
 };
 
-const CreatedView = ({ posts }: { posts: Post[] }) => {
+const CreatedView = ({posts}: { posts: Post[] }) => {
   return (
     <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-1 my-1">
-      {posts.map(({ imageURL, id }) => (
-        <Image
-          key={id}
-          source={{ uri: imageURL }}
+      {posts.map((post) => (
+        <Card
+          key={post.id}
           className="rounded-lg h-[48vw] aspect-square"
+          post={post}
         />
       ))}
       {posts.length % 2 === 1 && (
-        <View className="rounded-lg h-[48vw] aspect-square" />
+        <View className="rounded-lg h-[48vw] aspect-square"/>
       )}
     </View>
   );
 };
 
-const CollectionView = ({ collections }: { collections: Collection[] }) => {
+const CollectionView = ({collections}: { collections: Collection[] }) => {
   return (
     <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-1 my-1">
       {collections.map((collection) => (
         <View key={collection.id} className="flex aspect-square rounded-lg h-[48vw]">
-          { collection.posts[0]?.imageURL ? <Image
-            source={{ uri: collection.posts[0]?.imageURL }}
+          {collection.posts[0]?.imageURL ? <Image
+            source={{uri: collection.posts[0]?.imageURL}}
             className="h-[77%]"
-          /> : <View className="flex flex-1 items-center justify-center bg-gray-250"><Text className="">Hello</Text></View>}
+          /> : <View className="flex flex-1 items-center justify-center bg-gray-250"><Text
+            className="">Hello</Text></View>}
           <Text className="font-bold">
             {collection.name}
           </Text>
@@ -189,7 +197,7 @@ const CollectionView = ({ collections }: { collections: Collection[] }) => {
         </View>
       ))}
       {collections.length % 2 === 1 && (
-        <View className="rounded-lg h-[48vw] aspect-square" />
+        <View className="rounded-lg h-[48vw] aspect-square"/>
       )}
     </View>
   );

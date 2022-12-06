@@ -8,10 +8,10 @@ import ForgotPassword from "./src/pages/ForgotPassword";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
 import ProfilePage from "./src/pages/ProfilePage";
 
 const Stack = createStackNavigator();
+
 const queryClient = new QueryClient();
 
 export default function App() {
@@ -56,6 +56,6 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </QueryClientProvider>
+    </QueryClientProvider >
   );
 }
