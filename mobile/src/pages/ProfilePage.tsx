@@ -9,18 +9,18 @@ import {
 import BottomNavBar from "../components/BottomNavBar";
 import TopNavBar from "../components/TopNavBar";
 import Button from "../components/Button";
-import {useEffect, useState} from "react";
-import {useQuery} from "@tanstack/react-query";
-import {getAuthSession} from "../utils/storage";
-import {getCollections, getUser} from "../requests/fetch";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getAuthSession } from "../utils/storage";
+import { getCollections, getUser } from "../requests/fetch";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
-import {Post} from "../types/post.type";
+import { Post } from "../types/post.type";
 import useDebounce from "../hooks/useDebounce";
 import Card from "../components/Card";
 import CollectionCard from "../components/CollectionCard";
 import Collection from "../types/collection.type";
 
-export default ({navigation}) => {
+export default ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [userId, setUserId] = useState(null);
   const [userName, setUserName] = useState("");
@@ -34,7 +34,7 @@ export default ({navigation}) => {
 
   useEffect(() => {
     (async () => {
-      const {userId, userAvatar, userName} = await getAuthSession();
+      const { userId, userAvatar, userName } = await getAuthSession();
       setUserId(userId);
       setUserName(userName);
       setUserAvatar(userAvatar);
@@ -50,10 +50,10 @@ export default ({navigation}) => {
     queryKey: ["user_profile"],
     queryFn: async () => {
       return getUser({});
-    }
+    },
   });
 
-  const {posts, isFetching, isFetchingNextPage, fetchNextPage} =
+  const { posts, isFetching, isFetchingNextPage, fetchNextPage } =
     useInfiniteQueryPosts({
       key: "user_posts",
       searchValue: debouncedSearch,
@@ -71,7 +71,7 @@ export default ({navigation}) => {
     refetch: refetchCollections,
   } = useQuery({
     queryKey: ["user_collections", userId],
-    queryFn: () => getCollections({userId}),
+    queryFn: () => getCollections({ userId }),
     onError: (err: Error) => {
       console.error(err.message);
     },
@@ -83,8 +83,8 @@ export default ({navigation}) => {
       <SafeAreaView className="w-full flex flex-1">
         <ScrollView
           onScroll={({
-                       nativeEvent: {layoutMeasurement, contentOffset, contentSize},
-                     }) => {
+            nativeEvent: { layoutMeasurement, contentOffset, contentSize },
+          }) => {
             const isNearBottom =
               layoutMeasurement.height + contentOffset.y >=
               contentSize.height - 20;
@@ -100,7 +100,7 @@ export default ({navigation}) => {
               source={
                 !user?.image
                   ? require("../../assets/profile.jpg")
-                  : {uri: user.image}
+                  : { uri: user.image }
               }
             />
             <Text className="mb-2 text-lg font-semibold">@{userName}</Text>
@@ -144,9 +144,11 @@ export default ({navigation}) => {
                 </Text>
               </Button>
             </View>
-            <TopNavBar value={search} onChangeText={setSearch}/>
-            {currentView === "created" && <CreatedView posts={posts ?? []}/>}
-            {currentView === "collections" && <CollectionView collections={collectionData?.collections ?? []}/>}
+            <TopNavBar value={search} onChangeText={setSearch} />
+            {currentView === "created" && <CreatedView posts={posts ?? []} />}
+            {currentView === "collections" && (
+              <CollectionView collections={collectionData?.collections ?? []} />
+            )}
             {isFetchingNextPage && (
               <ActivityIndicator
                 size="large"
@@ -157,12 +159,12 @@ export default ({navigation}) => {
           </View>
         </ScrollView>
       </SafeAreaView>
-      <BottomNavBar navigation={navigation}/>
+      <BottomNavBar navigation={navigation} />
     </View>
   );
 };
 
-const CreatedView = ({posts}: { posts: Post[] }) => {
+const CreatedView = ({ posts }: { posts: Post[] }) => {
   return (
     <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-1 my-1">
       {posts.map((post) => (
@@ -173,13 +175,13 @@ const CreatedView = ({posts}: { posts: Post[] }) => {
         />
       ))}
       {posts.length % 2 === 1 && (
-        <View className="rounded-lg h-[48vw] aspect-square"/>
+        <View className="rounded-lg h-[48vw] aspect-square" />
       )}
     </View>
   );
 };
 
-const CollectionView = ({collections}: { collections: Collection[] }) => {
+const CollectionView = ({ collections }: { collections: Collection[] }) => {
   return (
     <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-1 my-1">
       {collections.map((collection) => (
@@ -190,7 +192,7 @@ const CollectionView = ({collections}: { collections: Collection[] }) => {
         />
       ))}
       {collections.length % 2 === 1 && (
-        <View className="rounded-lg h-[48vw] aspect-square"/>
+        <View className="rounded-lg h-[48vw] aspect-square" />
       )}
     </View>
   );
