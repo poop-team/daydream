@@ -14,6 +14,8 @@ export const serverSchema = z.object({
   JWT_PRIVATE_KEY: z.string(),
   JWT_RESET_PRIVATE_KEY: z.string(),
   IMGUR_CLIENT_ID: z.string(),
+  EMAIL: z.string(),
+  EMAIL_PASSWORD: z.string(),
 });
 
 /**
