@@ -17,6 +17,7 @@ import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
 import {Post} from "../types/post.type";
 import useDebounce from "../hooks/useDebounce";
 import Card from "../components/Card";
+import CollectionCard from "../components/CollectionCard";
 import Collection from "../types/collection.type";
 
 export default ({navigation}) => {
@@ -182,19 +183,11 @@ const CollectionView = ({collections}: { collections: Collection[] }) => {
   return (
     <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-1 my-1">
       {collections.map((collection) => (
-        <View key={collection.id} className="flex aspect-square rounded-lg h-[48vw]">
-          {collection.posts[0]?.imageURL ? <Image
-            source={{uri: collection.posts[0]?.imageURL}}
-            className="h-[77%]"
-          /> : <View className="flex flex-1 items-center justify-center bg-slate-300/80"><Text
-            className="text-xl font-semibold text-slate-600">Nothing saved yet</Text></View>}
-          <Text className="font-bold">
-            {collection.name}
-          </Text>
-          <Text>
-            {collection.posts.length} saved
-          </Text>
-        </View>
+        <CollectionCard
+          key={collection.id}
+          // className=""
+          collection={collection}
+        />
       ))}
       {collections.length % 2 === 1 && (
         <View className="rounded-lg h-[48vw] aspect-square"/>
