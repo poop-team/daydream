@@ -88,7 +88,7 @@ export default function ImageCreate({ navigation }) {
                     <View className="mb-4">
                         {areRecentPostsLoading ? <ActivityIndicator /> :
                             recentPostsData.posts.length === 0 ? <Text className="text-xl justify-content text-center">You haven't created anything yet :( Get creative!</Text> :
-                                recentPostsData.posts.map(post => <Card key={post.id} url={post.imageURL} />)
+                                recentPostsData.posts.map(post => <Card key={post.id} />)
                         }
                     </View>
                 </ScrollView>
