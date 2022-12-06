@@ -84,10 +84,10 @@ export default function ImageCreate({ navigation }) {
                         />
                     </Pressable>
                     <View className="grow mt-2">
-                        <TopNavBar icon="color-wand-outline" className="m-2" value={prompt} onChangeText={setPrompt}/>
+                        <TopNavBar icon="color-wand-outline" className="m-2" value={prompt} onChangeText={setPrompt} />
                     </View>
                 </View>
-                <View className="flex mb-6 ml-10 mr-10 mt-0 h-10">
+                <View className="flex  ml-10 mr-10 mt-0 h-40 bg-red-400">
                     <MultiSelect
                         items={imageStyles.map(x => ({ id: x, name: x }))}
                         uniqueKey="id"
@@ -99,17 +99,17 @@ export default function ImageCreate({ navigation }) {
                         submitButtonColor="#312e81"
                         tagTextColor="#312e81"
                         tagRemoveIconColor="#ed4242"
-                        tagContainerStyle={{ backgroundColor: "white" }} 
-                        />
+                        tagContainerStyle={{ backgroundColor: "white" }}
+                    />
                 </View>
                 <View className="flex m-6">
                     <Button
                         className={"w-fit"}
                         loading={isCreating}
                         disabled={isCreateDisabled}
-                        onPress={handleCreate}>
-                        {isCreating ? loadingText : "Create"}
-                    </Button>
+                        onPress={handleCreate}
+                        name={isCreating ? loadingText : "Create"} 
+                    />
                 </View>
                 <View className="flex-row mb-4 items-center justify-center">
                     <Text className=" mr-2 font-bold first-line:text-2xl">Recently created</Text>
@@ -119,7 +119,7 @@ export default function ImageCreate({ navigation }) {
                     <View className="mb-4">
                         {areRecentPostsLoading ? <ActivityIndicator /> :
                             recentPostsData.posts.length === 0 ? <Text className="text-xl justify-content text-center">You haven't created anything yet :( Get creative!</Text> :
-                                recentPostsData.posts.map(post => <Card key={post.id} url={post.imageURL} />)
+                                recentPostsData.posts.map(post => <Card key={post.id} post={post} />)
                         }
                     </View>
                 </ScrollView>
