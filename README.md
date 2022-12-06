@@ -1,3 +1,10 @@
+<p align="center">
+ <img src="https://github.com/poop-team/daydream/blob/main/mobile/src/images/daydream_logo_words.png" 
+   width="320"
+   height="320"
+ />
+</p>
+
 # [Daydream](https://daydream.wtf)  —  **`Monorepo`**
 
 ## Description
