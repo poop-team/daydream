@@ -7,7 +7,10 @@ import { toast } from "react-hot-toast";
 import CircularProgress from "../../components/Feedback/CircularProgress";
 import Button from "../../components/Inputs/Button";
 import { confirmEmail, sendConfirmationEmail } from "../../requests/mutate";
-import { transitionVariants } from "../../styles/motion-definitions";
+import {
+  transitions,
+  transitionVariants,
+} from "../../styles/motion-definitions";
 
 export default function ConfirmEmail() {
   //#region Hooks
@@ -30,11 +33,7 @@ export default function ConfirmEmail() {
     isLoading: isSendingConfirmationEmail,
   } = useMutation({
     mutationKey: ["auth_send_confirmation_email"],
-    mutationFn: () =>
-      sendConfirmationEmail(
-        router.query.email as string,
-        router.query.userId as string
-      ),
+    mutationFn: () => sendConfirmationEmail(router.query.email as string),
     onSuccess: () => {
       toast.success("Verification email sent successfully!");
 
@@ -99,10 +98,12 @@ export default function ConfirmEmail() {
         <AnimatePresence initial={false}>
           {(!emailConfirmed || !router.query.token) && !isConfirmingEmail && (
             <motion.div
+              layout
               initial={"fadeOut"}
               animate={"fadeIn"}
               exit={"fadeOut"}
               variants={transitionVariants}
+              transition={transitions.springStiff}
             >
               <Button
                 onClick={() => mutateSendConfirmationEmail()}

@@ -2,7 +2,7 @@ import { compare } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
-import sendConfirmationEmail from "../../../utils/email";
+import { sendConfirmationEmail } from "../../../utils/email";
 import { generateJWT } from "../../../utils/jwt";
 import { validateMethod } from "../../../utils/validation";
 

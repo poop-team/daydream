@@ -40,8 +40,12 @@ export async function confirmEmail(userId: string, token: string) {
   );
 }
 
-export async function sendConfirmationEmail(email: string, userId: string) {
+export async function sendConfirmationEmail(email: string) {
   return await doRequest("/api/user/sendConfirmationEmail", { email }, "POST");
+}
+
+export async function sendPasswordResetEmail(email: string) {
+  return await doRequest("/api/user/sendResetEmail", { email }, "POST");
 }
 
 export async function updateUser(image = "", userName = "") {
