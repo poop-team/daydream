@@ -38,6 +38,7 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
             dateCreated: true,
             prompt: true,
             imageURL: true,
+            author: true,
           },
         },
         _count: {
