@@ -1,5 +1,5 @@
 // verify the JWT reset token and update user password
-import { hash } from "bcrypt";
+import { compare, hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/db/client";
@@ -12,7 +12,10 @@ interface Request extends NextApiRequest {
   };
 }
 
-export default async function resetVerify(req: Request, res: NextApiResponse) {
+export default async function resetPassword(
+  req: Request,
+  res: NextApiResponse
+) {
   const { token, password } = req.body;
   if (!token) {
     return res.status(422).json({ error: "Token is required" });
@@ -21,13 +24,33 @@ export default async function resetVerify(req: Request, res: NextApiResponse) {
     return res.status(422).json({ error: "Password is required" });
   }
   //verify the JWT reset token
-  const id = await validateResetJWT(token);
+  const id = await validateResetJWT(token).catch(() => {
+    return res.status(400).json({ error: "Invalid or expired token" });
+  });
   if (!id) {
-    return res.status(400).json({ error: "Invalid token" });
+    return res.status(400).json({ error: "Invalid or expired token" });
   }
 
-  //hash the new password
-  const passwordHash = await hash(password, 10);
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (!user) {
+    return res.status(400).json({ error: "Invalid or expired token" });
+  }
+
+  compare(password, user.passwordHash)
+    .then((success) => {
+      if (success) {
+        return res.status(400).json({
+          error: "The new password cannot be the same as the old one",
+        });
+      }
+    })
+    .catch(() => {
+      return res.status(500).json({ error: "Internal server error" });
+    });
 
   //update user password
   await prisma.user
@@ -36,7 +59,7 @@ export default async function resetVerify(req: Request, res: NextApiResponse) {
         id,
       },
       data: {
-        passwordHash,
+        passwordHash: await hash(password, 10),
       },
     })
     .catch((e: Error) => {

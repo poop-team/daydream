@@ -27,6 +27,8 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [waitBeforeResend, setWaitBeforeResend] = useState(0);
+
   const debouncedUserName = useDebounce(userName, 200);
 
   const { data: isUserNameTaken, isLoading: isCheckingUserName } = useQuery({
@@ -71,6 +73,15 @@ export default function AuthPage() {
         toast.success(
           "Email sent, check your inbox! Don't forget to also check spam if you don't see it"
         );
+
+        let timerSecs = 30;
+        setWaitBeforeResend(timerSecs);
+        const interval = setInterval(() => {
+          setWaitBeforeResend(--timerSecs);
+          if (timerSecs === 0) {
+            clearInterval(interval);
+          }
+        }, 1000);
       },
       onError: () => {
         toast.error("Failed to send email");
@@ -165,7 +176,7 @@ export default function AuthPage() {
       passwordInvalid ||
       confirmPasswordInvalid;
   } else if (isReset) {
-    isDisabled = emailInvalid;
+    isDisabled = emailInvalid || waitBeforeResend > 0;
   }
 
   //#endregion
@@ -326,10 +337,14 @@ export default function AuthPage() {
             disabled={isDisabled}
             className={"mt-4 w-fit"}
           >
-            {isLogin && (isLoggingIn ? "Logging in" : "Log in")}
+            {isLogin && (isLoggingIn ? "Logging in" : "Log In")}
             {isRegister && (isRegistering ? "Registering" : "Register")}
             {isReset &&
-              (isSendingResetEmail ? "Sending" : "Send Password Reset Email")}
+              (isSendingResetEmail
+                ? "Sending Recovery Link"
+                : waitBeforeResend > 0
+                ? `Wait ${waitBeforeResend} seconds before resending`
+                : "Send Me a Recovery Link")}
             {!isLoading && !isReset && (
               <MdArrowForward
                 className={

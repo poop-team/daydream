@@ -114,7 +114,7 @@ export default function ConfirmEmail() {
                   ? `Wait ${waitBeforeResend} seconds before resending`
                   : isSendingConfirmationEmail
                   ? "Sending..."
-                  : "Send Another Email"}
+                  : "Send Me Another Email"}
               </Button>
             </motion.div>
           )}
