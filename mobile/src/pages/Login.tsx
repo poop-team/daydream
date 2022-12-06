@@ -62,8 +62,7 @@ export default function Login({ navigation }) {
             disabled={isPending || invalidCount >= 5}
             onPress={() => {
               setIsPending(true);
-              //login(email, password)
-              login("test@gmail.com","testtest")
+              login(email, password)
                 .then(async (data) => {
                   if (data) {
                     storeAuthSession(data);
