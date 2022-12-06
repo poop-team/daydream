@@ -186,8 +186,8 @@ const CollectionView = ({collections}: { collections: Collection[] }) => {
           {collection.posts[0]?.imageURL ? <Image
             source={{uri: collection.posts[0]?.imageURL}}
             className="h-[77%]"
-          /> : <View className="flex flex-1 items-center justify-center bg-gray-250"><Text
-            className="">Hello</Text></View>}
+          /> : <View className="flex flex-1 items-center justify-center bg-slate-300/80"><Text
+            className="text-xl font-semibold text-slate-600">Nothing saved yet</Text></View>}
           <Text className="font-bold">
             {collection.name}
           </Text>
