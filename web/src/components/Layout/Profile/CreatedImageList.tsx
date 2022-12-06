@@ -28,6 +28,7 @@ export default function CreatedImageList({
     userId,
     recentOnly: true,
     queryOptions: {
+      refetchOnMount: "always",
       enabled: !!userId,
     },
   });
