@@ -12,11 +12,11 @@ interface Props extends PressableProps {
 }
 
 /**
- * name - (string) button text (required).
- * children - (jsx tags/component)(optional) ie. pass in an icon (optional).
- * onPress - (function) button click handler. (optional) (default: ()=>{})
- * disabled - (boolean) calling this in the prop will grey the button out(optional).
- * pilled - (boolean) calling this will round the button all the way(optional).
+ * @name - (string) button text (required).
+ * @children - (jsx tags/component)(optional) ie. pass in an icon (optional).
+ * @onPress - (function) button click handler. (optional) (default: ()=>{})
+ * @disabled - (boolean) calling this in the prop will grey the button out(optional).
+ * @pilled - (boolean) calling this will round the button all the way(optional).
  */
 
 function Button({

@@ -5,6 +5,13 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@2toad/profanity@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@2toad/profanity@npm:2.2.0"
+  checksum: 42d63bb3892c897670c91b99452df2c05972734b0853ded4718a227d4b6c2a43cbdb185aa7e0ff945b45814cdcdd39e1cfd546fa861d782807db76ba5ec2143e
+  languageName: node
+  linkType: hard
+
 "@adobe/css-tools@npm:^4.0.1":
   version: 4.0.1
   resolution: "@adobe/css-tools@npm:4.0.1"
@@ -1088,6 +1095,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/nodemailer@npm:6.4.6":
+  version: 6.4.6
+  resolution: "@types/nodemailer@npm:6.4.6"
+  dependencies:
+    "@types/node": "*"
+  checksum: c5ba1b83a28eb13778c54333ebe5fdd40555ce6df9dea672acb5682f872e83cae2e538ceeb64c7b064a2c7e7dc836d5a250ec7174795c5a61cb3a3fb90f3dceb
+  languageName: node
+  linkType: hard
+
 "@types/prop-types@npm:*":
   version: 15.7.5
   resolution: "@types/prop-types@npm:15.7.5"
@@ -1698,6 +1714,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "big-project@workspace:."
   dependencies:
+    "@2toad/profanity": ^2.2.0
     "@floating-ui/react-dom": 1.0.1
     "@headlessui/react": 1.7.4
     "@prisma/client": 4.6.1
@@ -1712,6 +1729,7 @@ __metadata:
     "@types/jsonwebtoken": 8.5.9
     "@types/lodash": 4.14.190
     "@types/node": 18.11.9
+    "@types/nodemailer": 6.4.6
     "@types/react": 18.0.25
     "@types/react-dom": 18.0.9
     "@types/sharp": 0.31.0
@@ -1735,6 +1753,7 @@ __metadata:
     jsonwebtoken: 8.5.1
     lodash: 4.17.21
     next: 12.3.3
+    nodemailer: 6.8.0
     postcss: 8.4.19
     prettier: 2.8.0
     prisma: 4.6.1
@@ -5189,6 +5208,13 @@ __metadata:
   version: 2.0.6
   resolution: "node-releases@npm:2.0.6"
   checksum: e86a926dc9fbb3b41b4c4a89d998afdf140e20a4e8dbe6c0a807f7b2948b42ea97d7fd3ad4868041487b6e9ee98409829c6e4d84a734a4215dff060a7fbeb4bf
+  languageName: node
+  linkType: hard
+
+"nodemailer@npm:6.8.0":
+  version: 6.8.0
+  resolution: "nodemailer@npm:6.8.0"
+  checksum: e1827df714d207a00f1bf8012e767826862467b72440fc9c37cf238a14d01a4c591b7657f4d1805bfb2764883c07aa9f2e31ee96a5fec51ccf1e6ad6dd01bd1d
   languageName: node
   linkType: hard
 

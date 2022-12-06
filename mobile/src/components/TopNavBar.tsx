@@ -25,7 +25,7 @@ export default ({
   const bgColor = isFocused ? focusedColor : unfocusedColor;
 
   return (
-    <View className={`mx-4 ios:mb-4`}>
+    <View className={`mx-4 ios:mb-3`}>
       <View className={`${bgColor} w-full flex-row items-center rounded-lg`}>
         <Pressable onPress={() => inputRef.current.focus()}>
           <View className={`${bgColor} mx-2`}>
@@ -36,7 +36,7 @@ export default ({
           ref={inputRef}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className={`${bgColor} py-1 rounded-r-lg flex-1`}
+          className={`${bgColor} android:py-1 ios:py-3 rounded-r-lg flex-1`}
           value={value}
           onChangeText={onChangeText}
           {...props}

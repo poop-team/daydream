@@ -10,6 +10,7 @@
     "test": "bash ./run_tests.sh"
   },
   "dependencies": {
+    "@2toad/profanity": "^2.2.0",
     "@floating-ui/react-dom": "1.0.1",
     "@headlessui/react": "1.7.4",
     "@prisma/client": "4.6.1",
@@ -21,6 +22,7 @@
     "jsonwebtoken": "8.5.1",
     "lodash": "4.17.21",
     "next": "12.3.3",
+    "nodemailer": "6.8.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "2.4.0",
@@ -39,6 +41,7 @@
     "@types/jsonwebtoken": "8.5.9",
     "@types/lodash": "4.14.190",
     "@types/node": "18.11.9",
+    "@types/nodemailer": "6.4.6",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
     "@types/sharp": "0.31.0",
