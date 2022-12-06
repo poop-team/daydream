@@ -43,6 +43,7 @@ export default function CreatedCollectionList({
     onError: (err: Error) => {
       toast.error(err.message);
     },
+    refetchOnMount: "always",
     enabled: !!userId,
   });
 
@@ -56,6 +57,7 @@ export default function CreatedCollectionList({
     collectionId: selectedCollection?.id,
     searchValue: searchPostValue,
     queryOptions: {
+      refetchOnMount: "always",
       enabled: !!selectedCollection,
     },
   });
