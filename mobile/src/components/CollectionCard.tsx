@@ -9,7 +9,6 @@ interface Props {
 function CollectionCard({
                           collection,
                         }: Props) {
-
   return (
     <View key={collection.id} className="flex aspect-square rounded-lg h-[48vw]">
       <Pressable onPress={() =>
