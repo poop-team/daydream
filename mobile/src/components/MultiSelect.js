@@ -75,21 +75,6 @@ const styles = {
     borderRadius: 20,
     borderWidth: 2,
   },
-  button: {
-    height: 40,
-    width: 60,
-    marginTop: 20,
-    borderRadius: 5,
-    display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: colorPack.light,
-    fontSize: 17,
-    fontWeight:'bold',
-  },
   selectorView: (fixedHeight) => {
     const style = {
       flexDirection: 'column',
@@ -166,8 +151,6 @@ export default class MultiSelect extends Component {
     altFontFamily: PropTypes.string,
     hideSubmitButton: PropTypes.bool,
     hideDropdown: PropTypes.bool,
-    submitButtonColor: PropTypes.string,
-    submitButtonText: PropTypes.string,
     textColor: PropTypes.string,
     fontSize: PropTypes.number,
     fixedHeight: PropTypes.bool,
@@ -207,8 +190,6 @@ export default class MultiSelect extends Component {
     selectText: 'Filters',
     altFontFamily: '',
     hideSubmitButton: false,
-    submitButtonColor: '#CCC',
-    submitButtonText: 'Submit',
     fontSize: 14,
     fixedHeight: false,
     hideTags: false,
@@ -662,8 +643,6 @@ export default class MultiSelect extends Component {
       styleDropdownMenuSubsection,
       hideSubmitButton,
       hideDropdown,
-      submitButtonColor,
-      submitButtonText,
       fontSize,
       textColor,
       fixedHeight,
@@ -742,24 +721,7 @@ export default class MultiSelect extends Component {
               <View style={styleItemsContainer && styleItemsContainer}>
                 {this._renderItems()}
               </View>
-              {!single && !hideSubmitButton && (
-                <TouchableOpacity
-                  onPress={() => this._submitSelection()}
-                  style={[
-                    styles.button,
-                    { backgroundColor: submitButtonColor, justifyContent: 'center', alignItems:'center' }, 
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.buttonText,
-                      fontFamily ? { fontFamily } : {}
-                    ]}
-                  >
-                    {submitButtonText}
-                  </Text>
-                </TouchableOpacity>
-              )}
+              {!single && !hideSubmitButton}
             </View>
           </View>
         ) : (

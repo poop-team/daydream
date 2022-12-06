@@ -4,8 +4,10 @@ import { Pressable, Text, PressableProps } from "react-native";
 
 interface Props extends PressableProps {
   name?: string;
+  loading?: boolean;
   children?: ReactNode;
   disabled?: boolean;
+  className?: string;
   pilled?: boolean;
 }
 
@@ -20,6 +22,8 @@ interface Props extends PressableProps {
 function Button({
   name,
   children = null,
+  loading = false,
+  className="",
   disabled = false,
   pilled = false,
   ...props
