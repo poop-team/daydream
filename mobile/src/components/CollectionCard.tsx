@@ -15,13 +15,15 @@ function CollectionCard({ collection }: Props) {
   return (
     <View>
       <Modal
+        animationType="fade"
+        transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}
       >
-        <View className="w-full h-full bg-white">
-          <View className="w-full flex-row place-content-start ml-2">
+        <View className="w-full bg-white my-auto">
+          <View className="w-full flex-row ml-2 justify-start">
             <Pressable>
               <Icon
                 size={40}
@@ -32,22 +34,19 @@ function CollectionCard({ collection }: Props) {
               />
             </Pressable>
           </View>
-          <View />
+          <View className="flex flex-row justify-center">
+            <Text className="font-bold text-xl mt-1">
+              {currentCollection.name}
+            </Text>
+          </View>
+          <View className="flex flex-row justify-center">
+            <Text>
+              {`${currentCollection.postCount} ${
+                currentCollection.postCount % 2 == 1 ? "post" : "posts"
+              }`}
+            </Text>
+          </View>
           <View>
-            {/*
-            Dear Rob,
-
-            !author.name == crash
-            Left this is a reminder of what to investigate tomorrow.
-
-            * console.log(collection) doesn't show an author name.
-            * overall idea of this <view>:
-              - take collection
-              - iterate through the Posts[] stored in it
-              - display the image cards, as seen in src/pages/ProfilePage.tsx : 165
-
-            - Jan
-            */}
             {currentCollection.posts.map((post) => (
               <Card
                 key={post.id}
@@ -67,7 +66,6 @@ function CollectionCard({ collection }: Props) {
             <Pressable
               onPress={() => {
                 setCurrentCollection(collection);
-                console.log(collection);
                 setModalVisible(true);
               }}
             >
