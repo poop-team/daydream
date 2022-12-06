@@ -216,7 +216,7 @@ export default function AuthPage() {
           sizes={"(max-width: 768px) 100vw, 16rem"}
           // Filter color based on status
           className={`h-full w-full object-contain transition duration-300 ${
-            isDisabled ? "hue-rotate-30" : "hue-rotate-0"
+            isDisabled ? "brightness-75" : "brightness-100"
           }`}
         />
       </motion.div>
