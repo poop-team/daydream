@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "bash ./run_tests.sh"
+    "test": "vitest"
   },
   "dependencies": {
     "@2toad/profanity": "^2.2.0",
