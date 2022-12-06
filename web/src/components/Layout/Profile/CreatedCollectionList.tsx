@@ -58,6 +58,7 @@ export default function CreatedCollectionList({
     searchValue: searchPostValue,
     queryOptions: {
       refetchOnMount: "always",
+      staleTime: 0, // Ensure the posts are up-to-date when viewing posts in a collection
       enabled: !!selectedCollection,
     },
   });
@@ -110,6 +111,7 @@ export default function CreatedCollectionList({
       setSelectedCollection(collection ?? null);
     } else {
       setSelectedCollection(null);
+      void refetchCollections(); // Refetch collections when going back to the collections view
     }
   }, [collectionData?.collections, router.query]);
 
@@ -199,6 +201,7 @@ export default function CreatedCollectionList({
             arePostsLoading={isFetchingPosts}
             areMorePostsLoading={isFetchingPostsNextPage}
             posts={selectedCollectionPosts ?? []}
+            noPostsMessage={"No posts in this collection yet"}
           />
         )}
       </div>
