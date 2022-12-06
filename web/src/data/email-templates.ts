@@ -17,7 +17,6 @@ export function getPasswordResetEmailTemplate(
   userName: string,
   resetUrl: string
 ) {
-  // Eyes emoji: 👀
   return {
     subject: "Daydream - Reset your password",
     text: `Hey ${userName},\n\nPlease reset your password by clicking the following link:\n${resetUrl}\n`,
