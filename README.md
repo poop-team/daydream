@@ -1,7 +1,7 @@
 <p align="center">
  <img src="https://github.com/poop-team/daydream/blob/main/mobile/src/images/daydream_logo_words.png" 
-   width="300"
-   height="300"
+   width="320"
+   height="320"
  />
 </p>
 
