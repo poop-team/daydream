@@ -3,6 +3,7 @@ import Card from "./Card";
 import Collection from "../types/collection.type";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface Props {
   collection?: Collection;
@@ -49,11 +50,11 @@ function CollectionCard({ collection }: Props) {
             - Jan
             */}
             {currentCollection.posts.map((post) => (
-              <Card
-                key={post.id}
-                className="rounded-lg h-[48vw] aspect-square"
-                post={post}
-              />
+                  <Card
+                    key={post.id}
+                    className="rounded-lg h-[48vw] aspect-square"
+                    post={post}
+                  />
             ))}
           </View>
         </View>
@@ -67,7 +68,6 @@ function CollectionCard({ collection }: Props) {
             <Pressable
               onPress={() => {
                 setCurrentCollection(collection);
-                console.log(collection);
                 setModalVisible(true);
               }}
             >
