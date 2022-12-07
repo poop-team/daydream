@@ -87,7 +87,7 @@ export default function ImageCreate({ navigation }) {
                         <TopNavBar icon="color-wand-outline" className="m-2" value={prompt} onChangeText={setPrompt} />
                     </View>
                 </View>
-                <View className="flex  ml-10 mr-10 mt-0 h-40 bg-red-400">
+                <View className="flex ml-10 overflow-x-scroll mr-10 mt-0">
                     <MultiSelect
                         items={imageStyles.map(x => ({ id: x, name: x }))}
                         uniqueKey="id"

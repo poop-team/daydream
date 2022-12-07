@@ -3,6 +3,7 @@ import {
   Text,
   View,
   TextInput,
+  Modal,
   TouchableWithoutFeedback,
   TouchableOpacity,
   FlatList,
@@ -108,7 +109,7 @@ if (UIManager.setLayoutAnimationEnabledExperimental) {
 const defaultSearchIcon = (
   <Icon
     name="magnify"
-    size={20}
+    size={25}
     color={colorPack.placeholderTextColor}
     style={{ marginRight: 10 }}
   />
@@ -185,7 +186,7 @@ export default class MultiSelect extends Component {
     itemFontSize: 16,
     selectedItemIconColor: colorPack.primary,
     searchInputPlaceholderText: 'Search',
-    searchInputStyle: { color: colorPack.textPrimary },
+    searchInputStyle: { color: colorPack.textPrimary, fontSize:50 },
     textColor: colorPack.textPrimary,
     selectText: 'Filters',
     altFontFamily: '',
@@ -588,7 +589,8 @@ export default class MultiSelect extends Component {
           renderItem={rowData => this._getRow(rowData.item)}
           {...flatListProps}
           style={{
-            flexGrow: 0,
+            flexGrow: 1,
+            height:170,
           }}
         />
       );
@@ -681,7 +683,7 @@ export default class MultiSelect extends Component {
                 placeholder={searchInputPlaceholderText}
                 placeholderTextColor={colorPack.placeholderTextColor}
                 underlineColorAndroid="transparent"
-                style={[searchInputStyle, {flex: 1}]}
+                style={[searchInputStyle, {flex: 1, fontSize:18}]}
                 value={searchTerm}
                 {...textInputProps}
               /> 
@@ -699,8 +701,8 @@ export default class MultiSelect extends Component {
               )}
               {!hideDropdown && (
                 <Icon
-                  name="close"
-                  size={25}
+                  name="menu-up"
+                  size={30}
                   onPress={this._clearSelectorCallback}
                   color={colorPack.iconColor}
                   style={{ marginLeft: 5 }}
@@ -748,7 +750,7 @@ export default class MultiSelect extends Component {
                           ? [
                             {
                               flex: 1,
-                              fontSize: fontSize || 16,
+                              fontSize: 18,
                               color:
                                 textColor || colorPack.placeholderTextColor
                             },
