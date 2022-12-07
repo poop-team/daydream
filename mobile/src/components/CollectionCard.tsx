@@ -13,6 +13,9 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { styled } from "nativewind";
+import useDebounce from "../hooks/useDebounce";
+import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
+import { ActivityIndicator } from "react-native";
 
 interface Props {
   collection?: Collection;
@@ -22,6 +25,16 @@ function CollectionCard({ collection }: Props) {
   const [currentCollection, setCurrentCollection] = useState(collection);
   const [modalVisible, setModalVisible] = useState(false);
   const screenWidth = Dimensions.get("window").width;
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
+  const { posts, isFetching, isFetchingNextPage, fetchNextPage } =
+    useInfiniteQueryPosts({
+      searchValue: debouncedSearch,
+      limit: 8,
+      key: "collection_posts",
+      collectionId: currentCollection.id,
+      recentOnly: false,
+    });
   return (
     <View>
       <Modal
@@ -50,24 +63,45 @@ function CollectionCard({ collection }: Props) {
                 {currentCollection.name}
               </Text>
             </View>
-            <View className="flex flex-row justify-center">
+            <View className="flex flex-row justify-center mb-3">
               <Text>
                 {`${currentCollection.postCount} ${
                   currentCollection.postCount === 1 ? "post" : "posts"
                 }`}
               </Text>
             </View>
-            <ScrollView>
+            <ScrollView
+              onScroll={({
+                nativeEvent: { layoutMeasurement, contentOffset, contentSize },
+              }) => {
+                const isNearBottom =
+                  layoutMeasurement.height + contentOffset.y >=
+                  contentSize.height - 20;
+                if (isNearBottom) {
+                  fetchNextPage();
+                }
+              }}
+              scrollEventThrottle={400}
+            >
               <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-2 my-4">
-                {currentCollection.posts.map((post) => (
+                {posts.map((post) => (
                   <Card
                     key={post.id}
                     className="rounded-lg h-[40vw] aspect-square"
                     post={post}
                   />
                 ))}
-                {currentCollection.posts.length % 2 === 1 && (
+                {posts.length % 2 === 1 && (
                   <View className="rounded-lg h-[40vw] aspect-square" />
+                )}
+              </View>
+              <View>
+                {isFetchingNextPage && (
+                  <ActivityIndicator
+                    size="large"
+                    color="#312E81"
+                    className="android:py-4 ios:py-2"
+                  />
                 )}
               </View>
             </ScrollView>
