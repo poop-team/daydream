@@ -146,10 +146,8 @@ const CollectionCardHelper = ({ collection, children }) => {
     <View className="bg-slate-200 rounded-lg">
       {children}
       <View className="flex-row justify-between mx-2">
-        <Text className="font-bold overflow-clip">
-          {collection.name.length > 6
-            ? collection.name.slice(0, 6) + "..."
-            : collection.name}
+        <Text className="font-bold">
+          {collection.name.slice(0, 13)}
         </Text>
         <Text> {collection.postCount} saved</Text>
       </View>
