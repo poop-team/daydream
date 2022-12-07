@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import Button from "./Button";
 import Icon from "react-native-vector-icons/Ionicons";
+import useLikePost from "../hooks/useLikePost";
 
 //fixme: I will probably have to break card up unto a sub-component like the web version and then url will be required
 interface Props {
@@ -26,6 +27,12 @@ interface Props {
 function Card({ style, post }: Props) {
   //these spaces are here so that the user of this api cannot mess it up if they forget to add a space
   const [modalVisible, setModalVisible] = React.useState(false);
+  const { mutateLikeChange, isLiked, likeCount } = useLikePost({
+    postId: post?.id,
+    initialLikeCount: post?.likeCount,
+    initialIsLiked: post?.isLiked,
+  });
+
   let baseStyle = "rounded-lg mt-5 mx-auto";
   const url =
     post?.imageURL ||
@@ -61,13 +68,15 @@ function Card({ style, post }: Props) {
                   <Text className="font-black">{post?.author.name}</Text>
                 </View>
                 {/* these are here to prevent crash if null*/}
-                <Text className="">{post?.likeCount ?? 0}</Text>
+                <Text className="">{likeCount ?? 0}</Text>
                 {/*FIXME: LIKE COUNTER NEEDS TO BE UPDATEABLE*/}
-                {post?.isLiked ? (
-                  <Icon name="heart" color="red" size={20} />
-                ) : (
-                  <Icon name="heart-outline" size={20} />
-                )}
+                <Pressable onPress={() => mutateLikeChange(!isLiked)}>
+                  {isLiked ? (
+                    <Icon name="heart" color="red" size={20} />
+                  ) : (
+                    <Icon name="heart-outline" size={20} />
+                  )}
+                </Pressable>
               </View>
               <Text>{post?.prompt}</Text>
               <Button pilled>

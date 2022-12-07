@@ -40,6 +40,7 @@ export default function useInfiniteQueryPosts({
     hasNextPage,
     isFetching,
     isFetchingNextPage,
+    refetch,
   } = useInfiniteQuery({
     queryKey: [key, { search: searchValue, userId, collectionId }],
     queryFn: ({ pageParam = "" }) =>
@@ -70,5 +71,6 @@ export default function useInfiniteQueryPosts({
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
+    refetch,
   };
 }

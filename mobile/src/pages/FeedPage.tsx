@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,6 +7,7 @@ import Card from "../components/Card";
 import TopNavBar from "../components/TopNavBar";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
 import useDebounce from "../hooks/useDebounce";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function FeedPage({ navigation }) {
   const [search, setSearch] = useState("");
@@ -18,6 +19,12 @@ export default function FeedPage({ navigation }) {
     recentOnly: false,
     key: "feed_posts",
   });
+
+  useFocusEffect(
+    useCallback(() => {
+      blob.refetch();
+    }, [])
+  );
 
   let pageHeight = 0;
   let pageProgress = 0;
