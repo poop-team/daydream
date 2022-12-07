@@ -1,18 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
 import ImageCard from "../../src/components/Surfaces/ImageCard";
-
-const createWrapper = () => {
-  const Wrapper = ({ children }: { children: JSX.Element }) => (
-    <QueryClientProvider client={new QueryClient()}>
-      {children}
-    </QueryClientProvider>
-  );
-  Wrapper.displayName = "Wrapper";
-  return Wrapper;
-};
+import { createQueryWrapper } from "./Wrappers";
 
 const DefaultImageCard = (
   <ImageCard
@@ -43,7 +33,7 @@ afterEach(cleanup);
 
 describe("ImageCard", () => {
   it("should render", () => {
-    render(DefaultImageCard, { wrapper: createWrapper() });
+    render(DefaultImageCard, { wrapper: createQueryWrapper() });
 
     expect(
       screen.getByRole("img", { name: /big cat, big appetite/i })
@@ -51,38 +41,38 @@ describe("ImageCard", () => {
   });
 
   it("should render with author", () => {
-    render(DefaultImageCard, { wrapper: createWrapper() });
+    render(DefaultImageCard, { wrapper: createQueryWrapper() });
 
     expect(screen.getByText(/garfield/i)).toBeTruthy();
   });
 
   it("should render with author avatar", () => {
-    render(DefaultImageCard, { wrapper: createWrapper() });
+    render(DefaultImageCard, { wrapper: createQueryWrapper() });
 
     expect(screen.getByRole("img", { name: /garfield/i })).toBeTruthy();
   });
 
   it("should render with a preview of the full prompt", () => {
-    render(DefaultImageCard, { wrapper: createWrapper() });
+    render(DefaultImageCard, { wrapper: createQueryWrapper() });
 
     expect(screen.getByText(/big cat/i)).toBeTruthy();
     expect(screen.queryByText(/big cat, big appetite/i)).toBeNull();
   });
 
   it("should render with like count", () => {
-    render(DefaultImageCard, { wrapper: createWrapper() });
+    render(DefaultImageCard, { wrapper: createQueryWrapper() });
 
     expect(screen.getByText(69)).toBeTruthy();
   });
 
   it("should not render dialog before clicking", () => {
-    render(DefaultImageCard, { wrapper: createWrapper() });
+    render(DefaultImageCard, { wrapper: createQueryWrapper() });
 
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 
   it("should open dialog on click", () => {
-    render(DefaultImageCard, { wrapper: createWrapper() });
+    render(DefaultImageCard, { wrapper: createQueryWrapper() });
 
     fireEvent.click(
       screen.getByRole("img", { name: /big cat, big appetite/i })
@@ -92,7 +82,7 @@ describe("ImageCard", () => {
   });
 
   it("should not open dialog on click when disabled", () => {
-    render(DisabledDialogImageCard, { wrapper: createWrapper() });
+    render(DisabledDialogImageCard, { wrapper: createQueryWrapper() });
 
     fireEvent.click(
       screen.getByRole("img", { name: /big cat, big appetite/i })

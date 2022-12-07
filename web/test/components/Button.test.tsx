@@ -13,8 +13,8 @@ describe("Button", () => {
 
   it("should be clickable", () => {
     const handleClick = vi.fn();
-
     render(<Button onClick={handleClick}>Clickable</Button>);
+
     fireEvent.click(screen.getByText(/clickable/i));
 
     expect(handleClick).toBeCalled();
@@ -22,12 +22,12 @@ describe("Button", () => {
 
   it("should not call onClick when disabled", () => {
     const handleClick = vi.fn();
-
     render(
       <Button disabled onClick={handleClick}>
         Disabled
       </Button>
     );
+
     fireEvent.click(screen.getByText(/disabled/i));
 
     expect(handleClick).not.toBeCalled();
@@ -35,14 +35,20 @@ describe("Button", () => {
 
   it("should not call onClick when loading", () => {
     const handleClick = vi.fn();
-
     render(
       <Button loading onClick={handleClick}>
-        Loading
+        Doing something
       </Button>
     );
-    fireEvent.click(screen.getByText(/loading/i));
+
+    fireEvent.click(screen.getByText(/doing something/i));
 
     expect(handleClick).not.toBeCalled();
+  });
+
+  it("should render loading indicator when loading", () => {
+    render(<Button loading>Doing something</Button>);
+
+    expect(screen.getByText(/loading.../i)).toBeTruthy();
   });
 });
