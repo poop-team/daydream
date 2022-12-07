@@ -147,7 +147,10 @@ export default ({ navigation }) => {
             <TopNavBar value={search} onChangeText={setSearch} />
             {currentView === "created" && <CreatedView posts={posts ?? []} />}
             {currentView === "collections" && (
-              <CollectionView collections={collectionData?.collections ?? []} search={search}/>
+              <CollectionView
+                collections={collectionData?.collections ?? []}
+                search={search}
+              />
             )}
             {isFetchingNextPage && (
               <ActivityIndicator
@@ -181,32 +184,25 @@ const CreatedView = ({ posts }: { posts: Post[] }) => {
   );
 };
 
-const CollectionView = (
-  { collections, search}: { collections: Collection[], search: string }
-) => {
-
-  let visibleCollections = []
-
-  if (search !== undefined) {
-    for (let i = 0; i < collections.length; i++) {
-      if (collections[i].name.includes(search)) {
-        visibleCollections.push(collections[i])
-      }
-    }
-  }
-
-  collections = visibleCollections
+const CollectionView = ({
+  collections,
+  search,
+}: {
+  collections: Collection[];
+  search: string;
+}) => {
+  const visibleCollections = collections.filter(x => x.name.includes(search ?? ""));
 
   return (
     <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-1 my-1">
-      {collections.map((collection) => (
+      {visibleCollections.map((collection) => (
         <CollectionCard
           key={collection.id}
           // className=""
           collection={collection}
         />
       ))}
-      {collections.length % 2 === 1 && (
+      {visibleCollections.length % 2 === 1 && (
         <View className="rounded-lg h-[48vw] aspect-square" />
       )}
     </View>
