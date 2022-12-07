@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
+import { StatusBar } from "expo-status-bar";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ActivityIndicator, Text, Pressable, View, ScrollView, SafeAreaView } from "react-native";
 import { imageStyles } from "../data/styles";
@@ -19,7 +19,6 @@ export default function ImageCreate({ navigation }) {
     const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
     const [loadingText, setLoadingText] = useState(loadingTexts.start);
 
-
     const { mutate: create, isLoading: isCreating } = useMutation(createPost, {
         onSuccess: async () => {
             await refetchRecentPosts();
@@ -38,6 +37,8 @@ export default function ImageCreate({ navigation }) {
             finalPrompt += `, ${selectedStyles.join(", ")}`;
         }
         create(finalPrompt);
+        setPrompt("");
+        setSelectedStyles([]);
     };
 
     const { data: recentPostsData, isLoading: areRecentPostsLoading, refetch: refetchRecentPosts } = useQuery({
