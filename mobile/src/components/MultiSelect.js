@@ -3,6 +3,7 @@ import {
   Text,
   View,
   TextInput,
+  Modal,
   TouchableWithoutFeedback,
   TouchableOpacity,
   FlatList,
@@ -75,21 +76,6 @@ const styles = {
     borderRadius: 20,
     borderWidth: 2,
   },
-  button: {
-    height: 40,
-    width: 60,
-    marginTop: 20,
-    borderRadius: 5,
-    display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: colorPack.light,
-    fontSize: 17,
-    fontWeight:'bold',
-  },
   selectorView: (fixedHeight) => {
     const style = {
       flexDirection: 'column',
@@ -123,7 +109,7 @@ if (UIManager.setLayoutAnimationEnabledExperimental) {
 const defaultSearchIcon = (
   <Icon
     name="magnify"
-    size={20}
+    size={25}
     color={colorPack.placeholderTextColor}
     style={{ marginRight: 10 }}
   />
@@ -166,8 +152,6 @@ export default class MultiSelect extends Component {
     altFontFamily: PropTypes.string,
     hideSubmitButton: PropTypes.bool,
     hideDropdown: PropTypes.bool,
-    submitButtonColor: PropTypes.string,
-    submitButtonText: PropTypes.string,
     textColor: PropTypes.string,
     fontSize: PropTypes.number,
     fixedHeight: PropTypes.bool,
@@ -202,13 +186,11 @@ export default class MultiSelect extends Component {
     itemFontSize: 16,
     selectedItemIconColor: colorPack.primary,
     searchInputPlaceholderText: 'Search',
-    searchInputStyle: { color: colorPack.textPrimary },
+    searchInputStyle: { color: colorPack.textPrimary, fontSize:50 },
     textColor: colorPack.textPrimary,
     selectText: 'Filters',
     altFontFamily: '',
     hideSubmitButton: false,
-    submitButtonColor: '#CCC',
-    submitButtonText: 'Submit',
     fontSize: 14,
     fixedHeight: false,
     hideTags: false,
@@ -230,11 +212,6 @@ export default class MultiSelect extends Component {
       selector: false,
       searchTerm: ''
     };
-  }
-
-  shouldComponentUpdate() {
-    // console.log('Component Updating: ', nextProps.selectedItems);
-    return true;
   }
 
   getSelectedItemsExt = optionalSelctedItems => (
@@ -612,7 +589,8 @@ export default class MultiSelect extends Component {
           renderItem={rowData => this._getRow(rowData.item)}
           {...flatListProps}
           style={{
-            flexGrow: 0,
+            flexGrow: 1,
+            height:170,
           }}
         />
       );
@@ -662,8 +640,6 @@ export default class MultiSelect extends Component {
       styleDropdownMenuSubsection,
       hideSubmitButton,
       hideDropdown,
-      submitButtonColor,
-      submitButtonText,
       fontSize,
       textColor,
       fixedHeight,
@@ -707,7 +683,7 @@ export default class MultiSelect extends Component {
                 placeholder={searchInputPlaceholderText}
                 placeholderTextColor={colorPack.placeholderTextColor}
                 underlineColorAndroid="transparent"
-                style={[searchInputStyle, {flex: 1}]}
+                style={[searchInputStyle, {flex: 1, fontSize:18}]}
                 value={searchTerm}
                 {...textInputProps}
               /> 
@@ -725,8 +701,8 @@ export default class MultiSelect extends Component {
               )}
               {!hideDropdown && (
                 <Icon
-                  name="close"
-                  size={25}
+                  name="menu-up"
+                  size={30}
                   onPress={this._clearSelectorCallback}
                   color={colorPack.iconColor}
                   style={{ marginLeft: 5 }}
@@ -742,24 +718,7 @@ export default class MultiSelect extends Component {
               <View style={styleItemsContainer && styleItemsContainer}>
                 {this._renderItems()}
               </View>
-              {!single && !hideSubmitButton && (
-                <TouchableOpacity
-                  onPress={() => this._submitSelection()}
-                  style={[
-                    styles.button,
-                    { backgroundColor: submitButtonColor, justifyContent: 'center', alignItems:'center' }, 
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.buttonText,
-                      fontFamily ? { fontFamily } : {}
-                    ]}
-                  >
-                    {submitButtonText}
-                  </Text>
-                </TouchableOpacity>
-              )}
+              {!single && !hideSubmitButton}
             </View>
           </View>
         ) : (
@@ -791,7 +750,7 @@ export default class MultiSelect extends Component {
                           ? [
                             {
                               flex: 1,
-                              fontSize: fontSize || 16,
+                              fontSize: 18,
                               color:
                                 textColor || colorPack.placeholderTextColor
                             },
