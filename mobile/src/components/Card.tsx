@@ -23,14 +23,13 @@ interface Props {
  * @styles width & height (default h-96, w-11/12)
  * @data data from the useInfiniteQueryPosts hook
  */
-function Card({
-  style,
-  post,
-}: Props) {
+function Card({ style, post }: Props) {
   //these spaces are here so that the user of this api cannot mess it up if they forget to add a space
   const [modalVisible, setModalVisible] = React.useState(false);
   let baseStyle = "rounded-lg mt-5 mx-auto";
-  const url = post?.imageURL || "https://project.up.railway.app/_next/image?url=https%3A%2F%2Fsbleaping.s3.us-east-1.amazonaws.com%2Fsb%2F9d532691aa47444996dba0e889b6a728.png&w=1080&q=90";
+  const url =
+    post?.imageURL ||
+    "https://project.up.railway.app/_next/image?url=https%3A%2F%2Fsbleaping.s3.us-east-1.amazonaws.com%2Fsb%2F9d532691aa47444996dba0e889b6a728.png&w=1080&q=90";
   return (
     <View>
       <Modal
@@ -43,7 +42,7 @@ function Card({
       >
         <View style={styles.modalView}>
           <View className="flex items-center justify-center bg-white my-auto rounded-lg">
-            <View className="w-full flex-row place-content-start ml-2">
+            <View className="w-full flex-row place-content-start ml-2 mt-2">
               <Pressable>
                 <Icon
                   size={40}
