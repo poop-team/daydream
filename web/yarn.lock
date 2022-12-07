@@ -5,7 +5,7 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@2toad/profanity@npm:^2.2.0":
+"@2toad/profanity@npm:2.2.0":
   version: 2.2.0
   resolution: "@2toad/profanity@npm:2.2.0"
   checksum: 42d63bb3892c897670c91b99452df2c05972734b0853ded4718a227d4b6c2a43cbdb185aa7e0ff945b45814cdcdd39e1cfd546fa861d782807db76ba5ec2143e
@@ -809,7 +809,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.28.1":
+"@playwright/test@npm:1.28.1":
   version: 1.28.1
   resolution: "@playwright/test@npm:1.28.1"
   dependencies:
@@ -1796,10 +1796,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "big-project@workspace:."
   dependencies:
-    "@2toad/profanity": ^2.2.0
+    "@2toad/profanity": 2.2.0
     "@floating-ui/react-dom": 1.0.1
     "@headlessui/react": 1.7.4
-    "@playwright/test": ^1.28.1
+    "@playwright/test": 1.28.1
     "@prisma/client": 4.6.1
     "@tailwindcss/line-clamp": 0.4.2
     "@tanstack/react-query": 4.12.0
@@ -1836,7 +1836,7 @@ __metadata:
     jsdom: 20.0.3
     jsonwebtoken: 8.5.1
     next: 12.3.3
-    node-mocks-http: ^1.12.1
+    node-mocks-http: 1.12.1
     nodemailer: 6.8.0
     postcss: 8.4.19
     prettier: 2.8.0
@@ -5299,7 +5299,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-mocks-http@npm:^1.12.1":
+"node-mocks-http@npm:1.12.1":
   version: 1.12.1
   resolution: "node-mocks-http@npm:1.12.1"
   dependencies:
