@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react() as any],
   test: {
     environment: "jsdom",
+    setupFiles: ["./test/setup/setup.ts"],
     exclude: [...configDefaults.exclude, "playwright"],
   },
 });

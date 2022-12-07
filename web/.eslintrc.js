@@ -14,6 +14,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:prettier/recommended",
+    "plugin:testing-library/react"
   ],
   plugins: [
     "prettier",
@@ -22,6 +23,7 @@ module.exports = {
     "import",
     "simple-import-sort",
     "@typescript-eslint",
+    "testing-library"
   ],
   rules: {
     semi: "error",
