@@ -12,12 +12,13 @@ import Button from "../components/Button";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAuthSession } from "../utils/storage";
-import { getUser } from "../requests/fetch";
-import { ErrorResponse } from "../types/error.type";
+import { getCollections, getUser } from "../requests/fetch";
 import useInfiniteQueryPosts from "../hooks/useInfiniteQueryPosts";
 import { Post } from "../types/post.type";
 import useDebounce from "../hooks/useDebounce";
 import Card from "../components/Card";
+import CollectionCard from "../components/CollectionCard";
+import Collection from "../types/collection.type";
 
 export default ({ navigation }) => {
   const [search, setSearch] = useState("");
@@ -50,14 +51,6 @@ export default ({ navigation }) => {
     queryFn: async () => {
       return getUser({});
     },
-    /*
-    onError: (err: ErrorResponse) => {
-      if (err.cause?.code === 404) {
-        setNotFound(true);
-      }
-      toast.error(err.message);
-    },
-*/
   });
 
   const { posts, isFetching, isFetchingNextPage, fetchNextPage } =
@@ -71,6 +64,20 @@ export default ({ navigation }) => {
         enabled: !!userId,
       },
     });
+
+  const {
+    data: collectionData,
+    isLoading: areCollectionsLoading,
+    refetch: refetchCollections,
+  } = useQuery({
+    queryKey: ["user_collections", userId],
+    queryFn: () => getCollections({ userId }),
+    onError: (err: Error) => {
+      console.error(err.message);
+    },
+    enabled: !!userId,
+  });
+
   return (
     <View className="w-full flex flex-1 justify-between">
       <SafeAreaView className="w-full flex flex-1">
@@ -139,6 +146,12 @@ export default ({ navigation }) => {
             </View>
             <TopNavBar value={search} onChangeText={setSearch} />
             {currentView === "created" && <CreatedView posts={posts ?? []} />}
+            {currentView === "collections" && (
+              <CollectionView
+                collections={collectionData?.collections ?? []}
+                search={search}
+              />
+            )}
             {isFetchingNextPage && (
               <ActivityIndicator
                 size="large"
@@ -165,6 +178,30 @@ const CreatedView = ({ posts }: { posts: Post[] }) => {
         />
       ))}
       {posts.length % 2 === 1 && (
+        <View className="rounded-lg h-[48vw] aspect-square" />
+      )}
+    </View>
+  );
+};
+
+const CollectionView = ({
+  collections,
+  search,
+}: {
+  collections: Collection[];
+  search: string;
+}) => {
+  const visibleCollections = collections.filter(x => x.name.includes(search ?? ""));
+
+  return (
+    <View className="w-full flex flex-row flex-wrap justify-evenly gap-y-1 my-1">
+      {visibleCollections.map((collection) => (
+        <CollectionCard
+          key={collection.id}
+          collection={collection}
+        />
+      ))}
+      {visibleCollections.length % 2 === 1 && (
         <View className="rounded-lg h-[48vw] aspect-square" />
       )}
     </View>
