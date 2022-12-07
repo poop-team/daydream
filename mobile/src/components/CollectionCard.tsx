@@ -46,7 +46,7 @@ function CollectionCard({ collection }: Props) {
         }}
       >
         <View style={styles.modalView}>
-          <View className="h-4/6 bg-white my-auto rounded-lg">
+          <View className="h-2/3 bg-white my-auto rounded-lg">
             <View className="w-full flex-row ml-2 mt-2 justify-start">
               <Pressable>
                 <Icon
