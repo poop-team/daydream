@@ -20,7 +20,7 @@ export async function login(email: string, password: string) {
 }
 
 export async function register(name: string, email: string, password: string) {
-  await doRequest(
+  return await doRequest<{ userId: string }>(
     "/api/user/register",
     {
       userId: getAuthSession().userId,
@@ -30,6 +30,26 @@ export async function register(name: string, email: string, password: string) {
     },
     "POST"
   );
+}
+
+export async function confirmEmail(userId: string, token: string) {
+  return await doRequest<{ message: string }>(
+    "/api/user/confirmEmail",
+    { userId, token },
+    "PUT"
+  );
+}
+
+export async function sendConfirmationEmail(email: string) {
+  return await doRequest("/api/user/sendConfirmationEmail", { email }, "POST");
+}
+
+export async function sendPasswordResetEmail(email: string) {
+  return await doRequest("/api/user/sendResetEmail", { email }, "POST");
+}
+
+export async function resetPassword(password: string, token: string) {
+  return await doRequest("/api/user/resetPassword", { password, token }, "PUT");
 }
 
 export async function updateUser(image = "", userName = "") {

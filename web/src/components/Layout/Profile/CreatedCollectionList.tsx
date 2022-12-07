@@ -3,9 +3,10 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
+import useInfiniteQueryPosts from "../../../hooks/useInfiniteQueryPosts";
 import { getCollections } from "../../../requests/fetch";
 import { createCollection, deleteCollection } from "../../../requests/mutate";
-import Collection from "../../../types/collection.type";
+import type { Collection } from "../../../types/collection.type";
 import ProfileSearchBar from "../../Inputs/ProfileSearchBar";
 import CollectionList from "../CollectionList";
 import ImageList from "../ImageList";
@@ -13,12 +14,14 @@ import ImageList from "../ImageList";
 interface Props {
   userId?: string;
   isSelf: boolean;
+  refetchProfile: () => void;
   isProfileLoading: boolean;
 }
 
 export default function CreatedCollectionList({
   userId,
   isSelf,
+  refetchProfile,
   isProfileLoading,
 }: Props) {
   //#region Hooks
@@ -40,7 +43,24 @@ export default function CreatedCollectionList({
     onError: (err: Error) => {
       toast.error(err.message);
     },
+    refetchOnMount: "always",
     enabled: !!userId,
+  });
+
+  const {
+    posts: selectedCollectionPosts,
+    isFetching: isFetchingPosts,
+    isFetchingNextPage: isFetchingPostsNextPage,
+  } = useInfiniteQueryPosts({
+    key: "user_collection_posts",
+    recentOnly: true,
+    collectionId: selectedCollection?.id,
+    searchValue: searchPostValue,
+    queryOptions: {
+      refetchOnMount: "always",
+      staleTime: 0, // Ensure the posts are up-to-date when viewing posts in a collection
+      enabled: !!selectedCollection,
+    },
   });
 
   const { mutate: mutateCreateCollection, isLoading: isCreatingCollection } =
@@ -49,6 +69,7 @@ export default function CreatedCollectionList({
       mutationFn: createCollection,
       onSuccess: () => {
         setSearchCollectionValue("");
+        refetchProfile();
         void refetchCollections();
       },
       onError: (err: Error) => {
@@ -62,6 +83,7 @@ export default function CreatedCollectionList({
       mutationFn: deleteCollection,
       onSuccess: () => {
         setSelectedCollection(null);
+        refetchProfile();
         void refetchCollections();
       },
       onError: (err: Error) => {
@@ -79,14 +101,6 @@ export default function CreatedCollectionList({
     [collectionData, searchCollectionValue]
   );
 
-  const selectedCollectionPosts = useMemo(
-    () =>
-      selectedCollection?.posts.filter((post) =>
-        post.prompt.toLowerCase().includes(searchPostValue.toLowerCase())
-      ),
-    [selectedCollection, searchPostValue]
-  );
-
   // Update the selected collection state when the query param changes
   useEffect(() => {
     const { collectionId } = router.query;
@@ -97,6 +111,7 @@ export default function CreatedCollectionList({
       setSelectedCollection(collection ?? null);
     } else {
       setSelectedCollection(null);
+      void refetchCollections(); // Refetch collections when going back to the collections view
     }
   }, [collectionData?.collections, router.query]);
 
@@ -183,8 +198,10 @@ export default function CreatedCollectionList({
           />
         ) : (
           <ImageList
-            arePostsLoading={areCollectionsLoading || isProfileLoading}
+            arePostsLoading={isFetchingPosts}
+            areMorePostsLoading={isFetchingPostsNextPage}
             posts={selectedCollectionPosts ?? []}
+            noPostsMessage={"No posts in this collection yet"}
           />
         )}
       </div>

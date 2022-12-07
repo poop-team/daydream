@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import { MdDoubleArrow } from "react-icons/md";
 
 import useIsClient from "../../hooks/useIsClient";
-import { getCollections } from "../../requests/fetch";
+import { getCollections, getPostWithCollections } from "../../requests/fetch";
 import {
   addPostToCollection,
   removePostFromCollection,
@@ -17,7 +17,8 @@ import {
   transitions,
   transitionVariants,
 } from "../../styles/motion-definitions";
-import { Post } from "../../types/post.type";
+import type { Collection } from "../../types/collection.type";
+import { PreviewPost } from "../../types/post.type";
 import { getAuthSession } from "../../utils/storage";
 import CircularProgress from "../Feedback/CircularProgress";
 import IconButton from "../Inputs/IconButton";
@@ -45,12 +46,20 @@ export default function AddToCollectionPanel({
     []
   );
 
+  const { data: postData, refetch: refetchPost } = useQuery({
+    queryKey: ["post_to_add_to_collection", postId],
+    queryFn: () => getPostWithCollections(postId),
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
+
   const {
-    data: collectionData,
+    data: collectionsData,
     isLoading: areCollectionsLoading,
     refetch: refetchCollections,
   } = useQuery({
-    queryKey: ["collections"],
+    queryKey: ["collections", postId],
     queryFn: () => getCollections({ userId: getAuthSession().userId }),
     onError: (err: Error) => {
       toast.error(err.message);
@@ -66,7 +75,7 @@ export default function AddToCollectionPanel({
         setLoadingCollectionIds((prev) =>
           prev.filter((id) => id !== collectionId)
         );
-        void refetchCollections();
+        void refetchPost().then(() => void refetchCollections());
       },
       onError: (err: Error) => {
         toast.error(err.message);
@@ -82,26 +91,21 @@ export default function AddToCollectionPanel({
         setLoadingCollectionIds((prev) =>
           prev.filter((id) => id !== collectionId)
         );
-        void refetchCollections();
+        void refetchPost().then(() => void refetchCollections());
       },
       onError: (err: Error) => {
         toast.error(err.message);
       },
     });
 
-  const collections = useMemo(
-    () =>
-      collectionData?.collections.filter((collection) =>
+  const collections = useMemo(() => {
+    // Update value of which collections the post is already in and bring the post to the top if it is in the collection
+    return (
+      collectionsData?.collections.filter((collection) =>
         collection.name.toLowerCase().includes(searchValue.toLowerCase())
-      ),
-    [collectionData, searchValue]
-  );
-
-  const addedToCollections = useMemo(() => {
-    return collections?.filter((collection) =>
-      collection.posts.some((post) => post.id === postId)
+      ) ?? []
     );
-  }, [collections, postId]);
+  }, [collectionsData?.collections, searchValue]);
 
   //#endregion
 
@@ -111,36 +115,19 @@ export default function AddToCollectionPanel({
     setSearchValue(value);
   };
 
-  const handleCollectionClick = (collectionId: string) => {
-    if (loadingCollectionIds.includes(collectionId)) {
+  const handleCollectionClick = (collection: Collection) => {
+    if (loadingCollectionIds.includes(collection.id)) {
       return;
     }
 
-    setLoadingCollectionIds((prev) => [...prev, collectionId]);
-    if (
-      addedToCollections?.some((collection) => collection.id === collectionId)
-    ) {
+    setLoadingCollectionIds((prev) => [...prev, collection.id]);
+    if (addedCollectionIds.includes(collection.id)) {
       // Already added to collection, remove from collection
-      mutateRemovePostFromCollection(collectionId);
+      mutateRemovePostFromCollection(collection.id);
     } else {
       // Else add to collection
-      mutateAddPostToCollection(collectionId);
+      mutateAddPostToCollection(collection.id);
     }
-  };
-
-  //#endregion
-
-  //#region Helpers
-
-  // Returns all posts for a collection putting postId as the first post
-  const getReorderedPosts = (posts: Post[]) => {
-    const foundPost = posts.find((post) => post.id === postId);
-    if (foundPost) {
-      const reorderedPosts = posts.filter((post) => post.id !== postId);
-      reorderedPosts.unshift(foundPost);
-      return reorderedPosts;
-    }
-    return posts;
   };
 
   //#endregion
@@ -148,6 +135,8 @@ export default function AddToCollectionPanel({
   //#region Derived State
 
   const { userName = "" } = (isClient && getAuthSession()) || {};
+  const addedCollectionIds =
+    postData?.collections.map((collection) => collection.id) ?? [];
 
   //#endregion
 
@@ -192,15 +181,20 @@ export default function AddToCollectionPanel({
                 className={"w-4/5 sm:w-[31%] lg:w-[23%]"}
               >
                 <CollectionCard
-                  posts={getReorderedPosts(collection.posts)}
-                  isAdded={
-                    !!addedToCollections?.find(
-                      (addedCollection) => addedCollection.id === collection.id
-                    )
-                  }
+                  collection={{
+                    ...collection,
+                    posts: addedCollectionIds.includes(collection.id)
+                      ? [
+                          postData as unknown as PreviewPost,
+                          ...collection.posts.filter(
+                            (post) => post.id !== postId
+                          ),
+                        ]
+                      : collection.posts.filter((post) => post.id !== postId),
+                  }}
+                  isAdded={addedCollectionIds.includes(collection.id)}
                   isLoading={loadingCollectionIds.includes(collection.id)}
-                  name={collection.name}
-                  onClick={() => handleCollectionClick(collection.id)}
+                  onClick={() => handleCollectionClick(collection)}
                 />
               </motion.li>
             ))}

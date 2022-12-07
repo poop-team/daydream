@@ -1,6 +1,7 @@
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
+import { transitions } from "../../styles/motion-definitions";
 import CircularProgress from "../Feedback/CircularProgress";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -65,7 +66,21 @@ export default function Button({
       disabled={isDisabled}
       {...rest}
     >
-      <AnimatePresence>{loading && <CircularProgress />}</AnimatePresence>
+      <AnimatePresence initial={false}>
+        {loading && (
+          <motion.div
+            initial={{ opacity: 0, marginRight: "-1.75rem" }}
+            animate={{
+              marginRight: 0,
+              opacity: 1,
+            }}
+            exit={{ opacity: 0, marginRight: "-1.75rem" }}
+            transition={transitions.springStiff}
+          >
+            <CircularProgress />
+          </motion.div>
+        )}
+      </AnimatePresence>
       {children}
     </button>
   );

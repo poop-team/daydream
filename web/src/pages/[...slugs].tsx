@@ -11,6 +11,6 @@ export default function AnySlug() {
   const router = useRouter();
 
   useEffect(() => {
-    void router.replace(paths.feed);
+    void router.replace(paths.auth);
   }, [router]);
 }

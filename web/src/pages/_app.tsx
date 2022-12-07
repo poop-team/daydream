@@ -40,7 +40,7 @@ function Account({ Component, pageProps: { ...pageProps } }: AppProps) {
               searchValue={searchValue}
               setSearchValue={setSearchValue}
             />
-            <AnimatePresence mode={"popLayout"}>
+            <AnimatePresence mode={"wait"}>
               <Component
                 searchValue={searchValue}
                 feedSortValue={feedSortValue}

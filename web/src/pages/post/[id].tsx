@@ -1,26 +1,25 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { MdArrowForward, MdLibraryAdd } from "react-icons/md";
 
-import CircularProgress from "../../components/Feedback/CircularProgress";
 import Button from "../../components/Inputs/Button";
 import ImageList from "../../components/Layout/ImageList";
 import AddToCollectionPanel from "../../components/Panels/AddToCollectionPanel";
 import CustomImage from "../../components/Surfaces/CustomImage";
+import Skeleton from "../../components/Surfaces/Skeleton";
 import Author from "../../components/Widgets/Author";
 import FloatingImageActions from "../../components/Widgets/FloatingImageActions";
 import LikesCounter from "../../components/Widgets/LikesCounter";
+import useLikePost from "../../hooks/useLikePost";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
-import { getPost, searchPosts } from "../../requests/fetch";
-import { likePost, unlikePost } from "../../requests/mutate";
+import { getPostWithCollections, searchPosts } from "../../requests/fetch";
 import {
   transitions,
   transitionVariants,
 } from "../../styles/motion-definitions";
-import { getAuthSession } from "../../utils/storage";
 
 export default function Post() {
   //#region Hooks
@@ -31,12 +30,10 @@ export default function Post() {
 
   const [isAddToCollectionPanelOpen, setIsAddToCollectionPanelOpen] =
     useState(false);
-  // Tracks a local version of whether the post is liked or not which is updated immediately
-  const [localIsLiked, setLocalIsLiked] = useState(false);
 
   const { data: postData, isLoading: isPostLoading } = useQuery({
     queryKey: ["post", router.query.id],
-    queryFn: () => getPost(router.query.id as string),
+    queryFn: () => getPostWithCollections(router.query.id as string),
     onError: (err: Error) => {
       toast.error(err.message);
     },
@@ -52,58 +49,15 @@ export default function Post() {
       },
     });
 
-  const { mutate: mutateLike, isLoading: isLiking } = useMutation({
-    mutationKey: ["like"],
-    mutationFn: () => likePost(postData?.id ?? ""),
-    onError: (err: Error) => {
-      setLocalIsLiked(false); // Revert the local state on failure
-      toast.error(err.message);
-    },
+  const { mutateLikeChange, likeCount, isLiked } = useLikePost({
+    postId: postData?.id,
+    initialIsLiked: postData?.isLiked ?? false,
+    initialLikeCount: postData?.likeCount ?? 0,
   });
-
-  const { mutate: mutateUnlike, isLoading: isUnliking } = useMutation({
-    mutationKey: ["unlike"],
-    mutationFn: () => unlikePost(postData?.id ?? ""),
-    onError: (err: Error) => {
-      setLocalIsLiked(true); // Revert the local state on failure
-      toast.error(err.message);
-    },
-  });
-
-  const isLiked = useMemo(() => {
-    const isLiked = !!postData?.likes.find(
-      (like) => like.userId === getAuthSession().userId
-    );
-    setLocalIsLiked(isLiked);
-    return isLiked;
-  }, [postData]);
-
-  //#endregion
-
-  //#region Handlers
-
-  const handleLikeChange = (isLiked: boolean) => {
-    if (!isLiking && !isUnliking) {
-      setLocalIsLiked(isLiked); // Optimistically update the local state
-      if (isLiked) {
-        mutateLike();
-      } else {
-        mutateUnlike();
-      }
-    }
-  };
 
   //#endregion
 
   //#region Derived State
-
-  const localLikes = postData
-    ? localIsLiked && !isLiked // If the local state is liked but the server state is not liked
-      ? postData.likes.length + 1
-      : !localIsLiked && isLiked // If the local state is not liked but the server state is liked
-      ? postData.likes.length - 1
-      : postData.likes.length
-    : 0;
 
   const splitPrompt = postData?.prompt
     .split(/[,.]/)
@@ -156,9 +110,9 @@ export default function Post() {
                 className={"w-2/3 md:w-44 lg:w-72 xl:w-96"}
               />
               <LikesCounter
-                likes={localLikes}
-                isLiked={localIsLiked}
-                onLikeClick={() => handleLikeChange(!localIsLiked)}
+                likes={likeCount}
+                isLiked={isLiked}
+                onLikeClick={() => mutateLikeChange(!isLiked)}
               />
             </div>
             <p
@@ -210,7 +164,18 @@ export default function Post() {
           </AnimatePresence>
         </div>
       ) : isPostLoading ? (
-        <CircularProgress className={"m-auto scale-[200%]"} />
+        <div className={"flex flex-col gap-8 md:flex-row"}>
+          <Skeleton className={"aspect-square w-full"} />
+          <div className={"flex w-full flex-col items-center gap-2 lg:gap-4"}>
+            <div className={"flex h-10 w-full items-center justify-between"}>
+              <Skeleton className={"mr-2 h-10 w-10 rounded-full"} />
+              <Skeleton className={"mr-auto h-8 w-32"} />
+              <Skeleton className={"h-8 w-20"} />
+            </div>
+            <Skeleton className={"w-full basis-28 px-1 md:basis-full"} />
+            <Skeleton className={"mt-auto h-10 w-48"} />
+          </div>
+        </div>
       ) : (
         <div className={"m-auto text-center"}>
           <h1 className={"text-4xl font-bold"}>Post Not Found</h1>

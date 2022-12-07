@@ -6,7 +6,7 @@ import {
   transitions,
   transitionVariants,
 } from "../../styles/motion-definitions";
-import Collection from "../../types/collection.type";
+import type { Collection } from "../../types/collection.type";
 import CircularProgress from "../Feedback/CircularProgress";
 import CollectionCard from "../Surfaces/CollectionCard";
 
@@ -48,10 +48,7 @@ export default function CollectionList({
                   onClick={() => onCollectionClick(collection)}
                   className={"h-full w-full"}
                 >
-                  <CollectionCard
-                    posts={collection.posts}
-                    name={collection.name}
-                  />
+                  <CollectionCard collection={collection} />
                 </motion.li>
               ))}
             </AnimatePresence>
