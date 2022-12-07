@@ -198,7 +198,6 @@ const CollectionView = ({
       {visibleCollections.map((collection) => (
         <CollectionCard
           key={collection.id}
-          // className=""
           collection={collection}
         />
       ))}
