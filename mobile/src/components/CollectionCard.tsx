@@ -113,53 +113,49 @@ function CollectionCard({ collection }: Props) {
         className="flex aspect-square rounded-l h-[48vw]"
       >
         {collection.posts[0]?.imageURL ? (
-          <>
-            <Pressable
-              onPress={() => {
-                setCurrentCollection(collection);
-                setModalVisible(true);
-              }}
-            >
-              <View className="bg-slate-200 rounded-lg">
-                <Image
-                  className="flex aspect-auto w-full h-[35vw] rounded-lg"
-                  source={{ uri: collection.posts[0]?.imageURL }}
-                  style={{ minHeight: screenWidth * 0.48 - 48 }}
-                />
-                <View className="flex-row justify-between mx-2">
-                  <Text className="font-bold">
-                    {collection.name.length > 6
-                      ? collection.name.slice(0, 6) + ".."
-                      : collection.name}
-                  </Text>
-                  <Text>{collection.postCount} saved</Text>
-                </View>
-              </View>
-            </Pressable>
-          </>
+          <Pressable
+            onPress={() => {
+              setCurrentCollection(collection);
+              setModalVisible(true);
+            }}
+          >
+            <CollectionCardHelper collection={collection}>
+              <Image
+                className="flex aspect-auto w-full h-[35vw] rounded-lg"
+                source={{ uri: collection.posts[0]?.imageURL }}
+                style={{ minHeight: screenWidth * 0.48 - 48 }}
+              />
+            </CollectionCardHelper>
+          </Pressable>
         ) : (
-          <>
-            <View className="bg-slate-200 rounded-lg">
+            <CollectionCardHelper collection={collection}>
               <View className="flex aspect-auto w-full h-[35vw] mx-auto rounded-lg items-center justify-center bg-slate-300/80">
                 <Text className="text-xl font-semibold text-slate-600 rounded-md">
                   Nothing saved yet
                 </Text>
               </View>
-              <View className="flex-row justify-between mx-2">
-                <Text className="font-bold">
-                  {collection.name.length > 6
-                    ? collection.name.slice(0, 6) + ".."
-                    : collection.name}
-                </Text>
-                <Text> {collection.postCount} saved</Text>
-              </View>
-            </View>
-          </>
+            </CollectionCardHelper>
         )}
       </View>
     </View>
   );
 }
+
+const CollectionCardHelper = ({ collection, children }) => {
+  return (
+    <View className="bg-slate-200 rounded-lg">
+      {children}
+      <View className="flex-row justify-between mx-2">
+        <Text className="font-bold overflow-clip">
+          {collection.name.length > 6
+            ? collection.name.slice(0, 6) + "..."
+            : collection.name}
+        </Text>
+        <Text> {collection.postCount} saved</Text>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   modalView: {
