@@ -14,7 +14,7 @@ interface Props {
   collection?: Collection;
 }
 
-function CollectionCard({postId, collection}: Props) {
+function AddToCollectionCard({postId, collection}: Props) {
   const screenWidth = Dimensions.get("window").width;
   return (
     <View>
@@ -61,4 +61,4 @@ function CollectionCard({postId, collection}: Props) {
   );
 }
 
-export default styled(CollectionCard);
+export default styled(AddToCollectionCard);
