@@ -34,6 +34,7 @@ export default function LinearProgress({
         }}
         className={"h-1 w-1/2 rounded-full bg-slate-100/90"}
       />
+      <span className={"sr-only"}>Loading...</span>
     </motion.div>
   );
 }
