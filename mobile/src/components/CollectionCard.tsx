@@ -63,7 +63,7 @@ function CollectionCard({ collection }: Props) {
                 {currentCollection.name}
               </Text>
             </View>
-            <View className="flex flex-row justify-center bg- mb-3">
+            <View className="flex flex-row justify-center mb-3">
               <Text>
                 {`${currentCollection.postCount} ${
                   currentCollection.postCount === 1 ? "post" : "posts"
