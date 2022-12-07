@@ -28,6 +28,9 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
         id: collectionId || undefined,
         userId: searchUserId || undefined,
       },
+      orderBy: {
+        name: "asc",
+      },
       select: {
         id: true,
         name: true,

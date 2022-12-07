@@ -68,7 +68,7 @@ export default function useInfiniteQueryPosts({
 
   useEffect(() => {
     return scrollYProgress.onChange((progress) => {
-      if (progress > 0.6 && !isFetchingNextPage && hasNextPage) {
+      if (progress > 0.8 && !isFetchingNextPage && hasNextPage) {
         void fetchNextPage();
       }
     });
