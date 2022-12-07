@@ -30,6 +30,7 @@
     "zod": "3.19.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.28.1",
     "@tailwindcss/line-clamp": "0.4.2",
     "@testing-library/dom": "8.19.0",
     "@testing-library/jest-dom": "5.16.5",
