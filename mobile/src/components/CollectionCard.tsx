@@ -63,7 +63,7 @@ function CollectionCard({ collection }: Props) {
                 {currentCollection.name}
               </Text>
             </View>
-            <View className="flex flex-row justify-center mb-3">
+            <View className="flex flex-row justify-center bg- mb-3">
               <Text>
                 {`${currentCollection.postCount} ${
                   currentCollection.postCount === 1 ? "post" : "posts"
@@ -110,7 +110,7 @@ function CollectionCard({ collection }: Props) {
       </Modal>
       <View
         key={collection.id}
-        className="flex aspect-square rounded-lg h-[48vw]"
+        className="flex aspect-square rounded-l h-[48vw]"
       >
         {collection.posts[0]?.imageURL ? (
           <>
@@ -120,23 +120,40 @@ function CollectionCard({ collection }: Props) {
                 setModalVisible(true);
               }}
             >
-              <Image
-                source={{ uri: collection.posts[0]?.imageURL }}
-                style={{ minHeight: screenWidth * 0.48 - 48 }}
-              />
-              <Text className="font-bold">{collection.name}</Text>
-              <Text>{collection.postCount} saved</Text>
+              <View className="bg-slate-200 rounded-lg">
+                <Image
+                  className="flex aspect-auto w-full h-[35vw] rounded-lg"
+                  source={{ uri: collection.posts[0]?.imageURL }}
+                  style={{ minHeight: screenWidth * 0.48 - 48 }}
+                />
+                <View className="flex-row justify-between mx-2">
+                  <Text className="font-bold">
+                    {collection.name.length > 6
+                      ? collection.name.slice(0, 6) + ".."
+                      : collection.name}
+                  </Text>
+                  <Text>{collection.postCount} saved</Text>
+                </View>
+              </View>
             </Pressable>
           </>
         ) : (
           <>
-            <View className="flex flex-1 items-center justify-center bg-slate-300/80">
-              <Text className="text-xl font-semibold text-slate-600">
-                Nothing saved yet
-              </Text>
+            <View className="bg-slate-200 rounded-lg">
+              <View className="flex aspect-auto w-full h-[35vw] mx-auto rounded-lg items-center justify-center bg-slate-300/80">
+                <Text className="text-xl font-semibold text-slate-600 rounded-md">
+                  Nothing saved yet
+                </Text>
+              </View>
+              <View className="flex-row justify-between mx-2">
+                <Text className="font-bold">
+                  {collection.name.length > 6
+                    ? collection.name.slice(0, 6) + ".."
+                    : collection.name}
+                </Text>
+                <Text> {collection.postCount} saved</Text>
+              </View>
             </View>
-            <Text className="font-bold">{collection.name}</Text>
-            <Text>{collection.posts.length} saved</Text>
           </>
         )}
       </View>
