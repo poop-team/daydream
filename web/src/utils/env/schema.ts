@@ -16,6 +16,7 @@ export const serverSchema = z.object({
   IMGUR_CLIENT_ID: z.string(),
   EMAIL: z.string(),
   EMAIL_PASSWORD: z.string(),
+  STABILITY_API_KEY: z.string(),
 });
 
 /**
