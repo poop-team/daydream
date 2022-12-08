@@ -10,7 +10,7 @@ interface GenerateParams {
 }
 export async function generateImage({
   prompt,
-  seed = Math.floor(Math.random() * 1000000),
+  seed = 0,
   width = 512,
   height = 512,
 }: GenerateParams) {
@@ -26,12 +26,11 @@ export async function generateImage({
       Authorization: env.STABILITY_API_KEY,
     },
     body: JSON.stringify({
-      cfg_scale: 7,
-      clip_guidance_preset: "FAST_BLUE",
+      cfg_scale: 8,
       height,
       width,
+      seed,
       samples: 1,
-      seed: seed,
       steps: 30,
       text_prompts: [
         {
@@ -42,8 +41,9 @@ export async function generateImage({
     }),
   });
 
+  console.log(response.status, response.statusText);
   if (!response.ok) {
-    throw new Error(`Error generating image`);
+    throw new Error("Error generating image or prompt rejected");
   }
   // Return base64 encoded imaged
   return `data:image/png;base64,${Buffer.from(

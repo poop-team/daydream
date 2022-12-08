@@ -23,8 +23,8 @@ export default async function create(req: Request, res: NextApiResponse) {
     return res.status(400).json({ error: "Empty prompt provided" });
   }
 
-  const imageBase64 = await generateImage({ prompt }).catch(() => {
-    res.status(500).json({ error: "Error generating image" });
+  const imageBase64 = await generateImage({ prompt }).catch((e: Error) => {
+    res.status(500).json({ error: e.message });
   });
 
   if (!imageBase64) {
