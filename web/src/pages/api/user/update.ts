@@ -34,7 +34,13 @@ export default async function update(req: Request, res: NextApiResponse) {
 
   let uploadedImageURL: string | void;
   if (image) {
-    uploadedImageURL = await uploadImage(image, 256, 256).catch(() => {
+    uploadedImageURL = await uploadImage({
+      image,
+      imageName: userId,
+      directory: "profile",
+      width: 256,
+      height: 256,
+    }).catch(() => {
       res.status(500).json({ error: "Error uploading image" });
     });
     if (!uploadedImageURL) {

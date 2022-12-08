@@ -17,13 +17,18 @@ export default async function create(req: Request, res: NextApiResponse) {
     return res.status(401).json({ error: "You are not logged in" });
   }
 
-  const { userId, prompt } = req.body;
+  const { userId, prompt: unsanitizedPrompt } = req.body;
+  const prompt = unsanitizedPrompt.trim();
 
-  if (!prompt.trim()) {
+  if (!prompt) {
     return res.status(400).json({ error: "Empty prompt provided" });
   }
 
-  const imageBase64 = await generateImage({ prompt }).catch((e: Error) => {
+  const imageBase64 = await generateImage({
+    prompt,
+    width: 512,
+    height: 512,
+  }).catch((e: Error) => {
     res.status(500).json({ error: e.message });
   });
 
@@ -31,7 +36,15 @@ export default async function create(req: Request, res: NextApiResponse) {
     return;
   }
 
-  const imageUrl = await uploadImage(imageBase64, 512, 512).catch(() => {
+  const imageUrl = await uploadImage({
+    image: imageBase64,
+    directory: "generated",
+    imageName: `${prompt} - ${new Date()
+      .toUTCString()
+      .replaceAll(/\s+|,\s+/g, "-")} - ${userId}`,
+    width: 512,
+    height: 512,
+  }).catch(() => {
     res.status(500).json({ error: "Error uploading image" });
   });
 

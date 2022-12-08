@@ -1,3 +1,4 @@
+import { ShareServiceClient } from "@azure/storage-file-share";
 import sharp from "sharp";
 
 import { env } from "./env/server";
@@ -41,50 +42,66 @@ export async function generateImage({
     }),
   });
 
-  console.log(response.status, response.statusText);
   if (!response.ok) {
     throw new Error("Error generating image or prompt rejected");
   }
+
   // Return base64 encoded imaged
   return `data:image/png;base64,${Buffer.from(
     await response.arrayBuffer()
   ).toString("base64")}`;
 }
 
-export async function uploadImage(image: string, width = 512, height = 512) {
-  // Resize and compress the image before uploading it to imgur
+interface UploadParams {
+  image: string;
+  directory: "profile" | "generated";
+  imageName?: string;
+  width?: number;
+  height?: number;
+}
+
+export async function uploadImage({
+  image,
+  directory,
+  imageName = `${Date.now()}`,
+  width = 512,
+  height = 512,
+}: UploadParams) {
+  // Resize and compress the image before uploading it to azure file storage
   // Sharp will resize both images and animated gifs if the animated: true option is set
   // However, for the purposes of optimizing the image for the web, we will only use the first frame of a gif and convert it to a png
   const uri = image.split(";base64,").at(-1) as string;
   const resizedImage = await sharp(Buffer.from(uri, "base64"))
     .resize(width, height)
-    .png({ quality: 90 })
+    .png({ quality: 95 })
     .toBuffer();
 
   if (!resizedImage) {
     throw new Error("Invalid image");
   }
 
-  const formData = new FormData();
-  formData.append("image", resizedImage.toString("base64"));
-  formData.append("type", "base64");
-  const imageData = await fetch("https://api.imgur.com/3/image", {
-    method: "POST",
-    headers: {
-      Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID as string}`,
-      Accept: "application/json",
-    },
-    body: formData,
-  });
+  const account = "generalstorage00";
+  const url = `https://${account}.file.core.windows.net`;
+  const sas = env.AZURE_FILE_SHARE_SAS;
 
-  if (!imageData.ok) {
-    throw new Error("Image upload failed");
-  }
+  const serviceClient = new ShareServiceClient(url + sas);
 
-  const { data } = (await imageData.json()) as { data: { link: string } };
-  if (!data.link) {
-    throw new Error("Image upload failed");
-  }
+  const directoryClient = serviceClient
+    .getShareClient("daydream")
+    .getDirectoryClient(directory);
 
-  return data.link;
+  const fileName = `${imageName}.png`
+    .replaceAll(/[/\\?%*:|"<>]/g, "-") // Replace invalid characters with a dash
+    .toLowerCase();
+  const fileClient = directoryClient.getFileClient(fileName);
+  await fileClient.create(resizedImage.length);
+
+  return await fileClient
+    .uploadRange(resizedImage, 0, resizedImage.length)
+    .then(() => {
+      const readOnlySas =
+        "?sv=2021-06-08&ss=f&srt=o&sp=r&se=2077-01-02T03:37:12Z&st=2022-12-08T19:37:12Z&spr=https&sig=i5gAvionxPZ4MmmWvyQSWHRN%2B9YqwIiVUhN30cjk0dI%3D";
+      console.log("Image uploaded to azure file storage");
+      return `${url}/daydream/${directory}/${fileName + readOnlySas}`;
+    });
 }
