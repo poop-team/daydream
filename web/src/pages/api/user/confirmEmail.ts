@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { prisma } from "../../../server/db/client";
+import { prisma } from "../../../utils/db/client";
 import { validateJWT } from "../../../utils/jwt";
 import { validateMethod } from "../../../utils/validation";
 

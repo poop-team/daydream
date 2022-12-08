@@ -16,15 +16,13 @@ export default function LinkIconButton({
   ...props
 }: Props) {
   return (
-    <Link href={href}>
-      <a draggable={false} {...props} tabIndex={-1}>
-        <IconButton
-          aria-label={`Navigate to ${href.replace("/", "")}`}
-          className={className}
-        >
-          {children}
-        </IconButton>
-      </a>
+    <Link href={href} draggable={false} tabIndex={-1} {...props}>
+      <IconButton
+        aria-label={`Navigate to ${href.replace("/", "")}`}
+        className={className}
+      >
+        {children}
+      </IconButton>
     </Link>
   );
 }

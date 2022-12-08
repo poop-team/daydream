@@ -1,7 +1,7 @@
 import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { prisma } from "../../../server/db/client";
+import { prisma } from "../../../utils/db/client";
 import { sendConfirmationEmail } from "../../../utils/email";
 import { validateMethod } from "../../../utils/validation";
 

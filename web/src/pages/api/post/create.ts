@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { profanity } from "@2toad/profanity";
 import { NextApiRequest, NextApiResponse } from "next";
-import Replicate from "Replicate";
 
-import { env } from "../../../env/server";
-import { prisma } from "../../../server/db/client";
+import { prisma } from "../../../utils/db/client";
+import { generateImage, uploadImage } from "../../../utils/image";
 import { validateRequest } from "../../../utils/jwt";
 
 interface Request extends NextApiRequest {
@@ -21,70 +17,46 @@ export default async function create(req: Request, res: NextApiResponse) {
     return res.status(401).json({ error: "You are not logged in" });
   }
 
-  const { userId, prompt } = req.body;
+  const { userId, prompt: unsanitizedPrompt } = req.body;
+  const prompt = unsanitizedPrompt.trim();
 
-  if (!prompt.trim()) {
+  if (!prompt) {
     return res.status(400).json({ error: "Empty prompt provided" });
   }
 
-  // Check if the prompt is profane
-  //added these two words to the profanity list
-  profanity.addWords([
-    "sexy",
-    "nude",
-    "bikini",
-    "virgin",
-    "Jessica",
-    "Adamson",
-  ]);
-  if (profanity.exists(prompt)) {
-    return res.status(400).json({ error: "Profanity detected in prompt" });
+  const imageBase64 = await generateImage({
+    prompt,
+    width: 512,
+    height: 512,
+  }).catch((e: Error) => {
+    res.status(500).json({ error: e.message });
+  });
+
+  if (!imageBase64) {
+    return;
   }
 
-  // const url = `${env.DIFFUSION_URL}/txt2img?prompt=${prompt}&format=json`;
-
-  // const sdRes = await fetch(url, {
-  //   headers: {
-  //     "X-API-Key": env.X_API_KEY,
-  //     Accept: "application/json",
-  //   },
-  // });
-
-  //Use replicate for production...
-  const replicate = new Replicate({
-    pollingInterval: 1000,
-    token: env.X_API_KEY,
+  const imageUrl = await uploadImage({
+    image: imageBase64,
+    directory: "generated",
+    imageName: `${prompt} - ${new Date()
+      .toUTCString()
+      .replaceAll(/\s+|,\s+/g, "-")} - ${userId}`,
+    width: 512,
+    height: 512,
+  }).catch(() => {
+    res.status(500).json({ error: "Error uploading image" });
   });
-  const DiffusionModel = await replicate.models.get(
-    "stability-ai/stable-diffusion"
-  );
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const DiffusionModelPrediction = await DiffusionModel.predict({
-    prompt: prompt,
-  }).catch((err) => {
-    return res.status(500).json({ error: err });
-  });
-  if (DiffusionModelPrediction == null) {
-    return res.status(400).json({ error: "No image generated" });
+
+  if (!imageUrl) {
+    return;
   }
-  const image = DiffusionModelPrediction[0];
-
-  //return(res.json({'image': DiffusionModelPrediction[0]}));
-
-  // if (sdRes.status == 406) {
-  //   return res.status(403).json({ error: "NSFW prompt rejected" });
-  // } else if (!sdRes.ok) {
-  //   return res.status(500).json({ error: "Error while creating image" });
-  // }
-  //response data into json
-
-  // const resData = (await sdRes.json()) as ResponseData;
 
   prisma.post
     .create({
       data: {
         prompt: prompt,
-        imageURL: image,
+        imageURL: imageUrl,
         authorId: userId,
       },
     })

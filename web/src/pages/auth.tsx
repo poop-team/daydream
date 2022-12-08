@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/future/image";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";

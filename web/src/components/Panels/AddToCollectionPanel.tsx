@@ -235,15 +235,12 @@ export default function AddToCollectionPanel({
                         href={`/profile/${encodeURI(
                           userName
                         )}?view=collections`}
+                        className={
+                          "inline text-inherit underline transition duration-200 ease-out hover:text-indigo-700 focus-visible:outline-none dark:hover:text-indigo-300"
+                        }
+                        onClick={(e) => e.stopPropagation()} // Prevents other handlers from firing
                       >
-                        <a
-                          className={
-                            "inline text-inherit underline transition duration-200 ease-out hover:text-indigo-700 focus-visible:outline-none dark:hover:text-indigo-300"
-                          }
-                          onClick={(e) => e.stopPropagation()} // Prevents other handlers from firing
-                        >
-                          your profile&apos;s Collections tab
-                        </a>
+                        your profile&apos;s Collections tab
                       </Link>
                     </>
                   )}

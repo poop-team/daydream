@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import sharp from "sharp";
 
-import { prisma } from "../../../server/db/client";
+import { prisma } from "../../../utils/db/client";
+import { uploadImage } from "../../../utils/image";
 import { validateRequest } from "../../../utils/jwt";
 
 interface Request extends NextApiRequest {
@@ -32,9 +32,17 @@ export default async function update(req: Request, res: NextApiResponse) {
     return res.status(400).json({ error: "No image or name provided" });
   }
 
-  let uploadedImageURL: string | null = null;
+  let uploadedImageURL: string | void;
   if (image) {
-    uploadedImageURL = await uploadImage(image, res);
+    uploadedImageURL = await uploadImage({
+      image,
+      imageName: userId,
+      directory: "profile",
+      width: 256,
+      height: 256,
+    }).catch(() => {
+      res.status(500).json({ error: "Error uploading image" });
+    });
     if (!uploadedImageURL) {
       return;
     }
@@ -74,48 +82,4 @@ export default async function update(req: Request, res: NextApiResponse) {
       console.error(err);
       res.status(500).json({ error: "Internal database error" });
     });
-}
-
-async function uploadImage(image: string, res: NextApiResponse) {
-  // Resize and compress the image before uploading it to imgur
-  // Sharp will resize both images and animated gifs if the animated: true option is set
-  // However, for the purposes of optimizing the image for the web, we will only use the first frame of a gif and convert it to a png
-  const uri = image.split(";base64,").at(-1) as string;
-  const resizedImage = await sharp(Buffer.from(uri, "base64"))
-    .resize(192, 192)
-    .png({ quality: 90 })
-    .toBuffer()
-    .catch((err) => {
-      console.error(err);
-      res.status(400).json({ error: "Invalid image" });
-      return null;
-    });
-  if (!resizedImage) {
-    res.status(400).json({ error: "Invalid image" });
-    return null;
-  }
-
-  const formData = new FormData();
-  formData.append("image", resizedImage.toString("base64"));
-  formData.append("type", "base64");
-  const imageData = await fetch("https://api.imgur.com/3/image", {
-    method: "POST",
-    headers: {
-      Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID as string}`,
-      Accept: "application/json",
-    },
-    body: formData,
-  });
-
-  if (!imageData.ok) {
-    res.status(400).json({ error: "Image upload failed" });
-    return null;
-  }
-
-  const { data } = (await imageData.json()) as { data: { link: string } };
-  if (!data.link) {
-    res.status(400).json({ error: "Image upload failed" });
-    return null;
-  }
-  return data.link;
 }

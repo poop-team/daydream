@@ -31,15 +31,14 @@ export default function Author({
       )}
       <p className={"truncate"}>
         By{" "}
-        <Link href={`/profile/${encodeURI(authorName)}`}>
-          <a
-            className={
-              "inline text-inherit transition duration-200 ease-out hover:text-indigo-700 focus-visible:outline-none dark:hover:text-indigo-300"
-            }
-            onClick={(e) => e.stopPropagation()} // Prevents other handlers from firing
-          >
-            <b>{authorName}</b>
-          </a>
+        <Link
+          href={`/profile/${encodeURI(authorName)}`}
+          className={
+            "inline text-inherit transition duration-200 ease-out hover:text-indigo-700 focus-visible:outline-none dark:hover:text-indigo-300"
+          }
+          onClick={(e) => e.stopPropagation()} // Prevents other handlers from firing
+        >
+          <b>{authorName}</b>
         </Link>
       </p>
     </div>

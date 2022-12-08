@@ -1,7 +1,7 @@
 import { sign, verify } from "jsonwebtoken";
 import { NextApiRequest } from "next";
 
-import { env } from "../env/server";
+import { env } from "./env/server";
 
 export const generateJWT = async (userId: string): Promise<string> => {
   // FIXME we should probably expire more often than 1/day

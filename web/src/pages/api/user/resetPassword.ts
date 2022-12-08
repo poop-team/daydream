@@ -2,7 +2,7 @@
 import { compare, hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { prisma } from "../../../server/db/client";
+import { prisma } from "../../../utils/db/client";
 import { validateResetJWT } from "../../../utils/jwt";
 
 interface Request extends NextApiRequest {

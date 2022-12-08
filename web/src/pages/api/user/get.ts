@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { prisma } from "../../../server/db/client";
+import { prisma } from "../../../utils/db/client";
 import { validateRequest } from "../../../utils/jwt";
 
 export default async function get(req: NextApiRequest, res: NextApiResponse) {
