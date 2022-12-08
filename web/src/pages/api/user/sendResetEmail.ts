@@ -2,7 +2,7 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { prisma } from "../../../server/db/client";
+import { prisma } from "../../../utils/db/client";
 import { sendPasswordResetEmail } from "../../../utils/email";
 
 interface Request extends NextApiRequest {

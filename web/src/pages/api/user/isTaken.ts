@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { prisma } from "../../../server/db/client";
+import { prisma } from "../../../utils/db/client";
 
 export default function isTaken(req: NextApiRequest, res: NextApiResponse) {
   const { userName } = req.query;

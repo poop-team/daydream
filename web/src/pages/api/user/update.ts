@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import sharp from "sharp";
 
-import { prisma } from "../../../server/db/client";
+import { prisma } from "../../../utils/db/client";
 import { validateRequest } from "../../../utils/jwt";
 
 interface Request extends NextApiRequest {
