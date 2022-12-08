@@ -101,7 +101,7 @@ export async function uploadImage({
     .then(() => {
       const readOnlySas =
         "?sv=2021-06-08&ss=f&srt=o&sp=r&se=2077-01-02T03:37:12Z&st=2022-12-08T19:37:12Z&spr=https&sig=i5gAvionxPZ4MmmWvyQSWHRN%2B9YqwIiVUhN30cjk0dI%3D";
-      console.log("Image uploaded to azure file storage");
+
       return `${url}/daydream/${directory}/${fileName + readOnlySas}`;
     });
 }
