@@ -3,4 +3,5 @@ export interface AuthSession {
   userId: string;
   userName: string;
   userAvatar: string | null;
+  isAllowedToCreate: boolean;
 }

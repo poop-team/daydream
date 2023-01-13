@@ -1,5 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+export const createAllowedEmailDomains = [
+  "robertboyd.dev",
+  "raciel.dev",
+  "knights.ucf.edu",
+  "ucf.edu",
+  "faiz.info",
+];
+
 export const validateMethod = (
   method: string,
   req: NextApiRequest,
@@ -15,3 +23,9 @@ export const validateMethod = (
   }
   return true;
 };
+
+export function isUserAllowedToCreate(email: string) {
+  return createAllowedEmailDomains.some((domain) =>
+    email.trim().toLowerCase().endsWith(domain)
+  );
+}

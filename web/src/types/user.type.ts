@@ -1,6 +1,7 @@
 export interface User {
   createdAt: string;
   updatedAt: string;
+  lastPostCreatedAt: string | null;
   email?: string;
   emailVerified?: string;
   id: string;

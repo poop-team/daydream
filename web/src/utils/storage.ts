@@ -5,6 +5,10 @@ export function storeAuthSession(session: AuthSession) {
   localStorage.setItem("userId", session.userId);
   localStorage.setItem("userName", session.userName);
   localStorage.setItem("userAvatar", session.userAvatar ?? "");
+  localStorage.setItem(
+    "isAllowedToCreate",
+    session.isAllowedToCreate ? "1" : "0"
+  );
 }
 
 export function getAuthSession(): AuthSession {
@@ -13,6 +17,7 @@ export function getAuthSession(): AuthSession {
     userId: localStorage.getItem("userId") ?? "",
     userName: localStorage.getItem("userName") ?? "",
     userAvatar: localStorage.getItem("userAvatar"),
+    isAllowedToCreate: localStorage.getItem("isAllowedToCreate") === "1",
   };
 }
 
@@ -21,4 +26,5 @@ export function clearAuthSession() {
   localStorage.removeItem("userId");
   localStorage.removeItem("userName");
   localStorage.removeItem("userAvatar");
+  localStorage.removeItem("isAllowedToCreate");
 }

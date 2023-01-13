@@ -4,7 +4,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../utils/db/client";
 import { sendConfirmationEmail } from "../../../utils/email";
 import { generateJWT } from "../../../utils/jwt";
-import { validateMethod } from "../../../utils/validation";
+import {
+  isUserAllowedToCreate,
+  validateMethod,
+} from "../../../utils/validation";
 
 interface Request extends NextApiRequest {
   body: {
@@ -62,6 +65,7 @@ export default async function Login(req: Request, res: NextApiResponse) {
       userId: user.id,
       userName: user.name,
       userAvatar: user.image,
+      isAllowedToCreate: isUserAllowedToCreate(user.email),
     });
   } catch (e) {
     res.status(500).json({
