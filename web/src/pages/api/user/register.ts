@@ -13,13 +13,6 @@ interface Request extends NextApiRequest {
   };
 }
 
-const validEmailDomains = [
-  "robertboyd.dev",
-  "raciel.dev",
-  "knights.ucf.edu",
-  "faiz.info",
-];
-
 export default async function Register(req: Request, res: NextApiResponse) {
   if (!validateMethod("POST", req, res)) return;
 
@@ -28,16 +21,6 @@ export default async function Register(req: Request, res: NextApiResponse) {
   if (!name.trim() || !email.trim() || !password) {
     return res.status(400).json({
       error: "Name, email and password are required",
-    });
-  }
-
-  if (
-    !validEmailDomains.some((domain) =>
-      email.trim().toLowerCase().endsWith(domain)
-    )
-  ) {
-    return res.status(400).json({
-      error: "Access restricted, sorry 😢",
     });
   }
 

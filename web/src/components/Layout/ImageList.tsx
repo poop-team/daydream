@@ -81,7 +81,7 @@ export default function ImageList({
             animate="fadeIn"
             exit="fadeOut"
             className={
-              "absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center sm:text-2xl"
+              "absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center text-center sm:text-xl"
             }
           >
             {arePostsLoading ? (

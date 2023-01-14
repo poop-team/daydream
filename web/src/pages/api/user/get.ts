@@ -38,6 +38,7 @@ export default async function get(req: NextApiRequest, res: NextApiResponse) {
         emailVerified: searchUserId === userId, // Only select this if the user is getting their own data
         createdAt: true,
         updatedAt: true,
+        lastPostCreatedAt: true,
         image: true,
       },
     })
