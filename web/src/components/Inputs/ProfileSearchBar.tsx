@@ -100,7 +100,7 @@ export default function ProfileSearchBar({
               >
                 <PopoverButton
                   button={IconButton}
-                  buttonChildren={<MdDelete className={"h-full w-10"} />}
+                  popoverPlacement={"top"}
                 >
                   {({ close }) => (
                     <div className={"w-56 p-2"}>

@@ -32,7 +32,7 @@ export default function PopoverButton({
 }: Props) {
   //#region Hooks
 
-  const { x, y, reference, floating, strategy } = useFloating({
+  const { x, y, refs, strategy } = useFloating({
     strategy: "absolute",
     placement: popoverPlacement,
     middleware: [offset(10), shift(), flip()],
@@ -46,7 +46,7 @@ export default function PopoverButton({
         <>
           <Popover.Button as={button} {...buttonProps}>
             <div
-              ref={reference}
+              ref={refs.setReference}
               className={`${
                 rotateButtonOnOpen && open ? "rotate-[30deg]" : "rotate-0"
               } transition-transform duration-200 ease-in-out`}
@@ -58,7 +58,7 @@ export default function PopoverButton({
             {open && (
               <Popover.Panel static>
                 <motion.div
-                  ref={floating}
+                  ref={refs.setFloating}
                   initial={"growOut"}
                   animate={"growIn"}
                   exit={"growOut"}
@@ -69,7 +69,7 @@ export default function PopoverButton({
                     left: x ?? 0,
                   }}
                   className={
-                    "z-50 w-max max-w-[90vw] rounded-xl bg-slate-200/90 p-2 shadow-md backdrop-blur-md transition-colors duration-200 dark:bg-slate-800/90"
+                    "z-10 w-max max-w-[90vw] rounded-xl bg-slate-200/90 p-2 shadow-md backdrop-blur-md transition-colors duration-200 dark:bg-slate-800/90"
                   }
                 >
                   {children({ open, close })}
