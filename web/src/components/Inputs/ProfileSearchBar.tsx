@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { MdAddCircle, MdArrowBack, MdDelete } from "react-icons/md";
+import { MdAddCircle, MdArrowBack } from "react-icons/md";
 
 import { transitionVariants } from "../../styles/motion-definitions";
 import Button from "./Button";
@@ -98,10 +98,7 @@ export default function ProfileSearchBar({
                 exit={"growOut"}
                 variants={transitionVariants}
               >
-                <PopoverButton
-                  button={IconButton}
-                  popoverPlacement={"top"}
-                >
+                <PopoverButton button={IconButton} popoverPlacement={"top"}>
                   {({ close }) => (
                     <div className={"w-56 p-2"}>
                       <p className={"text-center text-lg font-bold"}>
